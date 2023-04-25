@@ -2,17 +2,15 @@ package domain.validaciones;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
 public class Validador {
-    private List<String> topPeoresContrasenias;
-    private static String nombreArchivo = "top_10000_peores_contraseñas.txt";
+    private final List<String> topPeoresContrasenias;
+    private static final String nombreArchivo = "top_10000_peores_contraseñas.txt";
 
     public Validador(){
-        topPeoresContrasenias = new ArrayList<String>();
+        topPeoresContrasenias = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
             String linea;
@@ -50,7 +48,7 @@ public class Validador {
     }
 
     public boolean respetaRotacion(CredencialDeAcceso credencialDeAcceso){
-        return ChronoUnit.MONTHS.between((credencialDeAcceso.getFechaUltimoCambio()), LocalDate.now()) < 6;
+        return !credencialDeAcceso.esTiempoDeRotarContrasenia();
     }
 
     public interface Condicion {

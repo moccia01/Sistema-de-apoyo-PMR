@@ -1,6 +1,7 @@
 package domain.validaciones;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 
 public class CredencialDeAcceso {
@@ -34,6 +35,10 @@ public class CredencialDeAcceso {
 
     public void setFechaUltimoCambio(LocalDate fechaUltimoCambio) {
         this.fechaUltimoCambio = fechaUltimoCambio;
+    }
+
+    public boolean esTiempoDeRotarContrasenia() {
+        return ChronoUnit.MONTHS.between((this.fechaUltimoCambio), LocalDate.now()) >= 6;
     }
 }
 
