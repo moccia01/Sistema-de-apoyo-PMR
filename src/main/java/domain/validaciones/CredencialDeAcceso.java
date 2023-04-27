@@ -1,9 +1,12 @@
 package domain.validaciones;
 
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-
+@Getter
+@Setter
 public class CredencialDeAcceso {
     private String nombreUsuario;
     private String contrasenia;
@@ -11,30 +14,6 @@ public class CredencialDeAcceso {
 
     public CredencialDeAcceso(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
-
-    public LocalDate getFechaUltimoCambio() {
-        return fechaUltimoCambio;
-    }
-
-    public void setFechaUltimoCambio(LocalDate fechaUltimoCambio) {
-        this.fechaUltimoCambio = fechaUltimoCambio;
     }
 
     public boolean esTiempoDeRotarContrasenia() {
