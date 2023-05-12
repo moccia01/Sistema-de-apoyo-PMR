@@ -1,16 +1,18 @@
 package domain.validaciones;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Validador {
-    private final List<Validacion> validaciones;
+    private List<Validacion> validaciones;
 
     public Validador() {
         validaciones = new ArrayList<>();
-        validaciones.add(new EsDebil());
-        validaciones.add(new UsaCredencialesPorDefecto());
-        validaciones.add(new RespetaPoliticasNIST());
+    }
+
+    public void setValidaciones(Validacion ... validacion){
+        validaciones = Arrays.asList(validacion);
     }
 
     public boolean validar(CredencialDeAcceso credencialDeAcceso) {
