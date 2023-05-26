@@ -18,7 +18,6 @@ public class ValidadorTest {
     public void init(){
         validador = new Validador();
         credencialDeAcceso = new CredencialDeAcceso("usuario123");
-
     }
 
     @Test
