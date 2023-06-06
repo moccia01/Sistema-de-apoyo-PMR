@@ -848,7 +848,7 @@
 											"top": 793,
 											"width": 251.44970703125,
 											"height": 13,
-											"text": "-localizacion: Localizacion",
+											"text": "-localizacion: String",
 											"horizontalAlignment": 0
 										}
 									],
@@ -3168,7 +3168,7 @@
 											"top": 637,
 											"width": 245.32421875,
 											"height": 13,
-											"text": "-localizacion: Localizacion",
+											"text": "-localizacion: String",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3397,7 +3397,7 @@
 											"top": 773,
 											"width": 156.7998046875,
 											"height": 13,
-											"text": "-localizacion: Localizacion",
+											"text": "-localizacion: String",
 											"horizontalAlignment": 0
 										},
 										{
@@ -6993,9 +6993,7 @@
 							},
 							"name": "localizacion",
 							"visibility": "private",
-							"type": {
-								"$ref": "AAAAAAGISkAh890LqNY="
-							}
+							"type": "String"
 						}
 					],
 					"operations": [
@@ -8207,9 +8205,7 @@
 							},
 							"name": "localizacion",
 							"visibility": "private",
-							"type": {
-								"$ref": "AAAAAAGISkAh890LqNY="
-							}
+							"type": "String"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -8308,9 +8304,7 @@
 							},
 							"name": "localizacion",
 							"visibility": "private",
-							"type": {
-								"$ref": "AAAAAAGISkAh890LqNY="
-							}
+							"type": "String"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -8471,7 +8465,8 @@
 								"$ref": "AAAAAAGISkAh890LqNY="
 							},
 							"name": "tipoLocalizacion",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						}
 					]
 				}
