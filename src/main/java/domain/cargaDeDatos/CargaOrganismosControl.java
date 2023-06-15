@@ -1,27 +1,19 @@
 package domain.cargaDeDatos;
 
+import domain.EntidadPrestadora;
 import domain.OrganismoDeControl;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
-public class CargaOrganismosControl {
-    private final List<OrganismoDeControl> organismosDeControl;
+public class CargaOrganismosControl extends CargaDatosTemplate{
 
-    public CargaOrganismosControl() {
-        organismosDeControl = new ArrayList<>();
+    public CargaOrganismosControl(String token) {
+        super(token);
     }
 
-    public void cargarDatosOrganismosDeControl(String nombreArchivo){
-        LectorArchivoCSV lector = new LectorArchivoCSV();
-        List<String[]> datosLeidos = lector.leerArchivoCSV(nombreArchivo, ";", 1);
-        for(int i = 0; i < datosLeidos.toArray().length; i++){
-            String[] campos = datosLeidos.get(i);
-            String nombre = campos[0];
-            OrganismoDeControl entidad = new OrganismoDeControl(nombre);
-            organismosDeControl.add(entidad);
-        }
+    @Override
+    protected OrganismoDeControl transformarLinea(String[] campos) {
+        String nombre = campos[0];
+        return new OrganismoDeControl(nombre);
     }
 }

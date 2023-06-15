@@ -1,5 +1,6 @@
 package domain.services.georef;
 
+import domain.services.georef.entities.ListadoDeDepartamentos;
 import domain.services.georef.entities.ListadoDeMunicipios;
 import domain.services.georef.entities.ListadoDeProvincias;
 import retrofit2.Call;
@@ -24,4 +25,7 @@ public interface GeorefService {
 
     @GET("municipios")
     Call<ListadoDeMunicipios> municipios(@Query("provincia") int idProvincia, @Query("campos") String campos, @Query("max") int max);
+
+    @GET("departamentos")
+    Call<ListadoDeDepartamentos> departamentos(@Query("departamento") String nombre);
 }

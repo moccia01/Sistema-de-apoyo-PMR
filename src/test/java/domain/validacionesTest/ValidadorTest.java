@@ -25,7 +25,7 @@ public class ValidadorTest {
         credencialDeAcceso.setContrasenia("asfasdfaSsfnm9!");
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         LectorArchivo lectorArchivo = new LectorArchivo();
-        List<String> contrasenias = lectorArchivo.leerArchivo("top_10000_peores_contraseñas.txt");
+        List<String> contrasenias = lectorArchivo.obtenerLineas("top_10000_peores_contraseñas.txt");
         EsDebil esDebil = new EsDebil();
         esDebil.setContrasenias(contrasenias);
         validador.setValidaciones(new Longitud(), new UsaCredencialesPorDefecto(), esDebil, new Rotacion(), new TieneCaracterEspecial(), new TieneNumero(), new TieneMayuscula());
@@ -37,7 +37,7 @@ public class ValidadorTest {
     public void unaContraseniaDebilDelTop10000NoEsValida() throws IOException {
         credencialDeAcceso.setContrasenia("qwerty");
         LectorArchivo lectorArchivo = new LectorArchivo();
-        List<String> contrasenias = lectorArchivo.leerArchivo("top_10000_peores_contraseñas.txt");
+        List<String> contrasenias = lectorArchivo.obtenerLineas("top_10000_peores_contraseñas.txt");
         EsDebil esDebil = new EsDebil();
         esDebil.setContrasenias(contrasenias);
         validador.setValidaciones(esDebil);
