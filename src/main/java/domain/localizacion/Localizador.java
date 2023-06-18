@@ -12,5 +12,5 @@ public interface Localizador {
 
     Municipio municipio(String municipio) throws IOException;
 
-    Departamento departamento(String departamento);
+    Departamento departamento(String departamento) throws IOException;
 }

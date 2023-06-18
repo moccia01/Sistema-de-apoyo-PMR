@@ -4,7 +4,7 @@ import domain.EntidadPrestadora;
 import lombok.Getter;
 
 @Getter
-public class CargaEntidadesPrestadoras extends CargaDatosTemplate{
+public class CargaEntidadesPrestadoras extends CargaDatosTemplate <EntidadPrestadora>{
 
     public CargaEntidadesPrestadoras(String token) {
         super(token);

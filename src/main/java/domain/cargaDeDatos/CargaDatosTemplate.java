@@ -1,15 +1,14 @@
 package domain.cargaDeDatos;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CargaDatosTemplate {
+public abstract class CargaDatosTemplate <T>{
     private final String token;
     public CargaDatosTemplate(String token) {
         this.token = token;
     }
 
-    public <T> List<T> cargarDatos(String nombreArchivo){
+    public List<T> cargarDatos(String nombreArchivo){
         LectorArchivoCSV lectorCSV = new LectorArchivoCSV(token);
         List<T> datosCSV= new ArrayList<>();
         List<String[]> lineas = lectorCSV.obtenerRegistros(nombreArchivo);
@@ -21,5 +20,5 @@ public abstract class CargaDatosTemplate {
         return datosCSV;
     }
 
-    protected abstract <T> T transformarLinea(String[] campos);
+    protected abstract T transformarLinea(String[] campos);
 }

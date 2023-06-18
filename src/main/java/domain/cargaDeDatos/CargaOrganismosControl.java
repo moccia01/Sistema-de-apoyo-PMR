@@ -1,11 +1,10 @@
 package domain.cargaDeDatos;
 
-import domain.EntidadPrestadora;
 import domain.OrganismoDeControl;
 import lombok.Getter;
 
 @Getter
-public class CargaOrganismosControl extends CargaDatosTemplate{
+public class CargaOrganismosControl extends CargaDatosTemplate <OrganismoDeControl>{
 
     public CargaOrganismosControl(String token) {
         super(token);

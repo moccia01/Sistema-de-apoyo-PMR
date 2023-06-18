@@ -1,5 +1,6 @@
 package domain.services.georef;
 
+import domain.localizacion.Localizador;
 import domain.services.georef.entities.*;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -8,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
-public class ServicioGeoref {
+public class ServicioGeoref implements Localizador{
     private static ServicioGeoref instancia = null;
     private static int maximaCantidadRegistrosDefault = 200;
     private static final String urlApi = "https://apis.datos.gob.ar/georef/api/";
@@ -60,7 +61,7 @@ public class ServicioGeoref {
         return municipios.municipios.get(0);
     }
 
-    public Departamento departamento(String departamento) throws IOException{
+    public Departamento departamento(String departamento) throws IOException {
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeDepartamentos> requestDepartamentos = georefService.departamentos(departamento);
         Response<ListadoDeDepartamentos> responseDepartamento = requestDepartamentos.execute();
