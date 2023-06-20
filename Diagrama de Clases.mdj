@@ -457,7 +457,7 @@
 											"top": 1349,
 											"width": 264.77978515625,
 											"height": 13,
-											"text": "-incidentes: List<Incidentes>",
+											"text": "-incidentes: List<Incidente>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3469,7 +3469,7 @@
 											"top": 676,
 											"width": 245.32421875,
 											"height": 13,
-											"text": "-establecimientos: List<Establecimientos>",
+											"text": "-establecimientos: List<Establecimiento>",
 											"horizontalAlignment": 0
 										}
 									],
@@ -12887,7 +12887,7 @@
 							},
 							"name": "incidentes",
 							"visibility": "private",
-							"type": "List<Incidentes>"
+							"type": "List<Incidente>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -13011,7 +13011,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGI0Od9x0SIoFQ="
 									},
-									"name": "notificacion"
+									"name": "notificacion",
+									"type": ""
 								}
 							]
 						},
@@ -14714,7 +14715,7 @@
 							},
 							"name": "establecimientos",
 							"visibility": "private",
-							"type": "List<Establecimientos>"
+							"type": "List<Establecimiento>"
 						}
 					]
 				},
