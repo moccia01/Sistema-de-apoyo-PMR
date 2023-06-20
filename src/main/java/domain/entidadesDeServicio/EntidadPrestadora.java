@@ -1,4 +1,4 @@
-package domain;
+package domain.entidadesDeServicio;
 
 import domain.entidadesDeServicio.Entidad;
 import lombok.Getter;

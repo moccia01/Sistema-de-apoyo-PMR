@@ -1,7 +1,7 @@
 package domain.cargaDeDatosTest;
 
-import domain.EntidadPrestadora;
-import domain.OrganismoDeControl;
+import domain.entidadesDeServicio.EntidadPrestadora;
+import domain.entidadesDeServicio.OrganismoDeControl;
 import domain.cargaDeDatos.CargaEntidadesPrestadoras;
 import domain.cargaDeDatos.CargaOrganismosControl;
 import org.junit.jupiter.api.Assertions;
