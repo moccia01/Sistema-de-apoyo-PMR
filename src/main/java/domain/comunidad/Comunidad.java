@@ -15,7 +15,7 @@ public class Comunidad {
     }
 
     public void cerrarIncideten(){
-        
+
     }
     //Faltan cosas
 }
