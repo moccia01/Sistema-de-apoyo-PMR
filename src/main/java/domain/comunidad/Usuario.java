@@ -9,4 +9,12 @@ public class Usuario {
     private String mail;
     private Interes interes;
     private String localizacion;
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }
