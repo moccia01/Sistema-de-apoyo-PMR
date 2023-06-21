@@ -8,7 +8,7 @@ public class cierreIncidentes {
     public List<Entidad> rankingMayorPromedioCierre;
 
     public int calcularPromedio(Incidente incidente){
-        return incidente.getFechaCierre() - incidente.getFechaApertura()
+       //return incidente.getFechaCierre() - incidente.getFechaApertura()
                 //TODO: arreglar los tipos de esto
 
     }
