@@ -1,6 +1,6 @@
 package domain.cargaDeDatos;
 
-import domain.EntidadPrestadora;
+import domain.entidadesDeServicio.EntidadPrestadora;
 import lombok.Getter;
 
 @Getter

@@ -1,7 +1,9 @@
 package domain.cargaDeDatosTest;
 
-import domain.EntidadPrestadora;
-import domain.OrganismoDeControl;
+import domain.comunidad.Mensajes.Enviar_Mail;
+import domain.comunidad.Usuario;
+import domain.entidadesDeServicio.EntidadPrestadora;
+import domain.entidadesDeServicio.OrganismoDeControl;
 import domain.cargaDeDatos.CargaEntidadesPrestadoras;
 import domain.cargaDeDatos.CargaOrganismosControl;
 import org.junit.jupiter.api.Assertions;
@@ -45,6 +47,20 @@ public class CargaDeDatosTest {
         Assertions.assertEquals("Carrefour", listaEntidades.get(2).getNombreEntidad());
         Assertions.assertEquals("Cencosud", listaEntidades.get(3).getNombreEntidad());
     }
+
+    @Test
+    public void enviarMail(){
+        Enviar_Mail enviarMail = new Enviar_Mail();
+        Usuario usuario = new Usuario();
+        usuario.setMail("");
+
+        String mensaje = "buenas este es un notificacion";
+
+
+        enviarMail.enviar_Mail(usuario,mensaje);
+
+    }
+
 }
 
 
