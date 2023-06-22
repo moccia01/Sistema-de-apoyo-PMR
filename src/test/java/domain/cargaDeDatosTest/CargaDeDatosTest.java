@@ -1,6 +1,6 @@
 package domain.cargaDeDatosTest;
 
-import domain.comunidad.Mensajes.Enviar_Mail;
+import domain.Mensajes.Enviar_Mail;
 import domain.comunidad.Usuario;
 import domain.entidadesDeServicio.EntidadPrestadora;
 import domain.entidadesDeServicio.OrganismoDeControl;

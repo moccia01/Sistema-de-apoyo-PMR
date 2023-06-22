@@ -1,4 +1,4 @@
-package domain.comunidad.Mensajes;
+package domain.Mensajes;
 import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
 

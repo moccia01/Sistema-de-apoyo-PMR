@@ -10,7 +10,8 @@ public class cierreIncidentes {
     public int calcularPromedio(Incidente incidente){
        //return incidente.getFechaCierre() - incidente.getFechaApertura()
                 //TODO: arreglar los tipos de esto
-
+        // dejo el return para que no rompa
+        return 0;
     }
 
 }

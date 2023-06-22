@@ -1,6 +1,5 @@
 package domain.services.georef;
 
-import domain.localizacion.Localizador;
 import domain.services.georef.entities.*;
 import retrofit2.Call;
 import retrofit2.Response;
