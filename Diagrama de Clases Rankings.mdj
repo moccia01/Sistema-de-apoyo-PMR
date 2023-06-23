@@ -18,7 +18,666 @@
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
 					"name": "Main",
-					"defaultDiagram": true
+					"defaultDiagram": true,
+					"ownedViews": [
+						{
+							"_type": "UMLClassView",
+							"_id": "AAAAAAGI6VYPpWw+QkY=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"model": {
+								"$ref": "AAAAAAGI6VYPpGw80Ho="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAGI6VYPpWw/7GQ=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYPpWw+QkY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYPpGw80Ho="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYPpWxAtX4=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYPpWw/7GQ="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -272,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYPpWxBXFw=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYPpWw/7GQ="
+											},
+											"font": "Arial;13;1",
+											"left": 93,
+											"top": 511,
+											"width": 264.10693359375,
+											"height": 13,
+											"text": "Cierre Incidentes"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYPpWxCLNc=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYPpWw/7GQ="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -272,
+											"width": 73.67724609375,
+											"height": 13,
+											"text": "(from Model)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYPpmxDJoU=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYPpWw/7GQ="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -272,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 88,
+									"top": 504,
+									"width": 274.10693359375,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAGI6VYPpWxAtX4="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAGI6VYPpWxBXFw="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAGI6VYPpWxCLNc="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAGI6VYPpmxDJoU="
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "AAAAAAGI6VYPpmxEjNE=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYPpWw+QkY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYPpGw80Ho="
+									},
+									"subViews": [
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAGI6ViJxmzGoMA=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYPpmxEjNE="
+											},
+											"model": {
+												"$ref": "AAAAAAGI6ViJwGzD4jE="
+											},
+											"font": "Arial;13;0",
+											"left": 93,
+											"top": 534,
+											"width": 264.10693359375,
+											"height": 13,
+											"text": "+rankingMayorPromedioCierre: List<Entidad>",
+											"horizontalAlignment": 0
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 88,
+									"top": 529,
+									"width": 274.10693359375,
+									"height": 23
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "AAAAAAGI6VYPpmxF0ow=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYPpWw+QkY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYPpGw80Ho="
+									},
+									"subViews": [
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGI6VgUUGy96Ok=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYPpmxF0ow="
+											},
+											"model": {
+												"$ref": "AAAAAAGI6VgURmy6dGM="
+											},
+											"font": "Arial;13;0",
+											"left": 93,
+											"top": 557,
+											"width": 264.10693359375,
+											"height": 13,
+											"text": "+calcularTiempo(incidente)",
+											"horizontalAlignment": 0
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 88,
+									"top": 552,
+									"width": 274.10693359375,
+									"height": 23
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "AAAAAAGI6VYPpmxGfYo=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYPpWw+QkY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYPpGw80Ho="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": -136,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "AAAAAAGI6VYPpmxHTIE=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYPpWw+QkY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYPpGw80Ho="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": -136,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 88,
+							"top": 504,
+							"width": 274.10693359375,
+							"height": 71,
+							"nameCompartment": {
+								"$ref": "AAAAAAGI6VYPpWw/7GQ="
+							},
+							"attributeCompartment": {
+								"$ref": "AAAAAAGI6VYPpmxEjNE="
+							},
+							"operationCompartment": {
+								"$ref": "AAAAAAGI6VYPpmxF0ow="
+							},
+							"receptionCompartment": {
+								"$ref": "AAAAAAGI6VYPpmxGfYo="
+							},
+							"templateParameterCompartment": {
+								"$ref": "AAAAAAGI6VYPpmxHTIE="
+							}
+						},
+						{
+							"_type": "UMLClassView",
+							"_id": "AAAAAAGI6VYW5Gxni5k=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"model": {
+								"$ref": "AAAAAAGI6VYW5Gxlasg="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAGI6VYW5Gxouz0=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYW5Gxni5k="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYW5Gxlasg="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYW5GxpQfk=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYW5Gxouz0="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -16,
+											"top": -80,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYW5GxquIQ=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYW5Gxouz0="
+											},
+											"font": "Arial;13;1",
+											"left": 469,
+											"top": 543,
+											"width": 167.3115234375,
+											"height": 13,
+											"text": "Mayor Cantidad Incidentes"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYW5Gxr28o=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYW5Gxouz0="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -16,
+											"top": -80,
+											"width": 73.67724609375,
+											"height": 13,
+											"text": "(from Model)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYW5Gxsjmo=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYW5Gxouz0="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -16,
+											"top": -80,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 464,
+									"top": 536,
+									"width": 177.3115234375,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAGI6VYW5GxpQfk="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAGI6VYW5GxquIQ="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAGI6VYW5Gxr28o="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAGI6VYW5Gxsjmo="
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "AAAAAAGI6VYW5Gxt2WE=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYW5Gxni5k="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYW5Gxlasg="
+									},
+									"font": "Arial;13;0",
+									"left": 464,
+									"top": 561,
+									"width": 177.3115234375,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "AAAAAAGI6VYW5GxuZ54=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYW5Gxni5k="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYW5Gxlasg="
+									},
+									"subViews": [
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGI6VzA6WzUS5M=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYW5GxuZ54="
+											},
+											"model": {
+												"$ref": "AAAAAAGI6VzA32zR9Xo="
+											},
+											"font": "Arial;13;0",
+											"left": 469,
+											"top": 576,
+											"width": 167.3115234375,
+											"height": 13,
+											"text": "+cantidadIncidentes(entidad)",
+											"horizontalAlignment": 0
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 464,
+									"top": 571,
+									"width": 177.3115234375,
+									"height": 23
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "AAAAAAGI6VYW5Gxv8k4=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYW5Gxni5k="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYW5Gxlasg="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": -8,
+									"top": -40,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "AAAAAAGI6VYW5GxwlcU=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYW5Gxni5k="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYW5Gxlasg="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": -8,
+									"top": -40,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 464,
+							"top": 536,
+							"width": 177.3115234375,
+							"height": 58,
+							"nameCompartment": {
+								"$ref": "AAAAAAGI6VYW5Gxouz0="
+							},
+							"attributeCompartment": {
+								"$ref": "AAAAAAGI6VYW5Gxt2WE="
+							},
+							"operationCompartment": {
+								"$ref": "AAAAAAGI6VYW5GxuZ54="
+							},
+							"receptionCompartment": {
+								"$ref": "AAAAAAGI6VYW5Gxv8k4="
+							},
+							"templateParameterCompartment": {
+								"$ref": "AAAAAAGI6VYW5GxwlcU="
+							}
+						},
+						{
+							"_type": "UMLClassView",
+							"_id": "AAAAAAGI6VYcCWyQSmY=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"model": {
+								"$ref": "AAAAAAGI6VYcCWyOdlc="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAGI6VYcCWyRAsM=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYcCWyQSmY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYcCWyOdlc="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYcCWySVSw=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYcCWyRAsM="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 144,
+											"top": 16,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYcCWyTr8w=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYcCWyRAsM="
+											},
+											"font": "Arial;13;1",
+											"left": 781,
+											"top": 527,
+											"width": 148.0908203125,
+											"height": 13,
+											"text": "Mayor Grado Incidentes"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYcCWyUhu4=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYcCWyRAsM="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 144,
+											"top": 16,
+											"width": 73.67724609375,
+											"height": 13,
+											"text": "(from Model)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGI6VYcCWyVbyw=",
+											"_parent": {
+												"$ref": "AAAAAAGI6VYcCWyRAsM="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 144,
+											"top": 16,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 776,
+									"top": 520,
+									"width": 158.0908203125,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAGI6VYcCWySVSw="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAGI6VYcCWyTr8w="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAGI6VYcCWyUhu4="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAGI6VYcCWyVbyw="
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "AAAAAAGI6VYcCWyWM3Y=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYcCWyQSmY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYcCWyOdlc="
+									},
+									"font": "Arial;13;0",
+									"left": 776,
+									"top": 545,
+									"width": 158.0908203125,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "AAAAAAGI6VYcCWyXFRw=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYcCWyQSmY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYcCWyOdlc="
+									},
+									"font": "Arial;13;0",
+									"left": 776,
+									"top": 555,
+									"width": 158.0908203125,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "AAAAAAGI6VYcCWyYi9U=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYcCWyQSmY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYcCWyOdlc="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 72,
+									"top": 8,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "AAAAAAGI6VYcCWyZtDU=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VYcCWyQSmY="
+									},
+									"model": {
+										"$ref": "AAAAAAGI6VYcCWyOdlc="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 72,
+									"top": 8,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 776,
+							"top": 520,
+							"width": 158.0908203125,
+							"height": 45,
+							"nameCompartment": {
+								"$ref": "AAAAAAGI6VYcCWyRAsM="
+							},
+							"attributeCompartment": {
+								"$ref": "AAAAAAGI6VYcCWyWM3Y="
+							},
+							"operationCompartment": {
+								"$ref": "AAAAAAGI6VYcCWyXFRw="
+							},
+							"receptionCompartment": {
+								"$ref": "AAAAAAGI6VYcCWyYi9U="
+							},
+							"templateParameterCompartment": {
+								"$ref": "AAAAAAGI6VYcCWyZtDU="
+							}
+						}
+					]
+				},
+				{
+					"_type": "UMLClass",
+					"_id": "AAAAAAGI6VYPpGw80Ho=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Cierre Incidentes",
+					"attributes": [
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAGI6ViJwGzD4jE=",
+							"_parent": {
+								"$ref": "AAAAAAGI6VYPpGw80Ho="
+							},
+							"name": "rankingMayorPromedioCierre",
+							"type": "List<Entidad>"
+						}
+					],
+					"operations": [
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGI6VgURmy6dGM=",
+							"_parent": {
+								"$ref": "AAAAAAGI6VYPpGw80Ho="
+							},
+							"name": "calcularTiempo",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGI6VhVHWzBROw=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VgURmy6dGM="
+									},
+									"name": "incidente",
+									"type": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"_type": "UMLClass",
+					"_id": "AAAAAAGI6VYW5Gxlasg=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Mayor Cantidad Incidentes",
+					"operations": [
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGI6VzA32zR9Xo=",
+							"_parent": {
+								"$ref": "AAAAAAGI6VYW5Gxlasg="
+							},
+							"name": "cantidadIncidentes",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGI6VzvmGzYAx4=",
+									"_parent": {
+										"$ref": "AAAAAAGI6VzA32zR9Xo="
+									},
+									"name": "entidad",
+									"type": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"_type": "UMLClass",
+					"_id": "AAAAAAGI6VYcCWyOdlc=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Mayor Grado Incidentes"
 				}
 			]
 		}
