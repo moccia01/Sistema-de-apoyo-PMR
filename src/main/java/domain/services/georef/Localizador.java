@@ -1,4 +1,4 @@
-package domain.localizacion;
+package domain.services.georef;
 
 import domain.services.georef.entities.Departamento;
 import domain.services.georef.entities.Municipio;

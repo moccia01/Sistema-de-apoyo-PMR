@@ -48,6 +48,13 @@
       <version>1.6.2</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio -->
+    <dependency>
+      <groupId>com.twilio.sdk</groupId>
+      <artifactId>twilio</artifactId>
+      <version>9.7.0</version>
+    </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
     <dependency>
