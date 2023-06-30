@@ -32,6 +32,7 @@ public class Comunidad {
     public void cerrarIncidente(Incidente incidente){
         incidente.setEstado(true);
         incidente.setFechaCierre(LocalDate.now());
+        this.notificarMiembros("Notificacion Cierre de Incidente");
     }
-    //Faltan cosas
+
 }

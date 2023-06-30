@@ -21,4 +21,8 @@ public class Miembro {
     public void generarIncidente(Comunidad comunidad, Entidad entidad, String descripcion){
         comunidad.generarIncidente(entidad, descripcion);
     }
+
+    public void cerrarIncidente(){
+
+    }
 }
