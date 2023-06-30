@@ -14,4 +14,9 @@ public class Incidente {
     private String descripcion;
     private Boolean estado;
     private Entidad entidad;
+
+    public Incidente(String descripcion, Entidad entidad) {
+        this.descripcion = descripcion;
+        this.entidad = entidad;
+    }
 }

@@ -1,6 +1,7 @@
 package domain.cargaDeDatosTest;
 
-import domain.Mensajes.Enviar_Mail;
+import domain.Mensajes.Configuraciones.MensajeEmail;
+import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
 import domain.entidadesDeServicio.EntidadPrestadora;
 import domain.entidadesDeServicio.OrganismoDeControl;
@@ -48,21 +49,6 @@ public class CargaDeDatosTest {
         Assertions.assertEquals("Banco Nacion", listaEntidades.get(1).getNombreEntidad());
         Assertions.assertEquals("Carrefour", listaEntidades.get(2).getNombreEntidad());
         Assertions.assertEquals("Cencosud", listaEntidades.get(3).getNombreEntidad());
-    }
-
-    // Este test no deberia ir aca, no tiene que ver con carga de datos
-    //TODO: Crear un NotificacionesTest
-    @Test
-    public void enviarMail(){
-        Enviar_Mail enviarMail = new Enviar_Mail();
-        Usuario usuario = new Usuario();
-        usuario.setMail("");
-
-        String mensaje = "buenas este es un notificacion";
-
-
-        enviarMail.enviar_Mail(usuario,mensaje);
-
     }
 
 }

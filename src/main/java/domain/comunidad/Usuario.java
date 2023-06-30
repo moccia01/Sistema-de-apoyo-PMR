@@ -1,7 +1,11 @@
 package domain.comunidad;
 
 import domain.validaciones.CredencialDeAcceso;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class Usuario {
     private String nombre;
     private String apellido;

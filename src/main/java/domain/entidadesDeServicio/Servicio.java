@@ -1,5 +1,6 @@
 package domain.entidadesDeServicio;
 
-public class Servicio extends PrestacionServicio{
-
+public class Servicio {
+    private String nombre;
+    private Boolean estado;
 }

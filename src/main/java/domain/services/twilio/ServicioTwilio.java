@@ -12,13 +12,16 @@ public class ServicioTwilio implements WhatsAppSender{
     public static final String AUTH_TOKEN = "b39b4b926e75bdd5e3c54ba080eab56e";
     private static final String NUMERO_TWILIO = "whatsapp:+14155238886";
 
+    public ServicioTwilio() {
+    }
+
     @Override
     public void enviarMensaje(String numero, String mensaje) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber("whatsapp:" + numero),
                 new com.twilio.type.PhoneNumber(NUMERO_TWILIO),
-                "Notificacion")
+                mensaje)
                     .create();
         System.out.println(message.getSid());
     }
