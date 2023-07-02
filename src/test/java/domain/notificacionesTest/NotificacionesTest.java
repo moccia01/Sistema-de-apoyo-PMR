@@ -12,7 +12,7 @@ public class NotificacionesTest {
     public void enviarMail(){
         MensajeEmail enviarMail = new MensajeEmail();
         Usuario usuario = new Usuario();
-        usuario.setMail("tomydanto84@gmail.com");
+        usuario.setMail("facundosu26@gmail.com");
 
         Miembro miembro = new Miembro();
         miembro.setUsuario(usuario);

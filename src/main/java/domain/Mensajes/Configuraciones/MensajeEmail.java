@@ -11,7 +11,7 @@ public class MensajeEmail implements MedioConfigurado {
         public void enviarNotificacion(Miembro miembro, String notificacion) {
             // Datos de la cuenta de correo encargada de enviar el mail
             final String username = "sistemaapoyopmr@gmail.com";
-            final String password = "MovilidadPMR2023";
+            final String password = "pryamqgjzmqvftfg";
             final String subtitulo = "Notificacion Comunidad";
 
             // Configuración del servidor de correo
