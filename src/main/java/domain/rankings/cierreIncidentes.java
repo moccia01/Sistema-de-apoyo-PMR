@@ -1,64 +1,51 @@
 package domain.rankings;
 
-import com.twilio.rest.api.v2010.account.incomingphonenumber.Local;
 import domain.comunidad.Comunidad;
 import domain.comunidad.Incidente;
 import domain.entidadesDeServicio.Entidad;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
-import java.text.DateFormat;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public class cierreIncidentes {
-    private List<Comunidad> comunidades;
-    private List<List<Incidente>> incidentesSemanales;
-    private List<Entidad> rankingMayorPromedioCierre;
 
-    private LocalDate fechaInicioSemana;
-    private LocalDate fechaFinSemana;
-    public void CambiarFechaInicioSemana(){
-        fechaInicioSemana = LocalDate.now();
+    LocalDate fechaComienzoSemana; //se tiene q cambiar cada lunes
+    LocalDate fechaFinSemana; //se tiene q cambiar cada domingo
+    List<Comunidad> comunidades;
+    List<List<Incidente>> listaIncidentes;
+
+    public List<Incidente> obtenerIncidentesDeComunidades(List<Comunidad> comunidades, List<List<Incidente>> listaIncidentes){
+        for(Comunidad comunidad : comunidades){
+            listaIncidentes.add(comunidad.getIncidentes());
+        }
+        return listaIncidentes.stream().flatMap(List::stream).collect(Collectors.toList());
     }
 
-    public void CambiarFechaFinSemana(){
-        fechaFinSemana = LocalDate.now();
+    public boolean estaDentroDeLaSemana(LocalDate fecha){
+        return ChronoUnit.DAYS.between(fecha, fechaComienzoSemana) <= 7 && ChronoUnit.DAYS.between(fecha, fechaFinSemana) <= 7;
     }
 
-    public void obtenerTodosLosIncidentes() {
-        for (Comunidad comunidad : comunidades) {
-              incidentesSemanales.add(comunidad.getIncidentes());
+    public List<Incidente> filtarPorSemana(List<Incidente> listaIncidentes){
+        for(Incidente incidente : listaIncidentes){
+            if(!estaDentroDeLaSemana(incidente.getFechaApertura())){
+                listaIncidentes.remove(incidente);
             }
         }
-    public void filtrarXSemana(){
-
+        return listaIncidentes;
     }
 
-    public void filtrarXEntidad(){
 
-
+    public HashMap<Entidad, Double> calcularRanking(){
+        HashMap<Entidad, Double> ranking = new HashMap<>();
+        return ranking;
     }
-       public boolean estaDentroDeLaSemana(Incidente incidente) {
-        long valorDeSemana = ChronoUnit.DAYS.between(fechaInicioSemana, incidente.getFechaCierre());
-        return valorDeSemana <= 7;
-    }
-    public int tiempoqueTarda(Incidente incidente) {
-        long diasDiferencia = ChronoUnit.DAYS.between(incidente.getFechaApertura(), incidente.getFechaCierre());
-        int diasDiferenciaEntero = (int) diasDiferencia;
-        return diasDiferenciaEntero;
-    }
-
-    //public int obtenerFechaEntero() {
-       // DateFormat formatoEntero = new SimpleDateFormat("yyyyMMdd");
-       // String fechaString = formatoEntero.format();
-      //  return Integer.parseInt(fechaString);
-   // }
-
-
 
 }
