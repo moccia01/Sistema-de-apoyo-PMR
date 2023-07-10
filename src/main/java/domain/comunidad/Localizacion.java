@@ -16,7 +16,7 @@ public class Localizacion {
         this.provincia = provincia;
     }
 
-    public boolean estaCercaDe(Localizacion localizacion){
+    public boolean estaCercaDe(Localizacion localizacion){ // TODO falta testear
         ServicioLucene lucene = new ServicioLucene();
         double distancia = lucene.getDistance(this.centroide.lat, this.centroide.lon, localizacion.centroide.lat, localizacion.centroide.lon);
         return distancia < 100; // estar cerca de una localizacion significa estar en un radio de 100 metros

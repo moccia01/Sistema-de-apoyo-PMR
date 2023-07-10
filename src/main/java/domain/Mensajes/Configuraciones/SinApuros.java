@@ -145,7 +145,7 @@ public class SinApuros implements TiempoConfigurado {
         timer.schedule(notificacionTask, tiempoEspera);
     }
 
-    public void enviarNotificacionesPendientes(Miembro miembro) {
+    public void enviarNotificacionesPendientes(Miembro miembro) { // TODO falta testear
 /*        if (esHoraDeNotificar()) {
             MensajeEmail mensajeEmail = new MensajeEmail();
             for (String notificaciones : notificacionesPendientes) {
