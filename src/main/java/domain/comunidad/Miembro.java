@@ -18,7 +18,7 @@ public class Miembro {
     private Usuario usuario;
     private Rol rol;
     private List<Comunidad> comunidades;
-    //private RolTemporal rolTemporal;  TODO ver que onda con el rol temporal del usuario, sino me equivoco, lo pusimos como ah, el miembro se quebró la pierna y está así por 3 meses
+    private String rolTemporal;
     private TiempoConfigurado tiempoConfigurado;
     private MedioConfigurado medioConfigurado;
     private final long refrescoLocalizacion = 5000; // en milisegundos
