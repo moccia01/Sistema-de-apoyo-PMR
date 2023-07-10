@@ -3,6 +3,7 @@ package domain.comunidad;
 import domain.Mensajes.Configuraciones.MedioConfigurado;
 import domain.Mensajes.Configuraciones.TiempoConfigurado;
 import domain.entidadesDeServicio.Entidad;
+import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,11 +19,15 @@ public class Miembro {
     private TiempoConfigurado tiempoConfigurado;
     private MedioConfigurado medioConfigurado;
 
-    public void generarIncidente(Comunidad comunidad, Entidad entidad, String descripcion){
-        comunidad.generarIncidente(entidad, descripcion);
+    public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
+        comunidades.forEach(c -> c.generarIncidente(prestacionDeServicio, descripcion));
     }
 
-    public void cerrarIncidente(){
+    public void cerrarIncidente(Comunidad comunidad, Incidente incidente){
+        comunidad.cerrarIncidente(incidente);
+    }
+
+    public void mandarLocalizacion(){
 
     }
 }

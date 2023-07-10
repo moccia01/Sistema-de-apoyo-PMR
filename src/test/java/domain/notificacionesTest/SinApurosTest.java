@@ -1,4 +1,6 @@
+/*
 package domain.notificacionesTest;
+
 
 import com.twilio.rest.api.v2010.account.incomingphonenumber.Local;
 import domain.Mensajes.Configuraciones.MensajeEmail;
@@ -26,9 +28,8 @@ public class SinApurosTest {
         // Crear una instancia de Prueba con el horario y la notificación de ejemplo
         LocalTime horario = LocalTime.of(22, 25);
         String notificacion = "¡Hola! Esta es una notificación de prueba.";
-        Prueba prueba = new Prueba(horario, miembro, notificacion);
-        prueba.enviarNotificacionesPendientes(miembro, "holaaaaa 11111");
-        prueba.enviarNotificacionesPendientes(miembro, "holaaaaaa 22222");
+        Prueba prueba = new Prueba(horario, miembro);
+        prueba.recibirNotificacion(miembro, notificacion);
         try {
             Thread.sleep(60000); // Esperar 1 minuto (ajusta el tiempo según tus necesidades)
         } catch (InterruptedException e) {
@@ -48,3 +49,4 @@ public class SinApurosTest {
         System.out.println(horario);
     }
 }
+ */

@@ -1,4 +1,5 @@
 package domain.Mensajes.Configuraciones;
+/* package domain.Mensajes.Configuraciones;
 
 import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
@@ -39,9 +40,8 @@ public class SinApuros implements TiempoConfigurado {
     }
     @Override
     public void recibirNotificacion(Miembro miembro, String notificacion) {
-        if (!esHoraDeNotificar()) {
             notificacionesPendientes.add(notificacion);
-        }
+
     }
     public void enviarNotificacionesPendientes(Miembro miembro) {
         if (this.esHoraDeNotificar()) {
@@ -84,4 +84,92 @@ public class SinApuros implements TiempoConfigurado {
         }
     }
 
+}
+*/
+
+import domain.comunidad.Miembro;
+import domain.comunidad.Usuario;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+@Getter
+@Setter
+public class SinApuros implements TiempoConfigurado {
+    private List<LocalTime> horarios;
+    private List<String> notificacionesPendientes;
+    private boolean timerIsSet;
+
+    public SinApuros() {
+        this.horarios = new ArrayList<>();
+        this.notificacionesPendientes = new ArrayList<>();
+        this.timerIsSet = false;
+    }
+
+    public void agregarHorarios(LocalTime ... horarios){
+        Collections.addAll(this.horarios, horarios);
+    }
+
+    public void iniciarTimers(Miembro miembro) {
+/*        TimerTask notificacionTask = new TimerTask() {
+            @Override
+            public void run() {
+                enviarNotificacionesPendientes(miembro);
+            }
+        };
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(notificacionTask, obtenerFechaInicio(), obtenerIntervalo());
+ */
+        horarios.forEach(h -> this.iniciarTimer(miembro, h));
+    }
+
+    public void iniciarTimer(Miembro miembro, LocalTime horario){
+        TimerTask notificacionTask = new TimerTask() {
+          @Override
+          public void run(){
+              enviarNotificacionesPendientes(miembro);
+          }
+        };
+        Timer timer = new Timer();
+        LocalTime horarioActual = LocalTime.now();
+        long tiempoEspera = ChronoUnit.MILLIS.between(horario, horarioActual);
+        if(horario.isBefore(horarioActual)){
+            tiempoEspera = 24 * 60 * 60 * 1000 - tiempoEspera;
+        }
+        timer.schedule(notificacionTask, tiempoEspera);
+    }
+
+    public void enviarNotificacionesPendientes(Miembro miembro) {
+/*        if (esHoraDeNotificar()) {
+            MensajeEmail mensajeEmail = new MensajeEmail();
+            for (String notificaciones : notificacionesPendientes) {
+                mensajeEmail.enviarNotificacion(miembro, notificaciones);
+
+            }
+
+            notificacionesPendientes.clear();
+        }else {
+            this.notificacionesPendientes.add(notificacion);
+        }
+
+ */
+        notificacionesPendientes.forEach(n -> miembro.getMedioConfigurado().enviarNotificacion(miembro, n));
+    }
+
+
+
+    @Override
+    public void recibirNotificacion(Miembro miembro, String notificacion) {
+        if(!this.timerIsSet){
+            this.iniciarTimers(miembro);
+            timerIsSet = true;
+        }
+        notificacionesPendientes.add(notificacion);
+    }
 }

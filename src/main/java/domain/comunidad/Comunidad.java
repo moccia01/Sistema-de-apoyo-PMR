@@ -2,6 +2,7 @@ package domain.comunidad;
 
 import domain.Mensajes.Notificador;
 import domain.entidadesDeServicio.Entidad;
+import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +22,8 @@ public class Comunidad {
         });
     }
 
-    public void generarIncidente(Entidad entidad, String descripcion){
-        Incidente nuevoIncidente = new Incidente(descripcion, entidad);
+    public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
+        Incidente nuevoIncidente = new Incidente(descripcion, prestacionDeServicio);
         nuevoIncidente.setEstado(false);
         nuevoIncidente.setFechaApertura(LocalDate.now());
         incidentes.add(nuevoIncidente);
@@ -35,4 +36,12 @@ public class Comunidad {
         this.notificarMiembros("Notificacion Cierre de Incidente");
     }
 
+    public void recibirLocalizacion(Miembro miembro){
+        List<Incidente> incidentesCercanos = incidentes.stream().filter(
+                i -> miembro.getUsuario().getLocalizacion().estaCercaDe(i.getLocalizacion())
+        ).toList();
+        incidentesCercanos.forEach(
+                i -> Notificador.notificar(miembro, "Sugerencia revision incidente"));
+
+    }
 }
