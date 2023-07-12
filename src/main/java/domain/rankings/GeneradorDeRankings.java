@@ -14,30 +14,23 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 public class GeneradorDeRankings {
-    public LocalDate fechaComienzoSemana; //se tiene q cambiar cada lunes
-    public LocalDate fechaFinSemana; //se tiene q cambiar cada domingo
     List<Incidente> incidentes;
 
+    public GeneradorDeRankings() {
+        this.incidentes = RepositorioIncidentes.obtenerIncidentesDeComunidades();
+    }
+
     public List<Entidad> generarSegunCriterio(CriterioRanking criterio){
-        if(LocalDate.now().isAfter(fechaFinSemana)){
-            this.cambiarFechas();
+        if(LocalDate.now().isAfter(criterio.getFechaFinSemana())){
+            criterio.cambiarFechas();
         }
-        List<Incidente> incidentesValidos = incidentes.stream().filter(i -> this.estaDentroDeLaSemana(i.getFechaApertura())).toList();
+        List<Incidente> incidentesValidos = incidentes.stream().filter(criterio::incidenteValido).toList();
         HashMap<Entidad, List<Incidente>> incidentesPorEntidad = new HashMap<>();
         for(Incidente incidente : incidentes){
             Entidad entidad = incidente.getPrestacionDeServicio().getEntidad();
             incidentesPorEntidad.put(entidad, this.obtenerIncidentesDeEntidad(entidad, incidentesValidos));
         }
         return criterio.generarRanking(incidentesPorEntidad);
-    }
-
-    public boolean estaDentroDeLaSemana(LocalDate fecha){
-        return fecha.isAfter(this.fechaComienzoSemana) && fecha.isBefore(this.fechaFinSemana);
-    }
-
-    public void cambiarFechas(){
-        this.setFechaFinSemana(this.fechaFinSemana.plusDays(7));
-        this.setFechaComienzoSemana(this.fechaComienzoSemana.plusDays(7));
     }
 
     public List<Incidente> obtenerIncidentesDeEntidad(Entidad entidad, List<Incidente> incidentes){
