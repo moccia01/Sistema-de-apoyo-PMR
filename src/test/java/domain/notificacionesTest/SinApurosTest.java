@@ -24,7 +24,7 @@ public class SinApurosTest {
     @Test
     public void recibirNotificacion_DebeAgregarNotificacionPendiente() throws InterruptedException {
         // Arrange
-        LocalTime horario = LocalTime.of(16, 50); // Establecer el horario deseado
+        LocalTime horario = LocalTime.of(20, 01); // Establecer el horario deseado
         LocalTime horario2 = LocalTime.of(14, 39); // Establecer el horario deseado
         MensajeEmail enviarMail = new MensajeEmail();
 
@@ -56,7 +56,6 @@ public class SinApurosTest {
         comunidad.agregarMiembro(miembro1);
 
         comunidad.notificarMiembros(notificacion);
-        comunidad.notificarMiembros(notificacion+'1');
         TimeUnit.SECONDS.sleep(60);
     }
 

@@ -122,16 +122,11 @@ public class SinApuros implements TiempoConfigurado {
     }
 
     public void iniciarTimer(Miembro miembro, LocalTime horario) {
-        TimerTask notificacionTask = new TimerTask() {
-            @Override
-            public void run() {
-                enviarNotificacionesPendientes(miembro);
-            }
-        };
 
         Timer timer = new Timer();
+        TareaProgramada tareaProgramada = new TareaProgramada(miembro,this.notificacionesPendientes);
         long tiempoEspera = calcularTiempoEspera(horario);
-        timer.schedule(notificacionTask, tiempoEspera);
+        timer.schedule(tareaProgramada, tiempoEspera);
     }
 
     public long calcularTiempoEspera(LocalTime horario) {
@@ -144,10 +139,7 @@ public class SinApuros implements TiempoConfigurado {
         return ChronoUnit.MILLIS.between(horarioActual, horario);
     }
 
-    public void enviarNotificacionesPendientes(Miembro miembro) { // TODO falta testear
 
-        notificacionesPendientes.forEach(n -> miembro.getMedioConfigurado().enviarNotificacion(miembro, n));
-    }
 
 
 
