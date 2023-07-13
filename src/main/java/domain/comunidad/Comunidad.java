@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,11 +16,19 @@ public class Comunidad {
     private List<Miembro> miembros;
     private List<Incidente> incidentes;
 
+    public  Comunidad(){
+        this.miembros = new ArrayList<>();
+        this.incidentes = new ArrayList<>();
+    }
     public void notificarMiembros(String notificacion){
 
         miembros.forEach( m -> {
             Notificador.notificar(m, notificacion);
         });
+    }
+
+    public void agregarMiembro(Miembro miembro) {
+        miembros.add(miembro);
     }
 
     public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){

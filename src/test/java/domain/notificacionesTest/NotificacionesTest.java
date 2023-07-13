@@ -3,6 +3,7 @@ package domain.notificacionesTest;
 import domain.Mensajes.Configuraciones.MensajeEmail;
 import domain.Mensajes.Configuraciones.MensajeWhatsApp;
 import domain.comunidad.Miembro;
+import domain.comunidad.Rol;
 import domain.comunidad.Usuario;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ public class NotificacionesTest {
         Usuario usuario = new Usuario();
         usuario.setMail("facundosu26@gmail.com");
 
-        Miembro miembro = new Miembro();
+        Miembro miembro = new Miembro(new Usuario(), Rol.MIEMBRO);
         miembro.setUsuario(usuario);
 
         String mensaje = "buenas este es un notificacion";
@@ -27,7 +28,7 @@ public class NotificacionesTest {
         MensajeWhatsApp msjWhatsapp = new MensajeWhatsApp();
         msjWhatsapp.setNumero("");
 
-        Miembro miembro = new Miembro();
+        Miembro miembro = new Miembro(new Usuario(), Rol.MIEMBRO);
 
         String mensaje = "Notificacion";
         //TODO mockear esto

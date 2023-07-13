@@ -102,74 +102,54 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @Setter
 public class SinApuros implements TiempoConfigurado {
-    private List<LocalTime> horarios;
+    private LocalTime horarios;
     private List<String> notificacionesPendientes;
     private boolean timerIsSet;
 
-    public SinApuros() {
-        this.horarios = new ArrayList<>();
+    public SinApuros(LocalTime horarios) {
         this.notificacionesPendientes = new ArrayList<>();
         this.timerIsSet = false;
+        this.horarios = horarios;
+    }
+    @Override
+    public void recibirNotificacion(Miembro miembro, String notificacion) {
+        if(!this.timerIsSet){
+            this.iniciarTimer(miembro,horarios);
+            timerIsSet = true;
+        }
+        notificacionesPendientes.add(notificacion);
+
     }
 
-    public void agregarHorarios(LocalTime ... horarios){
-        Collections.addAll(this.horarios, horarios);
-    }
-
-    public void iniciarTimers(Miembro miembro) {
-/*        TimerTask notificacionTask = new TimerTask() {
+    public void iniciarTimer(Miembro miembro, LocalTime horario) {
+        TimerTask notificacionTask = new TimerTask() {
             @Override
             public void run() {
                 enviarNotificacionesPendientes(miembro);
             }
         };
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(notificacionTask, obtenerFechaInicio(), obtenerIntervalo());
- */
-        horarios.forEach(h -> this.iniciarTimer(miembro, h));
-    }
 
-    public void iniciarTimer(Miembro miembro, LocalTime horario){
-        TimerTask notificacionTask = new TimerTask() {
-          @Override
-          public void run(){
-              enviarNotificacionesPendientes(miembro);
-          }
-        };
         Timer timer = new Timer();
-        LocalTime horarioActual = LocalTime.now();
-        long tiempoEspera = ChronoUnit.MILLIS.between(horario, horarioActual);
-        if(horario.isBefore(horarioActual)){
-            tiempoEspera = 24 * 60 * 60 * 1000 - tiempoEspera;
-        }
+        long tiempoEspera = calcularTiempoEspera(horario);
         timer.schedule(notificacionTask, tiempoEspera);
     }
 
-    public void enviarNotificacionesPendientes(Miembro miembro) { // TODO falta testear
-/*        if (esHoraDeNotificar()) {
-            MensajeEmail mensajeEmail = new MensajeEmail();
-            for (String notificaciones : notificacionesPendientes) {
-                mensajeEmail.enviarNotificacion(miembro, notificaciones);
+    public long calcularTiempoEspera(LocalTime horario) {
+        LocalTime horarioActual = LocalTime.now();
 
-            }
-
-            notificacionesPendientes.clear();
-        }else {
-            this.notificacionesPendientes.add(notificacion);
+        if (horario.isBefore(horarioActual)) {
+            return  ChronoUnit.MILLIS.between(horarioActual, horario)+ 86400000; // Ajustar el horario para el próximo día sumando 1 dia de milisegundo
         }
 
- */
+        return ChronoUnit.MILLIS.between(horarioActual, horario);
+    }
+
+    public void enviarNotificacionesPendientes(Miembro miembro) { // TODO falta testear
+
         notificacionesPendientes.forEach(n -> miembro.getMedioConfigurado().enviarNotificacion(miembro, n));
     }
 
 
 
-    @Override
-    public void recibirNotificacion(Miembro miembro, String notificacion) {
-        if(!this.timerIsSet){
-            this.iniciarTimers(miembro);
-            timerIsSet = true;
-        }
-        notificacionesPendientes.add(notificacion);
-    }
+
 }
