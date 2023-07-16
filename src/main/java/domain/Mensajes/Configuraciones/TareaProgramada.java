@@ -19,7 +19,7 @@ public class TareaProgramada extends TimerTask {
         enviarNotificacionesPendientes(miembro);
     }
 
-    public void enviarNotificacionesPendientes(Miembro miembro) { // TODO falta testear
+    public void enviarNotificacionesPendientes(Miembro miembro) { // TODO falta testear con whatApp
 
         notificacionesPendientes.forEach(n -> miembro.getMedioConfigurado().enviarNotificacion(miembro, n));
     }

@@ -8,11 +8,10 @@ import lombok.Setter;
 @Setter
 @Getter
 public class MensajeWhatsApp implements MedioConfigurado {
-    private String numero;
 
     @Override
     public void enviarNotificacion(Miembro miembro, String notificacion) {
         ServicioTwilio servicioTwilio = new ServicioTwilio();
-        servicioTwilio.enviarMensaje(numero, notificacion);
+        servicioTwilio.enviarMensaje(miembro.getUsuario().getNumero(), notificacion);
     }
 }

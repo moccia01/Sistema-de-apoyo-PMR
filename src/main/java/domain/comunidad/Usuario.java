@@ -11,6 +11,7 @@ public class Usuario {
     private String apellido;
     private CredencialDeAcceso credencialDeAcceso;
     private String mail;
+    private String numero;
     private Interes interes;
     private Localizacion localizacion;
 

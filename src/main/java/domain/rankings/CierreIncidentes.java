@@ -30,21 +30,4 @@ public class CierreIncidentes extends CriterioRanking{
     public double transformarListaAValor(List<Incidente> incidentes){
         return this.promedioTiempoCierre(incidentes);
     }
-
-/*    @Override //TODO: TESTEARRR!!!!
-    public List<Entidad> generarRanking(HashMap<Entidad, List<Incidente>> incidentesPorEntidad) {
-        List<Entidad> entidades = new ArrayList<>();
-        LinkedHashMap<Entidad, Double> promediosPorEntidad = new LinkedHashMap<>();
-        for(Map.Entry<Entidad, List<Incidente>> entry : incidentesPorEntidad.entrySet()){
-            promediosPorEntidad.put(entry.getKey(), this.promedioTiempoCierre(entry.getValue()));
-        }
-        List<Map.Entry<Entidad, Double>> promediosOrdenados = new ArrayList<>(promediosPorEntidad.entrySet());
-        promediosOrdenados.sort(Comparator.comparingDouble(Map.Entry::getValue));
-        for(Map.Entry<Entidad, Double> entry: promediosOrdenados){
-            entidades.add(entry.getKey());
-        }
-        return entidades;
-
-    }
-*/
 }

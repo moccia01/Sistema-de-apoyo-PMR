@@ -30,6 +30,7 @@ public abstract class CriterioRanking {
         return entidades;
     }
 
+
     public abstract double transformarListaAValor(List<Incidente> incidentes);
 
     public boolean incidenteValido(Incidente incidente){
