@@ -14,8 +14,6 @@ public abstract class CriterioRanking {
     public LocalDate fechaComienzoSemana; //se tiene q cambiar cada lunes
     public LocalDate fechaFinSemana; //se tiene q cambiar cada domingo
 
-
-
     List<Entidad> generarRanking(HashMap<Entidad, List<Incidente>> incidentesPorEntidad) {
         List<Entidad> entidades = new ArrayList<>();
         LinkedHashMap<Entidad, Double> hashMapLinkeado = new LinkedHashMap<>();
@@ -29,7 +27,6 @@ public abstract class CriterioRanking {
         }
         return entidades;
     }
-
 
     public abstract double transformarListaAValor(List<Incidente> incidentes);
 

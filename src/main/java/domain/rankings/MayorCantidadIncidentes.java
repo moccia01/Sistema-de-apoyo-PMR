@@ -23,7 +23,7 @@ public class MayorCantidadIncidentes extends CriterioRanking{
     }
 
     public double transformarListaAValor(List<Incidente> incidentes){
-        this.filtrarRepetidos(incidentes); //TODO lucas fijate si esto esta bien
+        this.filtrarRepetidos(incidentes);
         return incidentes.size();
     }
 }
