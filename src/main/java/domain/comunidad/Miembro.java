@@ -44,7 +44,7 @@ public class Miembro {
         comunidad.cerrarIncidente(incidente);
     }
 
-    public void iniciarTimer(){
+    public void iniciarTimer(){ //TODO adaptar a la estructura de facu
         TimerTask localizacionTask = new TimerTask() {
             @Override
             public void run(){
@@ -55,7 +55,7 @@ public class Miembro {
         timer.scheduleAtFixedRate(localizacionTask, 0, refrescoLocalizacion);
     }
 
-    public void mandarLocalizacion(){ // TODO falta testear
+    public void mandarLocalizacion(){
         comunidades.forEach(c -> c.recibirLocalizacion(this));
     }
 }

@@ -1,25 +1,23 @@
 package domain.notificacionesTest;
 
-import domain.Mensajes.Configuraciones.MedioConfigurado;
-import domain.Mensajes.Configuraciones.MensajeEmail;
-import domain.Mensajes.Configuraciones.MensajeWhatsApp;
-import domain.Mensajes.Configuraciones.TareaProgramada;
-import domain.comunidad.Miembro;
-import domain.comunidad.Rol;
-import domain.comunidad.Usuario;
+import domain.Mensajes.Configuraciones.*;
+import domain.comunidad.*;
+import domain.entidadesDeServicio.Establecimiento;
+import domain.entidadesDeServicio.PrestacionDeServicio;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class NotificacionesTest {
 
-    private MensajeWhatsApp mockMensajeWhatApp;
     private Miembro miembro;
 
     @BeforeEach
@@ -28,27 +26,60 @@ public class NotificacionesTest {
     }
 
     @Test
-    public void enviarMail(){
+    public void unaNotificacionPorMailSeEnviaCorrectamente() {
         MensajeEmail enviarMail = new MensajeEmail();
         Usuario usuario = new Usuario();
         usuario.setMail("federico21433@hotmail.com");
 
         miembro.setUsuario(usuario);
 
-        String mensaje = "buenas esto es una notificacion";
+        String mensaje = "buenas esta es una notificacion";
 
-        enviarMail.enviarNotificacion(miembro,mensaje);
+        enviarMail.enviarNotificacion(miembro, mensaje);
     }
 
     @Test
-    public void enviarWhatsApp(){
-        MensajeWhatsApp msjWhatsapp = new MensajeWhatsApp();
-        //mockMensajeWhatApp = mock(MensajeWhatsApp.class);
-        miembro.getUsuario().setNumero("+5491123497049");
-        String mensaje = "Notificacion";
+    public void seEnviaNotificacionSugerenciaCuandoMiembroEstaCercaDeIncidente(){
+        Establecimiento medrano = new Establecimiento();
+        medrano.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951");
+        PrestacionDeServicio ascensorMedrano = new PrestacionDeServicio();
+        ascensorMedrano.setEstablecimiento(medrano);
 
-        //when(mockMensajeWhatApp.enviarNotificacion(miembro, mensaje)).thenReturn();
-        //TODO mockear esto
-        msjWhatsapp.enviarNotificacion(miembro, mensaje);
+        Establecimiento campus = new Establecimiento();
+        campus.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
+        PrestacionDeServicio banioCampus = new PrestacionDeServicio();
+        banioCampus.setEstablecimiento(campus);
+
+        MensajeEmail enviarMail = new MensajeEmail();
+        CuandoSucede cuandoSucede = new CuandoSucede();
+
+        Usuario usuario = new Usuario();
+        usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
+        usuario.setMail("facundosu26@gmail.com");
+        miembro = new Miembro(usuario, Rol.MIEMBRO);
+        miembro.setTiempoConfigurado(cuandoSucede);
+        miembro.setMedioConfigurado(enviarMail);
+
+        String notificacion = "Sugerencia de revision de incidente";
+
+        Comunidad comunidad = new Comunidad();
+        comunidad.agregarMiembro(miembro);
+        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
+        comunidad.generarIncidente(ascensorMedrano, "Murio el ascensor >:(");
+        miembro.agregarComunidad(comunidad);
+
+        try{
+            TimeUnit.SECONDS.sleep(60);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        usuario.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
+
+        try{
+            TimeUnit.SECONDS.sleep(25);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

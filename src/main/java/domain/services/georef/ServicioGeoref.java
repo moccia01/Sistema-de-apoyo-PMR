@@ -35,10 +35,15 @@ public class ServicioGeoref implements Localizador{
         return responseProvinciasArgentinas.body();
     }
 
-    public Provincia provincia(String nombreProvincia) throws IOException {
+    public Provincia provincia(String nombreProvincia){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeProvincias> requestProvincia = georefService.provincias(nombreProvincia);
-        Response<ListadoDeProvincias> responseProvincia = requestProvincia.execute();
+        Response<ListadoDeProvincias> responseProvincia;
+        try {
+            responseProvincia = requestProvincia.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         ListadoDeProvincias provincias = responseProvincia.body();
         assert provincias != null;
         return provincias.provincias.get(0);
@@ -67,5 +72,19 @@ public class ServicioGeoref implements Localizador{
         ListadoDeDepartamentos departamentos = responseDepartamento.body();
         assert departamentos != null;
         return departamentos.departamentos.get(0);
+    }
+
+    public Direccion direccion(String departamento, String direccion){
+        GeorefService georefService = this.retrofit.create(GeorefService.class);
+        Call<ListaDeDirecciones> requestDirecciones = georefService.direcciones(direccion, departamento);
+        Response<ListaDeDirecciones> responseDirecciones;
+        try {
+            responseDirecciones = requestDirecciones.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ListaDeDirecciones direcciones = responseDirecciones.body();
+        assert direcciones != null;
+        return direcciones.direcciones.get(0);
     }
 }

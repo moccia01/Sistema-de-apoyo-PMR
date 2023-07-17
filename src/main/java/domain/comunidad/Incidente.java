@@ -20,7 +20,10 @@ public class Incidente {
     private String descripcion;
     private Boolean estado;
     private PrestacionDeServicio prestacionDeServicio;
-    private Localizacion localizacion;
+
+    public Localizacion getLocalizacion(){
+        return prestacionDeServicio.getEstablecimiento().getLocalizacion();
+    }
 
     public Incidente(String descripcion, PrestacionDeServicio prestacion) {
         this.descripcion = descripcion;

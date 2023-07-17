@@ -1,5 +1,6 @@
 package domain.services.georef;
 
+import domain.services.georef.entities.ListaDeDirecciones;
 import domain.services.georef.entities.ListadoDeDepartamentos;
 import domain.services.georef.entities.ListadoDeMunicipios;
 import domain.services.georef.entities.ListadoDeProvincias;
@@ -28,4 +29,7 @@ public interface GeorefService {
 
     @GET("departamentos")
     Call<ListadoDeDepartamentos> departamentos(@Query("departamento") String nombre);
+
+    @GET("direcciones")
+    Call<ListaDeDirecciones> direcciones(@Query("direccion") String direccion, @Query("departamento") String departamento);
 }
