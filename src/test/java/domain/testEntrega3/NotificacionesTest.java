@@ -114,4 +114,28 @@ public class NotificacionesTest {
         comunidad.notificarMiembros(notificacion);
         TimeUnit.SECONDS.sleep(60);
     }
+
+    @Test
+    public void notificarCuandoCierraUnIncidente(){
+        MensajeEmail enviarMail = new MensajeEmail();
+        CuandoSucede cuandoSucede = new CuandoSucede();
+
+        Usuario usuario = new Usuario();
+        usuario.setMail("federico21433@hotmail.com");
+        Miembro miembro = new Miembro(usuario, Rol.MIEMBRO);
+        miembro.setTiempoConfigurado(cuandoSucede);
+        miembro.setMedioConfigurado(enviarMail);
+
+        Comunidad comunidad = new Comunidad();
+        comunidad.agregarMiembro(miembro);
+
+        Establecimiento campus = new Establecimiento();
+        campus.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
+        PrestacionDeServicio banioCampus = new PrestacionDeServicio();
+        banioCampus.setEstablecimiento(campus);
+        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
+
+        miembro.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
+        Assertions.assertTrue(comunidad.getIncidentes().get(0).getEstado());
+    }
 }
