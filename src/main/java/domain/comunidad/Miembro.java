@@ -18,7 +18,7 @@ public class Miembro {
     private Usuario usuario;
     private Rol rol;
     private List<Comunidad> comunidades;
-    private String rolTemporal;
+    private RolTemporal rolTemporal;
     private TiempoConfigurado tiempoConfigurado;
     private MedioConfigurado medioConfigurado;
     private final long refrescoLocalizacion = 5000; // en milisegundos
@@ -57,5 +57,9 @@ public class Miembro {
 
     public void mandarLocalizacion(){ // TODO falta testear
         comunidades.forEach(c -> c.recibirLocalizacion(this));
+    }
+
+    public void cambiarRolTemporal(RolTemporal nuevoRol) {
+        this.rolTemporal = nuevoRol;
     }
 }
