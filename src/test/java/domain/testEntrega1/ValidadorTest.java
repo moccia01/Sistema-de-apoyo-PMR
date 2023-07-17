@@ -1,4 +1,4 @@
-package domain.validacionesTest;
+package domain.testEntrega1;
 
 import domain.validaciones.*;
 import domain.validaciones.politicasNIST.*;

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.TimerTask;
 
 public class LocalizacionTimer extends TimerTask {
-
     private List<Comunidad> comunidades;
     private Miembro miembro;
 

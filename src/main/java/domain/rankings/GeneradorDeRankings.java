@@ -33,6 +33,8 @@ public class GeneradorDeRankings {
         return criterio.generarRanking(incidentesPorEntidad);
     }
 
+
+
     public List<Incidente> obtenerIncidentesDeEntidad(Entidad entidad, List<Incidente> incidentes){
         return incidentes.stream().filter(i -> i.getPrestacionDeServicio().getEntidad() == entidad).toList();
     }

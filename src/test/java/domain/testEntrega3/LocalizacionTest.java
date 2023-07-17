@@ -1,4 +1,4 @@
-package domain.localizacionTest;
+package domain.testEntrega3;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import domain.comunidad.Localizacion;

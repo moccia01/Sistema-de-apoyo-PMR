@@ -1,4 +1,4 @@
-package domain.rankingsTest;
+package domain.testEntrega3;
 
 import domain.comunidad.Comunidad;
 import domain.comunidad.Incidente;
@@ -66,6 +66,7 @@ public class RankingsTest {
         //lineaMitre.setLocalizacion();
         lineaMitre.agregarEstablecimientos(retiro);
 
+        //TODO: de chusma les probe los tests y fallan porque falta agregar las comunidades al repositorio de incidentes xd
         generador = new GeneradorDeRankings();
         generador.setIncidentes(comunidadNoVidentesSM.getIncidentes());
     }

@@ -1,4 +1,4 @@
-package domain.cargaDeDatosTest;
+package domain.testEntrega2;
 
 import domain.Mensajes.Configuraciones.MensajeEmail;
 import domain.comunidad.Miembro;

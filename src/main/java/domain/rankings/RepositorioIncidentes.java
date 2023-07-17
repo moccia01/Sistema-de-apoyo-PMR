@@ -12,11 +12,11 @@ public class RepositorioIncidentes {
     private static List<Comunidad> comunidades;
 
     public RepositorioIncidentes() {
-        this.comunidades = new ArrayList<>();
+        comunidades = new ArrayList<>();
     }
 
     public void agregarComunidades(Comunidad ... comunidades){
-        Collections.addAll(this.comunidades, comunidades);
+        Collections.addAll(RepositorioIncidentes.comunidades, comunidades);
     }
 
     public static List<Incidente> obtenerIncidentesDeComunidades(){

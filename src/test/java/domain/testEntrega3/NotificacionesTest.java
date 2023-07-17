@@ -1,4 +1,4 @@
-package domain.notificacionesTest;
+package domain.testEntrega3;
 
 import domain.Mensajes.Configuraciones.*;
 import domain.comunidad.*;
@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,5 +82,38 @@ public class NotificacionesTest {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void recibirNotificacionDebeAgregarNotificacionPendiente() throws InterruptedException {
+        LocalTime horario = LocalTime.of(0, 11);
+        LocalTime horario2 = LocalTime.of(14, 39);
+        MensajeEmail enviarMail = new MensajeEmail();
+
+        SinApuros sinApuros = new SinApuros(horario);
+        SinApuros sinApuros1 = new SinApuros(horario);
+        CuandoSucede cuandoSucede = new CuandoSucede();
+
+        Usuario usuario = new Usuario();
+        usuario.setMail("facundosu26@gmail.com");
+        Miembro miembro = new Miembro(usuario, Rol.MIEMBRO);
+        miembro.setTiempoConfigurado(sinApuros);
+        miembro.setMedioConfigurado(enviarMail);
+
+        //segundo usuario
+        Usuario usuario1 = new Usuario();
+        usuario1.setMail("xdanime2001@gmail.com");
+        Miembro miembro1 = new Miembro(usuario1,Rol.ADMINISTRADOR);
+        miembro1.setTiempoConfigurado(cuandoSucede);
+        miembro1.setMedioConfigurado(enviarMail);
+
+        String notificacion = "Mensaje de prueba";
+
+        Comunidad comunidad = new Comunidad();
+        comunidad.agregarMiembro(miembro);
+        comunidad.agregarMiembro(miembro1);
+
+        comunidad.notificarMiembros(notificacion);
+        TimeUnit.SECONDS.sleep(60);
     }
 }
