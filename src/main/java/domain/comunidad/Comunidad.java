@@ -47,7 +47,7 @@ public class Comunidad {
 
     public void recibirLocalizacion(Miembro miembro){
         List<Incidente> incidentesCercanos = incidentes.stream().filter(
-                i -> miembro.getUsuario().getLocalizacion().estaCercaDe(i.getLocalizacion())
+                i -> miembro.getUsuario().getLocalizacion().estaCercaDe(i.getLocalizacion()) && i.getEstado()
         ).toList();
         incidentesCercanos.forEach(
                 i -> Notificador.notificar(miembro, "Sugerencia revision incidente"));

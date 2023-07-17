@@ -87,11 +87,9 @@ public class NotificacionesTest {
     @Test
     public void recibirNotificacionDebeAgregarNotificacionPendiente() throws InterruptedException {
         LocalTime horario = LocalTime.of(0, 11);
-        LocalTime horario2 = LocalTime.of(14, 39);
         MensajeEmail enviarMail = new MensajeEmail();
 
         SinApuros sinApuros = new SinApuros(horario);
-        SinApuros sinApuros1 = new SinApuros(horario);
         CuandoSucede cuandoSucede = new CuandoSucede();
 
         Usuario usuario = new Usuario();
