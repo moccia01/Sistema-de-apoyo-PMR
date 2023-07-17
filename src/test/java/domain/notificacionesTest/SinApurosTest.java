@@ -22,10 +22,9 @@ import static org.junit.Assert.assertEquals;
 
 public class SinApurosTest {
     @Test
-    public void recibirNotificacion_DebeAgregarNotificacionPendiente() throws InterruptedException {
-        // Arrange
-        LocalTime horario = LocalTime.of(20, 01); // Establecer el horario deseado
-        LocalTime horario2 = LocalTime.of(14, 39); // Establecer el horario deseado
+    public void recibirNotificacionDebeAgregarNotificacionPendiente() throws InterruptedException {
+        LocalTime horario = LocalTime.of(20, 01);
+        LocalTime horario2 = LocalTime.of(14, 39);
         MensajeEmail enviarMail = new MensajeEmail();
 
         SinApuros sinApuros = new SinApuros(horario);
@@ -45,11 +44,7 @@ public class SinApurosTest {
         miembro1.setTiempoConfigurado(cuandoSucede);
         miembro1.setMedioConfigurado(enviarMail);
 
-
         String notificacion = "Mensaje de prueba";
-
-        // Act
-
 
         Comunidad comunidad = new Comunidad();
         comunidad.agregarMiembro(miembro);
@@ -58,30 +53,4 @@ public class SinApurosTest {
         comunidad.notificarMiembros(notificacion);
         TimeUnit.SECONDS.sleep(60);
     }
-
-
-        @Test
-        public void calcularTiempoEspera() {
-            // Arrange
-            LocalTime horarioActual = LocalTime.now();
-            LocalTime horarioDeseado = LocalTime.of(14, 30); // Horario deseado
-
-
-
-            System.out.println(horarioActual);
-            System.out.println(horarioDeseado);
-            long resultado = ChronoUnit.MILLIS.between(horarioActual, horarioDeseado)+ 86400000;;
-            System.out.println(resultado);
-            long tiempoEnMilisegundos = resultado;
-            long segundos = tiempoEnMilisegundos / 1000;
-            long minutos = segundos / 60;
-            long horas = minutos / 60;
-            minutos %= 60;
-
-            System.out.println("Horas: " + horas);
-            System.out.println("Minutos: " + minutos);
-
-        }
-
-
 }

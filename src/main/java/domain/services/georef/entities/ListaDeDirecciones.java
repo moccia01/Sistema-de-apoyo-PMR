@@ -2,12 +2,12 @@ package domain.services.georef.entities;
 
 import java.util.List;
 
-public class ListadoDeDepartamentos {
+public class ListaDeDirecciones {
     public int cantidad;
     public int total;
     public int inicio;
-    public Parametro parametros;
-    public List<Departamento> departamentos;
+
+    public List<Direccion> direcciones;
 
     private class Parametro {
         public List<String> campos;

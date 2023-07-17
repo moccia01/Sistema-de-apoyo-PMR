@@ -35,7 +35,7 @@ public class filtrarRepetidosTest {
 
         Establecimiento retiro = new Establecimiento();
         retiro.setNombre("Estacion retiro");
-        retiro.setLocalizacion();
+       // retiro.setLocalizacion();
         retiro.agregarServicios(escaleraMecanica);
 
         Establecimiento villaBallester = new Establecimiento();
