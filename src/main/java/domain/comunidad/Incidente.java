@@ -18,7 +18,7 @@ public class Incidente {
     public LocalDate fechaApertura;
     public LocalDate fechaCierre;
     private String descripcion;
-    private Boolean estado;
+    private Boolean estado; //true es si esta cerrado
     private PrestacionDeServicio prestacionDeServicio;
 
     public Localizacion getLocalizacion(){
