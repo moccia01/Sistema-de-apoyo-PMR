@@ -44,19 +44,10 @@ public class Miembro {
         comunidad.cerrarIncidente(incidente);
     }
 
-    public void iniciarTimer(){ //TODO adaptar a la estructura de facu
-        TimerTask localizacionTask = new TimerTask() {
-            @Override
-            public void run(){
-                mandarLocalizacion();
-            }
-        };
+    public void iniciarTimer(){
         Timer timer = new Timer();
+        LocalizacionTimer localizacionTask = new LocalizacionTimer(comunidades,this);
         timer.scheduleAtFixedRate(localizacionTask, 0, refrescoLocalizacion);
-    }
-
-    public void mandarLocalizacion(){
-        comunidades.forEach(c -> c.recibirLocalizacion(this));
     }
 
     public void cambiarRolTemporal(RolTemporal nuevoRol) {

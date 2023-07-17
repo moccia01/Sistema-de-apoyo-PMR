@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 public class SinApurosTest {
     @Test
     public void recibirNotificacionDebeAgregarNotificacionPendiente() throws InterruptedException {
-        LocalTime horario = LocalTime.of(20, 01);
+        LocalTime horario = LocalTime.of(0, 11);
         LocalTime horario2 = LocalTime.of(14, 39);
         MensajeEmail enviarMail = new MensajeEmail();
 
