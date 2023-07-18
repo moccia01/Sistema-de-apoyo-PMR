@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class Comunidad {
     private List<Miembro> miembros;
-    private List<Incidente> incidentes;
+    public List<Incidente> incidentes; //ESTA HECHO PUBLIC SOLO PARA LOS TEST, DEBERIA SER PRIVATE
 
     public  Comunidad(){
         this.miembros = new ArrayList<>();

@@ -1,9 +1,8 @@
 package domain.testEntrega3;
 
-import com.twilio.rest.api.v2010.account.incomingphonenumber.Local;
+
 import domain.comunidad.Comunidad;
 import domain.comunidad.Incidente;
-import domain.comunidad.Localizacion;
 import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
 import domain.entidadesDeServicio.PrestacionDeServicio;
@@ -35,8 +34,12 @@ public class RankingsTest {
     private PrestacionDeServicio trenesArgentinos1;
     private PrestacionDeServicio trenesArgentinos2;
     private Comunidad comunidadNoVidentesSM;
+    private Comunidad comunidadHipoacusicosCABA;
     private RepositorioIncidentes repoIncidentes;
 
+    private Incidente incidente1;
+    private Incidente incidente2;
+    private Incidente incidente3;
 
    @BeforeEach
     public void init(){
@@ -82,6 +85,7 @@ public class RankingsTest {
         trenesArgentinos2 = new PrestacionDeServicio();
         trenesArgentinos2.setEntidad(lineaTigre);
         trenesArgentinos2.setServicio(ascensor);
+        trenesArgentinos2.setEstablecimiento(estacionRetiro);
 
         comunidadNoVidentesSM = new Comunidad();
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
@@ -89,19 +93,52 @@ public class RankingsTest {
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos2, "El ascensor dejo de funcar :(");
 
-        repoIncidentes = new RepositorioIncidentes();
-        repoIncidentes.agregarComunidades(comunidadNoVidentesSM);
+        incidente1 = new Incidente("Se rompio la barrera", trenesArgentinos);
+        LocalDate fechaAperturaIncidente1 = LocalDate.of(2023, 3, 7);
+        LocalDate fechaCierreIncidente1 = LocalDate.of(2023, 3, 9);
+        LocalTime horarioAperturaIncidente1 = LocalTime.of(9, 24);
+        LocalTime horarioCierreIncidente1 = LocalTime.of(10, 54);
+        incidente1.setFechaApertura(fechaAperturaIncidente1);
+        incidente1.setFechaCierre(fechaCierreIncidente1);
+        incidente1.setHorarioApertura(horarioAperturaIncidente1);
+        incidente1.setHorarioApertura(horarioCierreIncidente1);
 
-        //TODO: de chusma les probe los tests y fallan porque falta agregar las comunidades al repositorio de incidentes xd
+        incidente2 = new Incidente("Se corto la luz", trenesArgentinos1);
+        LocalDate fechaAperturaIncidente2 = LocalDate.of(2023, 3, 8);
+        LocalDate fechaCierreIncidente2 = LocalDate.of(2023, 3, 9);
+        LocalTime horarioAperturaIncidente2 = LocalTime.of(9, 43);
+        LocalTime horarioCierreIncidente2 = LocalTime.of(10, 54);
+        incidente2.setFechaApertura(fechaAperturaIncidente2);
+        incidente2.setFechaCierre(fechaCierreIncidente2);
+        incidente2.setHorarioApertura(horarioAperturaIncidente2);
+        incidente2.setHorarioApertura(horarioCierreIncidente2);
+
+        incidente3 = new Incidente("Se rompio la campana", trenesArgentinos2);
+        LocalDate fechaAperturaIncidente3 = LocalDate.of(2023, 3, 10);
+        LocalDate fechaCierreIncidente3 = LocalDate.of(2023, 3, 10);
+        LocalTime horarioAperturaIncidente3 = LocalTime.of(13, 33);
+        LocalTime horarioCierreIncidente3 = LocalTime.of(18, 00);
+        incidente3.setFechaApertura(fechaAperturaIncidente3);
+        incidente3.setFechaCierre(fechaCierreIncidente3);
+        incidente3.setHorarioApertura(horarioAperturaIncidente3);
+        incidente3.setHorarioApertura(horarioCierreIncidente3);
+
+        comunidadHipoacusicosCABA = new Comunidad();
+        comunidadHipoacusicosCABA.incidentes.add(incidente1);
+        comunidadHipoacusicosCABA.incidentes.add(incidente2);
+        comunidadHipoacusicosCABA.incidentes.add(incidente3);
+
+        repoIncidentes = new RepositorioIncidentes();
+        repoIncidentes.agregarComunidades(comunidadNoVidentesSM, comunidadHipoacusicosCABA);
+
         generador = new GeneradorDeRankings();
-        generador.setIncidentes(comunidadNoVidentesSM.getIncidentes());
     }
 
     @Test
-    public void filtrarRepetidosCada24hsTest(){ //no estoy seguro si esta bien asi, mañana revisar bien
+    public void filtrarRepetidosCada24hsTest(){
         MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
         ranking1.filtrarRepetidos(generador.getIncidentes());
-        Assertions.assertEquals(2, generador.getIncidentes().size());
+        Assertions.assertEquals(3, generador.getIncidentes().size());
     }
 
     @Test
@@ -128,8 +165,8 @@ public class RankingsTest {
         ranking1.setFechaComienzoSemana(fechaComienzoSemana);
         ranking1.setFechaFinSemana(fechaFinSemana);
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
-        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
+        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         List<String> rankingComoQuedo = new ArrayList<>();
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(0).getNombre());
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());
