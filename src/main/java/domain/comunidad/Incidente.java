@@ -10,13 +10,16 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 @Getter
 @Setter
 public class Incidente {
     public LocalDate fechaApertura;
+    public LocalTime horarioApertura;
     public LocalDate fechaCierre;
+    public LocalTime horarioCierre;
     private String descripcion;
     private Boolean estado; // true es si esta cerrado
     private PrestacionDeServicio prestacionDeServicio;
@@ -35,10 +38,16 @@ public class Incidente {
     }
 
     public boolean estaDentroDeLas24hs(Incidente incidente){
-        return ChronoUnit.HOURS.between(this.getFechaApertura(), incidente.getFechaApertura()) <= 24;
+        long diasEntrefec1yfec2 = ChronoUnit.DAYS.between(this.getFechaApertura(), incidente.getFechaApertura());
+        if(diasEntrefec1yfec2 == 1){
+            int hora1 = this.horarioApertura.getHour();
+            int hora2 = incidente.horarioApertura.getHour() + 24;
+            return ((hora2 - hora1) <= 24);
+        }
+        return ChronoUnit.DAYS.between(this.getFechaApertura(), incidente.getFechaApertura()) < 1;
     }
 
     public boolean estaRepetidoDentroDelPlazo(Incidente incidente){
-        return !this.getEstado() && this.esElMismoQueOtro(incidente) && this.estaDentroDeLas24hs(incidente);
+        return this.esElMismoQueOtro(incidente) && this.estaDentroDeLas24hs(incidente);
     }
 }

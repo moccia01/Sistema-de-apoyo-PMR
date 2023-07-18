@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 public class GeneradorDeRankings {
+
     List<Incidente> incidentes;
 
     public GeneradorDeRankings() {
@@ -32,8 +33,6 @@ public class GeneradorDeRankings {
         }
         return criterio.generarRanking(incidentesPorEntidad);
     }
-
-
 
     public List<Incidente> obtenerIncidentesDeEntidad(Entidad entidad, List<Incidente> incidentes){
         return incidentes.stream().filter(i -> i.getPrestacionDeServicio().getEntidad() == entidad).toList();
