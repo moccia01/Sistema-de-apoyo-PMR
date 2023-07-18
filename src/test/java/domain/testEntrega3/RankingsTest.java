@@ -1,5 +1,6 @@
 package domain.testEntrega3;
 
+import com.twilio.rest.api.v2010.account.incomingphonenumber.Local;
 import domain.comunidad.Comunidad;
 import domain.comunidad.Incidente;
 import domain.comunidad.Localizacion;
@@ -95,6 +96,23 @@ public class RankingsTest {
     @Test
     public void generarRankingMayorCantidadTest(){
         MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
+        LocalDate fechaComienzoSemana =  LocalDate.of(2023, 7, 18);
+        LocalDate fechaFinSemana =  LocalDate.of(2023, 7, 25);
+        ranking1.setFechaComienzoSemana(fechaComienzoSemana);
+        ranking1.setFechaFinSemana(fechaFinSemana);
+        List<String> rankingComoDeberiaQuedar = new ArrayList<>();
+        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
+      //  rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
+        List<String> rankingComoQuedo = new ArrayList<>();
+        rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(0).getNombre());
+        //rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());
+        Assertions.assertLinesMatch(rankingComoDeberiaQuedar, rankingComoQuedo);
+    }
+
+    @Test
+    public void generarRankingCierreIncidentesTest(){
+        CierreIncidentes ranking1 = new CierreIncidentes();
+
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
         rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
@@ -105,45 +123,16 @@ public class RankingsTest {
     }
 
     @Test
-    public void generarRankingCierreIncidentesTest(){
-        CierreIncidentes ranking1 = new CierreIncidentes();
-        List<String> rankingComoDeberiaQuedar = new ArrayList<>();
-        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
-        rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
-        List<String> rankingComoQuedo = new ArrayList<>();
-        rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(0).getNombre());
-        rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());
-        Assertions.assertLinesMatch(rankingComoDeberiaQuedar, rankingComoQuedo);
+    public void fdasadf(){
+       MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
+       List<Incidente> incidentes = new ArrayList<>();
+       Incidente incidente = new Incidente("fadsadfsfdas", trenesArgentinos);
+       Incidente incidente1 = new Incidente("fadsadfsfdas", trenesArgentinos);
+       Incidente incidente2 = new Incidente("jkdfkjlak", trenesArgentinos);
+       LocalDate fechaAperturaIncidente = LocalDate.of(2023, 7, 18);
+       LocalDate fechaAperturaIncidente1 = LocalDate.of(2023, 7, 12);
+       ranking1.setFechaFinSemana(fechaAperturaIncidente1);
+       System.out.println(LocalDate.now().isAfter(ranking1.getFechaFinSemana()));
     }
-
-//    @Test
-//    public void fdasadf(){
-//       MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
-//       List<Incidente> incidentes = new ArrayList<>();
-//       Incidente incidente = new Incidente("fadsadfsfdas", trenesArgentinos);
-//       Incidente incidente1 = new Incidente("fadsadfsfdas", trenesArgentinos);
-//       Incidente incidente2 = new Incidente("jkdfkjlak", trenesArgentinos);
-//       LocalDate fechaAperturaIncidente = LocalDate.of(2023, 7, 18);
-//       LocalDate fechaAperturaIncidente1 = LocalDate.of(2023, 7, 19);
-//        LocalDate fechaAperturaIncidente2 = LocalDate.of(2023, 6, 19);
-//       LocalTime horarioAperturaIncidente = LocalTime.of(23, 15);
-//       LocalTime horarioAperturaIncidente1 = LocalTime.of(21, 20);
-//        LocalTime horarioAperturaIncidente2 = LocalTime.of(18, 20);
-//       incidente.setFechaApertura(fechaAperturaIncidente);
-//       incidente.setHorarioApertura(horarioAperturaIncidente);
-//       incidente.setEstado(true);
-//       incidente1.setFechaApertura(fechaAperturaIncidente1);
-//       incidente1.setHorarioApertura(horarioAperturaIncidente1);
-//       incidente1.setEstado(true);
-//        incidente2.setFechaApertura(fechaAperturaIncidente2);
-//        incidente2.setHorarioApertura(horarioAperturaIncidente2);
-//        incidente2.setEstado(true);
-//       incidentes.add(incidente);
-//       incidentes.add(incidente1);
-//        incidentes.add(incidente2);
-//        System.out.println(incidentes);
-//        ranking1.filtrarRepetidos(incidentes);
-//        System.out.println(incidentes);
-//    }
 
 }
