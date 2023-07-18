@@ -1,6 +1,5 @@
 package domain.testEntrega3;
 
-
 import domain.comunidad.Comunidad;
 import domain.comunidad.Incidente;
 import domain.entidadesDeServicio.Entidad;
@@ -135,13 +134,6 @@ public class RankingsTest {
     }
 
     @Test
-    public void filtrarRepetidosCada24hsTest(){
-        MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
-        ranking1.filtrarRepetidos(generador.getIncidentes());
-        Assertions.assertEquals(3, generador.getIncidentes().size());
-    }
-
-    @Test
     public void generarRankingMayorCantidadTest(){
         MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
         LocalDate fechaComienzoSemana =  LocalDate.of(2023, 7, 18);
@@ -171,6 +163,13 @@ public class RankingsTest {
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(0).getNombre());
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());
         Assertions.assertLinesMatch(rankingComoDeberiaQuedar, rankingComoQuedo);
+    }
+
+    @Test
+    public void filtrarRepetidosCada24hsTest(){
+        MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
+        ranking1.filtrarRepetidos(generador.getIncidentes());
+        Assertions.assertEquals(3, generador.getIncidentes().size());
     }
 
     @Test
