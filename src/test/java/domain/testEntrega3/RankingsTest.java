@@ -28,10 +28,12 @@ public class RankingsTest {
     private Entidad lineaMitre;
     private Entidad lineaTigre;
     private Servicio escaleraMecanica;
+    private Servicio ascensor;
     private Establecimiento estacionRetiro;
     private Establecimiento estacionVillaBallester;
-    private PrestacionDeServicio trenesArgentinos1;
     private PrestacionDeServicio trenesArgentinos;
+    private PrestacionDeServicio trenesArgentinos1;
+    private PrestacionDeServicio trenesArgentinos2;
     private Comunidad comunidadNoVidentesSM;
     private RepositorioIncidentes repoIncidentes;
 
@@ -42,6 +44,10 @@ public class RankingsTest {
         escaleraMecanica = new Servicio();
         escaleraMecanica.setNombre("Escalera Mecanica");
         escaleraMecanica.setEstado(true);
+
+        ascensor = new Servicio();
+        ascensor.setNombre("Ascensor");
+        ascensor.setEstado(true);
 
         estacionRetiro = new Establecimiento();
         estacionRetiro.setNombre("Estacion retiro");
@@ -58,25 +64,30 @@ public class RankingsTest {
         lineaMitre.setLocalizacion("Buenos Aires");
         lineaMitre.agregarEstablecimientos(estacionRetiro, estacionVillaBallester);
 
-        trenesArgentinos1 = new PrestacionDeServicio();
-        trenesArgentinos1.setEntidad(lineaMitre);
-        trenesArgentinos1.setServicio(escaleraMecanica);
-        trenesArgentinos1.setEstablecimiento(estacionRetiro);
+        lineaTigre = new Entidad();
+        lineaTigre.setNombre("Linea Tigre");
+        lineaTigre.setLocalizacion("Buenos Aires");
+        lineaTigre.agregarEstablecimientos(estacionRetiro);
 
         trenesArgentinos = new PrestacionDeServicio();
         trenesArgentinos.setEntidad(lineaMitre);
         trenesArgentinos.setServicio(escaleraMecanica);
         trenesArgentinos.setEstablecimiento(estacionVillaBallester);
 
+        trenesArgentinos1 = new PrestacionDeServicio();
+        trenesArgentinos1.setEntidad(lineaMitre);
+        trenesArgentinos1.setServicio(escaleraMecanica);
+        trenesArgentinos1.setEstablecimiento(estacionRetiro);
+
+        trenesArgentinos2 = new PrestacionDeServicio();
+        trenesArgentinos2.setEntidad(lineaTigre);
+        trenesArgentinos2.setServicio(ascensor);
+
         comunidadNoVidentesSM = new Comunidad();
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
-
-        lineaTigre = new Entidad();
-        lineaMitre.setNombre("Linea Tigre");
-        lineaMitre.setLocalizacion("Buenos Aires");
-        lineaMitre.agregarEstablecimientos(estacionRetiro);
+        comunidadNoVidentesSM.generarIncidente(trenesArgentinos2, "El ascensor dejo de funcar :(");
 
         repoIncidentes = new RepositorioIncidentes();
         repoIncidentes.agregarComunidades(comunidadNoVidentesSM);
@@ -102,17 +113,20 @@ public class RankingsTest {
         ranking1.setFechaFinSemana(fechaFinSemana);
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
         rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
-      //  rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
+        rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
         List<String> rankingComoQuedo = new ArrayList<>();
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(0).getNombre());
-        //rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());
+        rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());
         Assertions.assertLinesMatch(rankingComoDeberiaQuedar, rankingComoQuedo);
     }
 
     @Test
     public void generarRankingCierreIncidentesTest(){
         CierreIncidentes ranking1 = new CierreIncidentes();
-
+        LocalDate fechaComienzoSemana =  LocalDate.of(2023, 7, 18);
+        LocalDate fechaFinSemana =  LocalDate.of(2023, 7, 25);
+        ranking1.setFechaComienzoSemana(fechaComienzoSemana);
+        ranking1.setFechaFinSemana(fechaFinSemana);
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
         rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
