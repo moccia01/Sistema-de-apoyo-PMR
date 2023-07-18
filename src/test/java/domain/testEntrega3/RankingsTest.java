@@ -1,7 +1,7 @@
 package domain.testEntrega3;
 
 import domain.comunidad.Comunidad;
-import domain.comunidad.Incidente;
+import domain.comunidad.Localizacion;
 import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
 import domain.entidadesDeServicio.PrestacionDeServicio;
@@ -19,52 +19,56 @@ import java.util.List;
 public class RankingsTest {
 
     private GeneradorDeRankings generador;
-    private Incidente incidente1;
-    private Incidente incidente2;
-    private Incidente incidente3;
     private Entidad lineaMitre;
     private Entidad lineaTigre;
+    private Servicio escaleraMecanica;
+    private Establecimiento estacionRetiro;
+    private Establecimiento estacionVillaBallester;
+    private PrestacionDeServicio trenesArgentinos1;
+    private PrestacionDeServicio trenesArgentinos;
+    private Comunidad comunidadNoVidentesSM;
+
     @BeforeEach
     public void init(){
 
-        Servicio escaleraMecanica = new Servicio();
+        escaleraMecanica = new Servicio();
         escaleraMecanica.setNombre("Escalera Mecanica");
         escaleraMecanica.setEstado(true);
 
-        Establecimiento retiro = new Establecimiento();
-        retiro.setNombre("Estacion retiro");
-       // retiro.setLocalizacion();
-        retiro.agregarServicios(escaleraMecanica);
+        estacionRetiro = new Establecimiento();
+        estacionRetiro.setNombre("Estacion retiro");
+        estacionRetiro.setLocalizacion("Buenos Aires", "Comuna 1", "Av. Dr. José María Ramos Mejía 1430");
+        estacionRetiro.agregarServicios(escaleraMecanica);
 
-        Establecimiento villaBallester = new Establecimiento();
-        villaBallester.setNombre("Estacion Villa Ballester");
-        //villaBallester.setLocalizacion();
-        villaBallester.agregarServicios(escaleraMecanica);
+        estacionVillaBallester = new Establecimiento();
+        estacionVillaBallester.setNombre("Estacion Villa Ballester");
+        estacionVillaBallester.setLocalizacion("Buenos Aires", "General San Martin", "San Martin 4900");
+        estacionVillaBallester.agregarServicios(escaleraMecanica);
 
         lineaMitre = new Entidad();
         lineaMitre.setNombre("Linea Mitre");
-        //lineaMitre.setLocalizacion();
-        lineaMitre.agregarEstablecimientos(retiro, villaBallester);
+        lineaMitre.setLocalizacion("Buenos Aires");
+        lineaMitre.agregarEstablecimientos(estacionRetiro, estacionVillaBallester);
 
-        PrestacionDeServicio trenesArgentinos1 = new PrestacionDeServicio();
+        trenesArgentinos1 = new PrestacionDeServicio();
         trenesArgentinos1.setEntidad(lineaMitre);
         trenesArgentinos1.setServicio(escaleraMecanica);
-        trenesArgentinos1.setEstablecimiento(retiro);
+        trenesArgentinos1.setEstablecimiento(estacionRetiro);
 
-        PrestacionDeServicio trenesArgentinos = new PrestacionDeServicio();
+        trenesArgentinos = new PrestacionDeServicio();
         trenesArgentinos.setEntidad(lineaMitre);
         trenesArgentinos.setServicio(escaleraMecanica);
-        trenesArgentinos.setEstablecimiento(villaBallester);
+        trenesArgentinos.setEstablecimiento(estacionVillaBallester);
 
-        Comunidad comunidadNoVidentesSM = new Comunidad();
+        comunidadNoVidentesSM = new Comunidad();
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
 
         lineaTigre = new Entidad();
         lineaMitre.setNombre("Linea Tigre");
-        //lineaMitre.setLocalizacion();
-        lineaMitre.agregarEstablecimientos(retiro);
+        lineaMitre.setLocalizacion("Buenos Aires");
+        lineaMitre.agregarEstablecimientos(estacionRetiro);
 
         //TODO: de chusma les probe los tests y fallan porque falta agregar las comunidades al repositorio de incidentes xd
         generador = new GeneradorDeRankings();
