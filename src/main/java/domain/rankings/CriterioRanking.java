@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
 @Setter
 public abstract class CriterioRanking {
-    public LocalDate fechaComienzoSemana; //se tiene q cambiar cada lunes
-    public LocalDate fechaFinSemana; //se tiene q cambiar cada domingo
+    public LocalDateTime fechaComienzoSemana; //se tiene q cambiar cada lunes
+    public LocalDateTime fechaFinSemana; //se tiene q cambiar cada domingo
 
     List<Entidad> generarRanking(HashMap<Entidad, List<Incidente>> incidentesPorEntidad) {
         List<Entidad> entidades = new ArrayList<>();
@@ -34,7 +35,7 @@ public abstract class CriterioRanking {
         return this.estaDentroDeLaSemana(incidente.getFechaApertura());
     }
 
-    public boolean estaDentroDeLaSemana(LocalDate fecha){
+    public boolean estaDentroDeLaSemana(LocalDateTime fecha){
         return fecha.isAfter(this.fechaComienzoSemana) && fecha.isBefore(this.fechaFinSemana);
     }
 

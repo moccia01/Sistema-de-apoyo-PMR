@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class CierreIncidentes extends CriterioRanking{
 
     public double tiempoDeCierre(Incidente incidente){
-        return ChronoUnit.HOURS.between(incidente.getFechaCierre(), incidente.getFechaApertura());
+        return ChronoUnit.SECONDS.between(incidente.getFechaApertura(), incidente.getFechaCierre());
     }
 
     public double promedioTiempoCierre(List<Incidente> incidentes){

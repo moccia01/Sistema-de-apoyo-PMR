@@ -56,7 +56,7 @@ public class NotificacionesTest {
 
         Usuario usuario = new Usuario();
         usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
-        usuario.setMail("facundosu26@gmail.com");
+        usuario.setMail("federico21433@hotmail.com");
         miembro = new Miembro(usuario, Rol.MIEMBRO);
         miembro.setTiempoConfigurado(cuandoSucede);
         miembro.setMedioConfigurado(enviarMail);
@@ -93,14 +93,14 @@ public class NotificacionesTest {
         CuandoSucede cuandoSucede = new CuandoSucede();
 
         Usuario usuario = new Usuario();
-        usuario.setMail("facundosu26@gmail.com");
+        usuario.setMail("federico21433@hotmail.com");
         Miembro miembro = new Miembro(usuario, Rol.MIEMBRO);
         miembro.setTiempoConfigurado(sinApuros);
         miembro.setMedioConfigurado(enviarMail);
 
         //segundo usuario
         Usuario usuario1 = new Usuario();
-        usuario1.setMail("xdanime2001@gmail.com");
+        usuario1.setMail("federico21433@hotmail.com");
         Miembro miembro1 = new Miembro(usuario1,Rol.ADMINISTRADOR);
         miembro1.setTiempoConfigurado(cuandoSucede);
         miembro1.setMedioConfigurado(enviarMail);

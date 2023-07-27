@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class GeneradorDeRankings {
     }
 
     public List<Entidad> generarSegunCriterio(CriterioRanking criterio){
-        if(LocalDate.now().isAfter(criterio.getFechaFinSemana())){
+        if(LocalDateTime.now().isAfter(criterio.getFechaFinSemana())){
             criterio.cambiarFechas();
         }
         List<Incidente> incidentesValidos = incidentes.stream().filter(criterio::incidenteValido).toList();

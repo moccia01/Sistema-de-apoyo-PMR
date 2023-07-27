@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +36,14 @@ public class Comunidad {
     public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
         Incidente nuevoIncidente = new Incidente(descripcion, prestacionDeServicio);
         nuevoIncidente.setEstado(false);
-        nuevoIncidente.setFechaApertura(LocalDate.now());
-        nuevoIncidente.setHorarioApertura(LocalTime.now());
+        nuevoIncidente.setFechaApertura(LocalDateTime.now());
         incidentes.add(nuevoIncidente);
         this.notificarMiembros("Notificacion Generacion de nuevo Incidente");
     }
 
     public void cerrarIncidente(Incidente incidente){
         incidente.setEstado(true);
-        incidente.setFechaCierre(LocalDate.now());
-        incidente.setHorarioCierre(LocalTime.now());
+        incidente.setFechaCierre(LocalDateTime.now());
         this.notificarMiembros("Notificacion Cierre de Incidente");
     }
 
