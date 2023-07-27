@@ -1,4 +1,5 @@
 package domain.comunidad;
+import domain.services.georef.Localizador;
 import domain.services.georef.ServicioGeoref;
 import domain.services.georef.entities.*;
 import domain.services.lucene.ServicioLucene;
@@ -13,18 +14,14 @@ public class Localizacion {
     Municipio municipio;
     Direccion direccion;
 
-    public Localizacion(){
-
-    }
-
     public void setProvincia(String provincia){
-        ServicioGeoref servicioGeoref = ServicioGeoref.instancia();
-        this.provincia = servicioGeoref.provincia(provincia);
+        Localizador localizador = ServicioGeoref.instancia();
+        this.provincia = localizador.provincia(provincia);
     }
 
     public void setDireccion(String departamento, String direccion){
-        ServicioGeoref servicioGeoref = ServicioGeoref.instancia();
-        this.direccion = servicioGeoref.direccion(departamento, direccion);
+        Localizador localizador = ServicioGeoref.instancia();
+        this.direccion = localizador.direccion(departamento, direccion);
     }
 
     public boolean estaCercaDe(Localizacion localizacion){

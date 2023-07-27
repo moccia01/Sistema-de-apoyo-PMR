@@ -29,6 +29,7 @@ public class Incidente {
     public Incidente(String descripcion, PrestacionDeServicio prestacion) {
         this.descripcion = descripcion;
         this.prestacionDeServicio = prestacion;
+        this.abrir();
     }
 
     public boolean esElMismoQueOtro(Incidente incidente){
@@ -41,5 +42,22 @@ public class Incidente {
 
     public boolean estaRepetidoDentroDelPlazo(Incidente incidente){
         return this.esElMismoQueOtro(incidente) && this.estaDentroDeLas24hs(incidente);
+    }
+
+    public String armarNotificacion(){
+        return this.prestacionDeServicio.getEntidad().getNombre() +
+               " - " + this.prestacionDeServicio.getEstablecimiento().getNombre() +
+                " - " + this.prestacionDeServicio.getServicio().getNombre() +
+                ". Descripcion: " + this.getDescripcion();
+    }
+
+    public void abrir(){
+        this.estado = false;
+        this.fechaApertura = LocalDateTime.now();
+    }
+
+    public void cerrar(){
+        this.estado = true;
+        this.fechaCierre = LocalDateTime.now();
     }
 }

@@ -1,17 +1,21 @@
 package domain.Mensajes.Configuraciones;
 
 import domain.comunidad.Miembro;
-import domain.services.twilio.ServicioTwilio;
+import domain.Mensajes.WhatsAppSender;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
 public class MensajeWhatsApp implements MedioConfigurado {
+    private WhatsAppSender whatsAppSender;
+
+    public MensajeWhatsApp(WhatsAppSender whatsAppSender) {
+        this.whatsAppSender = whatsAppSender;
+    }
 
     @Override
     public void enviarNotificacion(Miembro miembro, String notificacion) {
-        ServicioTwilio servicioTwilio = new ServicioTwilio();
-        servicioTwilio.enviarMensaje(miembro.getUsuario().getNumero(), notificacion);
+        this.whatsAppSender.enviarMensaje(miembro.getUsuario().getNumero(), notificacion);
     }
 }

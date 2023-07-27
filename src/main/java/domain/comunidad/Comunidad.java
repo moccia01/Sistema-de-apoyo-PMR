@@ -1,14 +1,11 @@
 package domain.comunidad;
 
-import domain.Mensajes.Notificador;
-import domain.entidadesDeServicio.Entidad;
+import domain.Mensajes.Notificaciones.*;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +13,17 @@ import java.util.List;
 @Setter
 public class Comunidad {
     private List<Miembro> miembros;
-    public List<Incidente> incidentes; //ESTA HECHO PUBLIC SOLO PARA LOS TEST, DEBERIA SER PRIVATE
+    private List<Incidente> incidentes;
 
     public  Comunidad(){
         this.miembros = new ArrayList<>();
         this.incidentes = new ArrayList<>();
     }
-    public void notificarMiembros(String notificacion){
+    public void notificarMiembros(Incidente incidente, TipoNotificacion notificacion){
 
-        miembros.forEach( m -> {
-            Notificador.notificar(m, notificacion);
+        miembros.stream().filter(m -> m.estaInteresadoEn(incidente)).forEach( m -> {
+            // TODO es realmente necesario el notificador? no
+            notificacion.notificar(m, incidente);
         });
     }
 
@@ -38,21 +36,23 @@ public class Comunidad {
         nuevoIncidente.setEstado(false);
         nuevoIncidente.setFechaApertura(LocalDateTime.now());
         incidentes.add(nuevoIncidente);
-        this.notificarMiembros("Notificacion Generacion de nuevo Incidente");
+
+        this.notificarMiembros(nuevoIncidente, new AperturaIncidente());
     }
 
     public void cerrarIncidente(Incidente incidente){
         incidente.setEstado(true);
         incidente.setFechaCierre(LocalDateTime.now());
-        this.notificarMiembros("Notificacion Cierre de Incidente");
+        this.notificarMiembros(incidente, new CierreIncidente());
     }
 
     public void recibirLocalizacion(Miembro miembro){
+        SugerenciaRevision notificacion = new SugerenciaRevision();
         List<Incidente> incidentesCercanos = incidentes.stream().filter(
                 i -> miembro.getUsuario().getLocalizacion().estaCercaDe(i.getLocalizacion()) && i.getEstado()
         ).toList();
         incidentesCercanos.forEach(
-                i -> Notificador.notificar(miembro, "Sugerencia revision incidente"));
+                i -> notificacion.notificar(miembro, i));
 
     }
 }

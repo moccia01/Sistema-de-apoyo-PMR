@@ -2,7 +2,6 @@ package domain.comunidad;
 
 import domain.Mensajes.Configuraciones.MedioConfigurado;
 import domain.Mensajes.Configuraciones.TiempoConfigurado;
-import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 @Setter
 @Getter
@@ -21,6 +19,7 @@ public class Miembro {
     private RolTemporal rolTemporal;
     private TiempoConfigurado tiempoConfigurado;
     private MedioConfigurado medioConfigurado;
+    private Interes interes;
     private final long refrescoLocalizacion = 5000; // en milisegundos
 
     public Miembro(Usuario usuario, Rol rol) {
@@ -48,6 +47,11 @@ public class Miembro {
         Timer timer = new Timer();
         LocalizacionTimer localizacionTask = new LocalizacionTimer(comunidades,this);
         timer.scheduleAtFixedRate(localizacionTask, 0, refrescoLocalizacion);
+    }
+
+    public boolean estaInteresadoEn(Incidente incidente){
+        return this.interes.contieneEntidad(incidente.getPrestacionDeServicio().getEntidad()) &&
+                this.interes.contieneServicio(incidente.getPrestacionDeServicio().getServicio());
     }
 
     public void cambiarRolTemporal(RolTemporal nuevoRol) {
