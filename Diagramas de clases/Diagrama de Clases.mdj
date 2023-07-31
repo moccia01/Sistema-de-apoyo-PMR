@@ -6194,7 +6194,7 @@
 											"top": 1294,
 											"width": 247.51416015625,
 											"height": 13,
-											"text": "-horario: Horario",
+											"text": "-horario: LocalTime",
 											"horizontalAlignment": 0
 										},
 										{
@@ -6211,7 +6211,7 @@
 											"top": 1309,
 											"width": 247.51416015625,
 											"height": 13,
-											"text": "-notificacionPendientes: List<Notificacion>",
+											"text": "-notificacionPendientes: List<String>",
 											"horizontalAlignment": 0
 										}
 									],
@@ -6265,13 +6265,30 @@
 											"height": 13,
 											"text": "+Operation1()",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGJrIvewDfzqKE=",
+											"_parent": {
+												"$ref": "AAAAAAGI0PLT0f/iRPM="
+											},
+											"model": {
+												"$ref": "AAAAAAGJrIvesjfSkN8="
+											},
+											"font": "Arial;13;0",
+											"left": 2749,
+											"top": 1347,
+											"width": 247.51416015625,
+											"height": 13,
+											"text": "+calcularTiempoEspera(horario)",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 2744,
 									"top": 1327,
 									"width": 257.51416015625,
-									"height": 23
+									"height": 38
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -20200,7 +20217,7 @@
 							},
 							"name": "horario",
 							"visibility": "private",
-							"type": "Horario"
+							"type": "LocalTime"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -20210,7 +20227,7 @@
 							},
 							"name": "notificacionPendientes",
 							"visibility": "private",
-							"type": "List<Notificacion>"
+							"type": "List<String>"
 						}
 					],
 					"operations": [
@@ -20249,6 +20266,25 @@
 								"$ref": "AAAAAAGI0PLT0P/ZOpI="
 							},
 							"name": "Operation1"
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGJrIvesjfSkN8=",
+							"_parent": {
+								"$ref": "AAAAAAGI0PLT0P/ZOpI="
+							},
+							"name": "calcularTiempoEspera",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGJrIwOwzp8XbU=",
+									"_parent": {
+										"$ref": "AAAAAAGJrIvesjfSkN8="
+									},
+									"name": "horario",
+									"type": ""
+								}
+							]
 						}
 					]
 				},

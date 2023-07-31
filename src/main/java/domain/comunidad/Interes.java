@@ -3,9 +3,11 @@ package domain.comunidad;
 import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Servicio;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Setter
 @Getter
 public class Interes {
     private List<Entidad> entidades;

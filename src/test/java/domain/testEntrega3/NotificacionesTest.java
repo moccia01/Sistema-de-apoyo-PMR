@@ -2,8 +2,10 @@ package domain.testEntrega3;
 
 import domain.Mensajes.Configuraciones.*;
 import domain.comunidad.*;
+import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
 import domain.entidadesDeServicio.PrestacionDeServicio;
+import domain.entidadesDeServicio.Servicio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,11 @@ public class NotificacionesTest {
     private Miembro miembro;
     //@InjectMocks
     private Usuario usuario;
+    @InjectMocks
+    Usuario user= new Usuario();
+    @InjectMocks
+    Miembro nisman = new Miembro(user, Rol.MIEMBRO);
+
 
     @BeforeEach
     public void init(){
@@ -33,12 +40,14 @@ public class NotificacionesTest {
     }
 
     @Test
-    public void seEnviaUnMailMockeado(){
+    public void seEnviaUnMailMockeado(){        //TODO Falta que funcione el mockeo
         MedioConfigurado emailConfigurado = Mockito.mock(MedioConfigurado.class);
-        miembro.setMedioConfigurado(emailConfigurado);
-        miembro.getUsuario().setMail("federico21433@hotmail.com");
-        Mockito.verify(emailConfigurado, Mockito.only()).enviarNotificacion(miembro, "hola");
-        //Mockito.verify(emailConfigurado, Mockito.only()).enviarNotificacion(miembro, "hola");
+        // user = new Usuario();
+        // nisman = new Miembro(user, Rol.MIEMBRO);
+        nisman.setMedioConfigurado(emailConfigurado);
+        nisman.getUsuario().setMail("federico21433@hotmail.com");
+
+        Mockito.verify(emailConfigurado, Mockito.only()).enviarNotificacion(nisman, "hola");
     }
 
     @Test
@@ -49,20 +58,51 @@ public class NotificacionesTest {
 
         email.enviarNotificacion(miembro, "Funcó esto");
     }
-/*
+
     @Test
-    public void unaNotificacionPorMailSeEnviaCorrectamente() {
-        MensajeEmail enviarMail = new MensajeEmail();
-        Usuario usuario = new Usuario();
-        usuario.setMail("federico21433@hotmail.com");
+    public void seGeneraUnIncidenteYSeNotifica(){
+        Entidad subteB = new Entidad();
+        Establecimiento medrano = new Establecimiento();
+        Servicio escaleraMecanicaMedrano = new Servicio();
+        Interes interes = new Interes();
+        List<Entidad> entidades = new ArrayList<>();
+        entidades.add(subteB);
+        List<Servicio> servicios = new ArrayList<>();
+        servicios.add(escaleraMecanicaMedrano);
+        interes.setEntidades(entidades);
+        interes.setServicios(servicios);
 
-        miembro.setUsuario(usuario);
+        CuandoSucede tiempoConfigurado = new CuandoSucede();
 
-        String mensaje = "buenas esta es una notificacion";
+        PrestacionDeServicio prestacionDeMedrano = new PrestacionDeServicio();
+        prestacionDeMedrano.setEntidad(subteB);
+        prestacionDeMedrano.setServicio(escaleraMecanicaMedrano);
+        prestacionDeMedrano.setEstablecimiento(medrano);
 
-        enviarMail.enviarNotificacion(miembro, mensaje);
+        MedioConfigurado email = new MensajeEmail(new ServicioMail());
+        Comunidad campeonesDoMundo = new Comunidad();
+        Comunidad operativosEnjoyers = new Comunidad();
+        Miembro sentey = new Miembro(new Usuario(), Rol.MIEMBRO);
+        sentey.setMedioConfigurado(new MensajeEmail(new ServicioMail()));
+        sentey.getUsuario().setMail("federico21433@hotmail.com");
+        miembro.setMedioConfigurado(new MensajeEmail(new ServicioMail()));
+        miembro.getUsuario().setMail("federico21433@hotmail.com");
+        miembro.setInteres(interes);
+        miembro.setTiempoConfigurado(tiempoConfigurado);    //TODO Arreglar localizacion en el test para que no devuelva null xd
+        //miembro.getUsuario().setLocalizacion("Buenos Aires", "Ciudad Autónoma de Buenos Aires", "AV. MEDRANO 700");
+        //sentey.getUsuario().setLocalizacion("Buenos Aires", "Ciudad Autónoma de Buenos Aires", "FLORIDA 2950");
+        sentey.setInteres(interes);
+        sentey.setTiempoConfigurado(tiempoConfigurado);
+        campeonesDoMundo.agregarMiembro(miembro);
+        campeonesDoMundo.agregarMiembro(sentey);
+        operativosEnjoyers.agregarMiembro(miembro);
+
+        miembro.agregarComunidad(campeonesDoMundo);
+        miembro.agregarComunidad(operativosEnjoyers);
+        miembro.generarIncidente(prestacionDeMedrano, "Cortocircuito en la escalera mecanica");
+
     }
-
+/*
     @Test
     public void seEnviaNotificacionSugerenciaCuandoMiembroEstaCercaDeIncidente(){
         Establecimiento medrano = new Establecimiento();

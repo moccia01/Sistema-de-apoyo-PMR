@@ -113,7 +113,6 @@ public class SinApuros implements TiempoConfigurado {
             timerIsSet = true;
         }
         notificacionesPendientes.add(notificacion);
-
     }
 
     public void iniciarTimer(Miembro miembro, LocalTime horario) {
