@@ -1,10 +1,9 @@
 package domain.Mensajes.Configuraciones;
 import domain.Mensajes.MailSender;
 import domain.comunidad.Miembro;
+import lombok.Setter;
 
-import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
+@Setter
 public class MensajeEmail implements MedioConfigurado {
 
     private final String asunto = "Notificacion Comunidad";

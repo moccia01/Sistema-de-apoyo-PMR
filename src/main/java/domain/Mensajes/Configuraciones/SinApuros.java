@@ -88,16 +88,11 @@ public class SinApuros implements TiempoConfigurado {
 */
 
 import domain.comunidad.Miembro;
-import domain.comunidad.Usuario;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Getter
 @Setter
@@ -138,7 +133,6 @@ public class SinApuros implements TiempoConfigurado {
 
         return ChronoUnit.MILLIS.between(horarioActual, horario);
     }
-
 
 
 

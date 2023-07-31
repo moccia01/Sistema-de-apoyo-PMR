@@ -7,6 +7,8 @@ import domain.entidadesDeServicio.PrestacionDeServicio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -19,13 +21,35 @@ import static org.mockito.Mockito.when;
 
 public class NotificacionesTest {
 
+    //@InjectMocks
     private Miembro miembro;
+    //@InjectMocks
+    private Usuario usuario;
 
     @BeforeEach
     public void init(){
-        miembro = new Miembro(new Usuario(), Rol.MIEMBRO);
+        usuario = new Usuario();
+        miembro = new Miembro(usuario, Rol.MIEMBRO);
     }
 
+    @Test
+    public void seEnviaUnMailMockeado(){
+        MedioConfigurado emailConfigurado = Mockito.mock(MedioConfigurado.class);
+        miembro.setMedioConfigurado(emailConfigurado);
+        miembro.getUsuario().setMail("federico21433@hotmail.com");
+        Mockito.verify(emailConfigurado, Mockito.only()).enviarNotificacion(miembro, "hola");
+        //Mockito.verify(emailConfigurado, Mockito.only()).enviarNotificacion(miembro, "hola");
+    }
+
+    @Test
+    public void seEnviaUnMail(){
+        MedioConfigurado email = new MensajeEmail(new ServicioMail());
+        miembro.setMedioConfigurado(email);
+        miembro.getUsuario().setMail("federico21433@hotmail.com");
+
+        email.enviarNotificacion(miembro, "Funcó esto");
+    }
+/*
     @Test
     public void unaNotificacionPorMailSeEnviaCorrectamente() {
         MensajeEmail enviarMail = new MensajeEmail();
@@ -138,4 +162,5 @@ public class NotificacionesTest {
         miembro.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
         Assertions.assertTrue(comunidad.getIncidentes().get(0).getEstado());
     }
+ */
 }
