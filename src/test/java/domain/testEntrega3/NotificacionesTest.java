@@ -1,6 +1,9 @@
 package domain.testEntrega3;
 
 import domain.Mensajes.Configuraciones.*;
+import domain.Mensajes.MailSender;
+import domain.Mensajes.Notificaciones.AperturaIncidente;
+import domain.Mensajes.WhatsAppSender;
 import domain.comunidad.*;
 import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
@@ -27,27 +30,74 @@ public class NotificacionesTest {
     private Miembro miembro;
     //@InjectMocks
     private Usuario usuario;
-    @InjectMocks
+    private Comunidad comunidad;
+    private Interes interes;
+/*    @InjectMocks
     Usuario user= new Usuario();
     @InjectMocks
-    Miembro nisman = new Miembro(user, Rol.MIEMBRO);
+    Miembro nisman = new Miembro(user, Rol.MIEMBRO);*/
+    private Entidad utn;
+    private Establecimiento medrano;
+    private Servicio escalera;
+    private PrestacionDeServicio escaleraMedrano;
+
+
 
 
     @BeforeEach
-    public void init(){
+    public void init(){ //TODO ver como usar el patron builder para instanciar mas facil las cosas
         usuario = new Usuario();
         miembro = new Miembro(usuario, Rol.MIEMBRO);
+        comunidad = new Comunidad();
+
+        utn = new Entidad();
+        utn.setNombre("UTN");
+        medrano = new Establecimiento();
+        medrano.setNombre("Medrano");
+        medrano.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951");
+        escalera = new Servicio();
+        escalera.setNombre("Escalera");
+
+        escaleraMedrano = new PrestacionDeServicio();
+        escaleraMedrano.setEntidad(utn);
+        escaleraMedrano.setEstablecimiento(medrano);
+        escaleraMedrano.setServicio(escalera);
+
+        interes = new Interes();
+        interes.agregarEntidad(utn);
+        interes.agregarServicio(escalera);
+        miembro.setInteres(interes);
+
+        comunidad.agregarMiembro(miembro);
+        miembro.agregarComunidad(comunidad);
     }
 
     @Test
     public void seEnviaUnMailMockeado(){        //TODO Falta que funcione el mockeo
-        MedioConfigurado emailConfigurado = Mockito.mock(MedioConfigurado.class);
-        // user = new Usuario();
-        // nisman = new Miembro(user, Rol.MIEMBRO);
-        nisman.setMedioConfigurado(emailConfigurado);
-        nisman.getUsuario().setMail("federico21433@hotmail.com");
+        MailSender mailer = Mockito.mock(MailSender.class);
+        MensajeEmail medio = new MensajeEmail(mailer);
+        miembro.setMedioConfigurado(medio);
+        miembro.setTiempoConfigurado(new CuandoSucede());
+        miembro.getUsuario().setMail("federico21433@hotmail.com");
+        usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
 
-        Mockito.verify(emailConfigurado, Mockito.only()).enviarNotificacion(nisman, "hola");
+        comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
+
+        Mockito.verify(mailer, Mockito.only()).enviarMensaje(Mockito.any(), Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void seEnviaUnWhatsAppMockeado(){        //TODO Falta que funcione el mockeo
+        WhatsAppSender whatsapper = Mockito.mock(WhatsAppSender.class);
+        MensajeWhatsApp medio = new MensajeWhatsApp(whatsapper);
+        miembro.setMedioConfigurado(medio);
+        miembro.setTiempoConfigurado(new CuandoSucede());
+        miembro.getUsuario().setMail("federico21433@hotmail.com");
+        usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
+
+        comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
+
+        Mockito.verify(whatsapper, Mockito.only()).enviarMensaje(Mockito.any(), Mockito.any());
     }
 
     @Test
@@ -55,6 +105,10 @@ public class NotificacionesTest {
         MedioConfigurado email = new MensajeEmail(new ServicioMail());
         miembro.setMedioConfigurado(email);
         miembro.getUsuario().setMail("federico21433@hotmail.com");
+        Comunidad comunidad = new Comunidad();
+        comunidad.agregarMiembro(miembro);
+        miembro.agregarComunidad(comunidad);
+
 
         email.enviarNotificacion(miembro, "Funcó esto");
     }
@@ -69,6 +123,7 @@ public class NotificacionesTest {
         entidades.add(subteB);
         List<Servicio> servicios = new ArrayList<>();
         servicios.add(escaleraMecanicaMedrano);
+        // TODO asi no se setean listas, hay q hacer un metodo agregarEntidades/Servicios con el Collections.addAll()
         interes.setEntidades(entidades);
         interes.setServicios(servicios);
 
