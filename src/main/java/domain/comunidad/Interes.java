@@ -3,12 +3,11 @@ package domain.comunidad;
 import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Servicio;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-@Setter
 @Getter
 public class Interes {
     private List<Entidad> entidades;
@@ -19,12 +18,12 @@ public class Interes {
         this.servicios = new ArrayList<>();
     }
 
-    public void agregarEntidad(Entidad entidad){
-        this.entidades.add(entidad);
+    public void agregarEntidades(Entidad ... entidades){
+        Collections.addAll(this.entidades, entidades);
     }
 
-    public void agregarServicio(Servicio servicio){
-        this.servicios.add(servicio);
+    public void agregarServicios(Servicio ... servicios){
+        Collections.addAll(this.servicios, servicios);
     }
 
     public boolean contieneEntidad(Entidad entidad){

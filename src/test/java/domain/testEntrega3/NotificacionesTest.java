@@ -4,6 +4,9 @@ import domain.Mensajes.Configuraciones.*;
 import domain.Mensajes.MailSender;
 import domain.Mensajes.Notificaciones.AperturaIncidente;
 import domain.Mensajes.WhatsAppSender;
+import domain.builders.EstablecimientoBuilder;
+import domain.builders.InteresBuilder;
+import domain.builders.PrestacionDeServicioBuilder;
 import domain.comunidad.*;
 import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
@@ -52,24 +55,44 @@ public class NotificacionesTest {
 
         utn = new Entidad();
         utn.setNombre("UTN");
+        /*
         medrano = new Establecimiento();
         medrano.setNombre("Medrano");
         medrano.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951");
+        */
         escalera = new Servicio();
         escalera.setNombre("Escalera");
 
+        /*
         escaleraMedrano = new PrestacionDeServicio();
         escaleraMedrano.setEntidad(utn);
         escaleraMedrano.setEstablecimiento(medrano);
         escaleraMedrano.setServicio(escalera);
-
+        */
+        /*
         interes = new Interes();
-        interes.agregarEntidad(utn);
-        interes.agregarServicio(escalera);
+        interes.agregarEntidades(utn);
+        interes.agregarServicios(escalera);
         miembro.setInteres(interes);
+        */
+
+        //TODO Chequear qué diferencia hay entre servicio de establecimiento y de prestacionDeServicio, tal vez nos ahorramos un set
+        EstablecimientoBuilder establecimientoBuilder = new EstablecimientoBuilder();
+        medrano = establecimientoBuilder.conNombre("Medrano")
+                .conServicios(escalera)
+                .conLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951")
+                .construir();
+
+        PrestacionDeServicioBuilder prestacionDeServicioBuilder = new PrestacionDeServicioBuilder();
+        escaleraMedrano = prestacionDeServicioBuilder.conEntidad(utn)
+                .conEstablecimiento(medrano).conServicio(escalera).construir();
+
+        InteresBuilder interesBuilder = new InteresBuilder();
+        interes = interesBuilder.agregarEntidades(utn).agregarServicios(escalera).construir();
 
         comunidad.agregarMiembro(miembro);
         miembro.agregarComunidad(comunidad);
+        miembro.setInteres(interes);
     }
 
     @Test
@@ -119,13 +142,8 @@ public class NotificacionesTest {
         Establecimiento medrano = new Establecimiento();
         Servicio escaleraMecanicaMedrano = new Servicio();
         Interes interes = new Interes();
-        List<Entidad> entidades = new ArrayList<>();
-        entidades.add(subteB);
-        List<Servicio> servicios = new ArrayList<>();
-        servicios.add(escaleraMecanicaMedrano);
-        // TODO asi no se setean listas, hay q hacer un metodo agregarEntidades/Servicios con el Collections.addAll()
-        interes.setEntidades(entidades);
-        interes.setServicios(servicios);
+        interes.agregarEntidades(subteB);
+        interes.agregarServicios(escaleraMecanicaMedrano);
 
         CuandoSucede tiempoConfigurado = new CuandoSucede();
 
