@@ -22,7 +22,6 @@ public class Comunidad {
     public void notificarMiembros(Incidente incidente, TipoNotificacion notificacion){
 
         miembros.stream().filter(m -> m.estaInteresadoEn(incidente)).forEach( m -> {
-            // TODO es realmente necesario el notificador? no
             notificacion.notificar(m, incidente);
         });
     }

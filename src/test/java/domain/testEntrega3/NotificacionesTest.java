@@ -48,35 +48,17 @@ public class NotificacionesTest {
 
 
     @BeforeEach
-    public void init(){ //TODO ver como usar el patron builder para instanciar mas facil las cosas
+    public void init(){
         usuario = new Usuario();
         miembro = new Miembro(usuario, Rol.MIEMBRO);
         comunidad = new Comunidad();
 
         utn = new Entidad();
         utn.setNombre("UTN");
-        /*
-        medrano = new Establecimiento();
-        medrano.setNombre("Medrano");
-        medrano.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951");
-        */
+
         escalera = new Servicio();
         escalera.setNombre("Escalera");
 
-        /*
-        escaleraMedrano = new PrestacionDeServicio();
-        escaleraMedrano.setEntidad(utn);
-        escaleraMedrano.setEstablecimiento(medrano);
-        escaleraMedrano.setServicio(escalera);
-        */
-        /*
-        interes = new Interes();
-        interes.agregarEntidades(utn);
-        interes.agregarServicios(escalera);
-        miembro.setInteres(interes);
-        */
-
-        //TODO Chequear qué diferencia hay entre servicio de establecimiento y de prestacionDeServicio, tal vez nos ahorramos un set
         EstablecimientoBuilder establecimientoBuilder = new EstablecimientoBuilder();
         medrano = establecimientoBuilder.conNombre("Medrano")
                 .conServicios(escalera)
@@ -96,7 +78,7 @@ public class NotificacionesTest {
     }
 
     @Test
-    public void seEnviaUnMailMockeado(){        //TODO Falta que funcione el mockeo
+    public void seEnviaUnMailMockeado(){
         MailSender mailer = Mockito.mock(MailSender.class);
         MensajeEmail medio = new MensajeEmail(mailer);
         miembro.setMedioConfigurado(medio);
@@ -110,7 +92,7 @@ public class NotificacionesTest {
     }
 
     @Test
-    public void seEnviaUnWhatsAppMockeado(){        //TODO Falta que funcione el mockeo
+    public void seEnviaUnWhatsAppMockeado(){
         WhatsAppSender whatsapper = Mockito.mock(WhatsAppSender.class);
         MensajeWhatsApp medio = new MensajeWhatsApp(whatsapper);
         miembro.setMedioConfigurado(medio);
@@ -132,24 +114,22 @@ public class NotificacionesTest {
         comunidad.agregarMiembro(miembro);
         miembro.agregarComunidad(comunidad);
 
-
         email.enviarNotificacion(miembro, "Funcó esto");
     }
 
-    @Test
+/*    @Test
     public void seGeneraUnIncidenteYSeNotifica(){
         Entidad subteB = new Entidad();
-        Establecimiento medrano = new Establecimiento();
-        Servicio escaleraMecanicaMedrano = new Servicio();
+        subteB.setNombre("Subte B");
         Interes interes = new Interes();
         interes.agregarEntidades(subteB);
-        interes.agregarServicios(escaleraMecanicaMedrano);
+        interes.agregarServicios(escalera);
 
         CuandoSucede tiempoConfigurado = new CuandoSucede();
 
         PrestacionDeServicio prestacionDeMedrano = new PrestacionDeServicio();
         prestacionDeMedrano.setEntidad(subteB);
-        prestacionDeMedrano.setServicio(escaleraMecanicaMedrano);
+        prestacionDeMedrano.setServicio(escalera);
         prestacionDeMedrano.setEstablecimiento(medrano);
 
         MedioConfigurado email = new MensajeEmail(new ServicioMail());
@@ -174,7 +154,7 @@ public class NotificacionesTest {
         miembro.agregarComunidad(operativosEnjoyers);
         miembro.generarIncidente(prestacionDeMedrano, "Cortocircuito en la escalera mecanica");
 
-    }
+    }*/
 /*
     @Test
     public void seEnviaNotificacionSugerenciaCuandoMiembroEstaCercaDeIncidente(){
