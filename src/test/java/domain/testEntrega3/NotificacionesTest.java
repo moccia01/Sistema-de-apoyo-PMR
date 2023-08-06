@@ -29,22 +29,14 @@ import static org.mockito.Mockito.when;
 
 public class NotificacionesTest {
 
-    //@InjectMocks
     private Miembro miembro;
-    //@InjectMocks
     private Usuario usuario;
     private Comunidad comunidad;
     private Interes interes;
-/*    @InjectMocks
-    Usuario user= new Usuario();
-    @InjectMocks
-    Miembro nisman = new Miembro(user, Rol.MIEMBRO);*/
     private Entidad utn;
     private Establecimiento medrano;
     private Servicio escalera;
     private PrestacionDeServicio escaleraMedrano;
-
-
 
 
     @BeforeEach

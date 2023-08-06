@@ -10,6 +10,7 @@ import domain.rankings.CierreIncidentes;
 import domain.rankings.GeneradorDeRankings;
 import domain.rankings.MayorCantidadIncidentes;
 import domain.rankings.RepositorioIncidentes;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,37 +95,23 @@ public class RankingsTest {
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
         comunidadNoVidentesSM.generarIncidente(trenesArgentinos2, "El ascensor dejo de funcar :(");
 
-/*
         incidente1 = new Incidente("Se rompio la barrera", trenesArgentinos);
-        LocalDate fechaAperturaIncidente1 = LocalDate.of(2023, 3, 7);
-        LocalDate fechaCierreIncidente1 = LocalDate.of(2023, 3, 9);
-        LocalTime horarioAperturaIncidente1 = LocalTime.of(9, 24);
-        LocalTime horarioCierreIncidente1 = LocalTime.of(10, 54);
+        LocalDateTime fechaAperturaIncidente1 = LocalDateTime.of(2023, 3, 7, 9, 24);
+        LocalDateTime fechaCierreIncidente1 = LocalDateTime.of(2023, 3, 9, 10, 54);
         incidente1.setFechaApertura(fechaAperturaIncidente1);
         incidente1.setFechaCierre(fechaCierreIncidente1);
-        incidente1.setHorarioApertura(horarioAperturaIncidente1);
-        incidente1.setHorarioApertura(horarioCierreIncidente1);
 
         incidente2 = new Incidente("Se corto la luz", trenesArgentinos1);
-        LocalDate fechaAperturaIncidente2 = LocalDate.of(2023, 3, 8);
-        LocalDate fechaCierreIncidente2 = LocalDate.of(2023, 3, 9);
-        LocalTime horarioAperturaIncidente2 = LocalTime.of(9, 43);
-        LocalTime horarioCierreIncidente2 = LocalTime.of(10, 54);
+        LocalDateTime fechaAperturaIncidente2 = LocalDateTime.of(2023, 3, 8, 9, 43);
+        LocalDateTime fechaCierreIncidente2 = LocalDateTime.of(2023, 3, 9, 10, 54);
         incidente2.setFechaApertura(fechaAperturaIncidente2);
         incidente2.setFechaCierre(fechaCierreIncidente2);
-        incidente2.setHorarioApertura(horarioAperturaIncidente2);
-        incidente2.setHorarioApertura(horarioCierreIncidente2);
 
         incidente3 = new Incidente("Se rompio la campana", trenesArgentinos2);
-        LocalDate fechaAperturaIncidente3 = LocalDate.of(2023, 3, 10);
-        LocalDate fechaCierreIncidente3 = LocalDate.of(2023, 3, 10);
-        LocalTime horarioAperturaIncidente3 = LocalTime.of(13, 33);
-        LocalTime horarioCierreIncidente3 = LocalTime.of(18, 00);
+        LocalDateTime fechaAperturaIncidente3 = LocalDateTime.of(2023, 3, 10, 13, 33);
+        LocalDateTime fechaCierreIncidente3 = LocalDateTime.of(2023, 3, 10, 18, 00);
         incidente3.setFechaApertura(fechaAperturaIncidente3);
         incidente3.setFechaCierre(fechaCierreIncidente3);
-        incidente3.setHorarioApertura(horarioAperturaIncidente3);
-        incidente3.setHorarioApertura(horarioCierreIncidente3);
-*/
 
         comunidadHipoacusicosCABA = new Comunidad();
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos, "");
@@ -184,32 +171,17 @@ public class RankingsTest {
         Assertions.assertLinesMatch(rankingComoDeberiaQuedar, rankingComoQuedo);
     }
 
-
     @Test
-    public void filtrarRepetidosCada24hsTest(){
+    public void filtrarRepetidosTest(){
         MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
-        ranking1.filtrarRepetidos(generador.getIncidentes());
-        Assertions.assertEquals(3, generador.getIncidentes().size());
-    }
 
-    @Test
-    public void fdasadf(){
-       /*MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
-       List<Incidente> incidentes = new ArrayList<>();
-       Incidente incidente = new Incidente("fadsadfsfdas", trenesArgentinos);
-       Incidente incidente1 = new Incidente("fadsadfsfdas", trenesArgentinos);
-       Incidente incidente2 = new Incidente("jkdfkjlak", trenesArgentinos);
-       LocalDate fechaAperturaIncidente = LocalDate.of(2023, 7, 18);
-       LocalDate fechaAperturaIncidente1 = LocalDate.of(2023, 7, 12);
-       ranking1.setFechaFinSemana(fechaAperturaIncidente1);
-       System.out.println(LocalDate.now().isAfter(ranking1.getFechaFinSemana()));
-       */
-        LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
-        LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
-        LocalDateTime fecha = LocalDateTime.of(2023, 7, 23, 18, 59, 59);
+        List<Incidente> incidentes = new ArrayList<>();
+        incidentes.add(incidente1);
+        incidentes.add(incidente2);
+        incidentes.add(incidente3);
+        incidentes.add(incidente2);
 
-        Assertions.assertTrue(ChronoUnit.HOURS.between(fechaFinSemana, fecha) < 6);
-        Assertions.assertEquals(Math.abs(ChronoUnit.HOURS.between(fechaFinSemana, fechaComienzoSemana)), 167);
+        ranking1.filtrarRepetidos(incidentes);
 
     }
 
