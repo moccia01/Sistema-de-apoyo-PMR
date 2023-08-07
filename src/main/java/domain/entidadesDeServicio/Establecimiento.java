@@ -1,6 +1,6 @@
 package domain.entidadesDeServicio;
 
-import domain.comunidad.Localizacion;
+import domain.localizacion.Localizacion;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -7,4 +7,10 @@ public class CuandoSucede implements TiempoConfigurado{
     public void recibirNotificacion(Miembro miembro, String notificacion) {
         miembro.getMedioConfigurado().enviarNotificacion(miembro, notificacion);
     }
+
+    @Override
+    public void mandarPendientes(Miembro miembro) {
+
+    }
+
 }

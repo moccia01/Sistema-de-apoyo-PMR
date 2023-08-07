@@ -2,21 +2,22 @@ package domain.rankings;
 
 import domain.comunidad.Comunidad;
 import domain.comunidad.Incidente;
+import domain.comunidad.Miembro;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RepositorioIncidentes {
+public class RepositorioComunidades {
     private static List<Comunidad> comunidades;
 
-    public RepositorioIncidentes() {
+    public RepositorioComunidades() {
         comunidades = new ArrayList<>();
     }
 
     public void agregarComunidades(Comunidad ... comunidades){
-        Collections.addAll(RepositorioIncidentes.comunidades, comunidades);
+        Collections.addAll(RepositorioComunidades.comunidades, comunidades);
     }
 
     public static List<Incidente> obtenerIncidentesDeComunidades(){
@@ -26,5 +27,11 @@ public class RepositorioIncidentes {
             listaIncidentes.add(comunidad.getIncidentes());
         }
         return listaIncidentes.stream().flatMap(List::stream).collect(Collectors.toList());
+    }
+
+    public static List<Miembro> obtenerMiembros(){
+        List<Miembro> miembros = new ArrayList<>();
+        comunidades.forEach(c -> miembros.addAll(c.getMiembros()));
+        return miembros;
     }
 }

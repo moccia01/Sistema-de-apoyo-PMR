@@ -57,4 +57,13 @@ public class Miembro {
     public void cambiarRolTemporal(RolTemporal nuevoRol) {
         this.rolTemporal = nuevoRol;
     }
+
+    public void mandarPendientes(){
+        this.tiempoConfigurado.mandarPendientes(this);
+    }
+
+    public boolean estaCercaDe(Incidente incidente){
+        return this.usuario.getLocalizacion().estaCercaDe(incidente.getLocalizacion());
+    }
+
 }

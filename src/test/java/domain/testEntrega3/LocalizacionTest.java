@@ -1,12 +1,10 @@
 package domain.testEntrega3;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import domain.comunidad.Localizacion;
+import domain.localizacion.Localizacion;
 import domain.comunidad.Miembro;
 import domain.comunidad.Rol;
 import domain.comunidad.Usuario;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

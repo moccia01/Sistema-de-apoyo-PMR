@@ -9,16 +9,12 @@ import domain.entidadesDeServicio.Servicio;
 import domain.rankings.CierreIncidentes;
 import domain.rankings.GeneradorDeRankings;
 import domain.rankings.MayorCantidadIncidentes;
-import domain.rankings.RepositorioIncidentes;
-import org.junit.Assert;
+import domain.rankings.RepositorioComunidades;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +33,7 @@ public class RankingsTest {
     private PrestacionDeServicio trenesArgentinos2;
     private Comunidad comunidadNoVidentesSM;
     private Comunidad comunidadHipoacusicosCABA;
-    private RepositorioIncidentes repoIncidentes;
+    private RepositorioComunidades repoIncidentes;
 
     private Incidente incidente1;
     private Incidente incidente2;
@@ -118,7 +114,7 @@ public class RankingsTest {
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos1, "");
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos2, "");
 
-        repoIncidentes = new RepositorioIncidentes();
+        repoIncidentes = new RepositorioComunidades();
         repoIncidentes.agregarComunidades(comunidadNoVidentesSM, comunidadHipoacusicosCABA);
 
         generador = new GeneradorDeRankings();

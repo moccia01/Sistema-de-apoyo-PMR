@@ -1,4 +1,4 @@
-package domain.comunidad;
+package domain.localizacion;
 import domain.services.georef.Localizador;
 import domain.services.georef.ServicioGeoref;
 import domain.services.georef.entities.*;

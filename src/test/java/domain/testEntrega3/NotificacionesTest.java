@@ -35,13 +35,17 @@ public class NotificacionesTest {
     private Interes interes;
     private Entidad utn;
     private Establecimiento medrano;
+    private Establecimiento campus;
     private Servicio escalera;
+    private Servicio banio;
     private PrestacionDeServicio escaleraMedrano;
+    private PrestacionDeServicio banioCampus;
 
 
     @BeforeEach
-    public void init(){
+    public void init() {
         usuario = new Usuario();
+        usuario.setMail("federico21433@hotmail.com");
         miembro = new Miembro(usuario, Rol.MIEMBRO);
         comunidad = new Comunidad();
 
@@ -51,18 +55,31 @@ public class NotificacionesTest {
         escalera = new Servicio();
         escalera.setNombre("Escalera");
 
+        banio = new Servicio();
+        banio.setNombre("Baño");
+
         EstablecimientoBuilder establecimientoBuilder = new EstablecimientoBuilder();
         medrano = establecimientoBuilder.conNombre("Medrano")
                 .conServicios(escalera)
                 .conLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951")
                 .construir();
 
+        EstablecimientoBuilder establecimientoBuilder1 = new EstablecimientoBuilder();
+        campus = establecimientoBuilder1.conNombre("Campus")
+                .conServicios(escalera)
+                .conLocalizacion("Buenos Aires", "Comuna 8", "Mozart 2300")
+                .construir();
+
         PrestacionDeServicioBuilder prestacionDeServicioBuilder = new PrestacionDeServicioBuilder();
         escaleraMedrano = prestacionDeServicioBuilder.conEntidad(utn)
                 .conEstablecimiento(medrano).conServicio(escalera).construir();
 
+        PrestacionDeServicioBuilder prestacionDeServicioBuilder1 = new PrestacionDeServicioBuilder();
+        banioCampus = prestacionDeServicioBuilder1.conEntidad(utn)
+                .conEstablecimiento(campus).conServicio(banio).construir();
+
         InteresBuilder interesBuilder = new InteresBuilder();
-        interes = interesBuilder.agregarEntidades(utn).agregarServicios(escalera).construir();
+        interes = interesBuilder.agregarEntidades(utn).agregarServicios(escalera, banio).construir();
 
         comunidad.agregarMiembro(miembro);
         miembro.agregarComunidad(comunidad);
@@ -70,13 +87,12 @@ public class NotificacionesTest {
     }
 
     @Test
-    public void seEnviaUnMailMockeado(){
+    public void seEnviaUnMailCuandoHayGeneracionDeIncidente() {
         MailSender mailer = Mockito.mock(MailSender.class);
         MensajeEmail medio = new MensajeEmail(mailer);
         miembro.setMedioConfigurado(medio);
         miembro.setTiempoConfigurado(new CuandoSucede());
-        miembro.getUsuario().setMail("federico21433@hotmail.com");
-        usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
+        usuario.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 800");
 
         comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
 
@@ -84,13 +100,12 @@ public class NotificacionesTest {
     }
 
     @Test
-    public void seEnviaUnWhatsAppMockeado(){
+    public void seEnviaUnWhatsAppCuandoHayGeneracionDeIncidente() {
         WhatsAppSender whatsapper = Mockito.mock(WhatsAppSender.class);
         MensajeWhatsApp medio = new MensajeWhatsApp(whatsapper);
         miembro.setMedioConfigurado(medio);
         miembro.setTiempoConfigurado(new CuandoSucede());
-        miembro.getUsuario().setMail("federico21433@hotmail.com");
-        usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
+        usuario.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 800");
 
         comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
 
@@ -98,16 +113,20 @@ public class NotificacionesTest {
     }
 
     @Test
-    public void seEnviaUnMail(){
-        MedioConfigurado email = new MensajeEmail(new ServicioMail());
-        miembro.setMedioConfigurado(email);
-        miembro.getUsuario().setMail("federico21433@hotmail.com");
-        Comunidad comunidad = new Comunidad();
-        comunidad.agregarMiembro(miembro);
-        miembro.agregarComunidad(comunidad);
+    public void seNotificaCuandoHayCierreDeIncidente(){
+        MailSender mailer = Mockito.mock(MailSender.class);
+        MensajeEmail enviarMail = new MensajeEmail(mailer);
+        CuandoSucede cuandoSucede = new CuandoSucede();
 
-        email.enviarNotificacion(miembro, "Funcó esto");
+        miembro.setTiempoConfigurado(cuandoSucede);
+        miembro.setMedioConfigurado(enviarMail);
+
+        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
+
+        miembro.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
+        Assertions.assertTrue(comunidad.getIncidentes().get(0).getEstado());
     }
+}
 
 /*    @Test
     public void seGeneraUnIncidenteYSeNotifica(){
@@ -224,28 +243,4 @@ public class NotificacionesTest {
         TimeUnit.SECONDS.sleep(60);
     }
 
-    @Test
-    public void notificarCuandoCierraUnIncidente(){
-        MensajeEmail enviarMail = new MensajeEmail();
-        CuandoSucede cuandoSucede = new CuandoSucede();
-
-        Usuario usuario = new Usuario();
-        usuario.setMail("federico21433@hotmail.com");
-        Miembro miembro = new Miembro(usuario, Rol.MIEMBRO);
-        miembro.setTiempoConfigurado(cuandoSucede);
-        miembro.setMedioConfigurado(enviarMail);
-
-        Comunidad comunidad = new Comunidad();
-        comunidad.agregarMiembro(miembro);
-
-        Establecimiento campus = new Establecimiento();
-        campus.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
-        PrestacionDeServicio banioCampus = new PrestacionDeServicio();
-        banioCampus.setEstablecimiento(campus);
-        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
-
-        miembro.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
-        Assertions.assertTrue(comunidad.getIncidentes().get(0).getEstado());
-    }
- */
-}
+*/

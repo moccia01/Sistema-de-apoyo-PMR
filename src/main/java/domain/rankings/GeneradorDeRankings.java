@@ -5,12 +5,8 @@ import domain.entidadesDeServicio.Entidad;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -19,7 +15,7 @@ public class GeneradorDeRankings {
     List<Incidente> incidentes;
 
     public GeneradorDeRankings() {
-        this.incidentes = RepositorioIncidentes.obtenerIncidentesDeComunidades();
+        this.incidentes = RepositorioComunidades.obtenerIncidentesDeComunidades();
     }
 
     public List<Entidad> generarSegunCriterio(CriterioRanking criterio){

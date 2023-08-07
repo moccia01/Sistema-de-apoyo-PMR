@@ -1,5 +1,6 @@
 package domain.comunidad;
 
+import domain.localizacion.Localizacion;
 import domain.validaciones.CredencialDeAcceso;
 import lombok.Getter;
 import lombok.Setter;
