@@ -19,8 +19,6 @@ public class Miembro {
     private RolTemporal rolTemporal;
     private TiempoConfigurado tiempoConfigurado;
     private MedioConfigurado medioConfigurado;
-    private Interes interes;
-    private final long refrescoLocalizacion = 5000; // en milisegundos
 
     public Miembro(Usuario usuario, Rol rol) {
         this.usuario = usuario;
@@ -30,9 +28,6 @@ public class Miembro {
 
     public void agregarComunidad(Comunidad comunidad){
         comunidades.add(comunidad);
-        if(comunidades.size() == 1){
-            this.iniciarTimer();
-        }
     }
 
     public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
@@ -43,15 +38,9 @@ public class Miembro {
         comunidad.cerrarIncidente(incidente);
     }
 
-    public void iniciarTimer(){
-        Timer timer = new Timer();
-        LocalizacionTimer localizacionTask = new LocalizacionTimer(comunidades,this);
-        timer.scheduleAtFixedRate(localizacionTask, 0, refrescoLocalizacion);
-    }
-
     public boolean estaInteresadoEn(Incidente incidente){
-        return this.interes.contieneEntidad(incidente.getPrestacionDeServicio().getEntidad()) &&
-                this.interes.contieneServicio(incidente.getPrestacionDeServicio().getServicio());
+        return this.usuario.getInteres().contieneEntidad(incidente.getPrestacionDeServicio().getEntidad()) &&
+                this.usuario.getInteres().contieneServicio(incidente.getPrestacionDeServicio().getServicio());
     }
 
     public void cambiarRolTemporal(RolTemporal nuevoRol) {

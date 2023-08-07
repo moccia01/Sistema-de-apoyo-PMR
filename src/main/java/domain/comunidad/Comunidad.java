@@ -32,26 +32,13 @@ public class Comunidad {
 
     public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
         Incidente nuevoIncidente = new Incidente(descripcion, prestacionDeServicio);
-        nuevoIncidente.setEstado(false);
-        nuevoIncidente.setFechaApertura(LocalDateTime.now());
         incidentes.add(nuevoIncidente);
 
         this.notificarMiembros(nuevoIncidente, new AperturaIncidente());
     }
 
     public void cerrarIncidente(Incidente incidente){
-        incidente.setEstado(true);
-        incidente.setFechaCierre(LocalDateTime.now());
+        incidente.cerrar();
         this.notificarMiembros(incidente, new CierreIncidente());
-    }
-
-    public void recibirLocalizacion(Miembro miembro){
-        SugerenciaRevision notificacion = new SugerenciaRevision();
-        List<Incidente> incidentesCercanos = incidentes.stream().filter(
-                i -> miembro.getUsuario().getLocalizacion().estaCercaDe(i.getLocalizacion()) && i.getEstado()
-        ).toList();
-        incidentesCercanos.forEach(
-                i -> notificacion.notificar(miembro, i));
-
     }
 }

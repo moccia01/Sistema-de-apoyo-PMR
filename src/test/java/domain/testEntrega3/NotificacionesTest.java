@@ -83,7 +83,7 @@ public class NotificacionesTest {
 
         comunidad.agregarMiembro(miembro);
         miembro.agregarComunidad(comunidad);
-        miembro.setInteres(interes);
+        usuario.setInteres(interes);
     }
 
     @Test

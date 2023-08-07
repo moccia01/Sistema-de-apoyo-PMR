@@ -13,7 +13,7 @@ public class Usuario {
     private CredencialDeAcceso credencialDeAcceso;
     private String mail;
     private String numero;
-    //private Interes interes;
+    private Interes interes;
     private Localizacion localizacion;
 
     public void setLocalizacion(String provincia, String departamento, String direccion){
@@ -21,13 +21,5 @@ public class Usuario {
         localizacionSet.setProvincia(provincia);
         localizacionSet.setDireccion(departamento, direccion);
         this.localizacion = localizacionSet;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
     }
 }

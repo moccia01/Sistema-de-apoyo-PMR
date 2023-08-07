@@ -24,14 +24,6 @@ public class Entidad {
     public void agregarEstablecimientos(Establecimiento ... establecimientos){
         Collections.addAll(this.listaEstablecimientos, establecimientos);
     }
-    public String leerInforme(String Informe) {
-        try {
-            return Files.readString(Paths.get(Informe));
-        } catch (IOException e) {
-            System.out.println("Error al leer el Informe: " + e.getMessage());
-            return null;
-        }
-    }
 
 }
 
