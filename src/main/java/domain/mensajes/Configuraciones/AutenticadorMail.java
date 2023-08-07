@@ -1,4 +1,4 @@
-package domain.Mensajes.Configuraciones;
+package domain.mensajes.Configuraciones;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 

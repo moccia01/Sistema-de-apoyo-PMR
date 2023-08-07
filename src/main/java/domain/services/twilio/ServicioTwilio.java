@@ -1,7 +1,7 @@
 package domain.services.twilio;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
-import domain.Mensajes.WhatsAppSender;
+import domain.mensajes.WhatsAppSender;
 
 public class ServicioTwilio implements WhatsAppSender {
     public static final String ACCOUNT_SID = "ACee5e089639f8884b915415a574a3f1b4";

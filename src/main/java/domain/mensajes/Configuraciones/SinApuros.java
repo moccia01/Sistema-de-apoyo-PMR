@@ -1,9 +1,8 @@
-package domain.Mensajes.Configuraciones;
+package domain.mensajes.Configuraciones;
 import domain.comunidad.Miembro;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Getter
@@ -13,8 +12,12 @@ public class SinApuros implements TiempoConfigurado {
     private List<String> notificacionesPendientes;
 
     public SinApuros() {
-        this.notificacionesPendientes = new ArrayList<>();
+        this.inicializarNotificacionesPendientes();
         this.horarios = new ArrayList<>();
+    }
+
+    public void inicializarNotificacionesPendientes(){
+        this.notificacionesPendientes = new ArrayList<>();
     }
 
     public void agregarHorarios(LocalTime ... horarios){

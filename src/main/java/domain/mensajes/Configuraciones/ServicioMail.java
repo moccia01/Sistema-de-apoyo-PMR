@@ -1,6 +1,6 @@
-package domain.Mensajes.Configuraciones;
+package domain.mensajes.Configuraciones;
 
-import domain.Mensajes.MailSender;
+import domain.mensajes.MailSender;
 import domain.comunidad.Miembro;
 
 import javax.mail.Message;

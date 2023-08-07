@@ -1,14 +1,13 @@
 package domain.comunidad;
 
-import domain.Mensajes.Configuraciones.MedioConfigurado;
-import domain.Mensajes.Configuraciones.TiempoConfigurado;
+import domain.mensajes.Configuraciones.MedioConfigurado;
+import domain.mensajes.Configuraciones.TiempoConfigurado;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 @Setter
 @Getter

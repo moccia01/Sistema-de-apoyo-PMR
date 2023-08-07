@@ -1,12 +1,12 @@
 package domain.comunidad;
 
-import domain.Mensajes.Notificaciones.*;
+import domain.mensajes.Notificaciones.*;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -30,10 +30,13 @@ public class Comunidad {
         miembros.add(miembro);
     }
 
+    public void agregarMiembros(Miembro ... miembros){
+        Collections.addAll(this.miembros, miembros);
+    }
+
     public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
         Incidente nuevoIncidente = new Incidente(descripcion, prestacionDeServicio);
         incidentes.add(nuevoIncidente);
-
         this.notificarMiembros(nuevoIncidente, new AperturaIncidente());
     }
 

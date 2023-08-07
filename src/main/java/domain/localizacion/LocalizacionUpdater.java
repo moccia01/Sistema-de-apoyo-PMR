@@ -1,6 +1,7 @@
 package domain.localizacion;
 
-import domain.Mensajes.Notificaciones.SugerenciaRevision;
+import com.twilio.rest.api.v2010.account.incomingphonenumber.Local;
+import domain.mensajes.Notificaciones.SugerenciaRevision;
 import domain.comunidad.Incidente;
 import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
@@ -24,15 +25,18 @@ public class LocalizacionUpdater {
 
     public static void actualizarLocalizaciones(){
         usuarios.forEach(u -> u.setLocalizacion(sistemaPosicionamiento.getPosicion(u.getNumero())));
-        RepositorioComunidades.obtenerMiembros().forEach(LocalizacionUpdater::verificarIncidentesCercanos);
+        LocalizacionUpdater.verificarIncidentesCercanos();
     }
 
-    public static void verificarIncidentesCercanos(Miembro miembro){
+    public static void verificarIncidentesCercanos(){
+        RepositorioComunidades.obtenerMiembros().forEach(LocalizacionUpdater::notificarIncidentesCercanos);
+    }
+
+    public static void notificarIncidentesCercanos(Miembro miembro){
         List<Incidente> incidentesCercanosEInteresantes = miembro.getComunidades()
                 .stream().flatMap(c -> c.getIncidentes().stream())
                 .filter(i -> miembro.estaInteresadoEn(i) && miembro.estaCercaDe(i))
                 .toList();
-
         incidentesCercanosEInteresantes.forEach(i -> new SugerenciaRevision().notificar(miembro, i));
     }
 

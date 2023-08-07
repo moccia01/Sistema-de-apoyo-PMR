@@ -1,10 +1,9 @@
-package domain.Mensajes;
+package domain.mensajes;
 
 import domain.comunidad.Miembro;
 import domain.rankings.RepositorioComunidades;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class NotificacionesPendientesSender {
@@ -15,6 +14,7 @@ public class NotificacionesPendientesSender {
     }
 
     public static void agregarMiembros(List<Miembro> listaMiembros){
+        miembros = new ArrayList<>();
         miembros.addAll(listaMiembros);
     }
 

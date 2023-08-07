@@ -1,7 +1,7 @@
-package domain.Mensajes.Configuraciones;
+package domain.mensajes.Configuraciones;
 
 import domain.comunidad.Miembro;
-import domain.Mensajes.WhatsAppSender;
+import domain.mensajes.WhatsAppSender;
 import lombok.Getter;
 import lombok.Setter;
 

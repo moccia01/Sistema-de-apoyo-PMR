@@ -1,5 +1,5 @@
-package domain.Mensajes.Configuraciones;
-import domain.Mensajes.MailSender;
+package domain.mensajes.Configuraciones;
+import domain.mensajes.MailSender;
 import domain.comunidad.Miembro;
 import lombok.Setter;
 

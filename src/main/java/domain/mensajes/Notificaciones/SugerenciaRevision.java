@@ -1,7 +1,6 @@
-package domain.Mensajes.Notificaciones;
+package domain.mensajes.Notificaciones;
 
 import domain.comunidad.Incidente;
-import domain.comunidad.Miembro;
 
 public class SugerenciaRevision extends TipoNotificacion{
 

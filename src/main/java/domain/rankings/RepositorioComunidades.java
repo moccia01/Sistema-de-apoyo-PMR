@@ -12,12 +12,9 @@ import java.util.stream.Collectors;
 public class RepositorioComunidades {
     private static List<Comunidad> comunidades;
 
-    public RepositorioComunidades() {
+    public static void agregarComunidades(Comunidad ... comunidadesList){
         comunidades = new ArrayList<>();
-    }
-
-    public void agregarComunidades(Comunidad ... comunidades){
-        Collections.addAll(RepositorioComunidades.comunidades, comunidades);
+        Collections.addAll(RepositorioComunidades.comunidades, comunidadesList);
     }
 
     public static List<Incidente> obtenerIncidentesDeComunidades(){
@@ -31,7 +28,17 @@ public class RepositorioComunidades {
 
     public static List<Miembro> obtenerMiembros(){
         List<Miembro> miembros = new ArrayList<>();
-        comunidades.forEach(c -> miembros.addAll(c.getMiembros()));
+        comunidades.forEach(c -> RepositorioComunidades.agregarMiembros(miembros, c.getMiembros()));
         return miembros;
+    }
+
+    public static void agregarMiembros(List<Miembro> miembros, List<Miembro> miembrosDeComunidad){
+        miembrosDeComunidad.forEach(m -> RepositorioComunidades.agregarMiembroSiNoEsta(miembros, m));
+    }
+
+    public static void agregarMiembroSiNoEsta(List<Miembro> miembros, Miembro miembro){
+        if(!miembros.contains(miembro)){
+            miembros.add(miembro);
+        }
     }
 }
