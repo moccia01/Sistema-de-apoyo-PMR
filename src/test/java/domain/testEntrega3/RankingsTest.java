@@ -129,8 +129,6 @@ public class RankingsTest {
         MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
         LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
         LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
-        ranking1.setFechaComienzoSemana(fechaComienzoSemana);
-        ranking1.setFechaFinSemana(fechaFinSemana);
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
         rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
@@ -145,8 +143,6 @@ public class RankingsTest {
         CierreIncidentes ranking1 = new CierreIncidentes();
         LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
         LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
-        ranking1.setFechaComienzoSemana(fechaComienzoSemana);
-        ranking1.setFechaFinSemana(fechaFinSemana);
 
         try{
             TimeUnit.SECONDS.sleep(25);
@@ -181,9 +177,12 @@ public class RankingsTest {
         incidentes.add(incidente3);
         incidentes.add(incidente2);
 
+
+
         ranking1.filtrarRepetidos(incidentes);
 
-    }
+        System.out.println(incidentes.size());
 
+    }
 
 }

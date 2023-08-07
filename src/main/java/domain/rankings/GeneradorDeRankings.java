@@ -23,9 +23,7 @@ public class GeneradorDeRankings {
     }
 
     public List<Entidad> generarSegunCriterio(CriterioRanking criterio){
-        if(LocalDateTime.now().isAfter(criterio.getFechaFinSemana())){
-            criterio.cambiarFechas();
-        }
+
         List<Incidente> incidentesValidos = incidentes.stream().filter(criterio::incidenteValido).toList();
         HashMap<Entidad, List<Incidente>> incidentesPorEntidad = new HashMap<>();
         for(Incidente incidente : incidentes){
