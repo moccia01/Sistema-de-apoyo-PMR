@@ -171,13 +171,12 @@ public class RankingsTest {
         incidentes.add(incidente1);
         incidentes.add(incidente2);
         incidentes.add(incidente3);
-        incidentes.add(incidente2);
+        incidentes.add(incidente1);
+        incidentes.add(incidente1);
 
+        ranking1.buscarYEliminarRepetidos(incidente1, incidentes);
 
-
-        ranking1.filtrarRepetidos(incidentes);
-
-        System.out.println(incidentes.size());
+        System.out.println(incidentes);
 
     }
 
