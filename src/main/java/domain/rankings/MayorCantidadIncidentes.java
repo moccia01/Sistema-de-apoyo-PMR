@@ -22,19 +22,22 @@ public class MayorCantidadIncidentes extends CriterioRanking {
                 }
             }
         }
-    */
+*/
     public void buscarYEliminarRepetidos(Incidente incidente, List<Incidente> incidentes){
         List<Incidente> aux = new ArrayList<>();
         Iterator<Incidente> it = incidentes.iterator();
+        boolean primerIncidente = true;
 
         while(it.hasNext()){
             Incidente incidente1 = it.next();
 
             if(incidente.estaRepetidoDentroDelPlazo(incidente1)){
-                aux.add(incidente1);
-
-                it.remove();
-
+                if (primerIncidente) {
+                    primerIncidente = false;
+                } else {
+                    aux.add(incidente1);
+                    it.remove();
+                }
 
             }
         }
