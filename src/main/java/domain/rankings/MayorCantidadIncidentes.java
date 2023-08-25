@@ -31,9 +31,7 @@ public class MayorCantidadIncidentes extends CriterioRanking {
         List<Incidente> copiaIncidentes = new ArrayList<>();
         copiaIncidentes.addAll(incidentes);
 
-        for(Incidente incidente : copiaIncidentes){
-            buscarYEliminarRepetidos(incidente, incidentes);
-        }
+        copiaIncidentes.forEach(incidente -> buscarYEliminarRepetidos(incidente, incidentes));
     }
 
     public double transformarListaAValor(List<Incidente> incidentes) {
