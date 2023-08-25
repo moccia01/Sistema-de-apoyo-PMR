@@ -7,24 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MayorCantidadIncidentes extends CriterioRanking {
-    /*
-        public void removerSiEstaRepetido(Incidente incidente, List<Incidente> incidentes, Iterator<Incidente> it) {
-            if (incidente.estaRepetidoDentroDelPlazo(it)) {
-                it.remove();
-            }
-        }
-        public void filtrarRepetidos(List<Incidente> incidentes) {
-            for (int i = 0; i < incidentes.size(); i++) {
-                Incidente elem1 = incidentes.get(i);
-                for (int j = i + 1; j < incidentes.size(); j++) {
-                    Incidente elem2 = incidentes.get(j);
-                    removerSiEstaRepetido(elem1, incidentes, elem2);
-                }
-            }
-        }
-*/
+
     public void buscarYEliminarRepetidos(Incidente incidente, List<Incidente> incidentes){
-        List<Incidente> aux = new ArrayList<>();
         Iterator<Incidente> it = incidentes.iterator();
         boolean primerIncidente = true;
 
@@ -35,7 +19,6 @@ public class MayorCantidadIncidentes extends CriterioRanking {
                 if (primerIncidente) {
                     primerIncidente = false;
                 } else {
-                    aux.add(incidente1);
                     it.remove();
                 }
 
@@ -44,10 +27,13 @@ public class MayorCantidadIncidentes extends CriterioRanking {
 
     }
 
+    public void filtrarRepetidos(List<Incidente> incidentes){
+        List<Incidente> copiaIncidentes = new ArrayList<>();
+        copiaIncidentes.addAll(incidentes);
 
-    public void filtrarRepetidos(List<Incidente> incidentes) {
-
-
+        for(Incidente incidente : copiaIncidentes){
+            buscarYEliminarRepetidos(incidente, incidentes);
+        }
     }
 
     public double transformarListaAValor(List<Incidente> incidentes) {
