@@ -1,7 +1,6 @@
 package domain.services.georef.entities;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ListadoDeDepartamentos {
     public int cantidad;

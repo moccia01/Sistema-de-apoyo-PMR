@@ -1,9 +1,32 @@
 package domain.entidadesDeServicio;
 
+import domain.localizacion.Localizacion;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+@Getter
+@Setter
 
 public class Establecimiento {
     private String nombre;
-    private String localizacion;
-    private List<PrestacionServicio> prestaciones;
+    private Localizacion localizacion;
+    private List<Servicio> servicios;
+
+    public Establecimiento() {
+        this.servicios = new ArrayList<>();
+    }
+
+    public void agregarServicios(Servicio ... servicios1) {
+        Collections.addAll(this.servicios, servicios1);
+    }
+    public void setLocalizacion(String provincia, String departamento, String direccion){
+        Localizacion localizacionSet = new Localizacion();
+        localizacionSet.setProvincia(provincia);
+        localizacionSet.setDireccion(departamento, direccion);
+        this.localizacion = localizacionSet;
+    }
 }

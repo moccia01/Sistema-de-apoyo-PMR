@@ -1,7 +1,5 @@
 package domain.entidadesDeServicio;
 
-import domain.entidadesDeServicio.Entidad;
-
 import java.util.List;
 
 public class OrganismoDeControl {
@@ -11,4 +9,9 @@ public class OrganismoDeControl {
     public OrganismoDeControl(String nombre) {
         nombre = nombre;
     }
+
+    public boolean estaAsociadoA(Entidad entidad) {
+        return this.entidades.contains(entidad);
+    }
+
 }
