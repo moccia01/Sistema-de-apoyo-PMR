@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Comunidad {
+    private String nombre;
     private List<Miembro> miembros;
     private List<Incidente> incidentes;
 

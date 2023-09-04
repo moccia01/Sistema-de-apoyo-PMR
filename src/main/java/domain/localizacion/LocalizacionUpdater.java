@@ -24,7 +24,7 @@ public class LocalizacionUpdater {
     }
 
     public static void actualizarLocalizaciones(){
-        usuarios.forEach(u -> u.setLocalizacion(sistemaPosicionamiento.getPosicion(u.getNumero())));
+        usuarios.forEach(u -> u.setLocalizacion(sistemaPosicionamiento.getPosicion(u.getTelefono())));
         LocalizacionUpdater.verificarIncidentesCercanos();
     }
 

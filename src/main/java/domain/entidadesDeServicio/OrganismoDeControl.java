@@ -1,5 +1,8 @@
 package domain.entidadesDeServicio;
 
+import domain.rankings.CriterioRanking;
+import domain.rankings.GeneradorDeRankings;
+
 import java.util.List;
 
 public class OrganismoDeControl {
@@ -12,6 +15,10 @@ public class OrganismoDeControl {
 
     public boolean estaAsociadoA(Entidad entidad) {
         return this.entidades.contains(entidad);
+    }
+
+    public List<Entidad> obtenerRankingSegun(CriterioRanking criterioRanking){
+        return new GeneradorDeRankings().generarSegunCriterio(criterioRanking);
     }
 
 }

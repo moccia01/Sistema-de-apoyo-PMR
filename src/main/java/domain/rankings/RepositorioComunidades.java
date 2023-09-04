@@ -19,6 +19,10 @@ public class RepositorioComunidades {
 
     public static List<Incidente> obtenerIncidentesDeComunidades(){
         List<List<Incidente>> listaIncidentes = new ArrayList<>();
+        
+        // EntityManager.beginTransaction();
+        //query de las comunidades
+        //comunidades = EntityManager.commit();
 
         for(Comunidad comunidad : comunidades){
             listaIncidentes.add(comunidad.getIncidentes());

@@ -12,7 +12,7 @@ public class Usuario {
     private String apellido;
     private CredencialDeAcceso credencialDeAcceso;
     private String mail;
-    private String numero;
+    private String telefono;
     private Interes interes;
     private Localizacion localizacion;
 

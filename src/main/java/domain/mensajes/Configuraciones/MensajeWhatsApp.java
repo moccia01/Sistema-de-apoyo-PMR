@@ -16,6 +16,6 @@ public class MensajeWhatsApp implements MedioConfigurado {
 
     @Override
     public void enviarNotificacion(Miembro miembro, String notificacion) {
-        this.whatsAppSender.enviarMensaje(miembro.getUsuario().getNumero(), notificacion);
+        this.whatsAppSender.enviarMensaje(miembro.getUsuario().getTelefono(), notificacion);
     }
 }
