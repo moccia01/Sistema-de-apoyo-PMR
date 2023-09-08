@@ -1,5 +1,6 @@
 package domain.mensajes.Configuraciones;
 import domain.comunidad.Miembro;
+import domain.comunidad.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalTime;
@@ -25,14 +26,14 @@ public class SinApuros implements TiempoConfigurado {
     }
 
     @Override
-    public void recibirNotificacion(Miembro miembro, String notificacion) {
+    public void recibirNotificacion(Usuario usuario, String notificacion) {
         notificacionesPendientes.add(notificacion);
     }
 
     @Override
-    public void mandarPendientes(Miembro miembro) {
+    public void mandarPendientes(Usuario usuario) {
         if(this.esHoradeMandarPendientes()){
-            this.notificacionesPendientes.forEach(n -> miembro.getMedioConfigurado().enviarNotificacion(miembro, n));
+            this.notificacionesPendientes.forEach(n -> usuario.getMedioConfigurado().enviarNotificacion(usuario, n));
         }
     }
 

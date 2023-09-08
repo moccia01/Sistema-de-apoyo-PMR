@@ -1,4 +1,4 @@
-package domain.rankings;
+package domain.repositorios;
 
 import domain.comunidad.Comunidad;
 import domain.comunidad.Incidente;

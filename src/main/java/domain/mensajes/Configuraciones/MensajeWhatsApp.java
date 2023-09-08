@@ -1,6 +1,7 @@
 package domain.mensajes.Configuraciones;
 
 import domain.comunidad.Miembro;
+import domain.comunidad.Usuario;
 import domain.mensajes.WhatsAppSender;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,11 @@ public class MensajeWhatsApp implements MedioConfigurado {
         this.whatsAppSender = whatsAppSender;
     }
 
+    public MensajeWhatsApp() {
+    }
+
     @Override
-    public void enviarNotificacion(Miembro miembro, String notificacion) {
-        this.whatsAppSender.enviarMensaje(miembro.getUsuario().getTelefono(), notificacion);
+    public void enviarNotificacion(Usuario usuario, String notificacion) {
+        this.whatsAppSender.enviarMensaje(usuario.getTelefono(), notificacion);
     }
 }

@@ -1,21 +1,52 @@
 package domain.comunidad;
 
+import domain.converters.LocalDateAttributeConverter;
+import domain.converters.LocalTimeAttributeConverter;
+import domain.db.EntidadPersistente;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import domain.localizacion.Localizacion;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 @Getter
 @Setter
-public class Incidente {
-    public LocalDateTime fechaApertura;
-    public LocalDateTime fechaCierre;
+@Entity
+@Table(name = "incidente")
+public class Incidente extends EntidadPersistente {
+    @Column
+    @Convert(converter = LocalDateAttributeConverter.class)
+    public LocalDate fechaApertura;
+
+    @Column
+    @Convert(converter = LocalTimeAttributeConverter.class)
+    public LocalTime horarioApertura;
+
+    @Column
+    @Convert(converter = LocalTimeAttributeConverter.class)
+    public LocalDate fechaCierre;
+
+    @Column
+    @Convert(converter = LocalTimeAttributeConverter.class)
+    public LocalTime horarioCierre;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
+
+    @Column(columnDefinition = "BOOL")
     private Boolean estado; // true es si esta cerrado
+
+    @Embedded
     private PrestacionDeServicio prestacionDeServicio;
+
+    public Incidente() {
+
+    }
 
     public Localizacion getLocalizacion(){
         return prestacionDeServicio.getEstablecimiento().getLocalizacion();
@@ -48,11 +79,13 @@ public class Incidente {
 
     public void abrir(){
         this.estado = false;
-        this.fechaApertura = LocalDateTime.now();
+        this.fechaApertura = LocalDate.now();
+        this.horarioApertura = LocalTime.now();
     }
 
     public void cerrar(){
         this.estado = true;
-        this.fechaCierre = LocalDateTime.now();
+        this.fechaCierre = LocalDate.now();
+        this.horarioCierre = LocalTime.now();
     }
 }

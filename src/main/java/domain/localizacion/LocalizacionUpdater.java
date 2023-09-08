@@ -1,11 +1,11 @@
 package domain.localizacion;
 
-import com.twilio.rest.api.v2010.account.incomingphonenumber.Local;
 import domain.mensajes.Notificaciones.SugerenciaRevision;
 import domain.comunidad.Incidente;
 import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
-import domain.rankings.RepositorioComunidades;
+import domain.repositorios.RepoUsuarios;
+import domain.repositorios.RepositorioComunidades;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +29,15 @@ public class LocalizacionUpdater {
     }
 
     public static void verificarIncidentesCercanos(){
-        RepositorioComunidades.obtenerMiembros().forEach(LocalizacionUpdater::notificarIncidentesCercanos);
+        new RepoUsuarios().obtenerUsuarios().forEach(LocalizacionUpdater::notificarIncidentesCercanos);
     }
 
-    public static void notificarIncidentesCercanos(Miembro miembro){
-        List<Incidente> incidentesCercanosEInteresantes = miembro.getComunidades()
+    public static void notificarIncidentesCercanos(Usuario usuario){
+        List<Incidente> incidentesCercanosEInteresantes = usuario.obtenerComunidades()
                 .stream().flatMap(c -> c.getIncidentes().stream())
-                .filter(i -> miembro.estaInteresadoEn(i) && miembro.estaCercaDe(i))
+                .filter(i -> usuario.estaInteresadoEn(i) && usuario.estaCercaDe(i))
                 .toList();
-        incidentesCercanosEInteresantes.forEach(i -> new SugerenciaRevision().notificar(miembro, i));
+        incidentesCercanosEInteresantes.forEach(i -> new SugerenciaRevision().notificar(usuario, i));
     }
 
 

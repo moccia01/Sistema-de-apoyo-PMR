@@ -9,7 +9,7 @@ import domain.entidadesDeServicio.Servicio;
 import domain.rankings.CierreIncidentes;
 import domain.rankings.GeneradorDeRankings;
 import domain.rankings.MayorCantidadIncidentes;
-import domain.rankings.RepositorioComunidades;
+import domain.repositorios.RepositorioComunidades;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,20 +94,20 @@ public class RankingsTest {
         incidente1 = new Incidente("Se rompio la barrera", trenesArgentinos);
         LocalDateTime fechaAperturaIncidente1 = LocalDateTime.of(2023, 3, 7, 9, 24);
         LocalDateTime fechaCierreIncidente1 = LocalDateTime.of(2023, 3, 9, 10, 54);
-        incidente1.setFechaApertura(fechaAperturaIncidente1);
-        incidente1.setFechaCierre(fechaCierreIncidente1);
+        incidente1.setFechaApertura(fechaAperturaIncidente1.toLocalDate());
+        incidente1.setFechaCierre(fechaCierreIncidente1.toLocalDate());
 
         incidente2 = new Incidente("Se corto la luz", trenesArgentinos1);
         LocalDateTime fechaAperturaIncidente2 = LocalDateTime.of(2023, 3, 8, 9, 43);
         LocalDateTime fechaCierreIncidente2 = LocalDateTime.of(2023, 3, 9, 10, 54);
-        incidente2.setFechaApertura(fechaAperturaIncidente2);
-        incidente2.setFechaCierre(fechaCierreIncidente2);
+        incidente2.setFechaApertura(fechaAperturaIncidente2.toLocalDate());
+        incidente2.setFechaCierre(fechaCierreIncidente2.toLocalDate());
 
         incidente3 = new Incidente("Se rompio la campana", trenesArgentinos2);
         LocalDateTime fechaAperturaIncidente3 = LocalDateTime.of(2023, 3, 10, 13, 33);
         LocalDateTime fechaCierreIncidente3 = LocalDateTime.of(2023, 3, 10, 18, 00);
-        incidente3.setFechaApertura(fechaAperturaIncidente3);
-        incidente3.setFechaCierre(fechaCierreIncidente3);
+        incidente3.setFechaApertura(fechaAperturaIncidente3.toLocalDate());
+        incidente3.setFechaCierre(fechaCierreIncidente3.toLocalDate());
 
         comunidadHipoacusicosCABA = new Comunidad();
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos, "");
@@ -179,7 +179,5 @@ public class RankingsTest {
         ranking1.filtrarRepetidos(incidentes);
 
         Assertions.assertEquals(3, incidentes.size());
-
     }
-
 }

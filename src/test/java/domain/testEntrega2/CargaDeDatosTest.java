@@ -42,10 +42,10 @@ public class CargaDeDatosTest {
     @Test
     public void seCarganLosNombresDelArchivoDeEntidades() {
         List<EntidadPrestadora> listaEntidades = cargadorDeEntidades.cargarDatos(pathDatosEntidadesPrestadoras);
-        Assertions.assertEquals("Estado", listaEntidades.get(0).getNombreEntidad());
-        Assertions.assertEquals("Banco Nacion", listaEntidades.get(1).getNombreEntidad());
-        Assertions.assertEquals("Carrefour", listaEntidades.get(2).getNombreEntidad());
-        Assertions.assertEquals("Cencosud", listaEntidades.get(3).getNombreEntidad());
+        Assertions.assertEquals("Estado", listaEntidades.get(0).getNombre());
+        Assertions.assertEquals("Banco Nacion", listaEntidades.get(1).getNombre());
+        Assertions.assertEquals("Carrefour", listaEntidades.get(2).getNombre());
+        Assertions.assertEquals("Cencosud", listaEntidades.get(3).getNombre());
     }
 
 }

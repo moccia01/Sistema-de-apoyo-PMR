@@ -1,7 +1,8 @@
 package domain.mensajes.Configuraciones;
 
 import domain.comunidad.Miembro;
+import domain.comunidad.Usuario;
 
 public interface MedioConfigurado {
-    void enviarNotificacion(Miembro miembro, String notificaicon);
+    void enviarNotificacion(Usuario usuario, String notificaicon);
 }

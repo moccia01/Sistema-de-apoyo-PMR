@@ -1,4 +1,5 @@
 package domain.mensajes.Configuraciones;
+import domain.comunidad.Usuario;
 import domain.mensajes.MailSender;
 import domain.comunidad.Miembro;
 import lombok.Setter;
@@ -13,8 +14,11 @@ public class MensajeEmail implements MedioConfigurado {
         this.mailSender = mailSender;
     }
 
-    public void enviarNotificacion(Miembro miembro, String notificacion) {
-        this.mailSender.enviarMensaje(miembro, this.asunto, notificacion);
+    public MensajeEmail() {
+    }
+
+    public void enviarNotificacion(Usuario usuario, String notificacion) {
+        this.mailSender.enviarMensaje(usuario, this.asunto, notificacion);
     }
 }
 

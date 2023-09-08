@@ -1,8 +1,8 @@
 package domain.mensajes;
 
-import domain.comunidad.Miembro;
+import domain.comunidad.Usuario;
 
 public interface MailSender {
 
-    void enviarMensaje(Miembro miembro, String asunto, String notificacion);
+    void enviarMensaje(Usuario usuario, String asunto, String notificacion);
 }

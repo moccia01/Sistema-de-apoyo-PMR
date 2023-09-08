@@ -26,8 +26,10 @@ public class LocalizacionTest {
 
         usuarioCerca.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 1000");
         usuarioLejos.setLocalizacion("Buenos Aires", "Comuna 1", "Constitución 1328");
-        miembroCerca = new Miembro(usuarioCerca, Rol.MIEMBRO);
-        miembroLejos = new Miembro(usuarioLejos, Rol.MIEMBRO);
+        miembroCerca = new Miembro();
+        miembroCerca.setUsuario(usuarioCerca);
+        miembroLejos = new Miembro();
+        miembroLejos.setUsuario(usuarioLejos);
     }
 
     @Test

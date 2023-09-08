@@ -1,19 +1,29 @@
 package domain.comunidad;
 
+import domain.db.EntidadPersistente;
 import domain.mensajes.Notificaciones.*;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Getter
 @Setter
-public class Comunidad {
+@Entity
+@Table(name = "comunidad")
+public class Comunidad extends EntidadPersistente {
+
+    @Column
     private String nombre;
+
+    @OneToMany(mappedBy = "comunidad")
     private List<Miembro> miembros;
+
+    @ManyToMany
     private List<Incidente> incidentes;
 
     public  Comunidad(){
@@ -22,13 +32,9 @@ public class Comunidad {
     }
     public void notificarMiembros(Incidente incidente, TipoNotificacion notificacion){
 
-        miembros.stream().filter(m -> m.estaInteresadoEn(incidente)).forEach( m -> {
-            notificacion.notificar(m, incidente);
+        miembros.stream().filter(m -> m.getUsuario().estaInteresadoEn(incidente)).forEach( m -> {
+            notificacion.notificar(m.getUsuario(), incidente);
         });
-    }
-
-    public void agregarMiembro(Miembro miembro) {
-        miembros.add(miembro);
     }
 
     public void agregarMiembros(Miembro ... miembros){

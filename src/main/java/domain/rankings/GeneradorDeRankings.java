@@ -2,6 +2,7 @@ package domain.rankings;
 
 import domain.comunidad.Incidente;
 import domain.entidadesDeServicio.Entidad;
+import domain.repositorios.RepositorioComunidades;
 import lombok.Getter;
 import lombok.Setter;
 
