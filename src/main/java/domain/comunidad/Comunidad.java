@@ -20,10 +20,10 @@ public class Comunidad extends EntidadPersistente {
     @Column
     private String nombre;
 
-    @OneToMany(mappedBy = "comunidad")
+    @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL)
     private List<Miembro> miembros;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Incidente> incidentes;
 
     public  Comunidad(){

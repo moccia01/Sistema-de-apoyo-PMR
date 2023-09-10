@@ -1,18 +1,33 @@
 package domain.mensajes.Configuraciones;
 import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
+import domain.converters.LocalTimeAttributeConverter;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.*;
 
 @Getter
 @Setter
-public class SinApuros implements TiempoConfigurado {
+@Entity
+@DiscriminatorValue("sin_apuros")
+@DiscriminatorColumn(name = "discriminador")
+public class SinApuros extends TiempoConfigurado {
+
+    @ElementCollection
+    @CollectionTable(name = "sin_apuros_horarios", joinColumns = @JoinColumn(name = "sin_apuros_id"))
+    @Convert(converter = LocalTimeAttributeConverter.class)
+    @Column(name = "horarios")
     private List<LocalTime> horarios;
+
+    @ElementCollection
+    @CollectionTable(name = "sin_apuros_notificaciones_pendientes", joinColumns = @JoinColumn(name = "sin_apuros_id"))
+    @Column(name = "notificacion")
     private List<String> notificacionesPendientes;
 
-    public SinApuros() {
+    public SinApuros(){
         this.inicializarNotificacionesPendientes();
         this.horarios = new ArrayList<>();
     }

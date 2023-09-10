@@ -15,10 +15,10 @@ import java.util.List;
 @Table(name = "interes")
 public class Interes extends EntidadPersistente{
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Entidad> entidades;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Servicio> servicios;
 
     public Interes() {

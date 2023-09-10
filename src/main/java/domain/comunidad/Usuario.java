@@ -28,7 +28,7 @@ public class Usuario extends EntidadPersistente {
     @Column(name = "apellido")
     private String apellido;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     private CredencialDeAcceso credencialDeAcceso;
 
     @Column(name = "mail")
@@ -37,16 +37,17 @@ public class Usuario extends EntidadPersistente {
     @Column(name = "telefono")
     private String telefono;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Interes interes;
 
     @Transient
     private Localizacion localizacion;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Miembro> miembros;
 
-    @Transient //TODO
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tiempo_configurado_id")
     private TiempoConfigurado tiempoConfigurado;
 
     @Column

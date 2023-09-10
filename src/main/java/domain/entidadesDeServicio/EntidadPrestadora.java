@@ -16,7 +16,7 @@ public class EntidadPrestadora extends EntidadPersistente {
     @Column
     private String nombre;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "entidad_prestadora_id")
     private List<Entidad> entidades;
 

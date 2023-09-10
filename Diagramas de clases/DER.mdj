@@ -646,7 +646,7 @@
 									"top": 797,
 									"width": 173.72998046875,
 									"height": 13,
-									"text": "incidente_comunidad"
+									"text": "comunidad_incidente"
 								},
 								{
 									"_type": "ERDColumnCompartmentView",
@@ -4755,7 +4755,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGKYeJCg5R1WCg="
 					},
-					"name": "incidente_comunidad",
+					"name": "comunidad_incidente",
 					"columns": [
 						{
 							"_type": "ERDColumn",

@@ -16,7 +16,7 @@ public class OrganismoDeControl extends EntidadPersistente {
     @Column
     private String nombre;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="organismo_de_control_id")
     private List<Entidad> entidades;
 

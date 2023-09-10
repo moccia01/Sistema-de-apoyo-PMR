@@ -22,10 +22,10 @@ public class Entidad extends EntidadPersistente {
     @Column(name = "nombre")
     private String nombre;
 
-    @Transient
+    @Column(columnDefinition = "TEXT")
     private String localizacion;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "entidad_id")
     private List<Establecimiento> listaEstablecimientos;
 

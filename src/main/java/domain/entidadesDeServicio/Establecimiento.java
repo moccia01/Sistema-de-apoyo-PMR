@@ -22,7 +22,7 @@ public class Establecimiento extends EntidadPersistente {
     @Embedded
     private Localizacion localizacion;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Servicio> servicios;
 
     public Establecimiento() {
