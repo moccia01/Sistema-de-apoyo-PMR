@@ -5,7 +5,8 @@ import domain.comunidad.Incidente;
 import domain.entidadesDeServicio.Entidad;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,8 +15,12 @@ import java.util.stream.Collectors;
 @Setter
 public class CierreIncidentes extends CriterioRanking{
 
-    public double tiempoDeCierre(Incidente incidente){
-        return ChronoUnit.SECONDS.between(incidente.getFechaApertura(), incidente.getFechaCierre());
+    public long tiempoDeCierre(Incidente incidente){
+        LocalDateTime fechaApertura = incidente.getFechaApertura().atStartOfDay();
+        LocalDateTime fechaCierre = incidente.getFechaCierre().atStartOfDay();
+        Duration duration = Duration.between(fechaApertura, fechaCierre);
+        return duration.getSeconds();
+
     }
 
     public double promedioTiempoCierre(List<Incidente> incidentes){

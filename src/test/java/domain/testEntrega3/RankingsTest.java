@@ -126,8 +126,8 @@ public class RankingsTest {
         LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
         LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
-        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
+        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         List<String> rankingComoQuedo = new ArrayList<>();
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(0).getNombre());
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());

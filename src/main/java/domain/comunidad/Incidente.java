@@ -62,8 +62,14 @@ public class Incidente extends EntidadPersistente {
         return this.prestacionDeServicio.esLaMismaQue(incidente.getPrestacionDeServicio());
     }
 
-    public boolean estaDentroDeLas24hs(Incidente incidente){
-        return Math.abs(ChronoUnit.HOURS.between(this.getFechaApertura(), incidente.getFechaApertura())) <= 24;
+    public boolean estaDentroDeLas24hs(Incidente incidente) {
+        LocalDateTime fechaActual = LocalDateTime.now();
+        LocalDateTime fechaIncidente = incidente.getFechaApertura().atTime(incidente.getHorarioApertura());
+
+        long horasDiferencia = ChronoUnit.HOURS.between(fechaIncidente, fechaActual);
+
+
+        return horasDiferencia >= 0 && horasDiferencia <= 24;
     }
 
     public boolean estaRepetidoDentroDelPlazo(Incidente incidente){
