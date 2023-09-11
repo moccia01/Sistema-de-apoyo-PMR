@@ -1,6 +1,7 @@
 package domain.comunidades;
 
-public enum NombreGradoConfianza {
+
+public enum NombreGradoConfianza{
     NO_CONFIABLE,
     CON_RESERVAS,
     CONFIABLE_NIVEL_1,

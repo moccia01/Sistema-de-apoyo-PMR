@@ -1,24 +1,52 @@
 package domain.comunidades;
 
+import domain.converters.LocalDateAttributeConverter;
+import domain.converters.LocalTimeAttributeConverter;
+import domain.db.EntidadPersistente;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 @Getter
 @Setter
-public class Incidente {
+@Entity
+@Table(name = "incidente")
+public class Incidente extends EntidadPersistente{
+
+    @Column
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate fechaApertura;
+
+    @Column
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate fechaCierre;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Usuario usuarioApertura;
+
+    @Column
+    @Convert(converter = LocalTimeAttributeConverter.class)
     private LocalTime horarioApertura;
+
+    @Column
+    @Convert(converter = LocalTimeAttributeConverter.class)
     private LocalTime horarioCierre;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Usuario usuarioCierre;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
+
+    @Column(columnDefinition = "BOOL")
     private Boolean estado; // true es si esta cerrado
+
+    @Embedded
     private PrestacionDeServicio prestacionDeServicio;
 
 

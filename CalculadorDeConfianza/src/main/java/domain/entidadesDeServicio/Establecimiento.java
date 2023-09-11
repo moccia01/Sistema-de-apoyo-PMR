@@ -1,19 +1,24 @@
 package domain.entidadesDeServicio;
 
+import domain.db.EntidadPersistente;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Getter
 @Setter
-public class Establecimiento{
+@Entity
+@Table(name = "establecimiento")
+public class Establecimiento extends EntidadPersistente {
 
+    @Column
     private String nombre;
 
-
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Servicio> servicios;
 
     public Establecimiento() {

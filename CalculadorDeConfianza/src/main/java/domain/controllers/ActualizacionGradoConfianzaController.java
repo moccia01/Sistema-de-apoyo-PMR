@@ -61,6 +61,19 @@ public class ActualizacionGradoConfianzaController implements Handler{
         usuario.actualizarPuntosDeConfianza(puntosNuevos);
 
         //TODO calcular grado de confianza de comunidades
+   
+    }
+
+    private double calcularGradoDeConfianzaComunidad(Comunidad comunidad) {
+        List<Usuario> usuariosComunidad = comunidad.getUsuarios();
+        double sumaPuntosConfianza = 0.0;
+
+        for (Usuario usuarioComunidad : usuariosComunidad) {
+            sumaPuntosConfianza += usuarioComunidad.getPuntosDeConfianza();
+        }
+
+        double gradoDeConfianzaComunidad = sumaPuntosConfianza ;
+        return gradoDeConfianzaComunidad;
     }
 
     private List<Incidente> obtenerAperturasFraudulentas(Usuario usuario, List<Incidente> incidentes) {

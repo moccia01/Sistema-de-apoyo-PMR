@@ -7,9 +7,7 @@ import java.util.List;
 
 public class RepoComunidades {
 
-
     public List<Comunidad> obtenerTodasLasComunidades(){
-
         return null;
     }
 
