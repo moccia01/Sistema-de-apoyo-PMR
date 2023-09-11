@@ -22,12 +22,12 @@ public class GradoDeConfianza extends EntidadPersistente {
     public double puntosMaximos;
 
     @OneToOne          //TODO: Chequear estos 2 atributos y chequear completamente gradoDeConfianza Si hay que persistirlo
-    @JoinColumn(name = "grado_de_confianza_id")     //Chequear si es grado_de_confianza_id
+    @JoinColumn(name = "grado_de_confianza_id", insertable = false, updatable = false)     //Chequear si es grado_de_confianza_id
     public GradoDeConfianza gradoSiguiente;
 
     @OneToOne
-    @JoinColumn(name = "grado_de_confianza_id")     //Chequear si es grado_de_confianza_id
-    public GradoDeConfianza gradoAnterior;
+    @JoinColumn(name = "grado_de_confianza_id", insertable = false, updatable = false)     //Chequear si es grado_de_confianza_id
+    public GradoDeConfianza gradoAnterior;      //verificar insertable y updatable ya que el test lo recomendó
 
     public GradoDeConfianza(NombreGradoConfianza nombreGradoConfianza) {
         this.nombreGradoConfianza = nombreGradoConfianza;
