@@ -10,6 +10,9 @@ public class MensajeEmail implements MedioConfigurado {
     private final String asunto = "Notificacion Comunidad";
     private MailSender mailSender;
 
+    public String toString(){
+        return "MensajeEmail";
+    }
     public MensajeEmail(MailSender mailSender) {
         this.mailSender = mailSender;
     }

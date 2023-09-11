@@ -54,6 +54,13 @@ public class Usuario extends EntidadPersistente {
     @Convert(converter = MedioConfiguradoAttributeConverter.class)
     private MedioConfigurado medioConfigurado;
 
+    @Column
+    private double puntosDeConfianza;
+
+    @OneToOne
+    @JoinColumn(name = "grado_de_confianza_id")
+    private GradoDeConfianza gradoDeConfianza;
+
     public Usuario() {
         this.miembros = new ArrayList<>();
     }

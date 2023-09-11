@@ -1,13 +1,12 @@
 package domain.repositorios;
 
 import domain.comunidades.Usuario;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.util.List;
 
-public class RepoUsuarios {
+public interface RepoUsuarios {
 
-    public List<Usuario> obtenerUsuarios(){
+    public List<Usuario> obtenerUsuarios();
 
-        return null;
-    }
 }

@@ -44,6 +44,12 @@ public class Incidente extends EntidadPersistente {
     @Embedded
     private PrestacionDeServicio prestacionDeServicio;
 
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    private Usuario usuarioApertura;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    private Usuario usuarioCierre;
+
     public Incidente() {
 
     }

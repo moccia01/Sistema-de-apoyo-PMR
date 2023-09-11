@@ -19,11 +19,11 @@ public class Usuario extends EntidadPersistente {
     @OneToOne
     @JoinColumn(name = "grado_de_confianza_id")
     private GradoDeConfianza gradoDeConfianza;
-
+/*
     @ManyToOne
     @JoinColumn(name = "comunidad_id", referencedColumnName = "id")     //Esto en nuestro sistema está en miembros
-    private Comunidad comunidad;
-
+    private Comunidad comunidad;                                        //TODO Para que mierda estaba esto, Fin
+*/
 
     public void actualizarPuntosDeConfianza(double puntosNuevos){
         //actualizar los puntos

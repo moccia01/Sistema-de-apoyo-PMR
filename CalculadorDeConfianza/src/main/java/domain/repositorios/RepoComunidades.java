@@ -2,10 +2,11 @@ package domain.repositorios;
 
 import domain.comunidades.Comunidad;
 import domain.comunidades.Usuario;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.util.List;
 
-public class RepoComunidades {
+public class RepoComunidades implements WithSimplePersistenceUnit {
 
     public List<Comunidad> obtenerTodasLasComunidades(){
         return null;
@@ -20,6 +21,6 @@ public class RepoComunidades {
 
             tx.commit()
         */
-        return null;
+        return entityManager().createQuery("from Comunidad ").getResultList();
     }
 }

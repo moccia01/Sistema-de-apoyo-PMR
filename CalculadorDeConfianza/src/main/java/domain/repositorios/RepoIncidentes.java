@@ -2,10 +2,11 @@ package domain.repositorios;
 
 import domain.comunidades.Incidente;
 import domain.comunidades.Usuario;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.util.List;
 
-public class RepoIncidentes {
+public class RepoIncidentes implements WithSimplePersistenceUnit {
 
     public List<Incidente> obtenerIncidentesDe(Usuario usuario){
 
@@ -18,6 +19,6 @@ public class RepoIncidentes {
             tx.commit()
         */
 
-        return null;
+        return entityManager().createQuery("from Incidente ").getResultList();
     }
 }

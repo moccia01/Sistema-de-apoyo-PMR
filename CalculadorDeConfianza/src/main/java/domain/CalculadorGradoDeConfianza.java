@@ -13,12 +13,13 @@ import io.javalin.config.JavalinConfig;
 public class CalculadorGradoDeConfianza {
     
     public static void main(String[] args) {
-        RepoUsuarios repoUsuarios = new RepoUsuarios();
+        //RepoUsuarios repoUsuarios = new RepoUsuarios();     //TODO Instanciar bien
         RepoComunidades repoComunidades = new RepoComunidades();
 
         Integer port = Integer.parseInt(System.getProperty("port", "8080"));
         Javalin app = Javalin.create(config()).start(port);
-        app.post("/api/actualizacion", new ActualizacionGradoConfianzaController(repoUsuarios, repoComunidades));
+
+        //app.post("/api/actualizacion", new ActualizacionGradoConfianzaController(repoUsuarios, repoComunidades)); //TODO Instanciar bien
     }
 
     private static Consumer<JavalinConfig> config() {

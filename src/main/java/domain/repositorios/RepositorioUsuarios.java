@@ -1,16 +1,18 @@
 package domain.repositorios;
 
 import domain.comunidad.Usuario;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class RepoUsuarios {
+public class RepositorioUsuarios implements WithSimplePersistenceUnit {
     private List<Usuario> usuarios;
 
-    public RepoUsuarios() {
+    public RepositorioUsuarios() {
         this.usuarios = new ArrayList<>();
     }
 
@@ -19,9 +21,8 @@ public class RepoUsuarios {
     }
 
     public List<Usuario> obtenerUsuarios(){
-
-        // TODO hacer la query a la bd con EntityManager
-
-        return this.usuarios;
+        return entityManager()
+                .createQuery("from Usuario")
+                .getResultList();
     }
 }

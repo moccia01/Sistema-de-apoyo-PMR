@@ -12,7 +12,7 @@ import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import domain.entidadesDeServicio.Servicio;
-import domain.repositorios.RepoUsuarios;
+import domain.repositorios.RepositorioUsuarios;
 import domain.repositorios.RepositorioComunidades;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -182,10 +182,10 @@ public class NotificacionesTest {
         Mockito.verify(sinApurosTomas, Mockito.never()).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.never()).mandarPendientes(Mockito.any());
 
-        RepoUsuarios repoUsuarios = new RepoUsuarios();
-        repoUsuarios.agregarUsuarios(fede, tomas);
+        RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();
+        repositorioUsuarios.agregarUsuarios(fede, tomas);
 
-        NotificacionesPendientesSender.mandarPendientes(repoUsuarios.obtenerUsuarios());
+        NotificacionesPendientesSender.mandarPendientes(repositorioUsuarios.obtenerUsuarios());
 
         Mockito.verify(sinApurosTomas, Mockito.times(1)).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.times(1)).mandarPendientes(Mockito.any());

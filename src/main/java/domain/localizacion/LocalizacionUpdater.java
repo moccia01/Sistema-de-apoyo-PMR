@@ -4,7 +4,7 @@ import domain.mensajes.Notificaciones.SugerenciaRevision;
 import domain.comunidad.Incidente;
 import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
-import domain.repositorios.RepoUsuarios;
+import domain.repositorios.RepositorioUsuarios;
 import domain.repositorios.RepositorioComunidades;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class LocalizacionUpdater {
     }
 
     public static void verificarIncidentesCercanos(){
-        new RepoUsuarios().obtenerUsuarios().forEach(LocalizacionUpdater::notificarIncidentesCercanos);
+        new RepositorioUsuarios().obtenerUsuarios().forEach(LocalizacionUpdater::notificarIncidentesCercanos);
     }
 
     public static void notificarIncidentesCercanos(Usuario usuario){
