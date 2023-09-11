@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página Principal</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/administrarUsuarios.css">
 </head>
+
 <body class="bg-dark text-light">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
         <div class="container">
-          <a class="navbar-brand" href="#">Logo</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">Logo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Cargar Datos
+                    Cargar Datos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="cargaEntidades.html">Entidades prestadoras</a>
@@ -36,29 +37,32 @@
                     <a class="nav-link" href="rankings.html">Rankings</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="comunidades.html">Comunidades</a>
+                    <a class="nav-link" href="comunidades.html">Comunidades</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="login.html">Cerrar sesión</a>
                 </li>
             </ul>
-          </div>
+            </div>
         </div>
-      </nav>
+    </nav>
 
-<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100 bg-dark">
-  <div class="col-md-4">
-    <div class="card shadow-lg">
-      <div class="card-header bg-warning text-dark text-center py-3">
-        <h3 class="m-0">Sistema apoyo PMR</h3>
-      </div>
-      <div class="card-body p-4">
-        <p>Bienvenido a la página principal.</p>
-      </div>
+    <div class="container mt-4">
+        <h1>Nombre Comunidad</h1>
+
+        <ul class="list-group">
+            <li class="list-group-item active" aria-current="true">Usuarios</li>
+            <li class="list-group-item">
+                Lucas Boldrini
+            </li>
+            <li class="list-group-item">Nahuel Gimenez</li>
+            <li class="list-group-item">Facundo Su</li>
+            <li class="list-group-item">Tomas D'Antonio</li>
+            <li class="list-group-item">Federico Moccia</li>
+          </ul>
     </div>
-  </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
