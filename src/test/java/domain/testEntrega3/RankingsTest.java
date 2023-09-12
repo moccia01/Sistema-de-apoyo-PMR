@@ -141,7 +141,7 @@ public class RankingsTest {
         LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
 
         try{
-            TimeUnit.SECONDS.sleep(25);
+            TimeUnit.SECONDS.sleep(25); //C
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
