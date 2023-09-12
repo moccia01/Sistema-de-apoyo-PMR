@@ -12,6 +12,7 @@ import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import domain.entidadesDeServicio.Servicio;
+import domain.repositorios.RepositorioMiembros;
 import domain.repositorios.RepositorioUsuarios;
 import domain.repositorios.RepositorioComunidades;
 import org.junit.jupiter.api.Assertions;
@@ -40,7 +41,7 @@ public class NotificacionesTest {
     private Servicio banio;
     private PrestacionDeServicio escaleraMedrano;
     private PrestacionDeServicio banioCampus;
-
+    private RepositorioUsuarios repositorioUsuarios;
 
     @BeforeEach
     public void init() {
@@ -79,7 +80,7 @@ public class NotificacionesTest {
 
         EstablecimientoBuilder establecimientoBuilder1 = new EstablecimientoBuilder();
         campus = establecimientoBuilder1.conNombre("Campus")
-                .conServicios(escalera)
+                .conServicios(escalera, banio)
                 .conLocalizacion("Buenos Aires", "Comuna 8", "Mozart 2300")
                 .construir();
 
@@ -101,8 +102,8 @@ public class NotificacionesTest {
         fede.setInteres(interes);
         tomas.setInteres(interes);
 
-        RepositorioComunidades.agregarComunidades(operativosEnjoyers, comunidad);
-        NotificacionesPendientesSender.agregarMiembros(RepositorioComunidades.obtenerMiembros());
+        repositorioUsuarios = new RepositorioUsuarios();
+        repositorioUsuarios.agregarUsuarios(fede, tomas);
     }
 
     @Test
@@ -182,9 +183,6 @@ public class NotificacionesTest {
         Mockito.verify(sinApurosTomas, Mockito.never()).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.never()).mandarPendientes(Mockito.any());
 
-        RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();
-        repositorioUsuarios.agregarUsuarios(fede, tomas);
-
         NotificacionesPendientesSender.mandarPendientes(repositorioUsuarios.obtenerUsuarios());
 
         Mockito.verify(sinApurosTomas, Mockito.times(1)).mandarPendientes(Mockito.any());
@@ -194,50 +192,3 @@ public class NotificacionesTest {
         Mockito.verify(mailerMiembro, Mockito.never()).enviarMensaje(Mockito.any(), Mockito.any(), Mockito.any());
     }
 }
-
-/*
-    @Test
-    public void seEnviaNotificacionSugerenciaCuandoMiembroEstaCercaDeIncidente(){
-        Establecimiento medrano = new Establecimiento();
-        medrano.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951");
-        PrestacionDeServicio ascensorMedrano = new PrestacionDeServicio();
-        ascensorMedrano.setEstablecimiento(medrano);
-
-        Establecimiento campus = new Establecimiento();
-        campus.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
-        PrestacionDeServicio banioCampus = new PrestacionDeServicio();
-        banioCampus.setEstablecimiento(campus);
-
-        MensajeEmail enviarMail = new MensajeEmail();
-        CuandoSucede cuandoSucede = new CuandoSucede();
-
-        Usuario usuario = new Usuario();
-        usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
-        usuario.setMail("federico21433@hotmail.com");
-        miembro = new Miembro(usuario, Rol.MIEMBRO);
-        miembro.setTiempoConfigurado(cuandoSucede);
-        miembro.setMedioConfigurado(enviarMail);
-
-        String notificacion = "Sugerencia de revision de incidente";
-
-        Comunidad comunidad = new Comunidad();
-        comunidad.agregarMiembro(miembro);
-        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
-        comunidad.generarIncidente(ascensorMedrano, "Murio el ascensor >:(");
-        miembro.agregarComunidad(comunidad);
-
-        try{
-            TimeUnit.SECONDS.sleep(60);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        usuario.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
-
-        try{
-            TimeUnit.SECONDS.sleep(25);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-*/

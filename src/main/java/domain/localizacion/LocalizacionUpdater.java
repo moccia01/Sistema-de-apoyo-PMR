@@ -4,6 +4,7 @@ import domain.mensajes.Notificaciones.SugerenciaRevision;
 import domain.comunidad.Incidente;
 import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
+import domain.repositorios.RepositorioMiembros;
 import domain.repositorios.RepositorioUsuarios;
 import domain.repositorios.RepositorioComunidades;
 
@@ -42,7 +43,7 @@ public class LocalizacionUpdater {
 
 
     public static void main(String[] args) {
-        List<Usuario> usuarios = RepositorioComunidades.obtenerMiembros().stream().map(Miembro::getUsuario).toList();
+        List<Usuario> usuarios = new RepositorioMiembros().obtenerMiembros().stream().map(Miembro::getUsuario).toList();
         LocalizacionUpdater.agregarUsuarios(usuarios);
         LocalizacionUpdater.actualizarLocalizaciones();
     }

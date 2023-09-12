@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class ContextTest implements SimplePersistenceTest {
 
     @Test
-    void contextUp() {              //Todo esto está corriendo en tpa-pmr-g145 en persistence.xml
+    void contextUp() {
         assertNotNull(entityManager());
     }
 

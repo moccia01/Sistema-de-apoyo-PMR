@@ -21,8 +21,11 @@ public class RepositorioUsuarios implements WithSimplePersistenceUnit {
     }
 
     public List<Usuario> obtenerUsuarios(){
-        return entityManager()
-                .createQuery("from Usuario")
-                .getResultList();
+        if(this.usuarios == null){
+            usuarios = entityManager()
+                    .createQuery("from Usuario")
+                    .getResultList();
+        }
+        return this.usuarios;
     }
 }

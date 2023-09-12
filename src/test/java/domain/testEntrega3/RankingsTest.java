@@ -10,6 +10,7 @@ import domain.rankings.CierreIncidentes;
 import domain.rankings.GeneradorDeRankings;
 import domain.rankings.MayorCantidadIncidentes;
 import domain.repositorios.RepositorioComunidades;
+import domain.repositorios.RepositorioIncidentes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,8 +34,7 @@ public class RankingsTest {
     private PrestacionDeServicio trenesArgentinos2;
     private Comunidad comunidadNoVidentesSM;
     private Comunidad comunidadHipoacusicosCABA;
-    private RepositorioComunidades repoIncidentes;
-
+    private RepositorioIncidentes repoIncidentes;
     private Incidente incidente1;
     private Incidente incidente2;
     private Incidente incidente3;
@@ -114,17 +114,15 @@ public class RankingsTest {
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos1, "");
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos2, "");
 
-        repoIncidentes = new RepositorioComunidades();
-        repoIncidentes.agregarComunidades(comunidadNoVidentesSM, comunidadHipoacusicosCABA);
+        repoIncidentes = new RepositorioIncidentes();
+        repoIncidentes.agregarIncidentes(incidente1, incidente2, incidente3);
 
-        generador = new GeneradorDeRankings();
+        generador = new GeneradorDeRankings(repoIncidentes);
     }
 
     @Test
     public void generarRankingMayorCantidadTest(){
         MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
-        LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
-        LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
         rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
         rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
@@ -137,8 +135,6 @@ public class RankingsTest {
     @Test
     public void generarRankingCierreIncidentesTest(){
         CierreIncidentes ranking1 = new CierreIncidentes();
-        LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
-        LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
 
         try{
             TimeUnit.SECONDS.sleep(25);
@@ -152,8 +148,8 @@ public class RankingsTest {
         comunidadNoVidentesSM.cerrarIncidente(incidenteACerrar2);
 
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
-        rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
         rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
+        rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
 
         List<String> rankingComoQuedo = new ArrayList<>();
         List<Entidad> ranking = generador.generarSegunCriterio(ranking1);

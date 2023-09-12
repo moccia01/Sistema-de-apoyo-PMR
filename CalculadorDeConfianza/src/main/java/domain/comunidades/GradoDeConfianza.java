@@ -1,32 +1,21 @@
 package domain.comunidades;
 
-import domain.db.EntidadPersistente;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+@Getter
+@Setter
+public class GradoDeConfianza{
 
-
-@Entity
-@Table(name = "gradoDeConfianza")
-public class GradoDeConfianza extends EntidadPersistente {
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "nombreGradoConfianza")
     public NombreGradoConfianza nombreGradoConfianza;
 
-    @Column
     public double puntosMinimos;
 
-    @Column
     public double puntosMaximos;
 
-    @OneToOne          //TODO: Chequear estos 2 atributos y chequear completamente gradoDeConfianza Si hay que persistirlo
-    @JoinColumn(name = "grado_de_confianza_id", insertable = false, updatable = false)     //Chequear si es grado_de_confianza_id
     public GradoDeConfianza gradoSiguiente;
 
-    @OneToOne
-    @JoinColumn(name = "grado_de_confianza_id", insertable = false, updatable = false)     //Chequear si es grado_de_confianza_id
     public GradoDeConfianza gradoAnterior;      //verificar insertable y updatable ya que el test lo recomendó
 
     public GradoDeConfianza(NombreGradoConfianza nombreGradoConfianza) {
@@ -37,27 +26,11 @@ public class GradoDeConfianza extends EntidadPersistente {
 
     }
 
-    public boolean tieneQueSubirGrado(Usuario usuario) {
-        return this.gradoSiguiente != null && usuario.getPuntosDeConfianza() > this.puntosMaximos;
+    public boolean tieneQueSubirGrado(double puntosDeConfianza) {
+        return this.gradoSiguiente != null && puntosDeConfianza > this.puntosMaximos;
     }
 
-    public boolean tieneQueBajarGrado(Usuario usuario) {
-        return this.gradoAnterior != null && usuario.getPuntosDeConfianza() < this.puntosMinimos;
-    }
-
-    public void subirGrado(Usuario usuario) {
-        usuario.setGradoDeConfianza(gradoSiguiente);
-    }
-
-    public void bajarGrado(Usuario usuario) {
-        usuario.setGradoDeConfianza(gradoAnterior);
-    }
-
-    public void cambiarGradoSiCorresponde(Usuario usuario) {
-        if (this.tieneQueSubirGrado(usuario)) {
-            this.subirGrado(usuario);
-        } else if (this.tieneQueBajarGrado(usuario)) {
-            this.bajarGrado(usuario);
-        }
+    public boolean tieneQueBajarGrado(double puntosDeConfianza) {
+        return this.gradoAnterior != null && puntosDeConfianza < this.puntosMinimos;
     }
 }

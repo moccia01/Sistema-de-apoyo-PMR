@@ -33,9 +33,5 @@ public class EntidadPrestadora extends EntidadPersistente {
         return this.entidades.contains(entidad);
     }
 
-    public List<Entidad> obtenerRankingSegun(CriterioRanking criterioRanking){
-        return new GeneradorDeRankings().generarSegunCriterio(criterioRanking);
-    }
-
 }
 
