@@ -246,11 +246,23 @@ public class TestsServicio {
         // se le suman 1.0 porque hizo una apertura correcta
         Assertions.assertEquals(3.5, nahu.getPuntosDeConfianza());
         Assertions.assertEquals(confianzaConfiableNivel1.getNombreGradoConfianza(), nahu.getGradoDeConfianza().getNombreGradoConfianza());
-
     }
 
     @Test
     public void seActualizanLosGradosDeConfianzaDeLasComunidadesCorrectamente(){
-        
+        usuarios.add(nahu);
+        usuarios.add(fede);
+        comunidades.add(comunidad);
+        incidentes.add(escaleraCampusRota);
+        incidentes.add(escaleraMedranoRota);
+        incidentes.add(escaleraMedranoRota2);
+
+        nahu.setPuntosDeConfianza(2.5);
+        nahu.setGradoDeConfianza(confianzaConReservas);
+
+        calculadorGradoConfianza.actualizarPuntosDeConfianza(usuarios,comunidades,incidentes);
+
+        Assertions.assertEquals(confianzaConfiableNivel2.getNombreGradoConfianza(), fede.getGradoDeConfianza().getNombreGradoConfianza());
+        Assertions.assertEquals(confianzaConfiableNivel1.getNombreGradoConfianza(), nahu.getGradoDeConfianza().getNombreGradoConfianza());
     }
 }
