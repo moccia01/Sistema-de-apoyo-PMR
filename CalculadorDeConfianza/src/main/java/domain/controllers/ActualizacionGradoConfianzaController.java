@@ -23,7 +23,6 @@ public class ActualizacionGradoConfianzaController implements Handler{
                 payloadDTO.getIncidentes().stream()
                         .filter(Incidente::estaDentroDeLaSemana).toList());
 
-        // TODO ver como devolver el json con las listas actualizadas
         context.json(payloadDTO);
     }
 }

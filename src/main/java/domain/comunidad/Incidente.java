@@ -20,11 +20,11 @@ import java.time.temporal.ChronoUnit;
 @Table(name = "incidente")
 public class Incidente extends EntidadPersistente {
     @Column
-    @Convert(converter = LocalDateAttributeConverter.class)
+    @Convert(converter = LocalDateAttributeConverter.class)         //TODO Convertir a localDateTime con AttributeConverter
     public LocalDate fechaApertura;
 
     @Column
-    @Convert(converter = LocalTimeAttributeConverter.class)
+    @Convert(converter = LocalTimeAttributeConverter.class)         //TODO Convertir a localDateTime con AttributeConverter
     public LocalTime horarioApertura;
 
     @Column

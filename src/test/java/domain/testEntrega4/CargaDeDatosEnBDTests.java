@@ -33,6 +33,7 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
 
     private CredencialDeAcceso credencialFede;
 
+    //TODO Mejorar testeando con cascadas
     @BeforeEach
     public void init(){
         fede = new Usuario();

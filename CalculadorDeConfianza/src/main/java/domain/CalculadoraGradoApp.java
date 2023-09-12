@@ -6,8 +6,6 @@ import domain.controllers.ActualizacionGradoConfianzaController;
 
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
-
-// TODO FALTA MAPPEAR CON BD COMO EN EL SISTEMA GENERAL, LAS QUERYS A LA BD EN LOS REPOS Y TESTEAR
 public class CalculadoraGradoApp {
     
     public static void main(String[] args) {
