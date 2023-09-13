@@ -1,7 +1,6 @@
 package domain.comunidad;
 
-import domain.converters.LocalDateAttributeConverter;
-import domain.converters.LocalTimeAttributeConverter;
+import domain.converters.LocalDateTimeAttributeConverter;
 import domain.db.EntidadPersistente;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import domain.localizacion.Localizacion;
@@ -20,20 +19,12 @@ import java.time.temporal.ChronoUnit;
 @Table(name = "incidente")
 public class Incidente extends EntidadPersistente {
     @Column
-    @Convert(converter = LocalDateAttributeConverter.class)         //TODO Convertir a localDateTime con AttributeConverter
-    public LocalDate fechaApertura;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime fechaHoraApertura;
 
     @Column
-    @Convert(converter = LocalTimeAttributeConverter.class)         //TODO Convertir a localDateTime con AttributeConverter
-    public LocalTime horarioApertura;
-
-    @Column
-    @Convert(converter = LocalTimeAttributeConverter.class)
-    public LocalDate fechaCierre;
-
-    @Column
-    @Convert(converter = LocalTimeAttributeConverter.class)
-    public LocalTime horarioCierre;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime fechaHoraCierre;
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
@@ -70,7 +61,7 @@ public class Incidente extends EntidadPersistente {
 
     public boolean estaDentroDeLas24hs(Incidente incidente) {
         LocalDateTime fechaActual = LocalDateTime.now();
-        LocalDateTime fechaIncidente = incidente.getFechaApertura().atTime(incidente.getHorarioApertura());
+        LocalDateTime fechaIncidente = incidente.getFechaHoraApertura();
 
         long horasDiferencia = ChronoUnit.HOURS.between(fechaIncidente, fechaActual);
 
@@ -91,13 +82,11 @@ public class Incidente extends EntidadPersistente {
 
     public void abrir(){
         this.estado = false;
-        this.fechaApertura = LocalDate.now();
-        this.horarioApertura = LocalTime.now();
+        this.fechaHoraApertura = LocalDateTime.now();
     }
 
     public void cerrar(){
         this.estado = true;
-        this.fechaCierre = LocalDate.now();
-        this.horarioCierre = LocalTime.now();
+        this.fechaHoraCierre = LocalDateTime.now();
     }
 }

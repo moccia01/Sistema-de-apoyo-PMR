@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 public class CierreIncidentes extends CriterioRanking{
 
     public long tiempoDeCierre(Incidente incidente){
-        LocalDateTime fechaApertura = incidente.getFechaApertura().atStartOfDay();
-        LocalDateTime fechaCierre = incidente.getFechaCierre().atStartOfDay();
+        LocalDateTime fechaApertura = incidente.getFechaHoraApertura();
+        LocalDateTime fechaCierre = incidente.getFechaHoraCierre();
         Duration duration = Duration.between(fechaApertura, fechaCierre);
         return duration.getSeconds();
 

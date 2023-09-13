@@ -34,11 +34,11 @@ public abstract class CriterioRanking {
     public abstract double transformarListaAValor(List<Incidente> incidentes);
 
     public boolean incidenteValido(Incidente incidente){
-        return this.estaDentroDeLaSemana(incidente.getFechaApertura(), incidente.getHorarioApertura());
+        return this.estaDentroDeLaSemana(incidente.getFechaHoraApertura());
     }
 
-    public boolean estaDentroDeLaSemana(LocalDate fecha, LocalTime horario){
-        LocalDateTime fechaHora = fecha.atTime(horario);
+    public boolean estaDentroDeLaSemana(LocalDateTime fecha){
+        LocalDateTime fechaHora = fecha;
         return fechaHora.isAfter(fechaActual.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))) && fechaHora.isBefore(fechaActual.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)));
     }
 

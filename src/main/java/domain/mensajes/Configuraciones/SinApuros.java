@@ -1,7 +1,6 @@
 package domain.mensajes.Configuraciones;
-import domain.comunidad.Miembro;
 import domain.comunidad.Usuario;
-import domain.converters.LocalTimeAttributeConverter;
+import domain.converters.LocalDateTimeAttributeConverter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,7 @@ public class SinApuros extends TiempoConfigurado {
 
     @ElementCollection
     @CollectionTable(name = "sin_apuros_horarios", joinColumns = @JoinColumn(name = "sin_apuros_id"))
-    @Convert(converter = LocalTimeAttributeConverter.class)
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     @Column(name = "horarios")
     private List<LocalTime> horarios;
 
