@@ -14,11 +14,14 @@ import domain.repositorios.RepositorioIncidentes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static org.mockito.Mockito.when;
 
 public class RankingsTest {
 
@@ -38,6 +41,7 @@ public class RankingsTest {
     private Incidente incidente1;
     private Incidente incidente2;
     private Incidente incidente3;
+    private List<Incidente> incidentes;
 
    @BeforeEach
     public void init(){
@@ -114,8 +118,12 @@ public class RankingsTest {
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos1, "");
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos2, "");
 
-        repoIncidentes = new RepositorioIncidentes();
-        repoIncidentes.agregarIncidentes(incidente1, incidente2, incidente3);
+        incidentes.add(incidente1);
+        incidentes.add(incidente2);
+        incidentes.add(incidente3);
+
+        repoIncidentes = Mockito.mock(RepositorioIncidentes.class);
+        when(repoIncidentes.obtenerIncidentes()).thenReturn(incidentes);
 
         generador = new GeneradorDeRankings(repoIncidentes);
     }

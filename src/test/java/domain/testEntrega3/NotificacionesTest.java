@@ -20,6 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +45,7 @@ public class NotificacionesTest {
     private PrestacionDeServicio escaleraMedrano;
     private PrestacionDeServicio banioCampus;
     private RepositorioUsuarios repositorioUsuarios;
+    private List<Usuario> usuarios = new ArrayList<>();
 
     @BeforeEach
     public void init() {
@@ -102,8 +106,11 @@ public class NotificacionesTest {
         fede.setInteres(interes);
         tomas.setInteres(interes);
 
-        repositorioUsuarios = new RepositorioUsuarios();
-        repositorioUsuarios.agregarUsuarios(fede, tomas);
+        usuarios.add(fede);
+        usuarios.add(tomas);
+        repositorioUsuarios = Mockito.mock(RepositorioUsuarios.class);
+        when(repositorioUsuarios.obtenerUsuarios()).thenReturn(usuarios);
+
     }
 
     @Test

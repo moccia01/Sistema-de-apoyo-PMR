@@ -1,5 +1,6 @@
 package domain.repositorios;
 
+import domain.comunidad.Comunidad;
 import domain.comunidad.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
@@ -10,22 +11,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class RepositorioUsuarios implements WithSimplePersistenceUnit {
-    private List<Usuario> usuarios;
 
-    public RepositorioUsuarios() {
-        this.usuarios = new ArrayList<>();
-    }
-
-    public void agregarUsuarios(Usuario ... usuarios){
-        Collections.addAll(this.usuarios, usuarios);
-    }
-
+    //TODO creor usuario admin para el sistema y encargados de inicializar el sistema (localizaciones, etc)
     public List<Usuario> obtenerUsuarios(){
-        if(this.usuarios == null){
-            usuarios = entityManager()
-                    .createQuery("from Usuario")
-                    .getResultList();
-        }
-        return this.usuarios;
+        return entityManager()
+                .createQuery("from Comunidad")
+                .getResultList();
     }
 }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity(name = "tiempo_configurado")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn( name = "discriminador")
 public abstract class TiempoConfigurado extends EntidadPersistente {
 
     public abstract void recibirNotificacion(Usuario usuario, String notificacion);

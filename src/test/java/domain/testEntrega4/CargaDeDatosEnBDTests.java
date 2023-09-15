@@ -50,7 +50,6 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
     private Interes interes;
     private GradoDeConfianza gradoDeConfianza;
 
-    //TODO Mejorar testeando con cascadas
     @BeforeEach
     public void init(){
         credencialFede = new CredencialDeAcceso("elFede");

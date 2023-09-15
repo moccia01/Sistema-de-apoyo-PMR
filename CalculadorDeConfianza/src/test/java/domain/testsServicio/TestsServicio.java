@@ -2,6 +2,9 @@ package domain.testsServicio;
 
 import domain.CalculadoraGradoApp;
 import domain.calculos.CalculadorGradoConfianza;
+import domain.calculos.CalculoAperturaCierreCorrecto;
+import domain.calculos.CalculoAperturaFraudulenta;
+import domain.calculos.CalculoCierreFraudulento;
 import domain.comunidades.*;
 import domain.controllers.ActualizacionGradoConfianzaController;
 import domain.entidadesDeServicio.Entidad;
@@ -44,6 +47,9 @@ public class TestsServicio {
     private List<Comunidad> comunidades;
     private List<Incidente> incidentes;
     private CalculadorGradoConfianza calculadorGradoConfianza;
+    private CalculoCierreFraudulento calculoCierreFraudulento;
+    private CalculoAperturaFraudulenta calculoAperturaFraudulenta;
+    private CalculoAperturaCierreCorrecto calculoAperturaCierreCorrecto;
 
     @BeforeEach
     public void init(){
@@ -161,6 +167,10 @@ public class TestsServicio {
         escaleraCampusRota.setEstado(true);
 
         calculadorGradoConfianza = new CalculadorGradoConfianza();
+        calculoAperturaFraudulenta = new CalculoAperturaFraudulenta(-0.2);
+        calculoCierreFraudulento = new CalculoCierreFraudulento(-0.2);
+        calculoAperturaCierreCorrecto = new CalculoAperturaCierreCorrecto(0.5);
+        calculadorGradoConfianza.agregarCalculosGradoConfianza(calculoAperturaFraudulenta, calculoCierreFraudulento, calculoAperturaCierreCorrecto);
 
         usuarios = new ArrayList<>();
         comunidades = new ArrayList<>();
@@ -174,6 +184,7 @@ public class TestsServicio {
         usuarios.add(fede);
         comunidades.add(comunidad);
         incidentes.add(escaleraMedranoRota);
+
 
         calculadorGradoConfianza.actualizarPuntosDeConfianza(usuarios,comunidades,incidentes);
 
