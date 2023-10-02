@@ -32,7 +32,7 @@ public class Server {
         return config -> {
             config.staticFiles.add(staticFiles -> {
                 staticFiles.hostedPath = "/";
-                staticFiles.directory = "/public";  // Con esto sabe el navegador donde buscar las cosas
+                staticFiles.directory = "/public";  // Con esto sabe el navegador donde buscar los css, js, etc
             });
         };
     }
