@@ -12,11 +12,16 @@ import domain.entidadesDeServicio.Entidad;
 import domain.entidadesDeServicio.Establecimiento;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import domain.entidadesDeServicio.Servicio;
-import domain.rankings.RepositorioComunidades;
+import domain.repositorios.RepositorioMiembros;
+import domain.repositorios.RepositorioUsuarios;
+import domain.repositorios.RepositorioComunidades;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,21 +44,25 @@ public class NotificacionesTest {
     private Servicio banio;
     private PrestacionDeServicio escaleraMedrano;
     private PrestacionDeServicio banioCampus;
-
+    private RepositorioUsuarios repositorioUsuarios;
+    private List<Usuario> usuarios = new ArrayList<>();
 
     @BeforeEach
     public void init() {
         usuario = new Usuario();
         usuario.setMail("federico21433@hotmail.com");
-        miembro = new Miembro(usuario, Rol.MIEMBRO);
+        miembro = new Miembro(usuario, Rol.MIEMBRO, comunidad);
+        usuario.agregarMiembros(miembro);
 
         fede = new Usuario();
         fede.setMail("federico21433@hotmail.com");
-        elFede = new Miembro(fede, Rol.ADMINISTRADOR);
+        elFede = new Miembro(fede, Rol.ADMINISTRADOR, operativosEnjoyers);
+        fede.agregarMiembros(elFede);
 
         tomas = new Usuario();
         tomas.setMail("tomydanto84@gmail.com");
-        elTomas = new Miembro(tomas, Rol.ADMINISTRADOR);
+        elTomas = new Miembro(tomas, Rol.ADMINISTRADOR, operativosEnjoyers);
+        tomas.agregarMiembros(elTomas);
 
         comunidad = new Comunidad();
         operativosEnjoyers = new Comunidad();
@@ -75,7 +84,7 @@ public class NotificacionesTest {
 
         EstablecimientoBuilder establecimientoBuilder1 = new EstablecimientoBuilder();
         campus = establecimientoBuilder1.conNombre("Campus")
-                .conServicios(escalera)
+                .conServicios(escalera, banio)
                 .conLocalizacion("Buenos Aires", "Comuna 8", "Mozart 2300")
                 .construir();
 
@@ -90,26 +99,26 @@ public class NotificacionesTest {
         InteresBuilder interesBuilder = new InteresBuilder();
         interes = interesBuilder.agregarEntidades(utn).agregarServicios(escalera, banio).construir();
 
-        comunidad.agregarMiembro(miembro);
-        miembro.agregarComunidad(comunidad);
+        comunidad.agregarMiembros(miembro);
         usuario.setInteres(interes);
 
         operativosEnjoyers.agregarMiembros(elFede, elTomas);
-        elFede.agregarComunidad(operativosEnjoyers);
-        elTomas.agregarComunidad(operativosEnjoyers);
         fede.setInteres(interes);
         tomas.setInteres(interes);
 
-        RepositorioComunidades.agregarComunidades(operativosEnjoyers, comunidad);
-        NotificacionesPendientesSender.agregarMiembros(RepositorioComunidades.obtenerMiembros());
+        usuarios.add(fede);
+        usuarios.add(tomas);
+        repositorioUsuarios = Mockito.mock(RepositorioUsuarios.class);
+        when(repositorioUsuarios.obtenerUsuarios()).thenReturn(usuarios);
+
     }
 
     @Test
     public void seEnviaUnMailCuandoHayGeneracionDeIncidente() {
         MailSender mailer = Mockito.mock(MailSender.class);
         MensajeEmail medio = new MensajeEmail(mailer);
-        miembro.setMedioConfigurado(medio);
-        miembro.setTiempoConfigurado(new CuandoSucede());
+        usuario.setMedioConfigurado(medio);
+        usuario.setTiempoConfigurado(new CuandoSucede());
 
         comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
 
@@ -120,8 +129,8 @@ public class NotificacionesTest {
     public void seEnviaUnWhatsAppCuandoHayGeneracionDeIncidente() {
         WhatsAppSender whatsapper = Mockito.mock(WhatsAppSender.class);
         MensajeWhatsApp medio = new MensajeWhatsApp(whatsapper);
-        miembro.setMedioConfigurado(medio);
-        miembro.setTiempoConfigurado(new CuandoSucede());
+        usuario.setMedioConfigurado(medio);
+        usuario.setTiempoConfigurado(new CuandoSucede());
 
         comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
 
@@ -134,12 +143,12 @@ public class NotificacionesTest {
         MensajeEmail enviarMail = new MensajeEmail(mailer);
         CuandoSucede cuandoSucede = new CuandoSucede();
 
-        miembro.setTiempoConfigurado(cuandoSucede);
-        miembro.setMedioConfigurado(enviarMail);
+        usuario.setTiempoConfigurado(cuandoSucede);
+        usuario.setMedioConfigurado(enviarMail);
 
         comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
 
-        miembro.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
+        usuario.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
         Assertions.assertTrue(comunidad.getIncidentes().get(0).getEstado());
     }
 
@@ -165,12 +174,12 @@ public class NotificacionesTest {
         sinApurosFede.inicializarNotificacionesPendientes();
         sinApurosTomas.inicializarNotificacionesPendientes();
 
-        miembro.setTiempoConfigurado(cuandoSucede);
-        miembro.setMedioConfigurado(email);
-        elTomas.setTiempoConfigurado(sinApurosTomas);
-        elTomas.setMedioConfigurado(email);
-        elFede.setTiempoConfigurado(sinApurosFede);
-        elFede.setMedioConfigurado(email);
+        usuario.setTiempoConfigurado(cuandoSucede);
+        usuario.setMedioConfigurado(email);
+        tomas.setTiempoConfigurado(sinApurosTomas);
+        tomas.setMedioConfigurado(email);
+        fede.setTiempoConfigurado(sinApurosFede);
+        fede.setMedioConfigurado(email);
 
         operativosEnjoyers.generarIncidente(escaleraMedrano, "se rompio un escalon, me cai");
         operativosEnjoyers.generarIncidente(banioCampus, "no tira la cadena del inodoro 2, está tapado");
@@ -181,7 +190,7 @@ public class NotificacionesTest {
         Mockito.verify(sinApurosTomas, Mockito.never()).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.never()).mandarPendientes(Mockito.any());
 
-        NotificacionesPendientesSender.mandarPendientes();
+        NotificacionesPendientesSender.mandarPendientes(repositorioUsuarios.obtenerUsuarios());
 
         Mockito.verify(sinApurosTomas, Mockito.times(1)).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.times(1)).mandarPendientes(Mockito.any());
@@ -190,50 +199,3 @@ public class NotificacionesTest {
         Mockito.verify(mailerMiembro, Mockito.never()).enviarMensaje(Mockito.any(), Mockito.any(), Mockito.any());
     }
 }
-
-/*
-    @Test
-    public void seEnviaNotificacionSugerenciaCuandoMiembroEstaCercaDeIncidente(){
-        Establecimiento medrano = new Establecimiento();
-        medrano.setLocalizacion("Buenos Aires", "Comuna 5", "Medrano 951");
-        PrestacionDeServicio ascensorMedrano = new PrestacionDeServicio();
-        ascensorMedrano.setEstablecimiento(medrano);
-
-        Establecimiento campus = new Establecimiento();
-        campus.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
-        PrestacionDeServicio banioCampus = new PrestacionDeServicio();
-        banioCampus.setEstablecimiento(campus);
-
-        MensajeEmail enviarMail = new MensajeEmail();
-        CuandoSucede cuandoSucede = new CuandoSucede();
-
-        Usuario usuario = new Usuario();
-        usuario.setLocalizacion("Buenos Aires","Comuna 5","Medrano 800");
-        usuario.setMail("federico21433@hotmail.com");
-        miembro = new Miembro(usuario, Rol.MIEMBRO);
-        miembro.setTiempoConfigurado(cuandoSucede);
-        miembro.setMedioConfigurado(enviarMail);
-
-        String notificacion = "Sugerencia de revision de incidente";
-
-        Comunidad comunidad = new Comunidad();
-        comunidad.agregarMiembro(miembro);
-        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
-        comunidad.generarIncidente(ascensorMedrano, "Murio el ascensor >:(");
-        miembro.agregarComunidad(comunidad);
-
-        try{
-            TimeUnit.SECONDS.sleep(60);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        usuario.setLocalizacion("Buenos Aires", "comuna 8", "Mozart 2300");
-
-        try{
-            TimeUnit.SECONDS.sleep(25);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-*/

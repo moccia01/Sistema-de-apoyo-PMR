@@ -2,20 +2,23 @@ package domain.rankings;
 
 import domain.comunidad.Incidente;
 import domain.entidadesDeServicio.Entidad;
+import domain.repositorios.RepositorioComunidades;
+import domain.repositorios.RepositorioIncidentes;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 @Getter
 @Setter
 public class GeneradorDeRankings {
-
     List<Incidente> incidentes;
 
-    public GeneradorDeRankings() {
-        this.incidentes = RepositorioComunidades.obtenerIncidentesDeComunidades();
+    public GeneradorDeRankings(RepositorioIncidentes repositorioIncidentes) {
+        this.incidentes =repositorioIncidentes.obtenerIncidentes();
     }
 
     public List<Entidad> generarSegunCriterio(CriterioRanking criterio){

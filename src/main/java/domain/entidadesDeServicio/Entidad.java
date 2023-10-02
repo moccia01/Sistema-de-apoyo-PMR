@@ -1,8 +1,11 @@
 package domain.entidadesDeServicio;
 
+import domain.db.EntidadPersistente;
+import domain.localizacion.Localizacion;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,9 +15,18 @@ import java.io.IOException;
 
 @Getter
 @Setter
-public class Entidad {
+@Entity
+@Table(name = "entidad")
+public class Entidad extends EntidadPersistente {
+
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(columnDefinition = "TEXT")
     private String localizacion;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "entidad_id")
     private List<Establecimiento> listaEstablecimientos;
 
     public Entidad() {

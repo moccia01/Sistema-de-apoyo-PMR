@@ -1,57 +1,42 @@
 package domain.comunidad;
 
-import domain.mensajes.Configuraciones.MedioConfigurado;
-import domain.mensajes.Configuraciones.TiempoConfigurado;
-import domain.entidadesDeServicio.PrestacionDeServicio;
+import domain.converters.RolAttributeConverter;
+import domain.converters.RolTemporalAttributeConverter;
+import domain.db.EntidadPersistente;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
 @Setter
 @Getter
-public class Miembro {
-    private Usuario usuario;
-    private Rol rol;
-    private List<Comunidad> comunidades;
-    private RolTemporal rolTemporal;
-    private TiempoConfigurado tiempoConfigurado;
-    private MedioConfigurado medioConfigurado;
+@Entity
+@Table(name = "miembro")
+public class Miembro extends EntidadPersistente {
 
-    public Miembro(Usuario usuario, Rol rol) {
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private Usuario usuario;
+
+    @Column
+    @Convert(converter = RolAttributeConverter.class)
+    private Rol rol;
+
+    @Column
+    @Convert(converter = RolTemporalAttributeConverter.class)
+    private RolTemporal rolTemporal;
+
+    @ManyToOne
+    @JoinColumn(name = "comunidad_id", referencedColumnName = "id")
+    private Comunidad comunidad;
+
+
+    public Miembro(Usuario usuario, Rol rol, Comunidad comunidad) {
         this.usuario = usuario;
         this.rol = rol;
-        this.comunidades = new ArrayList<>();
+        this.comunidad = comunidad;
     }
+    public Miembro() {
 
-    public void agregarComunidad(Comunidad comunidad){
-        comunidades.add(comunidad);
     }
-
-    public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
-        comunidades.forEach(c -> c.generarIncidente(prestacionDeServicio, descripcion));
-    }
-
-    public void cerrarIncidente(Comunidad comunidad, Incidente incidente){
-        comunidad.cerrarIncidente(incidente);
-    }
-
-    public boolean estaInteresadoEn(Incidente incidente){
-        return this.usuario.getInteres().contieneEntidad(incidente.getPrestacionDeServicio().getEntidad()) &&
-                this.usuario.getInteres().contieneServicio(incidente.getPrestacionDeServicio().getServicio());
-    }
-
-    public void cambiarRolTemporal(RolTemporal nuevoRol) {
-        this.rolTemporal = nuevoRol;
-    }
-
-    public void mandarPendientes(){
-        this.tiempoConfigurado.mandarPendientes(this);
-    }
-
-    public boolean estaCercaDe(Incidente incidente){
-        return this.usuario.getLocalizacion().estaCercaDe(incidente.getLocalizacion());
-    }
-
 }

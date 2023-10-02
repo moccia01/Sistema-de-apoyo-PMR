@@ -9,15 +9,19 @@ import domain.entidadesDeServicio.Servicio;
 import domain.rankings.CierreIncidentes;
 import domain.rankings.GeneradorDeRankings;
 import domain.rankings.MayorCantidadIncidentes;
-import domain.rankings.RepositorioComunidades;
+import domain.repositorios.RepositorioComunidades;
+import domain.repositorios.RepositorioIncidentes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static org.mockito.Mockito.when;
 
 public class RankingsTest {
 
@@ -33,11 +37,11 @@ public class RankingsTest {
     private PrestacionDeServicio trenesArgentinos2;
     private Comunidad comunidadNoVidentesSM;
     private Comunidad comunidadHipoacusicosCABA;
-    private RepositorioComunidades repoIncidentes;
-
+    private RepositorioIncidentes repoIncidentes;
     private Incidente incidente1;
     private Incidente incidente2;
     private Incidente incidente3;
+    private List<Incidente> incidentes;
 
    @BeforeEach
     public void init(){
@@ -94,40 +98,42 @@ public class RankingsTest {
         incidente1 = new Incidente("Se rompio la barrera", trenesArgentinos);
         LocalDateTime fechaAperturaIncidente1 = LocalDateTime.of(2023, 3, 7, 9, 24);
         LocalDateTime fechaCierreIncidente1 = LocalDateTime.of(2023, 3, 9, 10, 54);
-        incidente1.setFechaApertura(fechaAperturaIncidente1);
-        incidente1.setFechaCierre(fechaCierreIncidente1);
+        incidente1.setFechaHoraApertura(fechaAperturaIncidente1);
+        incidente1.setFechaHoraCierre(fechaCierreIncidente1);
 
         incidente2 = new Incidente("Se corto la luz", trenesArgentinos1);
         LocalDateTime fechaAperturaIncidente2 = LocalDateTime.of(2023, 3, 8, 9, 43);
         LocalDateTime fechaCierreIncidente2 = LocalDateTime.of(2023, 3, 9, 10, 54);
-        incidente2.setFechaApertura(fechaAperturaIncidente2);
-        incidente2.setFechaCierre(fechaCierreIncidente2);
+        incidente2.setFechaHoraApertura(fechaAperturaIncidente2);
+        incidente2.setFechaHoraCierre(fechaCierreIncidente2);
 
         incidente3 = new Incidente("Se rompio la campana", trenesArgentinos2);
         LocalDateTime fechaAperturaIncidente3 = LocalDateTime.of(2023, 3, 10, 13, 33);
         LocalDateTime fechaCierreIncidente3 = LocalDateTime.of(2023, 3, 10, 18, 00);
-        incidente3.setFechaApertura(fechaAperturaIncidente3);
-        incidente3.setFechaCierre(fechaCierreIncidente3);
+        incidente3.setFechaHoraApertura(fechaAperturaIncidente3);
+        incidente3.setFechaHoraCierre(fechaCierreIncidente3);
 
         comunidadHipoacusicosCABA = new Comunidad();
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos, "");
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos1, "");
         comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos2, "");
 
-        repoIncidentes = new RepositorioComunidades();
-        repoIncidentes.agregarComunidades(comunidadNoVidentesSM, comunidadHipoacusicosCABA);
+        incidentes.add(incidente1);
+        incidentes.add(incidente2);
+        incidentes.add(incidente3);
 
-        generador = new GeneradorDeRankings();
+        repoIncidentes = Mockito.mock(RepositorioIncidentes.class);
+        when(repoIncidentes.obtenerIncidentes()).thenReturn(incidentes);
+
+        generador = new GeneradorDeRankings(repoIncidentes);
     }
 
     @Test
     public void generarRankingMayorCantidadTest(){
         MayorCantidadIncidentes ranking1 = new MayorCantidadIncidentes();
-        LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
-        LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
-        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
+        rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
         List<String> rankingComoQuedo = new ArrayList<>();
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(0).getNombre());
         rankingComoQuedo.add(generador.generarSegunCriterio(ranking1).get(1).getNombre());
@@ -137,8 +143,6 @@ public class RankingsTest {
     @Test
     public void generarRankingCierreIncidentesTest(){
         CierreIncidentes ranking1 = new CierreIncidentes();
-        LocalDateTime fechaComienzoSemana =  LocalDateTime.of(2023, 7, 17, 0, 0, 0);
-        LocalDateTime fechaFinSemana =  LocalDateTime.of(2023, 7, 23, 23, 59, 59);
 
         try{
             TimeUnit.SECONDS.sleep(25); //C
@@ -152,8 +156,8 @@ public class RankingsTest {
         comunidadNoVidentesSM.cerrarIncidente(incidenteACerrar2);
 
         List<String> rankingComoDeberiaQuedar = new ArrayList<>();
-        rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
         rankingComoDeberiaQuedar.add(lineaMitre.getNombre());
+        rankingComoDeberiaQuedar.add(lineaTigre.getNombre());
 
         List<String> rankingComoQuedo = new ArrayList<>();
         List<Entidad> ranking = generador.generarSegunCriterio(ranking1);
@@ -179,7 +183,5 @@ public class RankingsTest {
         ranking1.filtrarRepetidos(incidentes);
 
         Assertions.assertEquals(3, incidentes.size());
-
     }
-
 }

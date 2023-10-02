@@ -1,17 +1,32 @@
 package domain.mensajes.Configuraciones;
-import domain.comunidad.Miembro;
+import domain.comunidad.Usuario;
+import domain.converters.LocalDateTimeAttributeConverter;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.*;
 
 @Getter
 @Setter
-public class SinApuros implements TiempoConfigurado {
+@Entity
+@DiscriminatorValue("sin_apuros")
+@DiscriminatorColumn(name = "discriminador")
+public class SinApuros extends TiempoConfigurado {
+
+    @ElementCollection
+    @CollectionTable(name = "sin_apuros_horarios", joinColumns = @JoinColumn(name = "sin_apuros_id"))
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @Column(name = "horarios")
     private List<LocalTime> horarios;
+
+    @ElementCollection
+    @CollectionTable(name = "sin_apuros_notificaciones_pendientes", joinColumns = @JoinColumn(name = "sin_apuros_id"))
+    @Column(name = "notificacion")
     private List<String> notificacionesPendientes;
 
-    public SinApuros() {
+    public SinApuros(){
         this.inicializarNotificacionesPendientes();
         this.horarios = new ArrayList<>();
     }
@@ -25,14 +40,14 @@ public class SinApuros implements TiempoConfigurado {
     }
 
     @Override
-    public void recibirNotificacion(Miembro miembro, String notificacion) {
+    public void recibirNotificacion(Usuario usuario, String notificacion) {
         notificacionesPendientes.add(notificacion);
     }
 
     @Override
-    public void mandarPendientes(Miembro miembro) {
+    public void mandarPendientes(Usuario usuario) {
         if(this.esHoradeMandarPendientes()){
-            this.notificacionesPendientes.forEach(n -> miembro.getMedioConfigurado().enviarNotificacion(miembro, n));
+            this.notificacionesPendientes.forEach(n -> usuario.getMedioConfigurado().enviarNotificacion(usuario, n));
         }
     }
 

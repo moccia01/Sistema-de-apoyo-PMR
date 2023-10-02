@@ -1,6 +1,14 @@
 package domain.services.georef.entities;
 
-public class Provincia {
-    public int id;
+import domain.db.EntidadPersistente;
+import lombok.Getter;
+
+import javax.persistence.*;
+
+@Getter
+@Entity
+@Table(name = "provincia")
+public class Provincia extends EntidadPersistente {
+    @Column
     public String nombre;
 }

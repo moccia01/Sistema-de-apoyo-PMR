@@ -51,7 +51,7 @@ public class ServicioGeoref implements Localizador{
 
     public ListadoDeMunicipios listadoDeMunicipiosDeProvincia(Provincia provincia) throws IOException {
         GeorefService georefService = this.retrofit.create(GeorefService.class);
-        Call<ListadoDeMunicipios> requestListadoDeMunicipios = georefService.municipios(provincia.id, "id, nombre", maximaCantidadRegistrosDefault);
+        Call<ListadoDeMunicipios> requestListadoDeMunicipios = georefService.municipios(Math.toIntExact(provincia.getId()), "id, nombre", maximaCantidadRegistrosDefault);
         Response<ListadoDeMunicipios> responseListadoDeMunicipios = requestListadoDeMunicipios.execute();
         return responseListadoDeMunicipios.body();
     }

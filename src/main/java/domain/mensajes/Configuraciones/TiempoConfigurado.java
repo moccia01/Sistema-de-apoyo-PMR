@@ -1,9 +1,16 @@
 package domain.mensajes.Configuraciones;
 
-import domain.comunidad.Miembro;
+import domain.comunidad.Usuario;
+import domain.db.EntidadPersistente;
 
-public interface TiempoConfigurado {
-    public void recibirNotificacion(Miembro miembro, String notificacion);
+import javax.persistence.*;
 
-    void mandarPendientes(Miembro miembro);
+@Entity(name = "tiempo_configurado")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn( name = "discriminador")
+public abstract class TiempoConfigurado extends EntidadPersistente {
+
+    public abstract void recibirNotificacion(Usuario usuario, String notificacion);
+
+    public abstract void mandarPendientes(Usuario usuario);
 }

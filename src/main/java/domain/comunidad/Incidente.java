@@ -1,21 +1,49 @@
 package domain.comunidad;
 
+import domain.converters.LocalDateTimeAttributeConverter;
+import domain.db.EntidadPersistente;
 import domain.entidadesDeServicio.PrestacionDeServicio;
 import domain.localizacion.Localizacion;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 @Getter
 @Setter
-public class Incidente {
-    public LocalDateTime fechaApertura;
-    public LocalDateTime fechaCierre;
+@Entity
+@Table(name = "incidente")
+public class Incidente extends EntidadPersistente {
+    @Column
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime fechaHoraApertura;
+
+    @Column
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime fechaHoraCierre;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
+
+    @Column(columnDefinition = "BOOL")
     private Boolean estado; // true es si esta cerrado
+
+    @Embedded
     private PrestacionDeServicio prestacionDeServicio;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    private Usuario usuarioApertura;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    private Usuario usuarioCierre;
+
+    public Incidente() {
+
+    }
 
     public Localizacion getLocalizacion(){
         return prestacionDeServicio.getEstablecimiento().getLocalizacion();
@@ -31,8 +59,14 @@ public class Incidente {
         return this.prestacionDeServicio.esLaMismaQue(incidente.getPrestacionDeServicio());
     }
 
-    public boolean estaDentroDeLas24hs(Incidente incidente){
-        return Math.abs(ChronoUnit.HOURS.between(this.getFechaApertura(), incidente.getFechaApertura())) <= 24;
+    public boolean estaDentroDeLas24hs(Incidente incidente) {
+        LocalDateTime fechaActual = LocalDateTime.now();
+        LocalDateTime fechaIncidente = incidente.getFechaHoraApertura();
+
+        long horasDiferencia = ChronoUnit.HOURS.between(fechaIncidente, fechaActual);
+
+
+        return horasDiferencia >= 0 && horasDiferencia <= 24;
     }
 
     public boolean estaRepetidoDentroDelPlazo(Incidente incidente){
@@ -48,11 +82,11 @@ public class Incidente {
 
     public void abrir(){
         this.estado = false;
-        this.fechaApertura = LocalDateTime.now();
+        this.fechaHoraApertura = LocalDateTime.now();
     }
 
     public void cerrar(){
         this.estado = true;
-        this.fechaCierre = LocalDateTime.now();
+        this.fechaHoraCierre = LocalDateTime.now();
     }
 }

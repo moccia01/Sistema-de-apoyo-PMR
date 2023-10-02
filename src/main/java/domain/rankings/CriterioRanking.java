@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -33,11 +34,12 @@ public abstract class CriterioRanking {
     public abstract double transformarListaAValor(List<Incidente> incidentes);
 
     public boolean incidenteValido(Incidente incidente){
-        return this.estaDentroDeLaSemana(incidente.getFechaApertura());
+        return this.estaDentroDeLaSemana(incidente.getFechaHoraApertura());
     }
 
     public boolean estaDentroDeLaSemana(LocalDateTime fecha){
-        return fecha.isAfter(fechaActual.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))) && fecha.isBefore(fechaActual.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)));
+        LocalDateTime fechaHora = fecha;
+        return fechaHora.isAfter(fechaActual.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))) && fechaHora.isBefore(fechaActual.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)));
     }
 
 
