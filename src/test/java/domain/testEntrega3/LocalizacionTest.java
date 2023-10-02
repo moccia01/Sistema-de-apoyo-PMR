@@ -1,9 +1,8 @@
 package domain.testEntrega3;
 
-import domain.localizacion.Localizacion;
-import domain.comunidad.Miembro;
-import domain.comunidad.Rol;
-import domain.comunidad.Usuario;
+import domain.models.entities.localizacion.Localizacion;
+import domain.models.entities.comunidad.Miembro;
+import domain.models.entities.comunidad.Usuario;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,33 +1,20 @@
 package domain.testEntrega4;
 
-import domain.builders.EstablecimientoBuilder;
-import domain.builders.InteresBuilder;
-import domain.builders.PrestacionDeServicioBuilder;
-import domain.comunidad.*;
-import domain.entidadesDeServicio.Entidad;
-import domain.entidadesDeServicio.Establecimiento;
-import domain.entidadesDeServicio.PrestacionDeServicio;
-import domain.entidadesDeServicio.Servicio;
-import domain.mensajes.Configuraciones.CuandoSucede;
-import domain.mensajes.Configuraciones.MensajeEmail;
-import domain.mensajes.MailSender;
-import domain.mensajes.NotificacionesPendientesSender;
-import domain.rankings.GeneradorDeRankings;
-import domain.repositorios.RepositorioComunidades;
-import domain.repositorios.RepositorioIncidentes;
-import domain.repositorios.RepositorioUsuarios;
-import domain.validaciones.CredencialDeAcceso;
+import domain.models.entities.builders.InteresBuilder;
+import domain.models.entities.entidadesDeServicio.Entidad;
+import domain.models.entities.entidadesDeServicio.Establecimiento;
+import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
+import domain.models.entities.entidadesDeServicio.Servicio;
+import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
+import domain.models.entities.mensajes.MailSender;
+import domain.models.entities.comunidad.*;
+import domain.models.entities.validaciones.CredencialDeAcceso;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.persistence.EntityTransaction;
-
 import java.time.LocalDateTime;
-
-import static org.mockito.Mockito.when;
 
 public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
 

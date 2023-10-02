@@ -1,16 +1,15 @@
 package domain.testEntrega3;
 
-import domain.comunidad.Comunidad;
-import domain.comunidad.Incidente;
-import domain.entidadesDeServicio.Entidad;
-import domain.entidadesDeServicio.Establecimiento;
-import domain.entidadesDeServicio.PrestacionDeServicio;
-import domain.entidadesDeServicio.Servicio;
-import domain.rankings.CierreIncidentes;
-import domain.rankings.GeneradorDeRankings;
-import domain.rankings.MayorCantidadIncidentes;
-import domain.repositorios.RepositorioComunidades;
-import domain.repositorios.RepositorioIncidentes;
+import domain.models.entities.comunidad.Comunidad;
+import domain.models.entities.comunidad.Incidente;
+import domain.models.entities.entidadesDeServicio.Entidad;
+import domain.models.entities.entidadesDeServicio.Establecimiento;
+import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
+import domain.models.entities.entidadesDeServicio.Servicio;
+import domain.models.entities.rankings.CierreIncidentes;
+import domain.models.entities.rankings.GeneradorDeRankings;
+import domain.models.entities.rankings.MayorCantidadIncidentes;
+import domain.models.repositorios.RepositorioIncidentes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

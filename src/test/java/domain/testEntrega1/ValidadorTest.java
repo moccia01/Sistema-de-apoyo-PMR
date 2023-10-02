@@ -1,7 +1,7 @@
 package domain.testEntrega1;
 
-import domain.validaciones.*;
-import domain.validaciones.politicasNIST.*;
+import domain.models.entities.validaciones.*;
+import domain.models.entities.validaciones.politicasNIST.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
