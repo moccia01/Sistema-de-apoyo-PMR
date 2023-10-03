@@ -1,0 +1,21 @@
+{{#partial "contenido" }}
+    <div class="container mt-4">
+        <h1>Carga de Entidades Prestadoras</h1>
+
+        <div class="card main-container">
+            <div class="card-body">
+                <h5 class="card-title">Subir Archivo CSV</h5>
+                <input type="file" class="form-control-file" id="csvFileInput">
+                <button class="btn btn-primary mt-3" id="uploadCsvBtn">Subir CSV</button>
+            </div>
+        </div>
+
+        <div class="alert alert-success mt-3" id="successMessage" style="display: none;">
+            Archivo CSV cargado con éxito.
+        </div>
+        <div class="alert alert-danger mt-3" id="errorMessage" style="display: none;">
+            Error al cargar el archivo CSV.
+        </div>
+    </div>
+{{/partial}}
+{{> templates/plantilla_base }}

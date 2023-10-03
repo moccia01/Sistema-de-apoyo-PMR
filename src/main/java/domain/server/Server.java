@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 public class Server {
+
     private static Javalin app = null;
 
     public static Javalin app() {
@@ -55,4 +56,5 @@ public class Server {
                 }, ".hbs" // Extensión del archivo de template
         );
     }
+
 }

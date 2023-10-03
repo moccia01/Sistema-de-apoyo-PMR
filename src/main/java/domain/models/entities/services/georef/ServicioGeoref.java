@@ -1,7 +1,6 @@
 package domain.models.entities.services.georef;
 
 import domain.models.entities.services.georef.entities.*;
-//import domain.services.georef.entities.*;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;

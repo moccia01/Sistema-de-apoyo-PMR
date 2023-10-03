@@ -1,0 +1,43 @@
+{{#partial "contenido" }}
+    <div class="container mt-4">
+        <h1>Comunidades</h1>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filtrar Por Rol
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" id="filterOpen">Administrador</a>
+                <a class="dropdown-item" href="#" id="filterClosed">Usuario</a>
+            </div>
+        </div>
+
+        <!--aca arrancaria la lista de comunidades-->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Comunidad 1</h5>
+                <p class="card-text">Descripcion Comunidad</p>
+                <a href="verUsuarios.html" class="btn btn-dark">Ver usuarios</a>
+                <a href="administrarUsuarios.html" class="btn btn-secondary">Admin usuarios</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Comunidad 2</h5>
+                <p class="card-text">Descripcion Comunidad</p>
+                <a href="verUsuarios.html" class="btn btn-dark">Ver usuarios</a>
+                <a href="administrarUsuarios.html" class="btn btn-secondary">Admin usuarios</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Comunidad 3</h5>
+                <p class="card-text">Descripcion Comunidad</p>
+                <a href="verUsuarios.html" class="btn btn-dark">Ver usuarios</a>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/plantilla_base }}

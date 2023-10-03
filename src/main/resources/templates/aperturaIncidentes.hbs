@@ -1,0 +1,49 @@
+{{#partial "contenido" }}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <h5 class="card-header bg-warning text-dark text-center py-3">Apertura de Incidente</h5>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="titulo" placeholder="Título del incidente">
+                            </div>
+                            <div class="mb-3">
+                                <label for="entidad" class="form-label">Entidad</label>
+                                <select class="form-select" id="entidad">
+                                    <option value="-1">Elegir Entidad</option>
+                                    <option value="entidad1">Entidad 1</option>
+                                    <option value="entidad2">Entidad 2</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="establecimiento" class="form-label">Establecimiento</label>
+                                <select class="form-select" id="establecimiento">
+                                    <option value="-1">Elegir Establecimiento</option>
+                                    <option value="establecimiento1">Establecimiento 1</option>
+                                    <option value="establecimiento2">Establecimiento 2</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="servicio" class="form-label">Servicio</label>
+                                <select class="form-select" id="servicio">
+                                    <option value="-1">Elegir Servicio</option>
+                                    <option value="servicio1">Servicio 1</option>
+                                    <option value="servicio2">Servicio 2</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion" rows="4" placeholder="Descripción del incidente"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Abrir Incidente</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/plantilla_base }}
