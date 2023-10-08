@@ -11,8 +11,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("sin_apuros")
-@DiscriminatorColumn(name = "discriminador")
+@DiscriminatorValue("SinApuros")
 public class SinApuros extends TiempoConfigurado {
 
     @ElementCollection

@@ -5,6 +5,7 @@ import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.Establecimiento;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
 import domain.models.entities.entidadesDeServicio.Servicio;
+import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
 import domain.models.entities.mensajes.MailSender;
 import domain.models.entities.comunidad.*;
@@ -94,26 +95,27 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
 
 
         fede = new Usuario();
+        fede.setNombre("Federico");
+        fede.setApellido("Moccia");
         fede.setMail("federico21433@hotmail.com");
         MailSender mailer = Mockito.mock(MailSender.class);
         MensajeEmail medio = new MensajeEmail(mailer);
 
 
         fede.setMedioConfigurado(medio);
-
-        fede.agregarMiembros(elFede);
         fede.setInteres(interes);
         fede.setCredencialDeAcceso(credencialFede);
         fede.setMedioConfigurado(new MensajeEmail());
+        fede.setTiempoConfigurado(new CuandoSucede());
         fede.setPuntosDeConfianza(5);
 
         fede.setGradoDeConfianza(gradoDeConfianza);
-
 
     }
 
     @Test
     public void cargarUnosDatos(){
+
             withTransaction(() -> {
                 entityManager().persist(fede);
             });

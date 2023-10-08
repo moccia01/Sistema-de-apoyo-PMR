@@ -11,6 +11,10 @@ public class GradoConfianzaAttributeConverter implements AttributeConverter<Grad
 
     @Override
     public String convertToDatabaseColumn(GradoDeConfianza gradoDeConfianza) {
+        if (gradoDeConfianza == null){
+            return null;
+        }
+
         return gradoDeConfianza.getNombreGradoConfianza().toString();
     }
 
@@ -33,6 +37,7 @@ public class GradoConfianzaAttributeConverter implements AttributeConverter<Grad
             case "CONFIABLE_NIVEL_2":
                 gradoDeConfianza.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
                 gradoDeConfianza.setPuntosMinimos(5);
+            default: gradoDeConfianza = null;
         };
         return gradoDeConfianza;
     }

@@ -8,7 +8,7 @@ import java.util.List;
 public class RepositorioIncidentes implements WithSimplePersistenceUnit {
     public List<Incidente> obtenerIncidentes(){
         return entityManager()
-                .createQuery("from Comunidad")
+                .createQuery("from Incidente")
                 .getResultList();
     }
 }

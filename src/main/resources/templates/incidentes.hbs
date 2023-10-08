@@ -13,9 +13,25 @@
                 <a class="dropdown-item" href="#" id="filterClosed">Cerrados</a>
             </div>
         </div>
-
         <ul class="list-group" id="incidentList">
-
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-3"><strong>Descripción</strong></div>
+                    <div class="col-md-3"><strong>Estado</strong></div>
+                    <div class="col-md-3"><strong>Usuario de Apertura</strong></div>
+                    <div class="col-md-3"><strong>Usuario de Cierre</strong></div>
+                </div>
+            </li>
+            {{#each incidentes}}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3">{{this.descripcion}}</div>
+                        <div class="col-md-3">{{this.estado}}</div>
+                        <div class="col-md-3">{{this.usuarioApertura.getNombre}}</div>
+                        <div class="col-md-3">{{this.usuarioCierre.getNombre}}</div>
+                    </div>
+                </li>
+            {{/each}}
         </ul>
     </div>
 {{/partial}}

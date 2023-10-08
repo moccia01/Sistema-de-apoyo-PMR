@@ -20,9 +20,9 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        List<Incidente> Incidentes = this.RepositorioIncidentes.obtenerIncidentes();
-        model.put("Incidentes", Incidentes);
-        context.render("templates/Incidentes.hbs", model);
+        List<Incidente> incidentes = this.RepositorioIncidentes.obtenerIncidentes();
+        model.put("incidentes", incidentes);
+        context.render("incidentes.hbs", model);
     }
 
 }

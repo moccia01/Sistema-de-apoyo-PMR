@@ -1,12 +1,14 @@
 package domain.models.entities.mensajes.Configuraciones;
 
 import domain.models.entities.comunidad.Usuario;
+import lombok.Getter;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-@DiscriminatorValue("cuando_sucede")
-@DiscriminatorColumn(name = "discriminador")
+@Entity
+@DiscriminatorValue("CuandoSucede")
 public class CuandoSucede extends TiempoConfigurado{
 
     @Override
