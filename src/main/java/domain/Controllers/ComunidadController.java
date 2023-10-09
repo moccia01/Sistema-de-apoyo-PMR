@@ -1,9 +1,6 @@
-package domain.Controllers;
+package domain.controllers;
 
 import domain.models.entities.comunidad.*;
-import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
-import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
-import domain.models.entities.validaciones.CredencialDeAcceso;
 import domain.models.repositorios.RepositorioComunidades;
 import domain.server.utils.ICrudViewsHandler;
 import io.javalin.http.Context;

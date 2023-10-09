@@ -1,4 +1,4 @@
-package domain.Controllers;
+package domain.controllers;
 import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.NombreGradoConfianza;
@@ -90,7 +90,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         // si recibimos un id tipo entidad_id hay que instanciar un repo de entidades y buscarlo por id en la bd
         // y asi con todos los inputs del form
 
+        if(!Objects.equals(contexto.formParam("descripcion"), "")) {
+            incidente.setDescripcion(contexto.formParam("descripcion"));
+        }
         incidente.setEstado(false);
+
 
         // TODO ver como setear usuario apertura preguntandole al contexto (?) (por ahora lo hago asi para que no rompa)
         Usuario usuario = new Usuario();

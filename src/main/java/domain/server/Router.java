@@ -1,8 +1,8 @@
 package domain.server;
 
-import domain.Controllers.ComunidadController;
-import domain.Controllers.FactoryController;
-import domain.Controllers.IncidenteController;
+import domain.controllers.ComunidadController;
+import domain.controllers.FactoryController;
+import domain.controllers.IncidenteController;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 

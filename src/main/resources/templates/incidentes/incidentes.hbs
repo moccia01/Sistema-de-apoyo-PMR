@@ -13,22 +13,42 @@
                 <a class="dropdown-item" href="#" id="filterClosed">Cerrados</a>
             </div>
         </div>
-        <ul class="list-group" id="incidentList">
+
+        <ul class="list-group mt-auto" id="incidentList">
             <li class="list-group-item">
                 <div class="row">
+                    <div class="col-md-1"><strong>Título</strong></div>
                     <div class="col-md-3"><strong>Descripción</strong></div>
-                    <div class="col-md-3"><strong>Estado</strong></div>
-                    <div class="col-md-3"><strong>Usuario de Apertura</strong></div>
-                    <div class="col-md-3"><strong>Usuario de Cierre</strong></div>
+                    <div class="col-md-1"><strong>Estado</strong></div>
+                    <div class="col-md-2"><strong>Apertura</strong></div>
+                    <div class="col-md-2"><strong>Cierre</strong></div>
+                    <div class="col-md-1"><strong>Prestación</strong></div>
+                    <div class="col-md-2"><strong>Opciones</strong></div>
                 </div>
             </li>
             {{#each incidentes}}
                 <li class="list-group-item">
                     <div class="row">
+                        <div class="col-md-1">{{this.titulo}}</div>
                         <div class="col-md-3">{{this.descripcion}}</div>
-                        <div class="col-md-3">{{this.estado}}</div>
-                        <div class="col-md-3">{{this.usuarioApertura.getNombre}}</div>
-                        <div class="col-md-3">{{this.usuarioCierre.getNombre}}</div>
+                        <div class="col-md-1">{{this.estadoToString}}</div>
+                        <div class="col-md-2">
+                            {{this.aperturaToString}}
+                        </div>
+
+                        <div class="col-md-2">
+                            {{this.cierreToString}}
+                        </div>
+                        <div class="col-md-1">
+                            {{this.prestacionDeServicio.getEntidad.getNombre}}
+                            {{this.prestacionDeServicio.getEstablecimiento.getNombre}}
+                            {{this.prestacionDeServicio.getServicio.getNombre}}
+
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-danger mb-auto" href="/incidentes">Cerrar</a>
+                            <a class="btn btn-dark mb-auto" href="/incidentes/{{this.id}}/editar">Editar</a>
+                        </div>
                     </div>
                 </li>
             {{/each}}

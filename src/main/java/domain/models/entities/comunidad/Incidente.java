@@ -38,7 +38,7 @@ public class Incidente extends EntidadPersistente {
     @Embedded
     private PrestacionDeServicio prestacionDeServicio;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuarioApertura;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -91,5 +91,24 @@ public class Incidente extends EntidadPersistente {
     public void cerrar(){
         this.estado = true;
         this.fechaHoraCierre = LocalDateTime.now();
+    }
+
+    public String estadoToString() {
+        if(this.estado){
+            return "Cerrado";
+        }
+        return "Abierto";
+    }
+
+    public String usuarioCierreToString
+    public String fechaAperturaToString() {
+        return this.fechaHoraApertura.toLocalDate().toString();
+    }
+
+    public String fechaCierreToString() {
+        if (this.fechaHoraCierre == null) {
+            return " - ";
+        }
+        return this.fechaHoraCierre.toLocalDate().toString();
     }
 }

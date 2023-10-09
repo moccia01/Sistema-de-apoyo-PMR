@@ -1,4 +1,4 @@
-package domain.Controllers;
+package domain.controllers;
 
 import domain.models.entities.comunidad.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;

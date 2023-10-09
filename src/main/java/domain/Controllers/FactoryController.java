@@ -1,4 +1,4 @@
-package domain.Controllers;
+package domain.controllers;
 
 import domain.models.repositorios.RepositorioComunidades;
 import domain.models.repositorios.RepositorioIncidentes;
