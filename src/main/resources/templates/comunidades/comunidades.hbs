@@ -13,31 +13,17 @@
         </div>
 
         <!--aca arrancaria la lista de comunidades-->
+    {{#each comunidades}}
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Comunidad 1</h5>
+                <h5 class="card-title">{{this.nombre}}</h5>
                 <p class="card-text">Descripcion Comunidad</p>
                 <a href="../usuarios/verUsuarios.html" class="btn btn-dark">Ver usuarios</a>
                 <a href="../usuarios/administrarUsuarios.html" class="btn btn-secondary">Admin usuarios</a>
             </div>
         </div>
+    {{/each}}
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Comunidad 2</h5>
-                <p class="card-text">Descripcion Comunidad</p>
-                <a href="../usuarios/verUsuarios.html" class="btn btn-dark">Ver usuarios</a>
-                <a href="../usuarios/administrarUsuarios.html" class="btn btn-secondary">Admin usuarios</a>
-            </div>
-        </div>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Comunidad 3</h5>
-                <p class="card-text">Descripcion Comunidad</p>
-                <a href="../usuarios/verUsuarios.html" class="btn btn-dark">Ver usuarios</a>
-            </div>
-        </div>
-    </div>
 {{/partial}}
 {{> templates/plantilla_base }}

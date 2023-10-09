@@ -33,7 +33,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     @Override
     public void show(Context context) {
-
+        String id = context.pathParam("id");
+        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Integer.parseInt(id));
+        Map<String, Object> model = new HashMap<>();
+        model.put("incidente", incidente);
+        context.render("incidendes/incidente.hbs", model);
     }
 
     @Override
@@ -71,7 +75,10 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     @Override
     public void delete(Context context) {
-
+        String id = context.pathParam("id");
+        Incidente incidente = (Incidente) this.repositorioIncidentes.obtenerIncidente(Integer.parseInt(id));
+        this.repositorioIncidentes.eliminar(incidente);
+        context.redirect("/incidentes");
     }
 
     private void asignarParametros(Incidente incidente, Context contexto){
@@ -85,7 +92,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
         incidente.setEstado(false);
 
-        // TODO ver como setear usuario apertura preguntandole al contexto (?) (por ahora lo hago asi para que no rompa
+        // TODO ver como setear usuario apertura preguntandole al contexto (?) (por ahora lo hago asi para que no rompa)
         Usuario usuario = new Usuario();
         usuario.setCredencialDeAcceso(new CredencialDeAcceso());
         usuario.setMedioConfigurado(new MensajeWhatsApp());

@@ -1,5 +1,6 @@
 package domain.Controllers;
 
+import domain.models.repositorios.RepositorioComunidades;
 import domain.models.repositorios.RepositorioIncidentes;
 
 public class FactoryController {
@@ -9,7 +10,7 @@ public class FactoryController {
 
         switch(nombre) {
             case "incidentes" : controller = new IncidenteController(new RepositorioIncidentes()); break;
-
+            case "comunidades" : controller = new ComunidadController(new RepositorioComunidades()); break;
         }
         return controller;
     }

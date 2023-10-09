@@ -11,6 +11,4 @@ public interface ICrudViewsHandler {
     void update(Context context); // ACTUALIZAR EL RECURSO
     void delete(Context context); // ELIMINAR EL RECURSO
 
-
-
 }
