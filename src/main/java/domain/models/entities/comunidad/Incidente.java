@@ -100,15 +100,16 @@ public class Incidente extends EntidadPersistente {
         return "Abierto";
     }
 
-    public String usuarioCierreToString
-    public String fechaAperturaToString() {
-        return this.fechaHoraApertura.toLocalDate().toString();
+
+    public String aperturaToString() {
+        return this.usuarioApertura.getNombre() + ": " + this.fechaHoraApertura.toLocalDate().toString();
     }
 
-    public String fechaCierreToString() {
-        if (this.fechaHoraCierre == null) {
+    public String CierreToString() {
+        if( this.usuarioCierre == null || this.fechaHoraCierre == null){
             return " - ";
         }
-        return this.fechaHoraCierre.toLocalDate().toString();
+        return this.usuarioCierre.getNombre() + ": " + this.fechaHoraCierre.toLocalDate().toString();
     }
+
 }
