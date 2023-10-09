@@ -16,6 +16,11 @@ import java.time.temporal.ChronoUnit;
 @Entity
 @Table(name = "incidente")
 public class Incidente extends EntidadPersistente {
+    //TODO ponerle un titulo al incidente para mostrar en la vista (?)
+    @Transient
+    private String titulo;
+
+
     @Column
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     public LocalDateTime fechaHoraApertura;
@@ -36,7 +41,7 @@ public class Incidente extends EntidadPersistente {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Usuario usuarioApertura;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuarioCierre;
 
     public Incidente() {

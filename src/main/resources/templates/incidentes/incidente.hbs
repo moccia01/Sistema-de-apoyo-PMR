@@ -5,10 +5,10 @@
                 <div class="card">
                     <h5 class="card-header bg-warning text-dark text-center py-3">Apertura de Incidente</h5>
                     <div class="card-body">
-                        <form>
+                        <form method ="POST" {{#if incidente}} action="/incidentes/{{incidente.id}}" {{else}} action="/incidentes" {{/if}}>
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Título</label>
-                                <input type="text" class="form-control" id="titulo" placeholder="Título del incidente">
+                                <input type="text" class="form-control" name="titulo" placeholder="Título del incidente">
                             </div>
                             <div class="mb-3">
                                 <label for="entidad" class="form-label">Entidad</label>

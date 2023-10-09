@@ -10,6 +10,9 @@ public class MedioConfiguradoAttributeConverter implements AttributeConverter<Me
 
     @Override
     public String convertToDatabaseColumn(MedioConfigurado medioConfigurado) {
+        if (medioConfigurado == null) {
+            return null;
+        }
         return medioConfigurado.toString();
     }
 
