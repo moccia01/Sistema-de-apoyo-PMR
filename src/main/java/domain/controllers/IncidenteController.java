@@ -86,26 +86,21 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         if(!Objects.equals(contexto.formParam("titulo"), "")) {
             incidente.setTitulo(contexto.formParam("titulo"));
         }
+        if(!Objects.equals(contexto.formParam("descripcion"), "")) {
+            incidente.setDescripcion(contexto.formParam("descripcion"));
+        }
+
         // TODO implementar asignaciones para el resto de los inputs
         // si recibimos un id tipo entidad_id hay que instanciar un repo de entidades y buscarlo por id en la bd
         // y asi con todos los inputs del form
 
-        if(!Objects.equals(contexto.formParam("descripcion"), "")) {
-            incidente.setDescripcion(contexto.formParam("descripcion"));
-        }
+
+
         incidente.setEstado(false);
 
 
         // TODO ver como setear usuario apertura preguntandole al contexto (?) (por ahora lo hago asi para que no rompa)
-        Usuario usuario = new Usuario();
-        usuario.setCredencialDeAcceso(new CredencialDeAcceso());
-        usuario.setMedioConfigurado(new MensajeWhatsApp());
-        usuario.setTiempoConfigurado(new CuandoSucede());
-        GradoDeConfianza grado = new GradoDeConfianza();
-        grado.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
-        usuario.setGradoDeConfianza(grado);
-        usuario.setPuntosDeConfianza(6);
-
+        Usuario usuario = super.usuarioLogueado(contexto);
         incidente.setUsuarioApertura(usuario);
     }
 

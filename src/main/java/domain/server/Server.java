@@ -1,5 +1,7 @@
 package domain.server;
 
+import domain.server.handlers.AppHandlers;
+import domain.server.middlewares.AuthMiddleware;
 import io.javalin.Javalin;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
@@ -25,6 +27,7 @@ public class Server {
             Integer port = Integer.parseInt(System.getProperty("port", "8080"));
             app = Javalin.create(config()).start(port);
             initTemplateEngine();
+            AppHandlers.applyHandlers(app);
             Router.init();
         }
     }
@@ -35,6 +38,7 @@ public class Server {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "/public";  // Con esto sabe el navegador donde buscar los css, js, etc
             });
+            AuthMiddleware.apply(config);
         };
     }
 

@@ -3,19 +3,20 @@ package domain.server;
 import domain.controllers.ComunidadController;
 import domain.controllers.FactoryController;
 import domain.controllers.IncidenteController;
+import domain.controllers.LoginController;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Router {
 
     public static void init() {
-        //Aca adentro se hacen todas las querys
-        Server.app().get("/", ctx -> {
-            //ctx.sessionAttribute("item1", "Cosa 1");
-            ctx.result("kk");
-        });
-
         Server.app().routes( () -> {
+            get("/", ((LoginController) FactoryController.controller("login"))::index);
+            get("login", ((LoginController) FactoryController.controller("login"))::show);
+            post("login", ((LoginController) FactoryController.controller("login"))::login);
+            get("registro", ((LoginController) FactoryController.controller("login"))::create);
+            post("registro", ((LoginController) FactoryController.controller("login"))::save);
+
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
             get("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::show);
@@ -31,6 +32,7 @@ public class Router {
             post("comunidad", ((ComunidadController) FactoryController.controller("comunidades"))::save);
             post("comunidad/{id}", ((ComunidadController) FactoryController.controller("comunidades"))::update); // no es put pq form de html no acepta put
             delete("comunidad/{id}", ((ComunidadController) FactoryController.controller("comunidades"))::delete);
+
             // TODO: ACA VAN EL RESTO DE LAS RUTAS
         });
     }
