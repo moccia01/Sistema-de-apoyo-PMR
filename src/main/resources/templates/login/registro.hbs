@@ -3,12 +3,37 @@
         <div class="col-md-4">
             <div class="card shadow-lg">
                 <div class="card-header bg-warning text-dark text-center py-3">
-                    <h3 class="m-0">Registro (En construccion)</h3>
+                    <h3 class="m-0">Registro</h3>
                 </div>
                 <div class="card-body p-4">
-
+                    <form method ="POST" <!--{{#if incidente}} action="/incidentes/{{incidente.id}}" {{else}} action="/incidentes" {{/if}}-->>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su apellido">
+                        </div>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Nombre De Usuario</label>
+                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su nombre de usuario">
+                        </div>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Email</label>
+                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Contraseña</label>
+                            <input type="text" class="form-control" name="titulo" placeholder="Cree su contraseña">
+                        </div>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Confirmar Contraseña</label>
+                            <input type="text" class="form-control" name="titulo" placeholder="Confirme su contraseña">
+                        </div>
+                        <button type="submit" class="btn btn-warning">Confirmar</button>
+                    </form>
                 </div>
-
             </div>
         </div>
     </div>
