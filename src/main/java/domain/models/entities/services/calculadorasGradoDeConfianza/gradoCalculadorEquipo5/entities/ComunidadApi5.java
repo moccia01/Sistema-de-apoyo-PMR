@@ -1,12 +1,11 @@
-package domain.models.entities.services.gradoCalculadorEquipo5.entities;
+package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities;
 
 import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.Incidente;
-import domain.models.entities.comunidad.Usuario;
 
 import java.util.List;
 
-public class ComunidadApi {
+public class ComunidadApi5 {
     Comunidad comunidad;
     List<Incidente> incidentes;
 
