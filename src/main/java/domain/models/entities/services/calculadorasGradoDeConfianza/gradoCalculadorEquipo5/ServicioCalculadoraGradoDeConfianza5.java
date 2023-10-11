@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfianzaAdapter {
     //"https://github.com/a-sandoval/servicio-entrega4-tpa-grupo5/tree/master/ServicioCalculadorGradoDeConfianza"
     private static ServicioCalculadoraGradoDeConfianza5 instancia = null;
-    private final String urlApi = "https://raw.githubusercontent.com/gradoDeConfianza/"; //RARO
+    private final String urlApi = "https://raw.githubusercontent.com/gradoDeConfianza/"; //RARO, puede que no vaya
     private Retrofit retrofit;
 
     private ServicioCalculadoraGradoDeConfianza5() {

@@ -1,7 +1,6 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14;
 
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
-import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.ServicioCalculadoraGradoDeConfianza5;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -9,7 +8,7 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
     //"https://github.com/moccia01/servicio-entrega4-tpa-grupo14"
     private static ServicioCalculadoraGradoDeConfianza14 instancia = null;
 
-    private final String urlApi = "algo";
+    private final String urlApi = "aca iría la url si el servidor estuviera corriendo";
 
     private Retrofit retrofit;
 
