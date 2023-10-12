@@ -6,6 +6,6 @@ import domain.models.entities.comunidad.Usuario;
 import java.util.List;
 
 public class UsuarioApi5 {
-    Usuario usuariol;
+    Usuario usuario;
     List<Incidente> incidentes;
 }

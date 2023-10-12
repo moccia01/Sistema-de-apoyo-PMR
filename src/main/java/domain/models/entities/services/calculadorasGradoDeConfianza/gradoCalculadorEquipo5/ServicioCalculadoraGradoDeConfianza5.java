@@ -1,5 +1,7 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5;
 
+import domain.models.entities.comunidad.Comunidad;
+import domain.models.entities.comunidad.Usuario;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.ComunidadApi5;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.UsuarioApi5;
@@ -23,7 +25,6 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
                 .build();
     }
 
-
     public static ServicioCalculadoraGradoDeConfianza5 instancia(){
         if(instancia== null){
             instancia = new ServicioCalculadoraGradoDeConfianza5();
@@ -45,5 +46,13 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         return responseGradoConfianzaUsuario.body();
     }
 
+    @Override
+    public Usuario calcularGradoConfianzaParaUn(Usuario usuario) {
+        return null;
+    }
 
+    @Override
+    public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad) {
+        return null;
+    }
 }
