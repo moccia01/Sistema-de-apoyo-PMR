@@ -6,30 +6,30 @@
                     <h3 class="m-0">Registro</h3>
                 </div>
                 <div class="card-body p-4">
-                    <form method ="POST" <!--{{#if incidente}} action="/incidentes/{{incidente.id}}" {{else}} action="/incidentes" {{/if}}-->>
+                    <form method ="POST">
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su nombre">
+                            <label for="Nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre">
                         </div>
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su apellido">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="apellido" placeholder="Inserte su apellido">
                         </div>
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Nombre De Usuario</label>
-                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su nombre de usuario">
+                            <label for="usuario_nombre" class="form-label">Nombre De Usuario</label>
+                            <input type="text" class="form-control" name="usuario_nombre" placeholder="Inserte su nombre de usuario">
                         </div>
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Email</label>
-                            <input type="text" class="form-control" name="titulo" placeholder="Inserte su email">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" name="email" placeholder="Inserte su email">
                         </div>
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Contraseña</label>
-                            <input type="text" class="form-control" name="titulo" placeholder="Cree su contraseña">
+                            <label for="contrasenia" class="form-label">Contraseña</label>
+                            <input type="text" class="form-control" name="contrasenia" placeholder="Cree su contraseña">
                         </div>
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Confirmar Contraseña</label>
-                            <input type="text" class="form-control" name="titulo" placeholder="Confirme su contraseña">
+                            <label for="contrasenia_repe" class="form-label">Confirmar Contraseña</label>
+                            <input type="text" class="form-control" name="contrasenia_repe" placeholder="Confirme su contraseña">
                         </div>
                         <button type="submit" class="btn btn-warning">Confirmar</button>
                     </form>

@@ -19,4 +19,7 @@ public class GradoDeConfianza extends EntidadPersistente {
 
     public GradoDeConfianza gradoAnterior;      //verificar insertable y updatable ya que el test lo recomendó
 
+    public GradoDeConfianza() {
+
+    }
 }

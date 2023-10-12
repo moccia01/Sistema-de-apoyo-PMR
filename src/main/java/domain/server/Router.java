@@ -16,6 +16,7 @@ public class Router {
             post("login", ((LoginController) FactoryController.controller("login"))::login);
             get("registro", ((LoginController) FactoryController.controller("login"))::create);
             post("registro", ((LoginController) FactoryController.controller("login"))::save);
+            get("index", (context -> context.render("/index.hbs")));
 
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);

@@ -18,7 +18,7 @@ public class AuthMiddleware {
             publicPaths.add("/registro");
 
             String path = context.req().getRequestURI();
-            if(context.sessionAttribute("id_usuario") != null || publicPaths.contains(path)) {
+            if(context.sessionAttribute("usuario_id") != null || publicPaths.contains(path)) {
                 handler.handle(context);
             }
             else {

@@ -27,10 +27,9 @@ public class RepositorioUsuarios implements WithSimplePersistenceUnit {
     public Usuario obtenerUsuario(CredencialDeAcceso credencialDeAcceso) {
         //TODO VER SI FUNCA
         EntityTransaction tx = entityManager().getTransaction();
-        String credencial_id = credencialDeAcceso.getId().toString();
         tx.begin();
-        TypedQuery<Usuario> query = entityManager().createQuery("SELECT u FROM usuario u WHERE u.credencial_id = :credencial_id", Usuario.class);
-        query.setParameter("credencial_id", credencial_id);
+        TypedQuery<Usuario> query = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.credencialDeAcceso = :credencial_id", Usuario.class);
+        query.setParameter("credencial_id", credencialDeAcceso);
         Usuario usuario = query.getSingleResult();
         tx.commit();
         return usuario;

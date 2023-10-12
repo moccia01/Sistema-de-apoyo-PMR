@@ -10,14 +10,14 @@ import javax.persistence.TypedQuery;
 
 public class RepositorioCredenciales implements WithSimplePersistenceUnit {
 
-    public CredencialDeAcceso obtenerCredencial(String username, String password) {
+    public CredencialDeAcceso obtenerCredencial(String nombreUsuario, String contrasenia) {
         //TODO VER SI FUNCA
         EntityTransaction tx = entityManager().getTransaction();
         tx.begin();
         TypedQuery<CredencialDeAcceso> query = entityManager().createQuery(
-                "SELECT c FROM credencial c WHERE c.username = :username AND c.password = :password", CredencialDeAcceso.class);
-        query.setParameter("username", username);
-        query.setParameter("password", password);
+                "SELECT c FROM CredencialDeAcceso c WHERE c.nombreUsuario = :nombreUsuario AND c.contrasenia = :contrasenia", CredencialDeAcceso.class);
+        query.setParameter("nombreUsuario", nombreUsuario);
+        query.setParameter("contrasenia", contrasenia);
         CredencialDeAcceso credencialDeAcceso = query.getSingleResult();
         tx.commit();
         return credencialDeAcceso;
