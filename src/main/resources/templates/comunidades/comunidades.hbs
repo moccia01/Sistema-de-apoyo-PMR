@@ -12,22 +12,22 @@
             </div>
         </div>
 
-    <!--aca arrancaria la lista de comunidades-->
-    {{#each comunidades}}
-        <div class="card">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="card-title">{{this.nombre}}</h5>
-                {{#if miembroActual.rol == 'ADMINISTRADOR'}} <!-- no se si se pone asi lo de los roles despues preguntar ESTO HAY QUE CAMBIARLO!!!-->
-                    <a href="../usuarios/administrarUsuarios.hbs" class="btn btn-dark">Ver usuarios</a>
-                {{else}}
-                    <a href="../usuarios/verUsuarios.hbs" class="btn btn-dark">Ver usuarios</a>
-                {{/if}}
+        <!--aca arrancaria la lista de comunidades-->
+        {{#each miembros}}
+            <div class="card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">{{this.comunidad.nombre}}</h5>
+                    {{#if this.esAdmin}}
+                        <a href="comunidades/{{this.comunidad.getId}}/administracion" class="btn btn-dark">Ver usuarios</a>
+                    {{else}}
+                        <a href="comunidades/{{this.comunidad.getId}}/visualizacion" class="btn btn-dark">Ver usuarios</a>
+                    {{/if}}
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="card-text">Descripción Comunidad</p>
+                </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="card-text">Descripción Comunidad</p>
-            </div>
-        </div>
-    {{/each}}
-
+        {{/each}}
+    </div>
 {{/partial}}
 {{> templates/plantilla_base }}

@@ -2,78 +2,47 @@ package domain.controllers;
 
 import domain.models.entities.comunidad.*;
 import domain.models.repositorios.RepositorioComunidades;
+import domain.models.repositorios.RepositorioMiembros;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.exceptions.AccessDeniedException;
 import domain.server.utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 
 import java.util.*;
 
-public class ComunidadController extends Controller implements ICrudViewsHandler {
+public class ComunidadController extends Controller{
     private RepositorioComunidades repositorioComunidades;
+    private RepositorioMiembros repositorioMiembros;
     private RepositorioUsuarios repositorioUsuarios;
 
-    public ComunidadController(RepositorioComunidades repositorioComunidades, RepositorioUsuarios repositorioUsuarios){
+    public ComunidadController(RepositorioComunidades repositorioComunidades, RepositorioUsuarios repositorioUsuarios, RepositorioMiembros repositorioMiembros){
         this.repositorioComunidades = repositorioComunidades;
         this.repositorioUsuarios = repositorioUsuarios;
+        this.repositorioMiembros = repositorioMiembros;
     }
     public void index(Context context) {
-        //TODO ver como hacer la paginacion
         Map<String, Object> model = new HashMap<>();
-        List<Comunidad> comunidades = new ArrayList<>(); //= this.repositorioComunidades.obtenerComunidadesDe(usuario_id);
-        model.put("comunidades", comunidades);
+        List<Miembro> miembros = this.repositorioMiembros.obtenerMiembrosDe(super.usuarioLogueado(context).getId());
+        model.put("miembros", miembros);
         context.render("comunidades/comunidades.hbs", model);
     }
 
+    public void admin(Context context) {
+        String comunidad_id = context.pathParam("id");
+        Usuario usuario = super.usuarioLogueado(context);
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id));
+        Miembro miembro = this.repositorioMiembros.obtenerMiembroDe(usuario.getId(), comunidad.getId());
 
-    @Override
-    public void show(Context context) {
+        if(!miembro.esAdministrador()) {
+            throw new AccessDeniedException();
+        }
 
+        List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
+        
     }
 
-    @Override
-    public void create(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("comunidades", null);
-        context.render("comunidades/comunidades.hbs", model);
-    }
-
-    @Override
-    public void save(Context context) {
-        Comunidad comunidad = new Comunidad();
-        this.asignarParametros(comunidad, context);
-        this.repositorioComunidades.agregar(comunidad);
-        context.redirect("/comunidades");
-    }
-
-    @Override
-    public void edit(Context context) {
-        String id = context.pathParam("id");
-        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Integer.parseInt(id));
-        Map<String, Object> model = new HashMap<>();
-        model.put("comunidades", comunidad);
-
-        int usuario_id = context.sessionAttribute("usuario_id");
-        Usuario usuario = new Usuario();
-        usuario = repositorioUsuarios.obtenerUsuarioSegunId(usuario_id);
-        //model.put("rol",usuario.getM);
-        context.render("comunidades/comunidades.hbs", model);
-    }
-
-    @Override
-    public void update(Context context) {
-        String id = context.pathParam("id");
-        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Integer.parseInt(id));
-        this.asignarParametros(comunidad, context);
-        this.repositorioComunidades.modificar(comunidad);
-        context.redirect("/comunidades");
-    }
-
-    @Override
-    public void delete(Context context) {
-        String id = context.pathParam("id");
-        Comunidad comunidad = (Comunidad) this.repositorioComunidades.obtenerComunidad(Integer.parseInt(id));
-        this.repositorioComunidades.eliminar(comunidad);
-        context.redirect("/comunidades");
+    public void ver(Context context) {
+        //TODO
     }
 
     private void asignarParametros(Comunidad comunidad, Context contexto){

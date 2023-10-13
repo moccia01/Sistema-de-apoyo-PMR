@@ -12,7 +12,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="entidad" class="form-label">Entidad</label>
-                                <select class="form-select" id="entidad" required>
+                                <select class="form-select" id="entidad" name="entidad" required>
                                     <option value="-1">Elegir Entidad</option>
                                     {{#each entidades}}
                                         <option value={{this.getId}}>{{this.getNombre}}</option>
@@ -21,7 +21,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="establecimiento" class="form-label">Establecimiento</label>
-                                <select class="form-select" id="establecimiento" required>
+                                <select class="form-select" id="establecimiento" name="establecimiento" required>
                                     <option value="-1">Elegir Establecimiento</option>
                                     {{#each establecimientos}}
                                         <option value={{this.getId}}>{{this.getNombre}}</option>
@@ -30,7 +30,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="servicio" class="form-label">Servicio</label>
-                                <select class="form-select" id="servicio" required>
+                                <select class="form-select" id="servicio" name="servicio" required>
                                     <option value="-1">Elegir Servicio</option>
                                     {{#each servicios}}
                                         <option value={{this.getId}}>{{this.getNombre}}</option>

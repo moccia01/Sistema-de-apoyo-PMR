@@ -1,6 +1,7 @@
 package domain.models.repositorios;
 
 import domain.models.entities.comunidad.Incidente;
+import domain.models.entities.comunidad.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import javax.persistence.EntityTransaction;
@@ -14,16 +15,16 @@ public class RepositorioIncidentes implements WithSimplePersistenceUnit {
                 .getResultList();
     }
 
-    public List<Incidente> obtenerIncidentesDe(int usuario_id) {
+    public List<Incidente> obtenerIncidentesDe(Long usuario_id) {
         String jpql = "SELECT i FROM Comunidad c " +
                 "JOIN c.incidentes i " +
                 "JOIN c.miembros m " +
-                "WHERE m.usuario.id = :usuarioId";
+                "WHERE m.usuario.id = :usuario";
 
         EntityTransaction tx = entityManager().getTransaction();
         tx.begin();
         TypedQuery<Incidente> query = entityManager().createQuery(jpql, Incidente.class);
-        query.setParameter("usuarioId", usuario_id);
+        query.setParameter("usuario", usuario_id);
         List<Incidente> incidentes = query.getResultList();
         tx.commit();
         return incidentes;

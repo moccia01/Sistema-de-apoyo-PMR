@@ -1,9 +1,6 @@
 package domain.server;
 
-import domain.controllers.ComunidadController;
-import domain.controllers.FactoryController;
-import domain.controllers.IncidenteController;
-import domain.controllers.LoginController;
+import domain.controllers.*;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -18,6 +15,12 @@ public class Router {
             post("registro", ((LoginController) FactoryController.controller("login"))::save);
             get("index", (context -> context.render("/index.hbs")));
 
+            get("/entidades_prestadoras", ((EntidadPrestadoraController) FactoryController.controller("entidad_prestadora"))::show);
+
+            get("/organismos_de_control", ((OrganismoDeControlController) FactoryController.controller("organismo_de_control"))::show);
+
+            get("/rankings", ((RankingController) FactoryController.controller("ranking"))::show);
+
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
             get("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::show);
@@ -28,12 +31,9 @@ public class Router {
             delete("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::delete);
 
             get("comunidades",((ComunidadController) FactoryController.controller("comunidades"))::index);
-            get("comunidad/crear", ((ComunidadController) FactoryController.controller("comunidades"))::create);
-            get("comunidad/{id}", ((ComunidadController) FactoryController.controller("comunidades"))::show);
-            get("comunidad/{id}/editar", ((ComunidadController) FactoryController.controller("comunidades"))::edit);
-            post("comunidad", ((ComunidadController) FactoryController.controller("comunidades"))::save);
-            post("comunidad/{id}", ((ComunidadController) FactoryController.controller("comunidades"))::update); // no es put pq form de html no acepta put
-            delete("comunidad/{id}", ((ComunidadController) FactoryController.controller("comunidades"))::delete);
+            get("comunidades/{id}/admin",((ComunidadController) FactoryController.controller("comunidades"))::admin);
+            get("comunidades/{id}/ver",((ComunidadController) FactoryController.controller("comunidades"))::ver);
+
 
             // TODO: ACA VAN EL RESTO DE LAS RUTAS
         });

@@ -39,4 +39,8 @@ public class Miembro extends EntidadPersistente {
     public Miembro() {
 
     }
+
+    public Boolean esAdministrador() {
+        return this.rol == Rol.ADMINISTRADOR;
+    }
 }
