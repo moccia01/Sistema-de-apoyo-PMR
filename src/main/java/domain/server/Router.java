@@ -21,6 +21,7 @@ public class Router {
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
             get("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::show);
+            get("incidentes/{id}/cerrar", ((IncidenteController) FactoryController.controller("incidentes"))::close);
             get("incidentes/{id}/editar", ((IncidenteController) FactoryController.controller("incidentes"))::edit);
             post("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::save);
             post("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::update); // no es put pq form de html no acepta put

@@ -55,7 +55,7 @@ public class ComunidadController extends Controller implements ICrudViewsHandler
         int usuario_id = context.sessionAttribute("usuario_id");
         Usuario usuario = new Usuario();
         usuario = repositorioUsuarios.obtenerUsuarioSegunId(usuario_id);
-        model.put("rol",usuario.getM);
+        //model.put("rol",usuario.getM);
         context.render("comunidades/comunidades.hbs", model);
     }
 

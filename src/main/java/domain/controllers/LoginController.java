@@ -4,8 +4,11 @@ import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Interes;
 import domain.models.entities.comunidad.NombreGradoConfianza;
 import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.converters.MedioConfiguradoAttributeConverter;
+import domain.models.entities.converters.TiempoConfiguradoAttributeConverter;
 import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
+import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.entities.validaciones.CredencialDeAcceso;
 import domain.models.repositorios.RepositorioCredenciales;
 import domain.models.repositorios.RepositorioGradosDeConfianza;
@@ -14,9 +17,7 @@ import domain.models.repositorios.RepositorioUsuarios;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class LoginController {
     RepositorioUsuarios repositorioUsuarios;
@@ -68,7 +69,9 @@ public class LoginController {
 
     public void create(Context context){
         Map<String, Object> model = new HashMap<>();
-        model.put("registro", null);
+        List<TiempoConfigurado> tiemposConfigurados= new ArrayList<>();
+        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerTiempoConfigurado("CuandoSucede"));
+        model.put("tiempos_config", tiemposConfigurados);
         context.render("login/registro.hbs", model);
     }
 
@@ -86,6 +89,8 @@ public class LoginController {
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));
         usuario.setApellido(contexto.formParam("apellido"));
+        usuario.setMail(contexto.formParam("email"));
+        usuario.setTelefono(contexto.formParam("telefono"));
 
         CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
         credencialDeAcceso.setNombreUsuario(contexto.formParam("usuario_nombre"));
@@ -93,16 +98,24 @@ public class LoginController {
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         usuario.setCredencialDeAcceso(credencialDeAcceso);
 
-        usuario.setMail(contexto.formParam("email"));
+        usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
+                Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
+        String tiempoElegido = contexto.formParam("tiempo_configuracion");
 
-        usuario.setMedioConfigurado(new MensajeWhatsApp());
-        usuario.setTiempoConfigurado(repositorioTiemposConfiguracion.obtenerTiempoConfigurado("CuandoSucede"));
-        usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_1));
+        TiempoConfigurado tiempoConfigurado = null;
+        if(Objects.equals(tiempoElegido, "CuandoSucede")){
+            tiempoConfigurado = repositorioTiemposConfiguracion.obtenerTiempoConfigurado(tiempoElegido);
+        } else {
+            assert tiempoElegido != null;
+            tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
+        }
+        usuario.setTiempoConfigurado(tiempoConfigurado);
+
+        usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(
+                NombreGradoConfianza.CONFIABLE_NIVEL_1));
 
         //Valores default
         usuario.setInteres(new Interes());
         usuario.setPuntosDeConfianza(5);
-
-
     }
 }

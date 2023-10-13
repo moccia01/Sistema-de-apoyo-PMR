@@ -105,7 +105,7 @@ public class Incidente extends EntidadPersistente {
         return this.usuarioApertura.getNombre() + ": " + this.fechaHoraApertura.toLocalDate().toString();
     }
 
-    public String CierreToString() {
+    public String cierreToString() {
         if( this.usuarioCierre == null || this.fechaHoraCierre == null){
             return " - ";
         }

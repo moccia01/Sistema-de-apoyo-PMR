@@ -29,7 +29,7 @@ public class RepositorioIncidentes implements WithSimplePersistenceUnit {
         return incidentes;
     }
 
-    public Incidente obtenerIncidente(int id){
+    public Incidente obtenerIncidente(Long id){
         // VER SI ESTA BIEN
         return entityManager().find(Incidente.class, id);
     }
