@@ -3,5 +3,5 @@ package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalcul
 public class UsuarioDevuelto {
     public UsuarioApi5 usuario;
     public double nuevoPuntaje;
-    public double gradoDeConfianzaActual;
+    public Integer gradoDeConfianzaActual;
 }

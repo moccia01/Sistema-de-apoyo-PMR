@@ -19,9 +19,9 @@ public class ComunidadApi5 {
     public ComunidadApi5(){
         miembrosApi = new ArrayList<>();
     }
-    public void cargar(Comunidad comunidad, List<Usuario> usuarios){
+    public void cargar(Comunidad comunidad){
         this.setGradoConfianza(" ");
-        usuarios.forEach(u->agregarAListaMiembro(u));
+        comunidad.getMiembros().forEach(m->agregarAListaMiembro(m.getUsuario()));
     }
 
 
@@ -34,7 +34,6 @@ public class ComunidadApi5 {
         usuarioApi5.setId(usuario.getId());
         miembrosApi.add(usuarioApi5);
     }
-
 
 
 

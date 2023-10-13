@@ -10,13 +10,13 @@ public class RequestUsuarioJSON {
     public UsuarioApi5 usuario;
     public List<IncidenteApi5> incidentes;
 
-    public void cargar(Usuario usuario, List<Incidente> incident) {
+    public void cargar(Usuario usuario, List<Incidente> incidentes) {
         this.usuario.setId(usuario.getId());
         this.usuario.setApellido(usuario.getApellido());
         this.usuario.setPuntosDeConfianza(usuario.getPuntosDeConfianza());
         this.usuario.setId(usuario.getId());
         this.incidentes = new ArrayList<>();
-        incident.forEach(i -> this.cargarIncidente(i));
+        incidentes.forEach(i -> this.cargarIncidente(i));
 
     }
 

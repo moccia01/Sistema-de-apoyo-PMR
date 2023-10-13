@@ -12,5 +12,5 @@ public interface CalculadorDeConfianzaAdapter {
     // Meter métodos en común para cada calculadorDeConfianza, impolementar con PATRON ADAPTER, luego agarrar
     // y cambiarle este nombre ya que es un desastre, tal vez CalculadorDeConfianzaAdapter
     Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes);
-    Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad);
+    Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes);
 }

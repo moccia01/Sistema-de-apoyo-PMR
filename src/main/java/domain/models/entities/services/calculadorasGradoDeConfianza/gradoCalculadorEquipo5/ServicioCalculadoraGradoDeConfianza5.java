@@ -1,8 +1,8 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5;
 
-import domain.models.entities.comunidad.Comunidad;
-import domain.models.entities.comunidad.Incidente;
-import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.comunidad.*;
+import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
+import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.*;
 import retrofit2.Call;
@@ -49,18 +49,41 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
 
 
     //@Override
-    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) {
+    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException{
         UsuarioDevuelto usuarioDevuelto = new UsuarioDevuelto();
         RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
         usuarioJSON.cargar(usuario, incidentes);
+        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
 
-        //usuarioDevuelto = usuarioDevuelto(usuarioJSON);
-        return null;
+        usuarioDevuelto = this.usuarioDevuelto(usuarioJSON);
+
+        this.crearGradoDeConfianza(gradoDeConfianza,usuarioDevuelto.gradoDeConfianzaActual);
+
+        usuario.setPuntosDeConfianza(usuarioDevuelto.nuevoPuntaje);
+        //usuario.setGradoDeConfianza(gradoDeConfianza);
+
+        return usuario;
     }
 
+    public void crearGradoDeConfianza(GradoDeConfianza gradoDeConfianza, Integer gradoDeConfianzaActual){
+        return switch (gradoDeConfianza) {
+            case 0 -> gradoDeConfianza.setNombreGradoConfianza(NombreGradoConfianza.NO_CONFIABLE);
+            case 1 -> new MensajeEmail();
+            default -> null;
+        };
+    }
 
     @Override
-    public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad) {
-        return null;
+    public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes) throws IOException {
+        ComunidadDevuelta comunidadDevuelta = new ComunidadDevuelta();
+        RequestComunidadJSON comunidadJSON = new RequestComunidadJSON();
+
+        comunidadJSON.cargar(comunidad,incidentes);
+
+        comunidadDevuelta = this.comunidadDevuelta(comunidadJSON);
+
+        comunidad.setGradoConfianza(comunidadDevuelta.getGradoDeConfianzaActual());
+
+        return comunidad;
     }
 }
