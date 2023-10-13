@@ -51,7 +51,7 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
 
     //@Override
     public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException {
-        UsuarioDevuelto usuarioDevuelto = new UsuarioDevuelto();
+        UsuarioDevuelto usuarioDevuelto;
         RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
         usuarioJSON.cargar(usuario, incidentes);
         GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();

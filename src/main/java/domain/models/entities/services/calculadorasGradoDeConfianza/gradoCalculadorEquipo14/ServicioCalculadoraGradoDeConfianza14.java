@@ -38,7 +38,8 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         }
         return instancia;
     }
-    /*
+
+    //TODO Ver si hay que arreglar el nuestro dado que pasamos el PayloadDTO14 y recibimos el PayLoadDTO14 modificado
     public ComunidadApi14 comunidadDevuelto(ComunidadApi14 comunidadApi14) throws IOException{
         GradoDeConfianza14Service gradoDeConfianza14Service = this.retrofit.create(GradoDeConfianza14Service.class);
         Call<ComunidadApi14> requestGradoConfianzaComunidad = gradoDeConfianza14Service.comunidadApi(comunidadApi14);
@@ -52,15 +53,20 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         Response<UsuarioApi14> responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
         return responseGradoConfianzaUsuario.body();
     }
-    */
+
 
     @Override
-    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) {
-        return null;
+    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException {
+        UsuarioApi14 usuarioApi14 = new UsuarioApi14();
+        //usuarioApi14.cargar(usuario, incidentes);
+
+        usuarioApi14 = usuarioDevuelto(usuarioApi14);
+
+        return usuario;
     }
 
     @Override
-    public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad) {
+    public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes) throws IOException  {
         return null;
     }
 
