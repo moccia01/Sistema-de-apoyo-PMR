@@ -17,10 +17,10 @@
         <div class="card">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-title">{{this.nombre}}</h5>
-                {{#if this.rol == Administrador}} <!-- no se si se pone asi lo de los roles despues preguntar -->
-                    <a href="../usuarios/administrarUsuarios.html" class="btn btn-dark">Ver usuarios</a>
+                {{#if miembroActual.rol == 'ADMINISTRADOR'}} <!-- no se si se pone asi lo de los roles despues preguntar ESTO HAY QUE CAMBIARLO!!!-->
+                    <a href="../usuarios/administrarUsuarios.hbs" class="btn btn-dark">Ver usuarios</a>
                 {{else}}
-                    <a href="../usuarios/verUsuarios.html" class="btn btn-dark">Ver usuarios</a>
+                    <a href="../usuarios/verUsuarios.hbs" class="btn btn-dark">Ver usuarios</a>
                 {{/if}}
             </div>
             <div class="d-flex justify-content-between align-items-center">

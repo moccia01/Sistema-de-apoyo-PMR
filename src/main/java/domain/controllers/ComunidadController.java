@@ -2,6 +2,7 @@ package domain.controllers;
 
 import domain.models.entities.comunidad.*;
 import domain.models.repositorios.RepositorioComunidades;
+import domain.models.repositorios.RepositorioUsuarios;
 import domain.server.utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 
@@ -9,9 +10,11 @@ import java.util.*;
 
 public class ComunidadController extends Controller implements ICrudViewsHandler {
     private RepositorioComunidades repositorioComunidades;
+    private RepositorioUsuarios repositorioUsuarios;
 
-    public ComunidadController(RepositorioComunidades RepositorioComunidades){
-        this.repositorioComunidades = RepositorioComunidades;
+    public ComunidadController(RepositorioComunidades repositorioComunidades, RepositorioUsuarios repositorioUsuarios){
+        this.repositorioComunidades = repositorioComunidades;
+        this.repositorioUsuarios = repositorioUsuarios;
     }
     public void index(Context context) {
         //TODO ver como hacer la paginacion
@@ -48,6 +51,11 @@ public class ComunidadController extends Controller implements ICrudViewsHandler
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Integer.parseInt(id));
         Map<String, Object> model = new HashMap<>();
         model.put("comunidades", comunidad);
+
+        int usuario_id = context.sessionAttribute("usuario_id");
+        Usuario usuario = new Usuario();
+        usuario = repositorioUsuarios.obtenerUsuarioSegunId(usuario_id);
+        model.put("rol",usuario.getM);
         context.render("comunidades/comunidades.hbs", model);
     }
 

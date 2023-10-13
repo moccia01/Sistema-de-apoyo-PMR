@@ -34,4 +34,14 @@ public class RepositorioUsuarios implements WithSimplePersistenceUnit {
         tx.commit();
         return usuario;
     }
+
+    //TODO VER SI ESTO FUNCIONA, es para chequear el rol del miembro de cada usuario
+    public Usuario obtenerUsuarioSegunId(int id){
+        Usuario usuario = new Usuario();
+        usuario= entityManager().createQuery(" from Usuario  where id = :n", Usuario.class)
+                .setParameter("n",id)
+                .getSingleResult();
+        return usuario;
+    }
+
 }

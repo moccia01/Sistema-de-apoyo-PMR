@@ -6,9 +6,9 @@
                     <h3 class="m-0">Registro</h3>
                 </div>
                 <div class="card-body p-4">
-                    <form method ="POST">
+                    <form method="POST">
                         <div class="mb-3">
-                            <label for="Nombre" class="form-label">Nombre</label>
+                            <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre" required>
                         </div>
                         <div class="mb-3">
@@ -21,11 +21,31 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" name="email" placeholder="Inserte su email" required>
+                            <input type="email" class="form-control" name="email" placeholder="Inserte su email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Número de Teléfono</label>
+                            <input type="text" class="form-control" name="telefono" placeholder="Inserte su número de teléfono" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Inserte su contraseña" required>
+                            <input type="password" class="form-control" name="password" placeholder="Inserte su contraseña" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="medio_notificacion" class="form-label">Medio de Notificación</label>
+                            <select class="form-select" name="medio_notificacion">
+                                <option value="email">Email</option>
+                                <option value="sms">SMS</option>
+                                <option value="notificaciones">Notificaciones</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tiempo_configuracion" class="form-label">Tiempo de Configuración</label>
+                            <select class="form-select" name="tiempo_configuracion">
+                                <option value="15">15 minutos</option>
+                                <option value="30">30 minutos</option>
+                                <option value="60">1 hora</option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-warning">Confirmar</button>
                     </form>
