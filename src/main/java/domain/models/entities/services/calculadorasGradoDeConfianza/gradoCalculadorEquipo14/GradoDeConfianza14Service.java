@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface GradoDeConfianza14Service {
 
-    @POST("usuario")
+    @POST("/")
     Call<PayloadDTOApi14> usuarioComunidad(@Query("/") PayloadDTOApi14 json);
 
     /*

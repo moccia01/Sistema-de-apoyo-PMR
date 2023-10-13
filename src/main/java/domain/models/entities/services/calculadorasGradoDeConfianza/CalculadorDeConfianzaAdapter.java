@@ -12,6 +12,6 @@ public interface CalculadorDeConfianzaAdapter {
     // Meter métodos en común para cada calculadorDeConfianza, impolementar con PATRON ADAPTER
     // Definir si dejamos al metodo calcularGradoConfianzaPara con
     // void calcularGradoConfianzaPara(List<Usuario> usuario, List<Comunidad> comunidad, List<Incidente> incidentes) throws IOException;
-    void calcularGradoConfianzaPara(Usuario usuario, Comunidad comunidad, List<Incidente> incidentes) throws IOException;
+    public void calcularGradoConfianzaPara(List<Usuario> usuario, List<Comunidad> comunidad, List<Incidente> incidentes) throws IOException;
 
 }

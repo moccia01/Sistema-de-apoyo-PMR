@@ -12,6 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfianzaAdapter {
@@ -48,7 +49,7 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         return responseGradoConfianzaUsuario.body();
     }
 
-
+/*
     public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException {
         UsuarioDevuelto usuarioDevuelto;
         RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
@@ -67,9 +68,12 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         //TODO VER COMO CREAR UN NUEVO GRADO DE CONFIANZA PARA EL USUARIO PORQUE SINO ESTA TODO MAL
         // ESTAMOS CAMBIANDOLE EL NOMBRE ATADO CON ALAMBRE, EN VEZ DE CREAR UNO NUEVO CON TODOS LOS ATRIBUTOS CORRECTOS
         return usuario;
-    }
 
-    public void crearGradoDeConfianza(GradoDeConfianza gradoDeConfianza, Integer gradoDeConfianzaActual){
+    }
+        */
+
+    public GradoDeConfianza crearGradoDeConfianza(Integer gradoDeConfianzaActual){
+        GradoDeConfianza gradoDeConfianza1 = new GradoDeConfianza();
         /*
         return switch (gradoDeConfianza) {
             case 0 ->onfianza.NO_CONFIABLE);
@@ -77,6 +81,7 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
             default -> null;
         };
          */
+        return gradoDeConfianza1;
     }
 
     public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes) throws IOException {
@@ -84,7 +89,7 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         RequestComunidadJSON comunidadJSON = new RequestComunidadJSON();
 
         comunidadJSON.cargar(comunidad,incidentes);
-
+        //traer de base de datos
         //TODO devuelta lo mismo, definir si la comunidad tiene que tener puntos/grado de confianza
         comunidadDevuelta = this.comunidadDevuelta(comunidadJSON);
         //NombreGradoConfianzaAttributeConverter converterIntToEnum = new NombreGradoConfianzaAttributeConverter();
@@ -94,8 +99,67 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
     }
 
     @Override
-    public void calcularGradoConfianzaPara(Usuario usuario, Comunidad comunidad, List<Incidente> incidentes) throws IOException {
-        usuario = this.calcularGradoConfianzaParaUn(usuario, incidentes);
-        comunidad = this.calcularGradoConfianzaParaUna(comunidad, incidentes);
+    public void calcularGradoConfianzaPara(List<Usuario> usuarios, List<Comunidad> comunidades, List<Incidente> incidentes) throws IOException {
+       List<ComunidadDevuelta> comunidadDevueltas = new ArrayList<>();
+       List<UsuarioDevuelto> usuarioDevueltos = new ArrayList<>();
+
+       List<RequestComunidadJSON> requestComunidadJSONS = new ArrayList<>();
+       List<RequestUsuarioJSON> requestUsuarioJSONS = new ArrayList<>();
+
+       RequestComunidadJSON comunidadJSON = new RequestComunidadJSON();
+       RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
+
+       //transformo al tipo de dato solicitado de api
+        for(Usuario usuario : usuarios){
+            usuarioJSON.cargar(usuario,incidentes);
+            requestUsuarioJSONS.add(usuarioJSON);
+        }
+
+        for(Comunidad comunidad :comunidades){
+            comunidadJSON.cargar(comunidad,incidentes);
+            requestComunidadJSONS.add(comunidadJSON);
+        }
+
+
+        //ejecuto la operacion para que me retorne con los dato actualizado en la lista de devueltos
+        for(RequestComunidadJSON comunidadJSON1 : requestComunidadJSONS){
+            comunidadDevueltas.add(this.comunidadDevuelta(comunidadJSON1));
+        }
+
+        for(RequestUsuarioJSON usuarioJSON1 :requestUsuarioJSONS ){
+            usuarioDevueltos.add(this.usuarioDevuelto(usuarioJSON1));
+        }
+
+        //seteo a mi lista original
+        for(UsuarioDevuelto usuarioDevuelto : usuarioDevueltos){
+            usuarios.forEach(u->this.actualizarUsuario(u,usuarioDevuelto));
+        }
+
+        for(ComunidadDevuelta comunidadDevuelta :comunidadDevueltas){
+            comunidades.forEach(c->this.actualizarComunidad(c,comunidadDevuelta));
+        }
+
     }
+
+    private void actualizarComunidad(Comunidad c, ComunidadDevuelta comunidadDevuelta) {
+    /*
+        c.setPuntosDeConfianza(comunidadDevuelta.getNuevoPuntaje());
+        //TODO implementar cambio de comunidad
+        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
+        gradoDeConfianza = this.crearGradoDeConfianza(comunidadDevuelta.getGradoDeConfianzaActual());
+        c.setGradoDeConfianza(gradoDeConfianza);
+
+     */
+    }
+
+    private void actualizarUsuario(Usuario u, UsuarioDevuelto usuarioDevuelto) {
+        u.setPuntosDeConfianza(usuarioDevuelto.getNuevoPuntaje());
+        //TODO implementar cambio
+        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
+        gradoDeConfianza = this.crearGradoDeConfianza(usuarioDevuelto.getGradoDeConfianzaActual());
+        u.setGradoDeConfianza(gradoDeConfianza);
+    }
+
+
+
 }
