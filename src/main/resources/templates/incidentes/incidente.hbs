@@ -8,11 +8,11 @@
                         <form method ="POST" {{#if incidente}} action="/incidentes/{{incidente.id}}" {{else}} action="/incidentes" {{/if}}>
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Título</label>
-                                <input type="text" class="form-control" name="titulo" placeholder="Título del incidente">
+                                <input type="text" class="form-control" name="titulo" placeholder="Título del incidente" required>
                             </div>
                             <div class="mb-3">
                                 <label for="entidad" class="form-label">Entidad</label>
-                                <select class="form-select" id="entidad">
+                                <select class="form-select" id="entidad" required>
                                     <option value="-1">Elegir Entidad</option>
                                     <option value="entidad1">Entidad 1</option>
                                     <option value="entidad2">Entidad 2</option>
@@ -20,7 +20,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="establecimiento" class="form-label">Establecimiento</label>
-                                <select class="form-select" id="establecimiento">
+                                <select class="form-select" id="establecimiento" required>
                                     <option value="-1">Elegir Establecimiento</option>
                                     <option value="establecimiento1">Establecimiento 1</option>
                                     <option value="establecimiento2">Establecimiento 2</option>
@@ -28,7 +28,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="servicio" class="form-label">Servicio</label>
-                                <select class="form-select" id="servicio">
+                                <select class="form-select" id="servicio" required>
                                     <option value="-1">Elegir Servicio</option>
                                     <option value="servicio1">Servicio 1</option>
                                     <option value="servicio2">Servicio 2</option>

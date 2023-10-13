@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carga de Entidades Prestadoras</title>
+  <title>Carga de Organismos de Control</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../public/css/cargaEntidades.css">
+  <link rel="stylesheet" href="../../public/css/cargaOrganismos.css">
 </head>
 <body class="bg-dark text-light">
 
@@ -18,7 +18,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="../index.html">Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,24 +30,24 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="incidentes/incidentes.html">Incidentes</a>
+                    <a class="nav-link" href="../incidentes/incidentes.html">Incidentes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="rankings.html">Rankings</a>
+                    <a class="nav-link" href="../rankings/rankings.html">Rankings</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="comunidades/comunidades.html">Comunidades</a>
-                </li>
+                  <a class="nav-link" href="../comunidades/comunidades.html">Comunidades</a>
                 <li class="nav-item">
-                    <a class="nav-link" href="login/login.hbs">Cerrar sesión</a>
+                    <a class="nav-link" href="../login/login.hbs">Cerrar sesión</a>
                 </li>
             </ul>
           </div>
         </div>
       </nav>
 
+
 <div class="container mt-4">
-  <h1>Carga de Entidades Prestadoras</h1>
+  <h1>Carga de Organismos de Control</h1>
   
   <div class="card main-container">
     <div class="card-body">
@@ -56,7 +56,7 @@
       <button class="btn btn-primary mt-3" id="uploadCsvBtn">Subir CSV</button>
     </div>
   </div>
-  
+
   <div class="alert alert-success mt-3" id="successMessage" style="display: none;">
     Archivo CSV cargado con éxito.
   </div>
@@ -66,6 +66,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="upload.js"></script>
+<script src="uploadOrganismos.js"></script>
 </body>
 </html>

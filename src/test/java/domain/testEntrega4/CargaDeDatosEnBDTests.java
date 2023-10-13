@@ -10,7 +10,9 @@ import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
 import domain.models.entities.mensajes.MailSender;
 import domain.models.entities.comunidad.*;
 import domain.models.entities.validaciones.CredencialDeAcceso;
+import domain.server.init.Initializer;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
+import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,7 +26,6 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
     private Usuario fede;
 
     private CredencialDeAcceso credencialFede;
-
     private Entidad lineaMitre;
     private Servicio escaleraMecanica;
     private Establecimiento estacionRetiro;
@@ -36,12 +37,15 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
     private Servicio banio;
     private Servicio escalera;
     private Interes interes;
-    private GradoDeConfianza gradoDeConfianza;
+    private Initializer init;
 
     @BeforeEach
-    public void init(){
-        credencialFede = new CredencialDeAcceso("elFede");
 
+    public void init(){
+        init = new Initializer();
+        init.init();
+
+        credencialFede = new CredencialDeAcceso("elFede");
 
 
         //servicio
@@ -80,7 +84,6 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
         incidente1.setFechaHoraApertura(fechaAperturaIncidente1);
         incidente1.setFechaHoraCierre(fechaCierreIncidente1);
 
-
         utn = new Entidad();
         utn.setNombre("UTN");
 
@@ -89,10 +92,6 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
 
         InteresBuilder interesBuilder = new InteresBuilder();
         interes = interesBuilder.agregarEntidades(utn).agregarServicios(escalera, banio).construir();
-
-        gradoDeConfianza = new GradoDeConfianza();
-        gradoDeConfianza.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
-
 
         fede = new Usuario();
         fede.setNombre("Federico");
@@ -109,7 +108,11 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
         fede.setTiempoConfigurado(new CuandoSucede());
         fede.setPuntosDeConfianza(5);
 
-        fede.setGradoDeConfianza(gradoDeConfianza);
+
+
+
+
+        fede.setGradoDeConfianza(init.getConfianzaConfiableNivel1());
 
     }
 
@@ -117,6 +120,9 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
     public void cargarUnosDatos(){
 
             withTransaction(() -> {
+                entityManager().persist(init.getConfianzaConfiableNivel2());
+                entityManager().persist(init.getConfianzaConReservas());
+                entityManager().persist(init.getConfianzaNoConfiable());
                 entityManager().persist(fede);
             });
     }

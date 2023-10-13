@@ -15,11 +15,11 @@ public class RepositorioIncidentes implements WithSimplePersistenceUnit {
     }
 
     public List<Incidente> obtenerIncidentesDe(int usuario_id) {
-        String jpql = "SELECT i FROM Incidente i " +
-                "JOIN i.comunidad_incidente ci " +
-                "JOIN ci.comunidad c " +
+        String jpql = "SELECT i FROM Comunidad c " +
+                "JOIN c.incidentes i " +
                 "JOIN c.miembros m " +
                 "WHERE m.usuario.id = :usuarioId";
+
         EntityTransaction tx = entityManager().getTransaction();
         tx.begin();
         TypedQuery<Incidente> query = entityManager().createQuery(jpql, Incidente.class);

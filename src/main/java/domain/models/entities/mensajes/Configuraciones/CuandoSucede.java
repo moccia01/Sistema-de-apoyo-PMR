@@ -20,4 +20,9 @@ public class CuandoSucede extends TiempoConfigurado{
     public void mandarPendientes(Usuario usuario) {
 
     }
+
+    @Override
+    public String discriminador() {
+        return "CuandoSucede";
+    }
 }

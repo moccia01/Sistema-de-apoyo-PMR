@@ -1,6 +1,5 @@
 package domain.models.entities.comunidad;
 
-import domain.models.entities.converters.GradoConfianzaAttributeConverter;
 import domain.models.entities.converters.MedioConfiguradoAttributeConverter;
 import domain.models.entities.db.EntidadPersistente;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
@@ -58,8 +57,8 @@ public class Usuario extends EntidadPersistente {
     @Column
     private double puntosDeConfianza;
 
-    @Column
-    @Convert(converter = GradoConfianzaAttributeConverter.class)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "grado_confianza_id")
     private GradoDeConfianza gradoDeConfianza;
 
     public Usuario() {

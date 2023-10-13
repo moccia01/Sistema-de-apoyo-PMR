@@ -11,6 +11,8 @@ import domain.server.utils.ICrudViewsHandler;
 
 
 import io.javalin.http.Context;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,9 +99,8 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
 
         incidente.setEstado(false);
+        incidente.setFechaHoraApertura(LocalDateTime.now());
 
-
-        // TODO ver como setear usuario apertura preguntandole al contexto (?) (por ahora lo hago asi para que no rompa)
         Usuario usuario = super.usuarioLogueado(contexto);
         incidente.setUsuarioApertura(usuario);
     }

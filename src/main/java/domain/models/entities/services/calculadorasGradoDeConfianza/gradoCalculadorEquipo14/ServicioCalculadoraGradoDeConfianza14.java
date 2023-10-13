@@ -1,6 +1,7 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14;
 
 import domain.models.entities.comunidad.Comunidad;
+import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.ComunidadApi14;
@@ -14,9 +15,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfianzaAdapter {
-    //"https://github.com/moccia01/servicio-entrega4-tpa-grupo14"
+
     private static ServicioCalculadoraGradoDeConfianza14 instancia = null;
 
     private final String urlApi = "aca iría la url si el servidor estuviera corriendo";
@@ -36,7 +38,7 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         }
         return instancia;
     }
-
+    /*
     public ComunidadApi14 comunidadDevuelto(ComunidadApi14 comunidadApi14) throws IOException{
         GradoDeConfianza14Service gradoDeConfianza14Service = this.retrofit.create(GradoDeConfianza14Service.class);
         Call<ComunidadApi14> requestGradoConfianzaComunidad = gradoDeConfianza14Service.comunidadApi(comunidadApi14);
@@ -50,9 +52,10 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         Response<UsuarioApi14> responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
         return responseGradoConfianzaUsuario.body();
     }
+    */
 
     @Override
-    public Usuario calcularGradoConfianzaParaUn(Usuario usuario) {
+    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) {
         return null;
     }
 

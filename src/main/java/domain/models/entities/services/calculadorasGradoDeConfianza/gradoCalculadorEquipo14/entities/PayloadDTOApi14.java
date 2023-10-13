@@ -2,9 +2,8 @@ package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalcul
 
 import java.util.List;
 
-public class ComunidadApi14 {
-    public long id;
-    public double puntosDeConfianza;
-    public GradoDeConfianzaApi14 gradoDeConfianza;
+public class PayloadDTOApi14 {
     public List<UsuarioApi14> usuarios;
+    public List<ComunidadApi14> comunidades;
+    public List<IncidenteApi14> incidentes;
 }

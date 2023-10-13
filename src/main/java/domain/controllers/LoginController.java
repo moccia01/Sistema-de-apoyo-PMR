@@ -8,6 +8,8 @@ import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
 import domain.models.entities.validaciones.CredencialDeAcceso;
 import domain.models.repositorios.RepositorioCredenciales;
+import domain.models.repositorios.RepositorioGradosDeConfianza;
+import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
 import io.javalin.http.Context;
 
@@ -19,10 +21,17 @@ import java.util.Objects;
 public class LoginController {
     RepositorioUsuarios repositorioUsuarios;
     RepositorioCredenciales repositorioCredenciales;
+    RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
+    RepositorioGradosDeConfianza repositorioGradosDeConfianza;
 
-    public LoginController(RepositorioUsuarios repositorioUsuarios, RepositorioCredenciales repositorioCredenciales) {
+    public LoginController(RepositorioUsuarios repositorioUsuarios,
+                           RepositorioCredenciales repositorioCredenciales,
+                           RepositorioTiemposConfiguracion repositorioTiemposConfiguracion,
+                           RepositorioGradosDeConfianza repositorioGradosDeConfianza) {
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioCredenciales = repositorioCredenciales;
+        this.repositorioTiemposConfiguracion = repositorioTiemposConfiguracion;
+        this.repositorioGradosDeConfianza= repositorioGradosDeConfianza;
     }
 
     public void index(Context context){
@@ -37,6 +46,7 @@ public class LoginController {
     }
 
     public void show(Context context){
+        context.sessionAttribute("usuario_id", null);
         Map<String, Object> model = new HashMap<>();
         model.put("login", null);
         context.render("login/login.hbs", model);
@@ -44,16 +54,14 @@ public class LoginController {
 
     public void login(Context context){
         String username = context.formParam("username");
-     //   System.out.println("u: " + username);
         String password = context.formParam("password");
-      //  System.out.println("pw: " + password);
         CredencialDeAcceso credencialDeAcceso = repositorioCredenciales.obtenerCredencial(username, password);
         if(credencialDeAcceso != null){
             Usuario usuario = repositorioUsuarios.obtenerUsuario(credencialDeAcceso);
             context.sessionAttribute("usuario_id", usuario.getId());
             context.redirect("/index");
         } else {
-            context.render("/login/loginError.hbs");
+            context.render("errors/loginError.hbs");
         }
 
     }
@@ -88,14 +96,13 @@ public class LoginController {
         usuario.setMail(contexto.formParam("email"));
 
         usuario.setMedioConfigurado(new MensajeWhatsApp());
-        usuario.setTiempoConfigurado(new CuandoSucede());
+        usuario.setTiempoConfigurado(repositorioTiemposConfiguracion.obtenerTiempoConfigurado("CuandoSucede"));
+        usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_1));
 
         //Valores default
         usuario.setInteres(new Interes());
         usuario.setPuntosDeConfianza(5);
-        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
-        gradoDeConfianza.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
-        usuario.setGradoDeConfianza(gradoDeConfianza);
+
 
     }
 }

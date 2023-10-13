@@ -1,9 +1,6 @@
 package domain.controllers;
 
-import domain.models.repositorios.RepositorioComunidades;
-import domain.models.repositorios.RepositorioCredenciales;
-import domain.models.repositorios.RepositorioIncidentes;
-import domain.models.repositorios.RepositorioUsuarios;
+import domain.models.repositorios.*;
 
 public class FactoryController {
 
@@ -12,7 +9,7 @@ public class FactoryController {
         return switch (nombre) {
             case "incidentes" -> new IncidenteController(new RepositorioIncidentes());
             case "comunidades" -> new ComunidadController(new RepositorioComunidades());
-            case "login" -> new LoginController(new RepositorioUsuarios(), new RepositorioCredenciales());
+            case "login" -> new LoginController(new RepositorioUsuarios(), new RepositorioCredenciales(), new RepositorioTiemposConfiguracion(), new RepositorioGradosDeConfianza());
             default -> null;
         };
     }

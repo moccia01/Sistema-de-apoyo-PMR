@@ -13,7 +13,7 @@ public class MedioConfiguradoAttributeConverter implements AttributeConverter<Me
         if (medioConfigurado == null) {
             return null;
         }
-        return medioConfigurado.toString();
+        return medioConfigurado.nombre();
     }
 
     @Override

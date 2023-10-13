@@ -50,6 +50,11 @@ public class SinApuros extends TiempoConfigurado {
         }
     }
 
+    @Override
+    public String discriminador() {
+        return "SinApuros";
+    }
+
     public boolean esHoradeMandarPendientes(){
         return horarios.stream().anyMatch(h -> h.equals(LocalTime.now()));
     }

@@ -13,4 +13,6 @@ public abstract class TiempoConfigurado extends EntidadPersistente {
     public abstract void recibirNotificacion(Usuario usuario, String notificacion);
 
     public abstract void mandarPendientes(Usuario usuario);
+
+    public abstract String discriminador();
 }

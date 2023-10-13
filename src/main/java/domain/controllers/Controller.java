@@ -5,6 +5,8 @@ import domain.server.exceptions.AccessDeniedException;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import java.util.Objects;
+
 public abstract class Controller implements WithSimplePersistenceUnit {
 
     protected Usuario usuarioLogueado(Context ctx) {
@@ -12,6 +14,6 @@ public abstract class Controller implements WithSimplePersistenceUnit {
             throw new AccessDeniedException();
         }
         return entityManager()
-                .find(Usuario.class, Long.parseLong(ctx.sessionAttribute("usuario_id")));
+                .find(Usuario.class, Objects.requireNonNull(ctx.sessionAttribute("usuario_id")));
     }
 }
