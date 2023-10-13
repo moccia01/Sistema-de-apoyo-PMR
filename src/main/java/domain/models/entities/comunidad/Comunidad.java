@@ -53,4 +53,8 @@ public class Comunidad extends EntidadPersistente {
         incidente.cerrar();
         this.notificarMiembros(incidente, new CierreIncidente());
     }
+
+    public List<Usuario> obtenerUsuarioAPartirDeMiembros(){
+        return this.miembros.stream().map(Miembro::getUsuario).toList();
+    }
 }

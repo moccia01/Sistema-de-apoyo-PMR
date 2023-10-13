@@ -49,7 +49,6 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
     }
 
 
-    //@Override
     public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException {
         UsuarioDevuelto usuarioDevuelto;
         RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
@@ -80,18 +79,23 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
          */
     }
 
-    @Override
     public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes) throws IOException {
         ComunidadDevuelta comunidadDevuelta = new ComunidadDevuelta();
         RequestComunidadJSON comunidadJSON = new RequestComunidadJSON();
 
         comunidadJSON.cargar(comunidad,incidentes);
 
-
+        //TODO devuelta lo mismo, definir si la comunidad tiene que tener puntos/grado de confianza
         comunidadDevuelta = this.comunidadDevuelta(comunidadJSON);
-        NombreGradoConfianzaAttributeConverter converterIntToEnum = new NombreGradoConfianzaAttributeConverter();
+        //NombreGradoConfianzaAttributeConverter converterIntToEnum = new NombreGradoConfianzaAttributeConverter();
         //comunidad.setGradoConfianza(converterIntToEnum.convertIntToEntityAttribute(comunidadDevuelta.getGradoDeConfianzaActual());
 
         return comunidad;
+    }
+
+    @Override
+    public void calcularGradoConfianzaPara(Usuario usuario, Comunidad comunidad, List<Incidente> incidentes) throws IOException {
+        usuario = this.calcularGradoConfianzaParaUn(usuario, incidentes);
+        comunidad = this.calcularGradoConfianzaParaUna(comunidad, incidentes);
     }
 }

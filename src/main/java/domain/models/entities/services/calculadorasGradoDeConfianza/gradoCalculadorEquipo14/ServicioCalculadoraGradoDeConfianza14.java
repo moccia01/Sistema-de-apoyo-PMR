@@ -5,6 +5,7 @@ import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.ComunidadApi14;
+import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.PayloadDTOApi14;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.UsuarioApi14;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.GradoDeConfianza5Service;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.ComunidadApi5;
@@ -39,36 +40,41 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         return instancia;
     }
 
-    //TODO Ver si hay que arreglar el nuestro dado que pasamos el PayloadDTO14 y recibimos el PayLoadDTO14 modificado
-    public ComunidadApi14 comunidadDevuelto(ComunidadApi14 comunidadApi14) throws IOException{
-        GradoDeConfianza14Service gradoDeConfianza14Service = this.retrofit.create(GradoDeConfianza14Service.class);
-        Call<ComunidadApi14> requestGradoConfianzaComunidad = gradoDeConfianza14Service.comunidadApi(comunidadApi14);
-        Response<ComunidadApi14> responseGradoConfianzaComunidad = requestGradoConfianzaComunidad.execute();
-        return responseGradoConfianzaComunidad.body();
-    }
-
-    public UsuarioApi14 usuarioDevuelto(UsuarioApi14 usuarioApi14) throws IOException{
+    public PayloadDTOApi14 jsonDevuelto(PayloadDTOApi14 jsonComunidadUsuario) throws IOException{
         GradoDeConfianza14Service gradoDeConfianza14Service = this.retrofit.create((GradoDeConfianza14Service.class));
-        Call<UsuarioApi14> requestGradoConfianzaUsuario = gradoDeConfianza14Service.usuarioApi(usuarioApi14);
-        Response<UsuarioApi14> responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
+        Call<PayloadDTOApi14> requestGradoConfianzaUsuario = gradoDeConfianza14Service.usuarioComunidad(jsonComunidadUsuario);
+        Response<PayloadDTOApi14> responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
         return responseGradoConfianzaUsuario.body();
     }
 
 
-    @Override
-    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException {
-        UsuarioApi14 usuarioApi14 = new UsuarioApi14();
-        //usuarioApi14.cargar(usuario, incidentes);
 
-        usuarioApi14 = usuarioDevuelto(usuarioApi14);
-
-        return usuario;
-    }
-
-    @Override
     public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes) throws IOException  {
         return null;
     }
 
-    //TODO CHEQUEAR SI EL CODIGO REPETIDO ES MERA COINCIDENCIA O SI HAY QUE SOLUCIONARLO
+    @Override
+    public void calcularGradoConfianzaPara(Usuario usuario, Comunidad comunidad, List<Incidente> incidentes) throws IOException {
+        PayloadDTOApi14 json = new PayloadDTOApi14();
+
+        json.cargar(usuario, comunidad, incidentes);
+
+        json = jsonDevuelto(json);
+
+        usuario.setPuntosDeConfianza(json.getUsuarios().get(1).getPuntosDeConfianza());
+        // usuario.setGradoDeConfianza(json.getUsuarios().get(1).getGradoDeConfianza());
+        // TODO crear un gradoDeConfianza14Converter para transformar el int/enum que nos devuelven
+        // a la clase GradoDeConfianza que queremos, seteando en la misma los puntosMinimos, maximos
+        // y todo lo que requiera, haciendo un switch ya que por cada case, se crearia uno nuevo con
+        // con el nombre y demas
+
+        // TODO definir si la comunidad debería tener puntosDeConfianza y gradoDeConfianza
+        // Si no requiere los puntos, definir que hacer con eso
+        // Si no requiere el gradoDeConfianza, definir si lo ignoramos o no
+
+        // comunidad.setPuntosDeConfianza(json.getComunidades().get(1).getPuntosDeConfianza());
+        // comunidad.setGradoDeConfianza(json.getComunidades().get(1).getGradoDeConfianza());
+
+    }
+
 }
