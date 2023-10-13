@@ -22,4 +22,14 @@ public class NombreGradoConfianzaAttributeConverter implements AttributeConverte
             default -> null;
         };
     }
+
+    public NombreGradoConfianza convertIntToEntityAttribute(Integer s) {
+        return switch (s) {
+            case 0 -> NombreGradoConfianza.NO_CONFIABLE;
+            case 1 -> NombreGradoConfianza.CON_RESERVAS;
+            case 2 -> NombreGradoConfianza.CONFIABLE_NIVEL_1;
+            case 3 -> NombreGradoConfianza.CONFIABLE_NIVEL_2;
+            default -> null;
+        };
+    }
 }

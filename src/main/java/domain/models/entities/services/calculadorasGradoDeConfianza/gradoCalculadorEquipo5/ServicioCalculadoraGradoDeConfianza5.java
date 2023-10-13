@@ -1,6 +1,7 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5;
 
 import domain.models.entities.comunidad.*;
+import domain.models.entities.converters.NombreGradoConfianzaAttributeConverter;
 import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
@@ -49,7 +50,7 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
 
 
     //@Override
-    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException{
+    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException {
         UsuarioDevuelto usuarioDevuelto = new UsuarioDevuelto();
         RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
         usuarioJSON.cargar(usuario, incidentes);
@@ -61,16 +62,22 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
 
         usuario.setPuntosDeConfianza(usuarioDevuelto.nuevoPuntaje);
         //usuario.setGradoDeConfianza(gradoDeConfianza);
+        NombreGradoConfianzaAttributeConverter converterIntToEnum = new NombreGradoConfianzaAttributeConverter();
+        usuario.getGradoDeConfianza().setNombreGradoConfianza(converterIntToEnum.convertIntToEntityAttribute(usuarioDevuelto.gradoDeConfianzaActual));
 
+        //TODO VER COMO CREAR UN NUEVO GRADO DE CONFIANZA PARA EL USUARIO PORQUE SINO ESTA TODO MAL
+        // ESTAMOS CAMBIANDOLE EL NOMBRE ATADO CON ALAMBRE, EN VEZ DE CREAR UNO NUEVO CON TODOS LOS ATRIBUTOS CORRECTOS
         return usuario;
     }
 
     public void crearGradoDeConfianza(GradoDeConfianza gradoDeConfianza, Integer gradoDeConfianzaActual){
+        /*
         return switch (gradoDeConfianza) {
-            case 0 -> gradoDeConfianza.setNombreGradoConfianza(NombreGradoConfianza.NO_CONFIABLE);
+            case 0 ->onfianza.NO_CONFIABLE);
             case 1 -> new MensajeEmail();
             default -> null;
         };
+         */
     }
 
     @Override
@@ -80,9 +87,10 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
 
         comunidadJSON.cargar(comunidad,incidentes);
 
-        comunidadDevuelta = this.comunidadDevuelta(comunidadJSON);
 
-        comunidad.setGradoConfianza(comunidadDevuelta.getGradoDeConfianzaActual());
+        comunidadDevuelta = this.comunidadDevuelta(comunidadJSON);
+        NombreGradoConfianzaAttributeConverter converterIntToEnum = new NombreGradoConfianzaAttributeConverter();
+        //comunidad.setGradoConfianza(converterIntToEnum.convertIntToEntityAttribute(comunidadDevuelta.getGradoDeConfianzaActual());
 
         return comunidad;
     }

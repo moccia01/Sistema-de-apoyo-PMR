@@ -8,5 +8,5 @@ import lombok.Setter;
 public class ComunidadDevuelta {
     public ComunidadApi5 comunidad;
     public double nuevoPuntaje;
-    public double gradoDeConfianzaActual;
+    public Integer gradoDeConfianzaActual;
 }
