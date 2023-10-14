@@ -4,6 +4,7 @@ import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.converters.GradoDeConfianzaConverter;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.Establecimiento;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
@@ -40,28 +41,24 @@ public class PayloadDTOApi14 {
     }
 
     private void cargarAListaComunidadApi14(List<Comunidad> comunidades) {
-        comunidades.forEach(comunidad -> this.cargarComunidades(comunidad));
+        comunidades.forEach(comunidad -> this.cargarComunidad(comunidad));
     }
 
-    private void cargarComunidades(Comunidad comunidad) {
+    private void cargarComunidad(Comunidad comunidad) {
         ComunidadApi14 comunidadApi14 = new ComunidadApi14();
         comunidadApi14.setId(comunidad.getId());
-        // TODO IMPREMENTAR GRADO DE FONCIANZA
         comunidadApi14.setPuntosDeConfianza(comunidad.getPuntosDeConfianza());
-        comunidadApi14.setGradoDeConfianza(null);
+        comunidadApi14.setGradoDeConfianza(GradoDeConfianzaConverter.cargarGradoAPartirDePuntos(comunidad.getPuntosDeConfianza()));
         comunidadApi14.setUsuarios(this.obtenerListaUsuarioApi14(comunidad));
     }
 
     private List<UsuarioApi14> obtenerListaUsuarioApi14(Comunidad comunidad) {
 
         List<UsuarioApi14> usuarioApi14s = new ArrayList<>();
-        List<Miembro> miembros;         //?????
-        List<Usuario> usuarios1 = new ArrayList<>();
+        List<Usuario> usuarios = new ArrayList<>();
 
-        miembros = comunidad.getMiembros();
-        miembros.forEach(miembro -> usuarios1.add(miembro.getUsuario()));
-
-        usuarioApi14s.addAll(cargarUsuarios(usuarios1));
+        usuarios.addAll(comunidad.obtenerUsuarioAPartirDeMiembros());
+        usuarioApi14s.addAll(cargarUsuarios(usuarios));
 
         return usuarioApi14s;
     }

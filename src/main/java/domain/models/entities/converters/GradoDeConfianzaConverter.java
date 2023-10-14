@@ -1,7 +1,9 @@
 package domain.models.entities.converters;
 
+import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.NombreGradoConfianza;
+import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.GradoDeConfianzaApi14;
 
 public class GradoDeConfianzaConverter {
     private static GradoDeConfianza confianzaConfiableNivel2;
@@ -67,7 +69,7 @@ public class GradoDeConfianzaConverter {
         if(confianzaConfiableNivel1 == null){
             confianzaConfiableNivel1 = new GradoDeConfianza();
             confianzaConfiableNivel1.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_1);
-            confianzaConfiableNivel1.setPuntosMinimos(3.5);
+            confianzaConfiableNivel1.setPuntosMinimos(3.0);
             confianzaConfiableNivel1.setPuntosMaximos(5.0);
             confianzaConfiableNivel1.setGradoSiguiente(crearGradoDeConfianzaConfiable2());
             confianzaConfiableNivel1.setGradoAnterior(crearGradoDeConfianzaConReservas());
@@ -83,5 +85,31 @@ public class GradoDeConfianzaConverter {
             confianzaConfiableNivel2.setGradoAnterior(crearGradoDeConfianzaConfiable1());
         }
         return confianzaConfiableNivel2;
+    }
+
+    public static GradoDeConfianzaApi14 cargarGradoAPartirDePuntos(double puntos) {
+        GradoDeConfianzaApi14 grado = new GradoDeConfianzaApi14();
+        if(puntos <= 2){
+            grado = cargarGrado(0, 2);
+            return grado;
+        } else if(puntos >= 2 && puntos <= 3){
+            grado = cargarGrado(2, 3);
+            return grado;
+        }else if(puntos >=3 && puntos <= 5){
+            grado = cargarGrado(3, 5);
+            return grado;
+        }else if(puntos >= 5){
+            grado.setPuntosMinimos(5);
+            return grado;
+        }
+        return null;
+    }
+
+    public static GradoDeConfianzaApi14 cargarGrado(double puntosMin, double puntosMax){
+        GradoDeConfianzaApi14 grado = new GradoDeConfianzaApi14();
+        grado.setPuntosMinimos(puntosMin);
+        grado.setPuntosMaximos(puntosMax);
+
+        return grado;
     }
 }
