@@ -24,8 +24,6 @@ public class ComunidadApi5 {
         comunidad.getMiembros().forEach(m->agregarAListaMiembro(m.getUsuario()));
     }
 
-
-
     public void agregarAListaMiembro(Usuario usuario){
         UsuarioApi5 usuarioApi5 = new UsuarioApi5();
         usuarioApi5.setNombre(usuario.getNombre());

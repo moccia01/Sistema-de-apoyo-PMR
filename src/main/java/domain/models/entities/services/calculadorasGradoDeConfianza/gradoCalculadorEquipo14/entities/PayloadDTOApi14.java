@@ -91,7 +91,6 @@ public class PayloadDTOApi14 {
         usuarioApi14.setGradoDeConfianza(gradoDeConfianzaApi14);
 
         return usuarioApi14;
-
     }
 
     public void cargarUnUsuario(Usuario usuario, Comunidad comunidad, List<Incidente> incidentes) {

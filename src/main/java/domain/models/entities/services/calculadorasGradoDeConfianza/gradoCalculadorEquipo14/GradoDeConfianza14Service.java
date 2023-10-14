@@ -11,9 +11,4 @@ public interface GradoDeConfianza14Service {
 
     @POST("/")
     Call<PayloadDTOApi14> usuarioComunidad(@Query("/") PayloadDTOApi14 json);
-
-    /*
-    @POST("comunidad")
-    Call<ComunidadApi14> comunidadApi(@Query("comunidad") ComunidadApi14 comunidad);
-    */
 }

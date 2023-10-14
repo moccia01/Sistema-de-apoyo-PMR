@@ -28,6 +28,13 @@ public class Comunidad extends EntidadPersistente {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Incidente> incidentes;
 
+    @Column                             //TODO CHEQUEAR SI PUNTOS Y GRADO SE PERSISTE
+    private double puntosDeConfianza;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "grado_confianza_id")
+    private GradoDeConfianza gradoDeConfianza;
+
     public  Comunidad(){
         this.miembros = new ArrayList<>();
         this.incidentes = new ArrayList<>();

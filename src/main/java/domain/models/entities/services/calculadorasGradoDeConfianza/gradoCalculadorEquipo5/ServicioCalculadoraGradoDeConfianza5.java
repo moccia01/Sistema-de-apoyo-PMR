@@ -1,6 +1,7 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5;
 
 import domain.models.entities.comunidad.*;
+import domain.models.entities.converters.GradoDeConfianzaConverter;
 import domain.models.entities.converters.NombreGradoConfianzaAttributeConverter;
 import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
@@ -49,117 +50,66 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         return responseGradoConfianzaUsuario.body();
     }
 
-/*
-    public Usuario calcularGradoConfianzaParaUn(Usuario usuario, List<Incidente> incidentes) throws IOException {
-        UsuarioDevuelto usuarioDevuelto;
-        RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
-        usuarioJSON.cargar(usuario, incidentes);
-        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
-
-        usuarioDevuelto = this.usuarioDevuelto(usuarioJSON);
-
-        this.crearGradoDeConfianza(gradoDeConfianza,usuarioDevuelto.gradoDeConfianzaActual);
-
-        usuario.setPuntosDeConfianza(usuarioDevuelto.nuevoPuntaje);
-        //usuario.setGradoDeConfianza(gradoDeConfianza);
-        NombreGradoConfianzaAttributeConverter converterIntToEnum = new NombreGradoConfianzaAttributeConverter();
-        usuario.getGradoDeConfianza().setNombreGradoConfianza(converterIntToEnum.convertIntToEntityAttribute(usuarioDevuelto.gradoDeConfianzaActual));
-
-        //TODO VER COMO CREAR UN NUEVO GRADO DE CONFIANZA PARA EL USUARIO PORQUE SINO ESTA TODO MAL
-        // ESTAMOS CAMBIANDOLE EL NOMBRE ATADO CON ALAMBRE, EN VEZ DE CREAR UNO NUEVO CON TODOS LOS ATRIBUTOS CORRECTOS
-        return usuario;
-
-    }
-        */
-
-    public GradoDeConfianza crearGradoDeConfianza(Integer gradoDeConfianzaActual){
-        GradoDeConfianza gradoDeConfianza1 = new GradoDeConfianza();
-        /*
-        return switch (gradoDeConfianza) {
-            case 0 ->onfianza.NO_CONFIABLE);
-            case 1 -> new MensajeEmail();
-            default -> null;
-        };
-         */
-        return gradoDeConfianza1;
-    }
-
-    public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes) throws IOException {
-        ComunidadDevuelta comunidadDevuelta = new ComunidadDevuelta();
-        RequestComunidadJSON comunidadJSON = new RequestComunidadJSON();
-
-        comunidadJSON.cargar(comunidad,incidentes);
-        //traer de base de datos
-        //TODO devuelta lo mismo, definir si la comunidad tiene que tener puntos/grado de confianza
-        comunidadDevuelta = this.comunidadDevuelta(comunidadJSON);
-        //NombreGradoConfianzaAttributeConverter converterIntToEnum = new NombreGradoConfianzaAttributeConverter();
-        //comunidad.setGradoConfianza(converterIntToEnum.convertIntToEntityAttribute(comunidadDevuelta.getGradoDeConfianzaActual());
-
-        return comunidad;
-    }
-
     @Override
     public void calcularGradoConfianzaPara(List<Usuario> usuarios, List<Comunidad> comunidades, List<Incidente> incidentes) throws IOException {
        List<ComunidadDevuelta> comunidadDevueltas = new ArrayList<>();
-       List<UsuarioDevuelto> usuarioDevueltos = new ArrayList<>();
+       List<UsuarioDevuelto> usuariosDevueltos = new ArrayList<>();
 
        List<RequestComunidadJSON> requestComunidadJSONS = new ArrayList<>();
        List<RequestUsuarioJSON> requestUsuarioJSONS = new ArrayList<>();
 
-       RequestComunidadJSON comunidadJSON = new RequestComunidadJSON();
-       RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
 
        //transformo al tipo de dato solicitado de api
-        for(Usuario usuario : usuarios){
-            usuarioJSON.cargar(usuario,incidentes);
+        usuarios.forEach(usuario -> {
+            RequestUsuarioJSON usuarioJSON = new RequestUsuarioJSON();
+            usuarioJSON.cargar(usuario, incidentes);
             requestUsuarioJSONS.add(usuarioJSON);
-        }
+        });
 
-        for(Comunidad comunidad :comunidades){
-            comunidadJSON.cargar(comunidad,incidentes);
+        comunidades.forEach(comunidad -> {
+            RequestComunidadJSON comunidadJSON = new RequestComunidadJSON();
+            comunidadJSON.cargar(comunidad, incidentes);
             requestComunidadJSONS.add(comunidadJSON);
-        }
-
+        });
 
         //ejecuto la operacion para que me retorne con los dato actualizado en la lista de devueltos
-        for(RequestComunidadJSON comunidadJSON1 : requestComunidadJSONS){
-            comunidadDevueltas.add(this.comunidadDevuelta(comunidadJSON1));
-        }
+        requestComunidadJSONS.forEach(requestComunidad ->{
+            try {
+                comunidadDevueltas.add(this.comunidadDevuelta(requestComunidad));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        for(RequestUsuarioJSON usuarioJSON1 :requestUsuarioJSONS ){
-            usuarioDevueltos.add(this.usuarioDevuelto(usuarioJSON1));
-        }
+        requestUsuarioJSONS.forEach(requestUsuarioJSON -> {
+            try {
+                usuariosDevueltos.add(this.usuarioDevuelto(requestUsuarioJSON));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         //seteo a mi lista original
-        for(UsuarioDevuelto usuarioDevuelto : usuarioDevueltos){
-            usuarios.forEach(u->this.actualizarUsuario(u,usuarioDevuelto));
-        }
+        usuariosDevueltos.forEach(usuarioDevuelto ->{
+            usuarios.forEach(usuario -> this.actualizarUsuario(usuario, usuarioDevuelto));
+        });
 
-        for(ComunidadDevuelta comunidadDevuelta :comunidadDevueltas){
-            comunidades.forEach(c->this.actualizarComunidad(c,comunidadDevuelta));
-        }
-
+        comunidadDevueltas.forEach(comunidadDevuelta -> {
+            comunidades.forEach(comunidad -> this.actualizarComunidad(comunidad, comunidadDevuelta));
+        });
     }
 
-    private void actualizarComunidad(Comunidad c, ComunidadDevuelta comunidadDevuelta) {
-    /*
-        c.setPuntosDeConfianza(comunidadDevuelta.getNuevoPuntaje());
-        //TODO implementar cambio de comunidad
-        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
-        gradoDeConfianza = this.crearGradoDeConfianza(comunidadDevuelta.getGradoDeConfianzaActual());
-        c.setGradoDeConfianza(gradoDeConfianza);
-
-     */
+    private void actualizarComunidad(Comunidad comunidad, ComunidadDevuelta comunidadDevuelta) {
+        comunidad.setPuntosDeConfianza(comunidadDevuelta.getNuevoPuntaje());
+        GradoDeConfianza gradoDeConfianza;
+        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDeEnum(comunidadDevuelta.getGradoDeConfianzaActual());
+        comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
 
-    private void actualizarUsuario(Usuario u, UsuarioDevuelto usuarioDevuelto) {
-        u.setPuntosDeConfianza(usuarioDevuelto.getNuevoPuntaje());
-        //TODO implementar cambio
-        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
-        gradoDeConfianza = this.crearGradoDeConfianza(usuarioDevuelto.getGradoDeConfianzaActual());
-        u.setGradoDeConfianza(gradoDeConfianza);
+    private void actualizarUsuario(Usuario usuario, UsuarioDevuelto usuarioDevuelto) {
+        usuario.setPuntosDeConfianza(usuarioDevuelto.getNuevoPuntaje());
+        GradoDeConfianza gradoDeConfianza;
+        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDeEnum(usuarioDevuelto.getGradoDeConfianzaActual());
+        usuario.setGradoDeConfianza(gradoDeConfianza);
     }
-
-
-
 }
