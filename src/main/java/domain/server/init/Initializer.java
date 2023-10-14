@@ -1,5 +1,6 @@
 package domain.server.init;
 
+import domain.models.entities.builders.UsuarioBuilder;
 import domain.models.entities.comunidad.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Getter;
@@ -14,6 +15,11 @@ public class Initializer implements WithSimplePersistenceUnit {
     private GradoDeConfianza confianzaConfiableNivel1;
     private GradoDeConfianza confianzaConReservas;
     private GradoDeConfianza confianzaNoConfiable;
+    private Usuario lucasBoldrini;
+    private Usuario federicoMoccia;
+    private Usuario tomasDAntoio;
+    private Usuario facundoSu;
+    private Usuario nahuelGimenez;
     private Comunidad CS2;
     private Comunidad BOCA;
     private Comunidad Formula1;
@@ -58,6 +64,12 @@ public class Initializer implements WithSimplePersistenceUnit {
         agregar(confianzaNoConfiable);
 
         //Esto es para los usuarios
+        //TODO ver como hacer para que no rompa x el contexto static
+        lucasBoldrini = UsuarioBuilder
+                .conNombre("Lucas")
+                .conApellido("Boldrini")
+                .conCredencial()
+                .construir();
 
 
     }

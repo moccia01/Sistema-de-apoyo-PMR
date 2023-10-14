@@ -27,6 +27,19 @@ public class GradoDeConfianzaConverter {
         return null;
     }
 
+    public static GradoDeConfianza crearGradoAPartirDePuntosMinYMax(double puntosMinimos, double puntosMaximos) {
+        if (puntosMinimos == 0 && puntosMaximos == 2) {
+            return crearGradoDeConfianzaNoConfiable();
+        } else if (puntosMinimos == 2 && puntosMaximos == 3) {
+            return crearGradoDeConfianzaConReservas();
+        } else if (puntosMinimos == 3 && puntosMaximos == 5) {
+            return crearGradoDeConfianzaConfiable1();
+        } else if (puntosMinimos > 5) {
+            return crearGradoDeConfianzaConfiable2();
+        }
+        return null;
+    }
+
     public static GradoDeConfianza crearGradoDeConfianzaNoConfiable(){
         if(confianzaNoConfiable == null){
             confianzaNoConfiable = new GradoDeConfianza();
@@ -36,6 +49,7 @@ public class GradoDeConfianzaConverter {
         }
         return confianzaNoConfiable;
     }
+
 
     public static GradoDeConfianza crearGradoDeConfianzaConReservas(){
         if(confianzaConReservas == null){

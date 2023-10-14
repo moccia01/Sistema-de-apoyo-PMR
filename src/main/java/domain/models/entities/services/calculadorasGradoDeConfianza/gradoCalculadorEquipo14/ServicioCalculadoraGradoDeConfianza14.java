@@ -4,6 +4,7 @@ import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.converters.GradoDeConfianzaConverter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.ComunidadApi14;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.GradoDeConfianzaApi14;
@@ -52,12 +53,6 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         return responseGradoConfianzaUsuario.body();
     }
 
-
-
-    public Comunidad calcularGradoConfianzaParaUna(Comunidad comunidad, List<Incidente> incidentes) throws IOException  {
-        return null;
-    }
-
     @Override
     public void calcularGradoConfianzaPara(List<Usuario> usuarios, List<Comunidad> comunidades, List<Incidente> incidentes) throws IOException {
         PayloadDTOApi14 json = new PayloadDTOApi14();
@@ -66,70 +61,36 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
 
         json = jsonDevuelto(json);
 
-        List<UsuarioApi14> usuarioApi14s = new ArrayList<>();
-        List<ComunidadApi14> comunidadApi14s = new ArrayList<>();
+        List<UsuarioApi14> usuariosDevueltos = new ArrayList<>();
+        List<ComunidadApi14> comunidadesDevueltas = new ArrayList<>();
 
-        usuarioApi14s.addAll(json.getUsuarios());
-        comunidadApi14s.addAll(json.getComunidades());
+        usuariosDevueltos.addAll(json.getUsuarios());
+        comunidadesDevueltas.addAll(json.getComunidades());
 
-        //TODO
-        for(UsuarioApi14 usuarioApi14 : usuarioApi14s){
-            usuarios.forEach(u->this.actualizarUsuario(u,usuarioApi14));
-        }
+        usuariosDevueltos.forEach(usuarioDevuelto -> {
+            usuarios.forEach(usuario -> this.actualizarUsuario(usuario, usuarioDevuelto));
+        });
 
-        for(ComunidadApi14 comunidadApi14 :comunidadApi14s){
-            comunidades.forEach(c->this.actualizarComunidad(c,comunidadApi14));
-        }
-
-/*
-        usuario.setPuntosDeConfianza(json.getUsuarios().get(1).getPuntosDeConfianza());
-        // usuario.setGradoDeConfianza(json.getUsuarios().get(1).getGradoDeConfianza());
-        // TODO crear un gradoDeConfianza14Converter para transformar el int/enum que nos devuelven
-        // a la clase GradoDeConfianza que queremos, seteando en la misma los puntosMinimos, maximos
-        // y todo lo que requiera, haciendo un switch ya que por cada case, se crearia uno nuevo con
-        // con el nombre y demas
-
-        // TODO definir si la comunidad debería tener puntosDeConfianza y gradoDeConfianza
-        // Si no requiere los puntos, definir que hacer con eso
-        // Si no requiere el gradoDeConfianza, definir si lo ignoramos o no
-
-        // comunidad.setPuntosDeConfianza(json.getComunidades().get(1).getPuntosDeConfianza());
-        // comunidad.setGradoDeConfianza(json.getComunidades().get(1).getGradoDeConfianza());
-*/
+        comunidadesDevueltas.forEach(comunidadDevuelta -> {
+            comunidades.forEach(comunidad -> this.actualizarComunidad(comunidad, comunidadDevuelta));
+        });
     }
 
-
-    private void actualizarComunidad(Comunidad c, ComunidadApi14 comunidadDevuelta) {
-    /*
-        c.setPuntosDeConfianza(comunidadDevuelta.getNuevoPuntaje());
-        //TODO implementar cambio de comunidad
-        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
-        gradoDeConfianza = this.crearGradoDeConfianza(comunidadDevuelta.getGradoDeConfianzaActual());
-        c.setGradoDeConfianza(gradoDeConfianza);
-
-     */
+    private void actualizarComunidad(Comunidad comunidad, ComunidadApi14 comunidadDevuelta) {
+        comunidad.setPuntosDeConfianza(comunidadDevuelta.getPuntosDeConfianza());
+        GradoDeConfianza gradoDeConfianza;
+        double puntosMinimos = comunidadDevuelta.getGradoDeConfianza().getPuntosMinimos();
+        double puntosMaximos = comunidadDevuelta.getGradoDeConfianza().getPuntosMaximos();
+        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+        comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
 
-    private void actualizarUsuario(Usuario u, UsuarioApi14 usuarioApi14) {
-        u.setPuntosDeConfianza(usuarioApi14.getPuntosDeConfianza());
-        //TODO implementar cambio
-        GradoDeConfianza gradoDeConfianza = new GradoDeConfianza();
-        gradoDeConfianza = this.crearGradoDeConfianza(usuarioApi14.getGradoDeConfianza());
-        u.setGradoDeConfianza(gradoDeConfianza);
+    private void actualizarUsuario(Usuario usuario, UsuarioApi14 usuarioDevuelto) {
+        usuario.setPuntosDeConfianza(usuarioDevuelto.getPuntosDeConfianza());
+        GradoDeConfianza gradoDeConfianza;
+        double puntosMinimos = usuarioDevuelto.getGradoDeConfianza().getPuntosMinimos();
+        double puntosMaximos = usuarioDevuelto.getGradoDeConfianza().getPuntosMaximos();
+        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+        usuario.setGradoDeConfianza(gradoDeConfianza);
     }
-
-    //imprementar Para adaptar TODO
-    public GradoDeConfianza crearGradoDeConfianza(GradoDeConfianzaApi14 gradoDeConfianzaActual){
-        GradoDeConfianza gradoDeConfianza1 = new GradoDeConfianza();
-        /*
-        return switch (gradoDeConfianza) {
-            case 0 ->onfianza.NO_CONFIABLE);
-            case 1 -> new MensajeEmail();
-            default -> null;
-        };
-         */
-        return gradoDeConfianza1;
-    }
-
-
 }

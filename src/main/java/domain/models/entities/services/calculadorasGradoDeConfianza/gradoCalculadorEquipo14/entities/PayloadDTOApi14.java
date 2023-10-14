@@ -28,97 +28,48 @@ public class PayloadDTOApi14 {
         comunidades = new ArrayList<>();
         incidentes = new ArrayList<>();
     }
-    public  void cargar(List<Usuario> usuarios , List<Comunidad> comunidades, List<Incidente> incidentes){
 
-        this.cargarAListaUsuarioApi14(usuarios );
+    public void cargar(List<Usuario> usuarios , List<Comunidad> comunidades, List<Incidente> incidentes){
+        this.cargarUsuarios(usuarios);
         this.cargarAListaComunidadApi14(comunidades);
         this.cargarAListaIncidentesApi14(incidentes);
-
     }
 
     public void cargarAListaIncidentesApi14(List<Incidente> incidente){
-
         incidente.forEach(i->this.cargarIncidente(i));
-
     }
 
     private void cargarAListaComunidadApi14(List<Comunidad> comunidades) {
-        comunidades.forEach(c->this.cargarComunidades(c));
+        comunidades.forEach(comunidad -> this.cargarComunidades(comunidad));
     }
 
-    private void cargarComunidades(Comunidad c) {
+    private void cargarComunidades(Comunidad comunidad) {
         ComunidadApi14 comunidadApi14 = new ComunidadApi14();
-        comunidadApi14.setId(c.getId());
+        comunidadApi14.setId(comunidad.getId());
         // TODO IMPREMENTAR GRADO DE FONCIANZA
-        comunidadApi14.setPuntosDeConfianza(2);
+        comunidadApi14.setPuntosDeConfianza(comunidad.getPuntosDeConfianza());
         comunidadApi14.setGradoDeConfianza(null);
-        comunidadApi14.setUsuarios(this.obtenerListaUsuarioApi14(c));
+        comunidadApi14.setUsuarios(this.obtenerListaUsuarioApi14(comunidad));
     }
 
-    private List<UsuarioApi14> obtenerListaUsuarioApi14(Comunidad c) {
-        UsuarioApi14 usuarioApi14 = new UsuarioApi14();
+    private List<UsuarioApi14> obtenerListaUsuarioApi14(Comunidad comunidad) {
 
         List<UsuarioApi14> usuarioApi14s = new ArrayList<>();
-        List<Miembro> miembros = new ArrayList<>();
+        List<Miembro> miembros;         //?????
         List<Usuario> usuarios1 = new ArrayList<>();
 
-        miembros = c.getMiembros();
+        miembros = comunidad.getMiembros();
+        miembros.forEach(miembro -> usuarios1.add(miembro.getUsuario()));
 
-        miembros.forEach(m->usuarios1.add(m.getUsuario()));
-
-        usuarioApi14s.addAll(cargarAListaUsuarioApi14(usuarios1));
+        usuarioApi14s.addAll(cargarUsuarios(usuarios1));
 
         return usuarioApi14s;
     }
 
-
-    private List<UsuarioApi14> cargarAListaUsuarioApi14(List<Usuario> usuarios) {
+    private List<UsuarioApi14> cargarUsuarios(List<Usuario> usuarios) {
         List<UsuarioApi14> usuarioApi14s = new ArrayList<>();
-
-        for(Usuario usuario : usuarios){
-            usuarioApi14s.add(this.cargarALista(usuario));
-        }
+        usuarios.forEach(usuario -> usuarioApi14s.add(this.cargarUsuario(usuario)));
         return usuarioApi14s;
-    }
-
-    private UsuarioApi14 cargarALista(Usuario u) {
-        UsuarioApi14 usuarioApi14 = new UsuarioApi14();
-        usuarioApi14.setId(u.getId());
-        usuarioApi14.setPuntosDeConfianza(u.getPuntosDeConfianza());
-        GradoDeConfianzaApi14 gradoDeConfianzaApi14 = new GradoDeConfianzaApi14();
-        gradoDeConfianzaApi14.setPuntosMaximos(u.getGradoDeConfianza().getPuntosMinimos());
-        gradoDeConfianzaApi14.setPuntosMinimos(u.getGradoDeConfianza().getPuntosMinimos());
-        usuarioApi14.setGradoDeConfianza(gradoDeConfianzaApi14);
-
-        return usuarioApi14;
-    }
-
-    public void cargarUnUsuario(Usuario usuario, Comunidad comunidad, List<Incidente> incidentes) {
-        UsuarioApi14 usuarioApi14 = new UsuarioApi14();
-        ComunidadApi14 comunidadApi14 = new ComunidadApi14();
-
-        usuarioApi14 = this.cargarUsuario(usuario);
-
-        comunidadApi14.setId(comunidad.getId());
-        comunidadApi14.setUsuarios(this.crearUsuarios(comunidad.obtenerUsuarioAPartirDeMiembros()));
-
-        incidentes.forEach(i ->{
-            IncidenteApi14 incidenteNuevo = this.cargarIncidente(i);
-            this.incidentes.add(incidenteNuevo);
-        });
-        this.usuarios.add(usuarioApi14);
-        this.comunidades.add(comunidadApi14);
-    }
-
-    public List<UsuarioApi14> crearUsuarios(List<Usuario> usuarios){
-        List<UsuarioApi14> usuariosNuevos = new ArrayList<>();
-
-        usuarios.forEach(u ->{
-            UsuarioApi14 usuarioNuevo = this.cargarUsuario(u);
-            usuariosNuevos.add(usuarioNuevo);
-        });
-
-        return  usuariosNuevos;
     }
 
     public UsuarioApi14 cargarUsuario(Usuario usuario){
@@ -163,22 +114,6 @@ public class PayloadDTOApi14 {
         return prestacionDeServicioApi14;
     }
 
-    private EntidadApi14 cargarEntidad(Entidad entidad) {
-        EntidadApi14 entidadApi14 = new EntidadApi14();
-        entidadApi14.setId(entidad.getId());
-        entidadApi14.setNombre(entidad.getNombre());
-
-        return entidadApi14;
-    }
-
-    private EstablecimientoApi14 cargarEstablecimiento(Establecimiento establecimiento) {
-        EstablecimientoApi14 establecimientoApi14 = new EstablecimientoApi14();
-        establecimientoApi14.setId(establecimiento.getId());
-        establecimientoApi14.setNombre(establecimiento.getNombre());
-
-        return establecimientoApi14;
-    }
-
     public ServicioApi14 cargarServicio(Servicio servicio){
         ServicioApi14 servicioApi14 = new ServicioApi14();
 
@@ -189,4 +124,19 @@ public class PayloadDTOApi14 {
         return servicioApi14;
     }
 
+    private EstablecimientoApi14 cargarEstablecimiento(Establecimiento establecimiento) {
+        EstablecimientoApi14 establecimientoApi14 = new EstablecimientoApi14();
+        establecimientoApi14.setId(establecimiento.getId());
+        establecimientoApi14.setNombre(establecimiento.getNombre());
+
+        return establecimientoApi14;
+    }
+
+    private EntidadApi14 cargarEntidad(Entidad entidad) {
+        EntidadApi14 entidadApi14 = new EntidadApi14();
+        entidadApi14.setId(entidad.getId());
+        entidadApi14.setNombre(entidad.getNombre());
+
+        return entidadApi14;
+    }
 }

@@ -25,8 +25,9 @@ public class UsuarioBuilder {
         this.usuario.setApellido(apellido);
         return this;
     }
-
+//TODO modificar este metodo para pasarle usuario y contra y que haga la credencial
     public UsuarioBuilder conCredencial(CredencialDeAcceso credencial){
+        CredencialDeAcceso credencialDeAcceso = new CredencialDeAccess
         this.usuario.setCredencialDeAcceso(credencial);
         return this;
     }
@@ -66,5 +67,9 @@ public class UsuarioBuilder {
         grado = converter.crearGradoDeConfianzaConfiable1();
         this.usuario.setGradoDeConfianza(grado);
         return this;
+   }
+
+   public Usuario construir(){
+        return usuario;
    }
 }
