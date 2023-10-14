@@ -1,0 +1,13 @@
+{{#partial "contenido" }}
+    <div class="container mt-4">
+        <h1>{{comunidad.getNombre}}</h1>
+
+        <ul class="list-group">
+            <li class="list-group-item bg-warning fw-bold" aria-current="true">Usuarios</li>
+            {{#each miembro}}
+                <li class="list-group-item">{{miembro.getUsuario.getNombre}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/partial}}
+{{> templates/plantilla_base }}

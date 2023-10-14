@@ -1,0 +1,29 @@
+{{#partial "contenido" }}
+   <div class="container mt-4">
+        <h1>{{comunidad.getNombre}}</h1>
+
+        <ul class="list-group list-group">
+            <li class="list-group-item bg-warning d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Usuarios</div>
+                </div>
+                <div class="d-grid gap-2 d-md-block">
+                    <button class="btn btn-success btn-sm" type="button">Alta Usuario</button>
+                </div>
+            </li>
+            {{#each miembros}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div>{{this.getUsuario.getNombre}} {{this.getUsuario.getApellido}}</div>
+                      </div>
+                    <div class="d-grid gap-2 d-md-block">
+                        <button class="btn btn-danger btn-sm" type="button">Baja</button>
+                        <button class="btn btn-dark btn-sm" type="button">Modif</button>
+                    </div>
+                </li>
+            {{/each}}
+
+          </ul>
+    </div>
+{{/partial}}
+{{> templates/plantilla_base }}

@@ -34,8 +34,6 @@ public class Router {
             get("comunidades/{id}/admin",((ComunidadController) FactoryController.controller("comunidades"))::admin);
             get("comunidades/{id}/ver",((ComunidadController) FactoryController.controller("comunidades"))::ver);
 
-
-            // TODO: ACA VAN EL RESTO DE LAS RUTAS
         });
     }
 }

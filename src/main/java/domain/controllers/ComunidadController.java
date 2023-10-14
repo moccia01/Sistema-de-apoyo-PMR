@@ -38,11 +38,20 @@ public class ComunidadController extends Controller{
         }
 
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
-        
+        Map<String, Object> model = new HashMap<>();
+        model.put("miembros", miembros);
+        model.put("comunidad", comunidad);
+        context.render("comunidades/admin.hbs", model);
     }
 
     public void ver(Context context) {
-        //TODO
+        String comunidad_id = context.pathParam("id");
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id));
+        List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
+        Map<String, Object> model = new HashMap<>();
+        model.put("miembros", miembros);
+        model.put("comunidad", comunidad);
+        context.render("comunidades/ver.hbs", model);
     }
 
     private void asignarParametros(Comunidad comunidad, Context contexto){

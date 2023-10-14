@@ -38,8 +38,15 @@ public class RepositorioComunidades implements WithSimplePersistenceUnit {
     }
 
     public List<Miembro> obtenerMiembrosDe(Long comunidad_id) {
-        //TODO
-        return null;
+        String jpql = "SELECT m FROM Miembro m " +
+                "WHERE m.comunidad.id = :comunidad_id";
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        TypedQuery<Miembro> query = entityManager().createQuery(jpql, Miembro.class);
+        query.setParameter("comunidad_id", comunidad_id);
+        List<Miembro> miembros = query.getResultList();
+        tx.commit();
+        return miembros;
     }
 
     public void agregar(Comunidad comunidad){

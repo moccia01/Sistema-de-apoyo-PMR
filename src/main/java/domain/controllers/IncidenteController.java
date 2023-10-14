@@ -115,10 +115,6 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
             incidente.setDescripcion(contexto.formParam("descripcion"));
         }
 
-        // TODO implementar asignaciones para el resto de los inputs
-        // si recibimos un id tipo entidad_id hay que instanciar un repo de entidades y buscarlo por id en la bd
-        // y asi con todos los inputs del form
-
         PrestacionDeServicio prestacionDeServicio = new PrestacionDeServicio();
 
         prestacionDeServicio.setServicio(this.repositorioServicios.obtenerServicio(

@@ -84,7 +84,6 @@ public class LoginController {
     }
 
     public void asignarParametros(Usuario usuario, Context contexto) {
-        //TODO completar cuando este la vista de registro
 
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));

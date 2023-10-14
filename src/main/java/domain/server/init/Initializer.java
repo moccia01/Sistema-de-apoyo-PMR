@@ -27,7 +27,7 @@ public class Initializer implements WithSimplePersistenceUnit {
     private Comunidad BOCA;
     private Comunidad Formula1;
 
-    public void agregar(GradoDeConfianza gradoDeConfianza){
+    public void agregarGrado(GradoDeConfianza gradoDeConfianza){
         EntityTransaction tx = entityManager().getTransaction();
         tx.begin();
         entityManager().persist(gradoDeConfianza);
@@ -35,17 +35,20 @@ public class Initializer implements WithSimplePersistenceUnit {
     }
 
     public void init() throws IOException {
-        //Esto es para los niveeles de confianza //TODO esto ya está en métodos de GradoDeConfianzaConverter
+        //Esto es para los niveeles de confianza
         confianzaNoConfiable = GradoDeConfianzaConstructor.crearGradoDeConfianzaNoConfiable();
         confianzaConReservas = GradoDeConfianzaConstructor.crearGradoDeConfianzaConReservas();
         confianzaConfiableNivel1 = GradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable1();
         confianzaConfiableNivel2 = GradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable2();
 
-        agregar(confianzaConfiableNivel2);
-        agregar(confianzaConfiableNivel1);
-        agregar(confianzaConReservas);
-        agregar(confianzaNoConfiable);
+        agregarGrado(confianzaConfiableNivel2);
+        agregarGrado(confianzaConfiableNivel1);
+        agregarGrado(confianzaConReservas);
+        agregarGrado(confianzaNoConfiable);
 
+
+
+        //TODO: PASAR ESTO A UN TEST
         //Esto es para los usuarios
         //Esta linea de abajo es para que no rompa por contexto estatico
         UsuarioBuilder usuarioBuilder = new UsuarioBuilder();
@@ -62,7 +65,9 @@ public class Initializer implements WithSimplePersistenceUnit {
                 .comMedioConfigurado("Email")   // "Email" o "WhatsApp"
                 .conGradoDeConfianza()
                 .construir();
-        
+
+
+
     }
 
 }
