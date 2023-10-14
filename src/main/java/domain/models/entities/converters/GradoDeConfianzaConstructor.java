@@ -1,11 +1,10 @@
 package domain.models.entities.converters;
 
-import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.NombreGradoConfianza;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.GradoDeConfianzaApi14;
 
-public class GradoDeConfianzaConverter {
+public class GradoDeConfianzaConstructor {
     private static GradoDeConfianza confianzaConfiableNivel2;
     private static GradoDeConfianza confianzaConfiableNivel1;
     private static GradoDeConfianza confianzaConReservas;

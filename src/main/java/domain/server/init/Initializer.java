@@ -2,10 +2,13 @@ package domain.server.init;
 
 import domain.models.entities.builders.UsuarioBuilder;
 import domain.models.entities.comunidad.*;
+
+import domain.models.entities.converters.GradoDeConfianzaConstructor;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.EntityTransaction;
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -31,32 +34,12 @@ public class Initializer implements WithSimplePersistenceUnit {
         tx.commit();
     }
 
-    public void init() {
-        //Esto es para los niveeles de confianza
-        confianzaConfiableNivel2 = new GradoDeConfianza();
-        confianzaConfiableNivel1 = new GradoDeConfianza();
-        confianzaConReservas = new GradoDeConfianza();
-        confianzaNoConfiable = new GradoDeConfianza();
-
-        confianzaConfiableNivel2.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
-        confianzaConfiableNivel2.setPuntosMinimos(5.0);
-        confianzaConfiableNivel2.setGradoAnterior(confianzaConfiableNivel1);
-
-        confianzaConfiableNivel1.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_1);
-        confianzaConfiableNivel1.setPuntosMinimos(3.5);
-        confianzaConfiableNivel1.setPuntosMaximos(5.0);
-        confianzaConfiableNivel1.setGradoSiguiente(confianzaConfiableNivel2);
-        confianzaConfiableNivel1.setGradoAnterior(confianzaConReservas);
-
-        confianzaConReservas.setNombreGradoConfianza(NombreGradoConfianza.CON_RESERVAS);
-        confianzaConReservas.setPuntosMinimos(2.0);
-        confianzaConReservas.setPuntosMaximos(3.0);
-        confianzaConReservas.setGradoAnterior(confianzaNoConfiable);
-        confianzaConReservas.setGradoSiguiente(confianzaConfiableNivel1);
-
-        confianzaNoConfiable.setNombreGradoConfianza(NombreGradoConfianza.NO_CONFIABLE);
-        confianzaNoConfiable.setPuntosMaximos(2.0);
-        confianzaNoConfiable.setGradoSiguiente(confianzaConReservas);
+    public void init() throws IOException {
+        //Esto es para los niveeles de confianza //TODO esto ya está en métodos de GradoDeConfianzaConverter
+        confianzaNoConfiable = GradoDeConfianzaConstructor.crearGradoDeConfianzaNoConfiable();
+        confianzaConReservas = GradoDeConfianzaConstructor.crearGradoDeConfianzaConReservas();
+        confianzaConfiableNivel1 = GradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable1();
+        confianzaConfiableNivel2 = GradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable2();
 
         agregar(confianzaConfiableNivel2);
         agregar(confianzaConfiableNivel1);
@@ -64,14 +47,22 @@ public class Initializer implements WithSimplePersistenceUnit {
         agregar(confianzaNoConfiable);
 
         //Esto es para los usuarios
-        //TODO ver como hacer para que no rompa x el contexto static
-        lucasBoldrini = UsuarioBuilder
+        //Esta linea de abajo es para que no rompa por contexto estatico
+        UsuarioBuilder usuarioBuilder = new UsuarioBuilder();
+
+        lucasBoldrini = usuarioBuilder
                 .conNombre("Lucas")
                 .conApellido("Boldrini")
-                .conCredencial()
+                .conCredencial("lBoldrini", "pepito123")
+                .conMail("lucasBoldrini@outlook.com")
+                .conTelefono("1567673002")
+                .conLocalizacion("Buenos Aires", "Villa Bosch", "3 de Febrero", "Manuel Quintana 780")
+                .conMiembros()
+                .conTiempoConfigurado("SINAPUROS")  //"SINAPUROS" o "CUANDOSUCEDE"
+                .comMedioConfigurado("Email")   // "Email" o "WhatsApp"
+                .conGradoDeConfianza()
                 .construir();
-
-
+        
     }
 
 }

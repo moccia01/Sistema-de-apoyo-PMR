@@ -1,10 +1,7 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5;
 
 import domain.models.entities.comunidad.*;
-import domain.models.entities.converters.GradoDeConfianzaConverter;
-import domain.models.entities.converters.NombreGradoConfianzaAttributeConverter;
-import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
-import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
+import domain.models.entities.converters.GradoDeConfianzaConstructor;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.*;
 import retrofit2.Call;
@@ -102,14 +99,14 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
     private void actualizarComunidad(Comunidad comunidad, ComunidadDevuelta comunidadDevuelta) {
         comunidad.setPuntosDeConfianza(comunidadDevuelta.getNuevoPuntaje());
         GradoDeConfianza gradoDeConfianza;
-        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDeEnum(comunidadDevuelta.getGradoDeConfianzaActual());
+        gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDeEnum(comunidadDevuelta.getGradoDeConfianzaActual());
         comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
 
     private void actualizarUsuario(Usuario usuario, UsuarioDevuelto usuarioDevuelto) {
         usuario.setPuntosDeConfianza(usuarioDevuelto.getNuevoPuntaje());
         GradoDeConfianza gradoDeConfianza;
-        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDeEnum(usuarioDevuelto.getGradoDeConfianzaActual());
+        gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDeEnum(usuarioDevuelto.getGradoDeConfianzaActual());
         usuario.setGradoDeConfianza(gradoDeConfianza);
     }
 }

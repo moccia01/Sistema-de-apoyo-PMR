@@ -3,11 +3,14 @@ package domain.models.entities.builders;
 import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.comunidad.Usuario;
-import domain.models.entities.converters.GradoDeConfianzaConverter;
+import domain.models.entities.converters.GradoDeConfianzaConstructor;
 import domain.models.entities.localizacion.Localizacion;
-import domain.models.entities.mensajes.Configuraciones.MedioConfigurado;
-import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
-import domain.models.entities.validaciones.CredencialDeAcceso;
+import domain.models.entities.mensajes.Configuraciones.*;
+
+import java.io.IOException;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 
 public class UsuarioBuilder {
     private Usuario usuario;
@@ -25,10 +28,13 @@ public class UsuarioBuilder {
         this.usuario.setApellido(apellido);
         return this;
     }
-//TODO modificar este metodo para pasarle usuario y contra y que haga la credencial
-    public UsuarioBuilder conCredencial(CredencialDeAcceso credencial){
-        CredencialDeAcceso credencialDeAcceso = new CredencialDeAccess
-        this.usuario.setCredencialDeAcceso(credencial);
+
+    public UsuarioBuilder conCredencial(String nomUsuario, String contra){
+        CredencialDeAccessoBuilder credencialBuilder = new CredencialDeAccessoBuilder();
+        this.usuario.setCredencialDeAcceso(credencialBuilder
+                                            .conNombreUsuario(nomUsuario)
+                                            .conContraseña(contra)
+                                            .construir());
         return this;
     }
 
@@ -42,7 +48,11 @@ public class UsuarioBuilder {
         return this;
     }
 
-   public UsuarioBuilder conLocalizacion(Localizacion localizacion){
+   public UsuarioBuilder conLocalizacion(String provincia, String departamento, String municipio, String direccion) throws IOException {
+        Localizacion localizacion = new Localizacion();
+        localizacion.setProvincia(provincia);
+        localizacion.setDireccion(departamento, direccion);
+        localizacion.setMunicipio(municipio);
         this.usuario.setLocalizacion(localizacion);
         return this;
    }
@@ -52,18 +62,36 @@ public class UsuarioBuilder {
         return this;
    }
 
-   public UsuarioBuilder conTiempoConfigurado(TiempoConfigurado tiempo){
-        this.usuario.setTiempoConfigurado(tiempo);
+   public UsuarioBuilder conTiempoConfigurado(String nombreTiempoConfig){
+       SinApurosBuilder sinAapurosBuilder = new SinApurosBuilder();
+       CuandoSucedeBuilder cuandoSucedeBuilder = new CuandoSucedeBuilder();
+
+       List<LocalTime> tiempoConfig = Arrays.asList(LocalTime.of(12, 30, 0), LocalTime.of(18, 45, 0));
+
+       SinApuros sinAp = sinAapurosBuilder.conHorarios(tiempoConfig).construir();
+
+        if(nombreTiempoConfig.toUpperCase() == "SINAPUROS") {
+            this.usuario.setTiempoConfigurado(sinAp);
+        }
+        else if(nombreTiempoConfig.toUpperCase() == "CUANDOSUCEDE"){
+            this.usuario.setTiempoConfigurado(new CuandoSucede());
+        }
         return this;
    }
 
-   public UsuarioBuilder conMedioConfigurado(MedioConfigurado medio){
-        this.usuario.setMedioConfigurado(medio);
+   public UsuarioBuilder comMedioConfigurado(String medio){
+        if(medio == "Email"){
+            this.usuario.setMedioConfigurado(new MensajeEmail());
+        }
+        else if(medio == "WhatsApp"){
+            this.usuario.setMedioConfigurado(new MensajeWhatsApp());
+        }
         return this;
    }
 
-   public UsuarioBuilder conGradoDeConfianza(GradoDeConfianza grado){
-        GradoDeConfianzaConverter converter = new GradoDeConfianzaConverter();
+   public UsuarioBuilder conGradoDeConfianza(){
+        GradoDeConfianza grado;
+        GradoDeConfianzaConstructor converter = new GradoDeConfianzaConstructor();
         grado = converter.crearGradoDeConfianzaConfiable1();
         this.usuario.setGradoDeConfianza(grado);
         return this;

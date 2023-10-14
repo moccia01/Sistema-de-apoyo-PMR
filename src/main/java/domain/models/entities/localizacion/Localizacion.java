@@ -13,6 +13,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -43,6 +44,11 @@ public class Localizacion {
     public void setDireccion(String departamento, String direccion){
         Localizador localizador = ServicioGeoref.instancia();
         this.direccion = localizador.direccion(departamento, direccion);
+    }
+
+    public void setMunicipio(String municipio) throws IOException {
+        Localizador localizador = ServicioGeoref.instancia();
+        this.municipio = localizador.municipio(municipio);
     }
 
     public boolean estaCercaDe(Localizacion localizacion){

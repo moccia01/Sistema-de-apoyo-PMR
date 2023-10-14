@@ -10,8 +10,4 @@ public class UsuarioApi5 {
     public String apellido;
     public long id;
     public double puntosDeConfianza;
-
-    public void cargarUsuario(Usuario usuario){
-
-    }
 }

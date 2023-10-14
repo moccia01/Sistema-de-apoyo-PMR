@@ -4,17 +4,11 @@ import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Usuario;
-import domain.models.entities.converters.GradoDeConfianzaConverter;
+import domain.models.entities.converters.GradoDeConfianzaConstructor;
 import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.ComunidadApi14;
-import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.GradoDeConfianzaApi14;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.PayloadDTOApi14;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.UsuarioApi14;
-import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.GradoDeConfianza5Service;
-import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.ComunidadApi5;
-import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.ComunidadDevuelta;
-import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.UsuarioApi5;
-import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.UsuarioDevuelto;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -81,7 +75,7 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         GradoDeConfianza gradoDeConfianza;
         double puntosMinimos = comunidadDevuelta.getGradoDeConfianza().getPuntosMinimos();
         double puntosMaximos = comunidadDevuelta.getGradoDeConfianza().getPuntosMaximos();
-        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+        gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
         comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
 
@@ -90,7 +84,7 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         GradoDeConfianza gradoDeConfianza;
         double puntosMinimos = usuarioDevuelto.getGradoDeConfianza().getPuntosMinimos();
         double puntosMaximos = usuarioDevuelto.getGradoDeConfianza().getPuntosMaximos();
-        gradoDeConfianza = GradoDeConfianzaConverter.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+        gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
         usuario.setGradoDeConfianza(gradoDeConfianza);
     }
 }

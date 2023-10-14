@@ -10,10 +10,6 @@ import java.util.List;
 public class ComunidadBuilder {
     private Comunidad comunidad;
 
-    public ComunidadBuilder(){
-        this.comunidad = new Comunidad();
-    }
-
     public ComunidadBuilder conNombre(String nombre){
         this.comunidad.setNombre(nombre);
         return this;

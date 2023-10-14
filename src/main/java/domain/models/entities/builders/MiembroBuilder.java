@@ -26,4 +26,8 @@ public class MiembroBuilder {
         this.miembro.setComunidad(comunidad);
         return this;
     }
+
+    public Miembro construir(){
+        return miembro;
+    }
 }
