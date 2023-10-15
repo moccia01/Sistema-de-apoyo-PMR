@@ -1,13 +1,13 @@
 package domain.controllers;
 
-import domain.models.entities.comunidad.Miembro;
-import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.comunidad.*;
 import domain.models.entities.converters.MedioConfiguradoAttributeConverter;
+import domain.models.entities.converters.RolAttributeConverter;
+import domain.models.entities.converters.RolTemporalAttributeConverter;
 import domain.models.entities.converters.TiempoConfiguradoAttributeConverter;
 import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.entities.validaciones.CredencialDeAcceso;
-import domain.models.repositorios.RepositorioMiembros;
-import domain.models.repositorios.RepositorioTiemposConfiguracion;
+import domain.models.repositorios.*;
 import domain.server.Server;
 import io.javalin.http.Context;
 
@@ -17,24 +17,28 @@ import java.util.*;
 public class MiembroController extends Controller{
     private RepositorioMiembros repositorioMiembros;
     private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
+    private RepositorioComunidades repositorioComunidades;
+    private RepositorioUsuarios repositorioUsuarios;
 
     public MiembroController(RepositorioMiembros repositorioMiembros,
-                             RepositorioTiemposConfiguracion repositorioTiemposConfiguracion) {
+                             RepositorioTiemposConfiguracion repositorioTiemposConfiguracion,
+                             RepositorioComunidades repositorioComunidades,
+                             RepositorioUsuarios repositorioUsuarios) {
         this.repositorioMiembros = repositorioMiembros;
         this.repositorioTiemposConfiguracion = repositorioTiemposConfiguracion;
+        this.repositorioComunidades = repositorioComunidades;
+        this.repositorioUsuarios = repositorioUsuarios;
     }
 
     public void baja(Context context) {
-        // TODO directamente tirar la baja a base de datos
         String id = context.pathParam("miembro_id");
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));
         this.repositorioMiembros.eliminar(miembro);
-        context.redirect(Server.baseUrl + "comunidades/"
+        context.redirect(Server.baseUrl + "/miembros/"
                 + miembro.getComunidad().getId().toString() + "/admin");
     }
 
     public void editar(Context context) {
-        //TODO devolver la misma vista que registro de usuario
         String id = context.pathParam("miembro_id");
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));
         Map<String, Object> model = new HashMap<>();
@@ -46,18 +50,52 @@ public class MiembroController extends Controller{
     }
 
     public void update(Context context) {
-        // TODO tirar el update a base de datos
         String id = context.pathParam("miembro_id");
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));
         this.asignarParametros(miembro, context);
         this.repositorioMiembros.modificar(miembro);
 
-        //TODO no funca el redirect ?
-        context.redirect(Server.baseUrl + "comunidades/"
-                + miembro.getComunidad().getId().toString() + "/admin");
+        context.redirect(miembro.getComunidad().getId() + "/admin");
+    }
+
+    public void create(Context context) {
+        String id = context.pathParam("comunidad_id");
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(id));
+        Map<String, Object> model = new HashMap<>();
+        List<TiempoConfigurado> tiemposConfigurados = new ArrayList<>();
+        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
+        model.put("tiempos_config", tiemposConfigurados);
+        model.put("comunidad", comunidad);
+        context.render("comunidades/miembro.hbs", model);
+    }
+
+    public void save(Context context) {
+        Miembro miembro = new Miembro();
+        Usuario usuario = new Usuario();
+
+        //Valores default
+        usuario.setGradoDeConfianza(new RepositorioGradosDeConfianza().obtenerGradoDeConfianza(
+                NombreGradoConfianza.CONFIABLE_NIVEL_1));
+        usuario.setInteres(new Interes());
+        usuario.setPuntosDeConfianza(5);
+        miembro.setUsuario(usuario);
+
+        this.asignarParametros(miembro, context);
+        String id = context.queryParam("comunidad_id");
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(id)));
+        miembro.setComunidad(comunidad);
+
+        comunidad.agregarMiembros(miembro);
+        this.repositorioUsuarios.agregar(usuario);
+        this.repositorioMiembros.agregar(miembro);
+        this.repositorioComunidades.modificar(comunidad);
+
+        context.redirect("miembros/" + comunidad.getId() + "/admin");
     }
 
     public void asignarParametros(Miembro miembro, Context contexto) {
+
+
         //Valores del form
         Usuario usuario = miembro.getUsuario();
         usuario.setNombre(contexto.formParam("nombre"));
@@ -75,6 +113,12 @@ public class MiembroController extends Controller{
                 Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
         String tiempoElegido = contexto.formParam("tiempo_configuracion");
 
+        miembro.setRol(new RolAttributeConverter().convertToEntityAttribute(
+                Objects.requireNonNull(contexto.formParam("rol"))));
+
+        miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(
+                Objects.requireNonNull(contexto.formParam("rol_temporal"))));
+
         TiempoConfigurado tiempoConfigurado = null;
         if(Objects.equals(tiempoElegido, "CuandoSucede")){
             tiempoConfigurado = repositorioTiemposConfiguracion.obtenerConfigCuandoSucede();
@@ -83,5 +127,6 @@ public class MiembroController extends Controller{
             tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
         }
         usuario.setTiempoConfigurado(tiempoConfigurado);
+
     }
 }

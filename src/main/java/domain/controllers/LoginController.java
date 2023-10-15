@@ -110,10 +110,10 @@ public class LoginController {
         }
         usuario.setTiempoConfigurado(tiempoConfigurado);
 
-        usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(
-                NombreGradoConfianza.CONFIABLE_NIVEL_1));
 
         //Valores default
+        usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(
+                NombreGradoConfianza.CONFIABLE_NIVEL_1));
         usuario.setInteres(new Interes());
         usuario.setPuntosDeConfianza(5);
     }

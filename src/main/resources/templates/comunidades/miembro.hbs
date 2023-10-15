@@ -3,10 +3,19 @@
         <div class="col-md-4">
             <div class="card shadow-lg">
                 <div class="card-header bg-warning text-dark text-center py-3">
-                    <h3 class="m-0">Edición de {{miembro.usuario.getNombre}} {{miembro.usuario.getApellido}}</h3>
+                    <h3 class="m-0">
+                        {{#if miembro}}
+                            Edición de {{miembro.usuario.getNombre}} {{miembro.usuario.getApellido}}
+                        {{else}}
+                            Nuevo miembro en {{comunidad.getNombre}}
+                        {{/if}}
+                    </h3>
                 </div>
                 <div class="card-body p-4">
-                    <form method="POST" action="{{Server.baseUrl}}/miembros/{{miembro.id}}">
+                    <form method="POST"
+                        {{#if miembro}} action="{{Server.baseUrl}}/miembros/{{miembro.id}}"
+                        {{else}} action="{{Server.baseUrl}}/miembros?comunidad_id={{comunidad.getId}}"
+                        {{/if}}>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre" required>
@@ -37,6 +46,22 @@
                                 <option value="-1">Elegir medio de notificacion</option>
                                 <option value="MensajeEmail">Email</option>
                                 <option value="MensajeWhatsapp">WhatsApp</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rol" class="form-label">Rol</label>
+                            <select class="form-select" name="rol">
+                                <option value="-1">Elegir rol</option>
+                                <option value="ADMINISTRADOR">Administrador</option>
+                                <option value="MIEMBRO">Miembro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rol_temporal" class="form-label">Rol temporal</label>
+                            <select class="form-select" name="rol_temporal">
+                                <option value="-1">Elegir rol temporal</option>
+                                <option value="AFECTADO">Afectado</option>
+                                <option value="OBSERVADOR">Observador</option>
                             </select>
                         </div>
                         <div class="mb-3">

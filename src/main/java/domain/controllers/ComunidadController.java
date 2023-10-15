@@ -40,8 +40,8 @@ public class ComunidadController extends Controller{
             throw new AccessDeniedException();
         }
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
-        //miembros.remove(miembro); ?
         Map<String, Object> model = new HashMap<>();
+        model.put("miembro", miembro);
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);
         context.render("comunidades/admin.hbs", model);
@@ -50,10 +50,7 @@ public class ComunidadController extends Controller{
     public void ver(Context context) {
         String comunidad_id = context.pathParam("id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id));
-        Usuario usuario = super.usuarioLogueado(context);
-        Miembro miembro = this.repositorioMiembros.obtenerMiembroDe(usuario.getId(), comunidad.getId());
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
-        //miembros.remove(miembro); ?
         Map<String, Object> model = new HashMap<>();
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);
@@ -63,14 +60,6 @@ public class ComunidadController extends Controller{
 
 
     private void asignarParametros(Comunidad comunidad, Context contexto){
-        // podria ser un factory/builder (?)
-        if(!Objects.equals(contexto.formParam("titulo"), "")) {
-            comunidad.setNombre(contexto.formParam("titulo"));
-        }
-        // TODO implementar asignaciones para el resto de los inputs
-        // si recibimos un id tipo entidad_id hay que instanciar un repo de entidades y buscarlo por id en la bd
-        // y asi con todos los inputs del form
-
 
     }
 

@@ -16,8 +16,6 @@ import java.time.temporal.ChronoUnit;
 @Entity
 @Table(name = "incidente")
 public class Incidente extends EntidadPersistente {
-    //TODO ponerle un titulo al incidente para mostrar en la vista (?)
-
     @Column
     private String titulo;
 
