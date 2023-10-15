@@ -69,7 +69,7 @@ public class LoginController {
 
     public void create(Context context){
         Map<String, Object> model = new HashMap<>();
-        List<TiempoConfigurado> tiemposConfigurados= new ArrayList<>();
+        List<TiempoConfigurado> tiemposConfigurados = new ArrayList<>();
         tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
         model.put("tiempos_config", tiemposConfigurados);
         context.render("login/registro.hbs", model);

@@ -1,6 +1,7 @@
 package domain.server;
 
 import domain.controllers.*;
+import domain.models.entities.comunidad.Miembro;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -38,9 +39,9 @@ public class Router {
             get("comunidades/{id}/ver",((ComunidadController) FactoryController.controller("comunidades"))::ver);
 
             //TODO cambiar recurso de path por miembros ?
-            get("comunidades/{miembro_id}/baja", ((ComunidadController) FactoryController.controller("comunidades"))::baja);
-            get("comunidades/{miembro_id}/editar", ((ComunidadController) FactoryController.controller("comunidades"))::editar);
-            post("comunidades/{miembro_id}", ((ComunidadController) FactoryController.controller("comunidades"))::update);
+            post("miembros/{miembro_id}/baja", ((MiembroController) FactoryController.controller("miembros"))::baja);
+            get("miembros/{miembro_id}/editar", ((MiembroController) FactoryController.controller("miembros"))::editar);
+            post("miembros/{miembro_id}", ((MiembroController) FactoryController.controller("miembros"))::update);
 
         });
     }

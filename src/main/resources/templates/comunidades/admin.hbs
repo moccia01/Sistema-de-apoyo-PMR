@@ -17,8 +17,10 @@
                         <div>{{this.usuario.getNombre}} {{this.usuario.getApellido}}</div>
                       </div>
                     <div class="d-grid gap-2 d-md-block">
-                        <a class="btn btn-danger mb-auto" href="/comunidades/{{this.id}}/baja">Baja</a>
-                        <a class="btn btn-dark mb-auto" href="/comunidades/{{this.id}}/editar">Editar</a>
+                        <form method="POST" action="{{Server.baseUrl}}/miembros/{{this.id}}/baja">
+                            <button type="submit" class="btn btn-danger mb-auto">Baja</button>
+                        </form>
+                        <a class="btn btn-dark mb-auto" href="{{Server.baseUrl}}/miembros/{{this.id}}/editar">Editar</a>
                     </div>
                 </li>
             {{/each}}

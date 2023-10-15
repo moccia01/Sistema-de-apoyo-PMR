@@ -1,9 +1,12 @@
 package domain.controllers;
 
 import domain.models.entities.comunidad.*;
+import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.repositorios.RepositorioComunidades;
 import domain.models.repositorios.RepositorioMiembros;
+import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 import domain.server.exceptions.AccessDeniedException;
 import domain.server.utils.ICrudViewsHandler;
 import io.javalin.http.Context;
@@ -57,17 +60,7 @@ public class ComunidadController extends Controller{
         context.render("comunidades/ver.hbs", model);
     }
 
-    public void baja(Context context) {
 
-    }
-
-    public void editar(Context context) {
-
-    }
-
-    public void update(Context context) {
-
-    }
 
     private void asignarParametros(Comunidad comunidad, Context contexto){
         // podria ser un factory/builder (?)

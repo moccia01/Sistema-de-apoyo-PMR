@@ -102,6 +102,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     }
 
     public void close(Context context) {
+        //TODO ver de hacer con form a ver si no hay q apretar 2 veces para q funque
         String id = context.pathParam("id");
         String comunidad_id = context.queryParam("comunidad_id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)));

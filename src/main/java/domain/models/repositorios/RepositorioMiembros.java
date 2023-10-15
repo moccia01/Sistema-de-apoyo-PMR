@@ -1,6 +1,7 @@
 package domain.models.repositorios;
 
 import domain.models.entities.comunidad.Comunidad;
+import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.comunidad.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -16,10 +17,37 @@ public class RepositorioMiembros implements WithSimplePersistenceUnit {
                 .getResultList();
     }
 
+    public Miembro obtenerMiembro(Long miembro_id) {
+        String jpql = "SELECT m FROM Miembro m " +
+                "WHERE m.id = :miembro_id";
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        TypedQuery<Miembro> query = entityManager().createQuery(jpql, Miembro.class);
+        query.setParameter("miembro_id", miembro_id);
+        Miembro miembro = query.getSingleResult();
+        tx.commit();
+        return miembro;
+    }
+
     public void agregar(Miembro miembro) {
         EntityTransaction tx = entityManager().getTransaction();
         tx.begin();
         entityManager().persist(miembro);
+        tx.commit();
+    }
+
+    public void modificar(Miembro miembro){
+        // VER SI ESTA BIEN
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        entityManager().merge(miembro);
+        tx.commit();
+    }
+
+    public void eliminar(Miembro miembro) {
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        entityManager().remove(miembro);
         tx.commit();
     }
 

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 public class Server {
-    private static final String baseUrl = "localhost:8080";
+    public static final String baseUrl = "localhost:8080";
     private static Javalin app = null;
 
     public static Javalin app() {
