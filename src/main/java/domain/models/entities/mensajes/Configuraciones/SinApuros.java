@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class SinApuros extends TiempoConfigurado {
     @CollectionTable(name = "sin_apuros_horarios", joinColumns = @JoinColumn(name = "sin_apuros_id"))
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     @Column(name = "horarios")
-    private List<LocalTime> horarios;
+    private List<LocalDateTime> horarios;
 
     @ElementCollection
     @CollectionTable(name = "sin_apuros_notificaciones_pendientes", joinColumns = @JoinColumn(name = "sin_apuros_id"))
@@ -34,7 +35,7 @@ public class SinApuros extends TiempoConfigurado {
         this.notificacionesPendientes = new ArrayList<>();
     }
 
-    public void agregarHorarios(LocalTime ... horarios){
+    public void agregarHorarios(LocalDateTime ... horarios){
         Collections.addAll(this.horarios, horarios);
     }
 
@@ -56,7 +57,7 @@ public class SinApuros extends TiempoConfigurado {
     }
 
     public boolean esHoradeMandarPendientes(){
-        return horarios.stream().anyMatch(h -> h.equals(LocalTime.now()));
+        return horarios.stream().anyMatch(h -> h.equals(LocalDateTime.now()));
     }
 
 

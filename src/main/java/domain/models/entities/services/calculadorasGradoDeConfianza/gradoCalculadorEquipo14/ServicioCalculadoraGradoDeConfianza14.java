@@ -75,16 +75,18 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         GradoDeConfianza gradoDeConfianza;
         double puntosMinimos = comunidadDevuelta.getGradoDeConfianza().getPuntosMinimos();
         double puntosMaximos = comunidadDevuelta.getGradoDeConfianza().getPuntosMaximos();
-        gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
-        comunidad.setGradoDeConfianza(gradoDeConfianza);
+        //gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+ //       comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
+    //TODO Arreglar para que GradoDeConfianzaConstructor sea funcional, luego ver lo de abajo
+    //TODO Arreglar y ver como usar el try y catch para fijarse si un grado de confianza ya se encuentra en la base de datos
 
     private void actualizarUsuario(Usuario usuario, UsuarioApi14 usuarioDevuelto) {
         usuario.setPuntosDeConfianza(usuarioDevuelto.getPuntosDeConfianza());
         GradoDeConfianza gradoDeConfianza;
         double puntosMinimos = usuarioDevuelto.getGradoDeConfianza().getPuntosMinimos();
         double puntosMaximos = usuarioDevuelto.getGradoDeConfianza().getPuntosMaximos();
-        gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
-        usuario.setGradoDeConfianza(gradoDeConfianza);
+        //gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+        //usuario.setGradoDeConfianza(gradoDeConfianza);    //Arreglar
     }
 }

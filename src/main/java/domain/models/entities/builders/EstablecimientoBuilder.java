@@ -28,13 +28,14 @@ public class EstablecimientoBuilder {
     }
 
     public Establecimiento construir(){
-        if(this.establecimiento.getLocalizacion() == null){
+/*        if(this.establecimiento.getLocalizacion() == null){
             throw new EstablecimientoSinDireccionException();
         }
         if(this.establecimiento.getServicios() == null){
             throw new EstablecimientoSinServiciosException();
-        }
-
-        return establecimiento;
+        }*/
+        Establecimiento establecimientoARetornar = this.establecimiento;
+        this.establecimiento = new Establecimiento();
+        return establecimientoARetornar;
     }
 }

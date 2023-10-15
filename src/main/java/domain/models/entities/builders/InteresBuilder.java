@@ -31,7 +31,8 @@ public class InteresBuilder {
         if(this.interes.getServicios() == null){
             throw new InteresSinServiciosException();
         }
-
-        return interes;
+        Interes interesARetornar = this.interes;
+        this.interes = new Interes();
+        return interesARetornar;
     }
 }

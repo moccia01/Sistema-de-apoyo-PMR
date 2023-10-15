@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,8 +51,11 @@ public class Comunidad extends EntidadPersistente {
         Collections.addAll(this.miembros, miembros);
     }
 
-    public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
+    public void generarIncidente(Usuario usuarioApertura, String titulo, PrestacionDeServicio prestacionDeServicio, String descripcion){
         Incidente nuevoIncidente = new Incidente(descripcion, prestacionDeServicio);
+        nuevoIncidente.setUsuarioApertura(usuarioApertura);
+        nuevoIncidente.setFechaHoraApertura(LocalDateTime.now());
+        nuevoIncidente.setTitulo(titulo);
         incidentes.add(nuevoIncidente);
         this.notificarMiembros(nuevoIncidente, new AperturaIncidente());
     }

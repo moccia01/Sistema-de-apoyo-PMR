@@ -46,7 +46,20 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
         init.init();
 
         credencialFede = new CredencialDeAcceso("elFede");
+        fede = new Usuario();
+        fede.setNombre("Federico");
+        fede.setApellido("Moccia");
+        fede.setMail("federico21433@hotmail.com");
+        MailSender mailer = Mockito.mock(MailSender.class);
+        MensajeEmail medio = new MensajeEmail(mailer);
 
+
+        fede.setMedioConfigurado(medio);
+        fede.setInteres(interes);
+        fede.setCredencialDeAcceso(credencialFede);
+        fede.setMedioConfigurado(new MensajeEmail());
+        fede.setTiempoConfigurado(new CuandoSucede());
+        fede.setPuntosDeConfianza(5);
 
         //servicio
         escaleraMecanica = new Servicio();
@@ -76,7 +89,7 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
         trenesArgentinos.setEstablecimiento(estacionVillaBallester);
 
         comunidadHipoacusicosCABA = new Comunidad();
-        comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos, "");
+        comunidadHipoacusicosCABA.generarIncidente(fede, "titulo",trenesArgentinos, "");
 
         incidente1 = new Incidente("Se rompio la barrera", trenesArgentinos);
         LocalDateTime fechaAperturaIncidente1 = LocalDateTime.of(2023, 3, 7, 9, 24);
@@ -93,26 +106,12 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
         InteresBuilder interesBuilder = new InteresBuilder();
         interes = interesBuilder.agregarEntidades(utn).agregarServicios(escalera, banio).construir();
 
-        fede = new Usuario();
-        fede.setNombre("Federico");
-        fede.setApellido("Moccia");
-        fede.setMail("federico21433@hotmail.com");
-        MailSender mailer = Mockito.mock(MailSender.class);
-        MensajeEmail medio = new MensajeEmail(mailer);
-
-
-        fede.setMedioConfigurado(medio);
-        fede.setInteres(interes);
-        fede.setCredencialDeAcceso(credencialFede);
-        fede.setMedioConfigurado(new MensajeEmail());
-        fede.setTiempoConfigurado(new CuandoSucede());
-        fede.setPuntosDeConfianza(5);
 
 
 
 
 
-        fede.setGradoDeConfianza(init.getConfianzaConfiableNivel1());
+
 
     }
 
@@ -120,9 +119,6 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
     public void cargarUnosDatos(){
 
             withTransaction(() -> {
-                entityManager().persist(init.getConfianzaConfiableNivel2());
-                entityManager().persist(init.getConfianzaConReservas());
-                entityManager().persist(init.getConfianzaNoConfiable());
                 entityManager().persist(fede);
             });
     }

@@ -4,8 +4,8 @@
 
         <ul class="list-group">
             <li class="list-group-item bg-warning fw-bold" aria-current="true">Usuarios</li>
-            {{#each miembro}}
-                <li class="list-group-item">{{miembro.getUsuario.getNombre}}</li>
+            {{#each miembros}}
+                <li class="list-group-item">{{this.usuario.getNombre}} {{this.usuario.getApellido}}</li>
             {{/each}}
         </ul>
     </div>

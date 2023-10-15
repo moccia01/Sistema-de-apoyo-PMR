@@ -46,7 +46,7 @@ public class Localizacion {
         this.direccion = localizador.direccion(departamento, direccion);
     }
 
-    public void setMunicipio(String municipio) throws IOException {
+    public void setMunicipio(String municipio){
         Localizador localizador = ServicioGeoref.instancia();
         this.municipio = localizador.municipio(municipio);
     }

@@ -1,16 +1,10 @@
 package domain.controllers;
-import domain.models.entities.comunidad.GradoDeConfianza;
-import domain.models.entities.comunidad.Incidente;
-import domain.models.entities.comunidad.NombreGradoConfianza;
-import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.comunidad.*;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
 import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
 import domain.models.entities.validaciones.CredencialDeAcceso;
-import domain.models.repositorios.RepositorioEntidades;
-import domain.models.repositorios.RepositorioEstablecimientos;
-import domain.models.repositorios.RepositorioIncidentes;
-import domain.models.repositorios.RepositorioServicios;
+import domain.models.repositorios.*;
 import domain.server.utils.ICrudViewsHandler;
 
 
@@ -24,6 +18,7 @@ import java.util.Objects;
 
 public class IncidenteController extends Controller implements ICrudViewsHandler {
     private RepositorioIncidentes repositorioIncidentes;
+    private RepositorioComunidades repositorioComunidades;
     private RepositorioServicios repositorioServicios;
     private RepositorioEstablecimientos repositorioEstablecimientos;
     private RepositorioEntidades repositorioEntidades;
@@ -31,7 +26,9 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     public IncidenteController(RepositorioIncidentes repositorioIncidentes,
                                RepositorioServicios repositorioServicios,
                                RepositorioEstablecimientos repositorioEstablecimientos,
-                               RepositorioEntidades repositorioEntidades){
+                               RepositorioEntidades repositorioEntidades,
+                               RepositorioComunidades repositorioComunidades){
+        this.repositorioComunidades = repositorioComunidades;
         this.repositorioIncidentes = repositorioIncidentes;
         this.repositorioServicios = repositorioServicios;
         this.repositorioEstablecimientos = repositorioEstablecimientos;
@@ -40,8 +37,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        List<Incidente> incidentes = this.repositorioIncidentes.obtenerIncidentesDe(super.usuarioLogueado(context).getId());
-        model.put("incidentes", incidentes);
+        List<Comunidad> comunidades = this.repositorioComunidades.obtenerComunidadesDe(super.usuarioLogueado(context).getId());
+        for (Comunidad comunidad : comunidades) {
+            comunidad.getIncidentes().forEach(i -> i.setComunidadId(comunidad.getId()));
+        }
+        model.put("comunidades", comunidades);
         context.render("incidentes/incidentes.hbs", model);
     }
 
@@ -66,7 +66,10 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     @Override
     public void save(Context context) {
         Incidente incidente = new Incidente();
-        this.asignarParametros(incidente, context);
+        super.usuarioLogueado(context).generarIncidente(
+                context.formParam("titulo"),
+                this.obtenerPrestacion(context),
+                context.formParam("descripcion"));
         this.repositorioIncidentes.agregar(incidente);
         context.redirect("/incidentes");
     }
@@ -76,6 +79,9 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         String id = context.pathParam("id");
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
         Map<String, Object> model = new HashMap<>();
+        model.put("entidades", new RepositorioEntidades().obtenerEntidades());
+        model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos());
+        model.put("servicios", new RepositorioServicios().obtenerServicios());
         model.put("incidente", incidente);
         context.render("incidentes/incidente.hbs", model);
     }
@@ -99,9 +105,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     public void close(Context context) {
         String id = context.pathParam("id");
+        String comunidad_id = context.queryParam("comunidad_id");
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)));
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
         Usuario usuario = super.usuarioLogueado(context);
-        incidente.cerrar();
+        usuario.cerrarIncidente(comunidad, incidente);
         incidente.setUsuarioCierre(usuario);
         context.redirect("/incidentes");
     }
@@ -115,14 +123,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
             incidente.setDescripcion(contexto.formParam("descripcion"));
         }
 
-        PrestacionDeServicio prestacionDeServicio = new PrestacionDeServicio();
-
-        prestacionDeServicio.setServicio(this.repositorioServicios.obtenerServicio(
-                Long.parseLong(Objects.requireNonNull(contexto.formParam("servicio")))));
-        prestacionDeServicio.setEstablecimiento(this.repositorioEstablecimientos.obtenerEstablecimiento(
-                Long.parseLong(Objects.requireNonNull(contexto.formParam("establecimiento")))));
-        prestacionDeServicio.setEntidad(this.repositorioEntidades.obtenerEntidad(
-                Long.parseLong(Objects.requireNonNull(contexto.formParam("entidad")))));
+        PrestacionDeServicio prestacionDeServicio = this.obtenerPrestacion(contexto);
         incidente.setPrestacionDeServicio(prestacionDeServicio);
 
         incidente.setEstado(false);
@@ -130,6 +131,18 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
         Usuario usuario = super.usuarioLogueado(contexto);
         incidente.setUsuarioApertura(usuario);
+    }
+
+    private PrestacionDeServicio obtenerPrestacion(Context context) {
+        PrestacionDeServicio prestacionDeServicio = new PrestacionDeServicio();
+
+        prestacionDeServicio.setServicio(this.repositorioServicios.obtenerServicio(
+                Long.parseLong(Objects.requireNonNull(context.formParam("servicio")))));
+        prestacionDeServicio.setEstablecimiento(this.repositorioEstablecimientos.obtenerEstablecimiento(
+                Long.parseLong(Objects.requireNonNull(context.formParam("establecimiento")))));
+        prestacionDeServicio.setEntidad(this.repositorioEntidades.obtenerEntidad(
+                Long.parseLong(Objects.requireNonNull(context.formParam("entidad")))));
+        return prestacionDeServicio;
     }
 
 }

@@ -44,6 +44,9 @@ public class Incidente extends EntidadPersistente {
     @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuarioCierre;
 
+    @Transient
+    private Long comunidadId;
+
     public Incidente() {
 
     }

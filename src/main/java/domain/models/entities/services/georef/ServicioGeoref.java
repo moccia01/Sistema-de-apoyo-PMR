@@ -56,19 +56,29 @@ public class ServicioGeoref implements Localizador{
         return responseListadoDeMunicipios.body();
     }
 
-    public Municipio municipio(String municipio) throws IOException{
+    public Municipio municipio(String municipio){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeMunicipios> requestMunicipios = georefService.municipios(municipio);
-        Response<ListadoDeMunicipios> responseMunicipio = requestMunicipios.execute();
+        Response<ListadoDeMunicipios> responseMunicipio = null;
+        try {
+            responseMunicipio = requestMunicipios.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         ListadoDeMunicipios municipios = responseMunicipio.body();
         assert municipios != null;
         return municipios.municipios.get(0);
     }
 
-    public Departamento departamento(String departamento) throws IOException {
+    public Departamento departamento(String departamento){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeDepartamentos> requestDepartamentos = georefService.departamentos(departamento);
-        Response<ListadoDeDepartamentos> responseDepartamento = requestDepartamentos.execute();
+        Response<ListadoDeDepartamentos> responseDepartamento = null;
+        try {
+            responseDepartamento = requestDepartamentos.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         ListadoDeDepartamentos departamentos = responseDepartamento.body();
         assert departamentos != null;
         return departamentos.departamentos.get(0);

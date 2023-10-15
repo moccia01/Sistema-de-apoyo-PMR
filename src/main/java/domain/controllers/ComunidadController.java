@@ -38,6 +38,7 @@ public class ComunidadController extends Controller{
         }
 
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
+        System.out.println("\n\n\n Miembros size = " + miembros.size() + "\n\n\n");
         Map<String, Object> model = new HashMap<>();
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);
@@ -48,6 +49,7 @@ public class ComunidadController extends Controller{
         String comunidad_id = context.pathParam("id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id));
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
+        System.out.println("\n\n\n Miembros size = " + miembros.size() + "\n\n\n");
         Map<String, Object> model = new HashMap<>();
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);

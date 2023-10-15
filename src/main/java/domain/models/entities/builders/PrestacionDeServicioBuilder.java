@@ -41,6 +41,8 @@ public class PrestacionDeServicioBuilder {
             throw new PrestacionDeServicioSinServicioException();
         }
 
-        return prestacionDeServicio;
+        PrestacionDeServicio prestacionARetornar = this.prestacionDeServicio;
+        this.prestacionDeServicio = new PrestacionDeServicio();
+        return prestacionARetornar;
     }
 }

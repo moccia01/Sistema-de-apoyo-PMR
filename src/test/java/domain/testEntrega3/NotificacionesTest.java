@@ -121,7 +121,7 @@ public class NotificacionesTest {
         usuario.setMedioConfigurado(medio);
         usuario.setTiempoConfigurado(new CuandoSucede());
 
-        comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
+        comunidad.generarIncidente(new Usuario(), "titulo", escaleraMedrano, "Se rompió la baranda");
 
         Mockito.verify(mailer, Mockito.only()).enviarMensaje(Mockito.any(), Mockito.any(), Mockito.any());
     }
@@ -133,7 +133,7 @@ public class NotificacionesTest {
         usuario.setMedioConfigurado(medio);
         usuario.setTiempoConfigurado(new CuandoSucede());
 
-        comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
+        comunidad.generarIncidente(new Usuario(), "titulo",escaleraMedrano, "Se rompió la baranda");
 
         Mockito.verify(whatsapper, Mockito.only()).enviarMensaje(Mockito.any(), Mockito.any());
     }
@@ -147,7 +147,7 @@ public class NotificacionesTest {
         usuario.setTiempoConfigurado(cuandoSucede);
         usuario.setMedioConfigurado(enviarMail);
 
-        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
+        comunidad.generarIncidente(new Usuario(), "titulo",banioCampus, "Estan arreglando el baño del primer piso");
 
         usuario.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
         Assertions.assertTrue(comunidad.getIncidentes().get(0).getEstado());
@@ -182,8 +182,8 @@ public class NotificacionesTest {
         fede.setTiempoConfigurado(sinApurosFede);
         fede.setMedioConfigurado(email);
 
-        operativosEnjoyers.generarIncidente(escaleraMedrano, "se rompio un escalon, me cai");
-        operativosEnjoyers.generarIncidente(banioCampus, "no tira la cadena del inodoro 2, está tapado");
+        operativosEnjoyers.generarIncidente(new Usuario(), "titulo",escaleraMedrano, "se rompio un escalon, me cai");
+        operativosEnjoyers.generarIncidente(new Usuario(), "titulo",banioCampus, "no tira la cadena del inodoro 2, está tapado");
 
         Incidente incidenteBanioCampus = operativosEnjoyers.getIncidentes().get(1);
         operativosEnjoyers.cerrarIncidente(incidenteBanioCampus);

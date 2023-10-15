@@ -76,8 +76,8 @@ public class Usuario extends EntidadPersistente {
         Collections.addAll(this.miembros, miembros);
     }
 
-    public void generarIncidente(PrestacionDeServicio prestacionDeServicio, String descripcion){
-        miembros.forEach(m -> m.getComunidad().generarIncidente(prestacionDeServicio, descripcion));
+    public void generarIncidente(String titulo, PrestacionDeServicio prestacionDeServicio, String descripcion){
+        miembros.forEach(m -> m.getComunidad().generarIncidente(this, titulo, prestacionDeServicio, descripcion));
     }
 
     public void cerrarIncidente(Comunidad comunidad, Incidente incidente){

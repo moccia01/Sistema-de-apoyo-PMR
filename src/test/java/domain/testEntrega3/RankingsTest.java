@@ -2,6 +2,7 @@ package domain.testEntrega3;
 
 import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.Incidente;
+import domain.models.entities.comunidad.Usuario;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.Establecimiento;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
@@ -89,10 +90,10 @@ public class RankingsTest {
         trenesArgentinos2.setEstablecimiento(estacionRetiro);
 
         comunidadNoVidentesSM = new Comunidad();
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos2, "El ascensor dejo de funcar :(");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos2, "El ascensor dejo de funcar :(");
 
         incidente1 = new Incidente("Se rompio la barrera", trenesArgentinos);
         LocalDateTime fechaAperturaIncidente1 = LocalDateTime.of(2023, 3, 7, 9, 24);
@@ -113,9 +114,9 @@ public class RankingsTest {
         incidente3.setFechaHoraCierre(fechaCierreIncidente3);
 
         comunidadHipoacusicosCABA = new Comunidad();
-        comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos, "");
-        comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos1, "");
-        comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos2, "");
+        comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos, "");
+        comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos1, "");
+        comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos2, "");
 
         incidentes.add(incidente1);
         incidentes.add(incidente2);

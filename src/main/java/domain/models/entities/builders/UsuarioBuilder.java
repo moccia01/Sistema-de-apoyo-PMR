@@ -1,6 +1,7 @@
 package domain.models.entities.builders;
 
 import domain.models.entities.comunidad.GradoDeConfianza;
+import domain.models.entities.comunidad.Interes;
 import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.entities.converters.GradoDeConfianzaConstructor;
@@ -8,7 +9,10 @@ import domain.models.entities.localizacion.Localizacion;
 import domain.models.entities.mensajes.Configuraciones.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class UsuarioBuilder {
         CredencialDeAccessoBuilder credencialBuilder = new CredencialDeAccessoBuilder();
         this.usuario.setCredencialDeAcceso(credencialBuilder
                                             .conNombreUsuario(nomUsuario)
-                                            .conContraseña(contra)
+                                            .conContrasenia(contra)
                                             .construir());
         return this;
     }
@@ -48,7 +52,7 @@ public class UsuarioBuilder {
         return this;
     }
 
-   public UsuarioBuilder conLocalizacion(String provincia, String departamento, String municipio, String direccion) throws IOException {
+   public UsuarioBuilder conLocalizacion(String provincia, String departamento, String municipio, String direccion){
         Localizacion localizacion = new Localizacion();
         localizacion.setProvincia(provincia);
         localizacion.setDireccion(departamento, direccion);
@@ -66,38 +70,41 @@ public class UsuarioBuilder {
        SinApurosBuilder sinAapurosBuilder = new SinApurosBuilder();
        CuandoSucedeBuilder cuandoSucedeBuilder = new CuandoSucedeBuilder();
 
-       List<LocalTime> tiempoConfig = Arrays.asList(LocalTime.of(12, 30, 0), LocalTime.of(18, 45, 0));
+
+       List<LocalDateTime> tiempoConfig = new ArrayList<>();
+       tiempoConfig.add(LocalDateTime.now());
 
        SinApuros sinAp = sinAapurosBuilder.conHorarios(tiempoConfig).construir();
 
-        if(nombreTiempoConfig.toUpperCase() == "SINAPUROS") {
+        if(nombreTiempoConfig.equalsIgnoreCase("SINAPUROS")) {
             this.usuario.setTiempoConfigurado(sinAp);
         }
-        else if(nombreTiempoConfig.toUpperCase() == "CUANDOSUCEDE"){
+        else if(nombreTiempoConfig.equalsIgnoreCase("CUANDOSUCEDE")){
             this.usuario.setTiempoConfigurado(new CuandoSucede());
         }
         return this;
    }
 
-   public UsuarioBuilder comMedioConfigurado(String medio){
-        if(medio == "Email"){
+   public UsuarioBuilder conMedioConfigurado(String medio){
+        if(medio.equals("Email")){
             this.usuario.setMedioConfigurado(new MensajeEmail());
         }
-        else if(medio == "WhatsApp"){
+        else if(medio.equals("WhatsApp")){
             this.usuario.setMedioConfigurado(new MensajeWhatsApp());
         }
         return this;
    }
 
-   public UsuarioBuilder conGradoDeConfianza(){
-        GradoDeConfianza grado;
-        GradoDeConfianzaConstructor converter = new GradoDeConfianzaConstructor();
-        grado = converter.crearGradoDeConfianzaConfiable1();
+   public UsuarioBuilder conGradoDeConfianza(GradoDeConfianza grado){
         this.usuario.setGradoDeConfianza(grado);
         return this;
    }
 
    public Usuario construir(){
-        return usuario;
+        this.usuario.setPuntosDeConfianza(5);
+        this.usuario.setInteres(new Interes());
+        Usuario ret = this.usuario;
+        this.usuario = new Usuario();
+        return ret;
    }
 }

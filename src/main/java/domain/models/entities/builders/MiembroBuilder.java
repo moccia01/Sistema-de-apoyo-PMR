@@ -1,9 +1,6 @@
 package domain.models.entities.builders;
 
-import domain.models.entities.comunidad.Comunidad;
-import domain.models.entities.comunidad.Miembro;
-import domain.models.entities.comunidad.Rol;
-import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.comunidad.*;
 
 public class MiembroBuilder {
     private Miembro miembro;
@@ -27,7 +24,14 @@ public class MiembroBuilder {
         return this;
     }
 
+    public MiembroBuilder conRolTemporal(RolTemporal rolTemporal) {
+        this.miembro.setRolTemporal(rolTemporal);
+        return this;
+    }
+
     public Miembro construir(){
-        return miembro;
+        Miembro ret = this.miembro;
+        this.miembro = new Miembro();
+        return ret;
     }
 }

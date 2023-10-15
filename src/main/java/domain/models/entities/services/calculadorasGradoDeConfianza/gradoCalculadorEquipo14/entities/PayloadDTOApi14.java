@@ -43,7 +43,8 @@ public class PayloadDTOApi14 {
         ComunidadApi14 comunidadApi14 = new ComunidadApi14();
         comunidadApi14.setId(comunidad.getId());
         comunidadApi14.setPuntosDeConfianza(comunidad.getPuntosDeConfianza());
-        comunidadApi14.setGradoDeConfianza(GradoDeConfianzaConstructor.cargarGradoAPartirDePuntos(comunidad.getPuntosDeConfianza()));
+//        comunidadApi14.setGradoDeConfianza(GradoDeConfianzaConstructor.cargarGradoAPartirDePuntos(comunidad.getPuntosDeConfianza()));
+        //TODO n
         comunidadApi14.setUsuarios(this.obtenerListaUsuarioApi14(comunidad));
     }
 

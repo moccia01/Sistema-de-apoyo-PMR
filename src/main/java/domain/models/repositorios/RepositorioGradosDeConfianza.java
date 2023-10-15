@@ -21,4 +21,11 @@ public class RepositorioGradosDeConfianza implements WithSimplePersistenceUnit {
         tx.commit();
         return gradoDeConfianza;
     }
+
+    public void agregar(GradoDeConfianza gradoDeConfianza){
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        entityManager().persist(gradoDeConfianza);
+        tx.commit();
+    }
 }

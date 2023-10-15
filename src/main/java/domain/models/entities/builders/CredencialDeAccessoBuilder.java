@@ -16,8 +16,8 @@ public class CredencialDeAccessoBuilder {
         return this;
    }
 
-   public CredencialDeAccessoBuilder conContraseña(String contraseña){
-        this.credencial.setContrasenia(contraseña);
+   public CredencialDeAccessoBuilder conContrasenia(String contrasenia){
+        this.credencial.setContrasenia(contrasenia);
         return this;
    }
 
@@ -27,6 +27,8 @@ public class CredencialDeAccessoBuilder {
    }
 
    public CredencialDeAcceso construir(){
-        return credencial;
+        CredencialDeAcceso ret = this.credencial;
+        this.credencial = new CredencialDeAcceso();
+        return ret;
    }
 }

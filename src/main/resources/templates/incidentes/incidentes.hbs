@@ -26,31 +26,34 @@
                     <div class="col-md-2"><strong>Opciones</strong></div>
                 </div>
             </li>
-            {{#each incidentes}}
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-1">{{this.titulo}}</div>
-                        <div class="col-md-3">{{this.descripcion}}</div>
-                        <div class="col-md-1">{{this.estadoToString}}</div>
-                        <div class="col-md-2">
-                            {{this.aperturaToString}}
-                        </div>
+            {{#each comunidades}}
+                <h2>Incidentes en {{this.nombre}}</h2>
+                {{#each this.incidentes}}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-1">{{this.titulo}}</div>
+                            <div class="col-md-3">{{this.descripcion}}</div>
+                            <div class="col-md-1">{{this.estadoToString}}</div>
+                            <div class="col-md-2">
+                                {{this.aperturaToString}}
+                            </div>
 
-                        <div class="col-md-2">
-                            {{this.cierreToString}}
-                        </div>
-                        <div class="col-md-1">
-                            {{this.prestacionDeServicio.getEntidad.getNombre}}
-                            {{this.prestacionDeServicio.getEstablecimiento.getNombre}}
-                            {{this.prestacionDeServicio.getServicio.getNombre}}
+                            <div class="col-md-2">
+                                {{this.cierreToString}}
+                            </div>
+                            <div class="col-md-1">
+                                {{this.prestacionDeServicio.getEntidad.getNombre}}
+                                {{this.prestacionDeServicio.getEstablecimiento.getNombre}}
+                                {{this.prestacionDeServicio.getServicio.getNombre}}
 
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn btn-danger mb-auto" href="/incidentes/{{this.id}}/cerrar?comunidad_id={{this.comunidadId}}">Cerrar</a>
+                                <a class="btn btn-dark mb-auto" href="/incidentes/{{this.id}}/editar">Editar</a>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <a class="btn btn-danger mb-auto" href="/incidentes/{{this.id}}/cerrar">Cerrar</a>
-                            <a class="btn btn-dark mb-auto" href="/incidentes/{{this.id}}/editar">Editar</a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                {{/each}}
             {{/each}}
         </ul>
     </div>
