@@ -20,14 +20,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Cargar Datos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="cargaEntidades.html">Entidades prestadoras</a>
-                        <a class="dropdown-item" href="cargaOrganismos.html">Organismos de control</a>
-                    </div>
+                <li class ="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Cargar Datos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="cargaEntidades.html">Entidades prestadoras</a>
+                    <a class="dropdown-item" href="cargaOrganismos.html">Organismos de control</a>
+                </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="incidentes.html">Incidentes</a>
@@ -47,85 +47,66 @@
 </nav>
 
 <div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1>Incidentes</h1>
-    <a class="btn btn-warning" href="incidente.html">Abrir Incidente</a>
-  </div>
-<!--
-    <div class="btn-group">
-       
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Filtrar
-          </button>
-        
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="#" id="filterOpen">Abiertos</a>
-            <a class="dropdown-item" href="#" id="filterClosed">Cerrados</a>
-        </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Incidentes
+            <div class="btn-group ml-2">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filtrar
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" id="filterOpen">Incidentes Abiertos</a>
+                    <a class="dropdown-item" href="#" id="filterClosed">Incidentes Cerrados</a>
+                </div>
+            </div>
+        </h1>
+        <a class="btn btn-warning" href="incidente.html">Abrir Incidente</a>
     </div>
--->  
 
     <div class="row mt-4">
         <div class="col">
-            <h2>Incidentes Abiertos</h2>
             <ul class="list-group" id="openIncidentList">
                 <!-- Aquí se mostrarán los incidentes abiertos -->
-               <table class="table table-dark table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">Hora</th>
-                      <th scope="col">Nombre Incidente</th>
-                      <th scope="col">Entidad</th>
-                      <th scope="col">Establecimiento</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>13:30</td> 
-                      <td>Rotura Escalera</td>
-                      <td>Universidad Tecnologica Nacional</td>
-                      <td>Medrano</td>
-                    </tr>
-                    <tr>
-                      <td>09:32</td> 
-                      <td>Rotura Ascensor</td>
-                      <td>Universidad Tecnologica Nacional</td>
-                      <td>Medrano</td>
-                    </tr>
-                  </tbody>
-                </table>
-            </ul>
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col">
-            <h2>Incidentes Cerrados</h2>
-            <ul class="list-group" id="closedIncidentList">
-                <!-- Aquí se mostrarán los incidentes cerrados -->
                 <table class="table table-dark table-striped">
-                  <thead>
+                    <thead>
                     <tr>
-                      <th scope="col">Hora</th>
-                      <th scope="col">Nombre Incidente</th>
-                      <th scope="col">Entidad</th>
-                      <th scope="col">Establecimiento</th>
+                        <th class="col-md-1"><strong>Título</strong></th>
+                        <th class="col-md-2"><strong>Descripción</strong></th>
+                        <th class="col-md-2"><strong>Entidad</strong></th>
+                        <th class="col-md-1"><strong>Establecimiento</strong></th>
+                        <th class="col-md-1"><strong>Servicio</strong></th>
+                        <th class="col-md-1"><strong>Apertura</strong></th>
+                        <th class="col-md-1"><strong>Cierre</strong></th>
+                        <th class="col-md-2"><strong>Opciones</strong></th>
                     </tr>
-                  </thead>
-                  <tbody>
+                    </thead>
+                    <tbody>
                     <tr>
-                      <td>13:30</td> 
-                      <td>Rotura Escalera</td>
-                      <td>Universidad Tecnologica Nacional</td>
-                      <td>Medrano</td>
+                        <td>Rotura Escalera</td>
+                        <td>Descripción del incidente</td>
+                        <td>Nombre de la entidad</td>
+                        <td>Medrano</td>
+                        <td>Escalera</td>
+                        <td>Fecha y hora de apertura</td>
+                        <td>Fecha y hora de cierre</td>
+                        <td>
+                            <button class="btn btn-danger">Cerrar</button>
+                            <button class="btn btn-dark">Editar</button>
+                        </td>
                     </tr>
                     <tr>
-                      <td>09:32</td> 
-                      <td>Rotura Ascensor</td>
-                      <td>Universidad Tecnologica Nacional</td>
-                      <td>Medrano</td>
+                        <td>Rotura Ascensor</td>
+                        <td>Descripción del incidente</td>
+                        <td>Nombre de la entidad</td>
+                        <td>Medrano</td>
+                        <td>Escalera</td>
+                        <td>Fecha y hora de apertura</td>
+                        <td>Fecha y hora de cierre</td>
+                        <td>
+                            <button class="btn btn-danger">Cerrar</button>
+                            <button class="btn btn-dark">Editar</button>
+                        </td>
                     </tr>
-                  </tbody>
+                    </tbody>
                 </table>
             </ul>
         </div>
