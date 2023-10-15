@@ -15,19 +15,19 @@
         </div>
 
         <ul class="list-group mt-3" id="incidentList">
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-md-1"><strong>Título</strong></div>
-                    <div class="col-md-3"><strong>Descripción</strong></div>
-                    <div class="col-md-1"><strong>Estado</strong></div>
-                    <div class="col-md-2"><strong>Apertura</strong></div>
-                    <div class="col-md-2"><strong>Cierre</strong></div>
-                    <div class="col-md-1"><strong>Prestación</strong></div>
-                    <div class="col-md-2"><strong>Opciones</strong></div>
-                </div>
-            </li>
             {{#each comunidades}}
                 <h2>Incidentes en {{this.nombre}}</h2>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-1"><strong>Título</strong></div>
+                        <div class="col-md-3"><strong>Descripción</strong></div>
+                        <div class="col-md-1"><strong>Estado</strong></div>
+                        <div class="col-md-2"><strong>Apertura</strong></div>
+                        <div class="col-md-2"><strong>Cierre</strong></div>
+                        <div class="col-md-1"><strong>Prestación</strong></div>
+                        <div class="col-md-2"><strong>Opciones</strong></div>
+                    </div>
+                </li>
                 {{#each this.incidentes}}
                     <li class="list-group-item">
                         <div class="row">

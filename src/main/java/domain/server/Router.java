@@ -16,10 +16,13 @@ public class Router {
             get("index", (context -> context.render("/index.hbs")));
 
             get("/entidades_prestadoras", ((EntidadPrestadoraController) FactoryController.controller("entidad_prestadora"))::show);
+            //TODO Aca van todas las rutas de entidades_prestadoras
 
             get("/organismos_de_control", ((OrganismoDeControlController) FactoryController.controller("organismo_de_control"))::show);
+            //TODO Aca van todas las rutas de organismos_de_control
 
             get("/rankings", ((RankingController) FactoryController.controller("ranking"))::show);
+            //TODO Aca van todas las rutas de rankings
 
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
@@ -33,6 +36,11 @@ public class Router {
             get("comunidades",((ComunidadController) FactoryController.controller("comunidades"))::index);
             get("comunidades/{id}/admin",((ComunidadController) FactoryController.controller("comunidades"))::admin);
             get("comunidades/{id}/ver",((ComunidadController) FactoryController.controller("comunidades"))::ver);
+
+            //TODO cambiar recurso de path por miembros ?
+            get("comunidades/{miembro_id}/baja", ((ComunidadController) FactoryController.controller("comunidades"))::baja);
+            get("comunidades/{miembro_id}/editar", ((ComunidadController) FactoryController.controller("comunidades"))::editar);
+            post("comunidades/{miembro_id}", ((ComunidadController) FactoryController.controller("comunidades"))::update);
 
         });
     }

@@ -82,6 +82,7 @@ public class Usuario extends EntidadPersistente {
 
     public void cerrarIncidente(Comunidad comunidad, Incidente incidente){
         comunidad.cerrarIncidente(incidente);
+        incidente.setUsuarioCierre(this);
     }
 
     public boolean estaInteresadoEn(Incidente incidente){

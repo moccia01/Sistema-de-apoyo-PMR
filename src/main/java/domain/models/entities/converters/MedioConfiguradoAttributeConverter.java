@@ -5,7 +5,9 @@ import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
+@Converter(autoApply = true)
 public class MedioConfiguradoAttributeConverter implements AttributeConverter<MedioConfigurado, String> {
 
     @Override

@@ -66,22 +66,8 @@ public class UsuarioBuilder {
         return this;
    }
 
-   public UsuarioBuilder conTiempoConfigurado(String nombreTiempoConfig){
-       SinApurosBuilder sinAapurosBuilder = new SinApurosBuilder();
-       CuandoSucedeBuilder cuandoSucedeBuilder = new CuandoSucedeBuilder();
-
-
-       List<LocalDateTime> tiempoConfig = new ArrayList<>();
-       tiempoConfig.add(LocalDateTime.now());
-
-       SinApuros sinAp = sinAapurosBuilder.conHorarios(tiempoConfig).construir();
-
-        if(nombreTiempoConfig.equalsIgnoreCase("SINAPUROS")) {
-            this.usuario.setTiempoConfigurado(sinAp);
-        }
-        else if(nombreTiempoConfig.equalsIgnoreCase("CUANDOSUCEDE")){
-            this.usuario.setTiempoConfigurado(new CuandoSucede());
-        }
+   public UsuarioBuilder conTiempoConfigurado(TiempoConfigurado tiempoConfigurado){
+        this.usuario.setTiempoConfigurado(tiempoConfigurado);
         return this;
    }
 

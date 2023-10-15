@@ -36,9 +36,8 @@ public class ComunidadController extends Controller{
         if(!miembro.esAdministrador()) {
             throw new AccessDeniedException();
         }
-
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
-        System.out.println("\n\n\n Miembros size = " + miembros.size() + "\n\n\n");
+        //miembros.remove(miembro); ?
         Map<String, Object> model = new HashMap<>();
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);
@@ -48,12 +47,26 @@ public class ComunidadController extends Controller{
     public void ver(Context context) {
         String comunidad_id = context.pathParam("id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id));
+        Usuario usuario = super.usuarioLogueado(context);
+        Miembro miembro = this.repositorioMiembros.obtenerMiembroDe(usuario.getId(), comunidad.getId());
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
-        System.out.println("\n\n\n Miembros size = " + miembros.size() + "\n\n\n");
+        //miembros.remove(miembro); ?
         Map<String, Object> model = new HashMap<>();
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);
         context.render("comunidades/ver.hbs", model);
+    }
+
+    public void baja(Context context) {
+
+    }
+
+    public void editar(Context context) {
+
+    }
+
+    public void update(Context context) {
+
     }
 
     private void asignarParametros(Comunidad comunidad, Context contexto){

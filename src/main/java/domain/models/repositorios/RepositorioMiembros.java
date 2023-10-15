@@ -37,7 +37,7 @@ public class RepositorioMiembros implements WithSimplePersistenceUnit {
 
     public Miembro obtenerMiembroDe(Long usuario_id, Long comunidad_id){
         String jpql = "SELECT m FROM Miembro m " +
-                "WHERE m.usuario = :usuario_id AND m.comunidad = :comunidad_id";
+                "WHERE m.usuario.id = :usuario_id AND m.comunidad.id = :comunidad_id";
         EntityTransaction tx = entityManager().getTransaction();
         tx.begin();
         TypedQuery<Miembro> query = entityManager().createQuery(jpql, Miembro.class);

@@ -65,12 +65,10 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     @Override
     public void save(Context context) {
-        Incidente incidente = new Incidente();
         super.usuarioLogueado(context).generarIncidente(
                 context.formParam("titulo"),
                 this.obtenerPrestacion(context),
                 context.formParam("descripcion"));
-        this.repositorioIncidentes.agregar(incidente);
         context.redirect("/incidentes");
     }
 
@@ -110,7 +108,6 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
         Usuario usuario = super.usuarioLogueado(context);
         usuario.cerrarIncidente(comunidad, incidente);
-        incidente.setUsuarioCierre(usuario);
         context.redirect("/incidentes");
     }
 

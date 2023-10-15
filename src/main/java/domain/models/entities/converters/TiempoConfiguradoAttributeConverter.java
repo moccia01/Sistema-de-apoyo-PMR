@@ -5,7 +5,9 @@ import domain.models.entities.mensajes.Configuraciones.SinApuros;
 import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
+@Converter(autoApply = true)
 public class TiempoConfiguradoAttributeConverter implements AttributeConverter<TiempoConfigurado, String> {
     @Override
     public String convertToDatabaseColumn(TiempoConfigurado tiempoConfigurado) {

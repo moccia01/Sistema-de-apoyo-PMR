@@ -17,8 +17,8 @@
                         <div>{{this.usuario.getNombre}} {{this.usuario.getApellido}}</div>
                       </div>
                     <div class="d-grid gap-2 d-md-block">
-                        <button class="btn btn-danger btn-sm" type="button">Baja</button>
-                        <button class="btn btn-dark btn-sm" type="button">Modif</button>
+                        <a class="btn btn-danger mb-auto" href="/comunidades/{{this.id}}/baja">Baja</a>
+                        <a class="btn btn-dark mb-auto" href="/comunidades/{{this.id}}/editar">Editar</a>
                     </div>
                 </li>
             {{/each}}

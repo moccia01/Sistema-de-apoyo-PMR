@@ -3,7 +3,9 @@ package domain.models.entities.converters;
 import domain.models.entities.comunidad.RolTemporal;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
+@Converter(autoApply = true)
 public class RolTemporalAttributeConverter implements AttributeConverter<RolTemporal, String> {
     @Override
     public String convertToDatabaseColumn(RolTemporal rolTemporal) {

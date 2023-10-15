@@ -7,6 +7,9 @@ import domain.models.entities.converters.GradoDeConfianzaConstructor;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.Establecimiento;
 import domain.models.entities.entidadesDeServicio.Servicio;
+import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
+import domain.models.entities.mensajes.Configuraciones.SinApuros;
+import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.repositorios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Getter;
@@ -68,39 +71,41 @@ public class Initializer implements WithSimplePersistenceUnit {
         //TODO: PASAR ESTO A UN TEST
         //Esto es para los usuarios
         //Esta linea de abajo es para que no rompa por contexto estatico
+        TiempoConfigurado cuandoSucede = new CuandoSucede();
+
         UsuarioBuilder usuarioBuilder = new UsuarioBuilder();
 
         Usuario lucasBoldrini = usuarioBuilder.conNombre("Lucas").conApellido("Boldrini")
                 .conCredencial("lBoldrini", "pepito123")
                 .conMail("lboldrini@frba.utn.edu.ar").conTelefono("1567673002")
-                .conTiempoConfigurado("SINAPUROS")  //"SINAPUROS" o "CUANDOSUCEDE"
+                .conTiempoConfigurado(new SinApuros())  //"SINAPUROS" o "CUANDOSUCEDE"
                 .conMedioConfigurado("Email")   // "Email" o "WhatsApp"
                 .conGradoDeConfianza(confianzaConfiableNivel1).construir();
 
         Usuario tomasDAntonio = usuarioBuilder.conNombre("Tomas").conApellido("DAntonio").conMail("tdantonio@frba.utn.edu.ar")
                 .conCredencial("tdantonio", "aguanteboca12").conTelefono("1234567890")
-                .conTiempoConfigurado("SINAPUROS").conMedioConfigurado("WhatsApp")
+                .conTiempoConfigurado(new SinApuros()).conMedioConfigurado("WhatsApp")
                 .conGradoDeConfianza(confianzaConfiableNivel1).construir();
 
 
         Usuario federicoMoccia  = usuarioBuilder.conNombre("Federico").conApellido("Moccia")
                 .conCredencial("fMoccia", "aguanteMetallicaNoMeImportaNada666")
                 .conMail("fmoccia@frba.utn.edu.ar").conTelefono("3452654439")
-                .conTiempoConfigurado("CUANDOSUCEDE")  //"SINAPUROS" o "CUANDOSUCEDE"
+                .conTiempoConfigurado(cuandoSucede)  //"SINAPUROS" o "CUANDOSUCEDE"
                 .conMedioConfigurado("Email")   // "Email" o "WhatsApp"
                 .conGradoDeConfianza(confianzaConfiableNivel1).construir();
 
         Usuario nahuGimenez  = usuarioBuilder.conNombre("Nahuel").conApellido("Gimenez")
                 .conCredencial("nGimenez", "hola123")
                 .conMail("ngimenez@frba.utn.edu.ar").conTelefono("1528658491")
-                .conTiempoConfigurado("SINAPUROS")  //"SINAPUROS" o "CUANDOSUCEDE"
+                .conTiempoConfigurado(new SinApuros())  //"SINAPUROS" o "CUANDOSUCEDE"
                 .conMedioConfigurado("Email")   // "Email" o "WhatsApp"
                 .conGradoDeConfianza(confianzaConfiableNivel1).construir();
 
         Usuario facundoSu = usuarioBuilder.conNombre("Facundo").conApellido("Su")
                 .conCredencial("facu123", "facu123")
                 .conMail("fsu@frba.utn.edu.ar").conTelefono("1234567890")
-                .conTiempoConfigurado("CUANDOSUCEDE").conMedioConfigurado("WhatsApp")
+                .conTiempoConfigurado(cuandoSucede).conMedioConfigurado("WhatsApp")
                 .conGradoDeConfianza(confianzaConfiableNivel1).construir();
 
         ComunidadBuilder comunidadBuilder = new ComunidadBuilder();

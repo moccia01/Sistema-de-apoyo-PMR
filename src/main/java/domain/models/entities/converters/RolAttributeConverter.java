@@ -3,7 +3,9 @@ package domain.models.entities.converters;
 import domain.models.entities.comunidad.Rol;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
+@Converter(autoApply = true)
 public class RolAttributeConverter implements AttributeConverter<Rol, String> {
     @Override
     public String convertToDatabaseColumn(Rol rol) {
@@ -15,14 +17,11 @@ public class RolAttributeConverter implements AttributeConverter<Rol, String> {
 
     @Override
     public Rol convertToEntityAttribute(String s) {
-        Rol rol = null;
 
-        switch(s){
-            case "ADMINISTRADOR":
-                rol = rol.ADMINISTRADOR;
-            case "MIEMBRO":
-                rol = rol.MIEMBRO;
+        return switch (s) {
+            case "ADMINISTRADOR" -> Rol.ADMINISTRADOR;
+            case "MIEMBRO" -> Rol.MIEMBRO;
+            default -> null;
         };
-        return rol;
     }
 }

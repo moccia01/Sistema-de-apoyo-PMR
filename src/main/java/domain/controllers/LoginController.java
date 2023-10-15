@@ -70,7 +70,7 @@ public class LoginController {
     public void create(Context context){
         Map<String, Object> model = new HashMap<>();
         List<TiempoConfigurado> tiemposConfigurados= new ArrayList<>();
-        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerTiempoConfigurado("CuandoSucede"));
+        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
         model.put("tiempos_config", tiemposConfigurados);
         context.render("login/registro.hbs", model);
     }
@@ -103,7 +103,7 @@ public class LoginController {
 
         TiempoConfigurado tiempoConfigurado = null;
         if(Objects.equals(tiempoElegido, "CuandoSucede")){
-            tiempoConfigurado = repositorioTiemposConfiguracion.obtenerTiempoConfigurado(tiempoElegido);
+            tiempoConfigurado = repositorioTiemposConfiguracion.obtenerConfigCuandoSucede();
         } else {
             assert tiempoElegido != null;
             tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
