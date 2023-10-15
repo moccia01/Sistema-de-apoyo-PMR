@@ -19,21 +19,27 @@ public class GradoDeConfianza extends EntidadPersistente {
     @Convert(converter = NombreGradoConfianzaAttributeConverter.class)
     public NombreGradoConfianza nombreGradoConfianza;
 
-    @Column
+    @Transient
+    //@Column
     public double puntosMinimos;
 
-    @Column
+    @Transient
+    //@Column
     public double puntosMaximos;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "grado_siguiente_id")
+    @Transient
+    //@OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "grado_siguiente_id")
     public GradoDeConfianza gradoSiguiente;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "grado_anterior_id")
-    public GradoDeConfianza gradoAnterior;      //verificar insertable y updatable ya que el test lo recomendó
+    @Transient
+    //@OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "grado_anterior_id")
+    public GradoDeConfianza gradoAnterior;  //verificar insertable y updatable ya que el test lo recomendó
 
     public GradoDeConfianza() {
 
     }
+
+
 }

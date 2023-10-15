@@ -13,6 +13,10 @@ public class GradoDeConfianzaBuilder {
 
     public GradoDeConfianzaBuilder(){
         gradoDeConfianza = new GradoDeConfianza();
+        confianzaConfiableNivel2 = new GradoDeConfianza();
+        confianzaConfiableNivel1 = new GradoDeConfianza();
+        confianzaConReservas = new GradoDeConfianza();
+        confianzaNoConfiable = new GradoDeConfianza();
         this.inicializarGrados();
     }
 
@@ -67,6 +71,7 @@ public class GradoDeConfianzaBuilder {
                 return confianzaConfiableNivel2;
             }
         }
+
         return null;
     }
 }

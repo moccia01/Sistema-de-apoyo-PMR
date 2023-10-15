@@ -99,15 +99,17 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
     private void actualizarComunidad(Comunidad comunidad, ComunidadDevuelta comunidadDevuelta) {
         comunidad.setPuntosDeConfianza(comunidadDevuelta.getNuevoPuntaje());
         GradoDeConfianza gradoDeConfianza;
-        // TODO ARREGLAR ESTO PARA Q COMPILE
-        //gradoDeConfianza = GradoDeConfianzaConstructor.crearGradoAPartirDeEnum(comunidadDevuelta.getGradoDeConfianzaActual());
-        //comunidad.setGradoDeConfianza(gradoDeConfianza);
+        GradoDeConfianzaConstructor constructor = new GradoDeConfianzaConstructor();
+        gradoDeConfianza = constructor.crearGradoAPartirDeEnum(comunidadDevuelta.getGradoDeConfianzaActual());
+        comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
 
     private void actualizarUsuario(Usuario usuario, UsuarioDevuelto usuarioDevuelto) {
         usuario.setPuntosDeConfianza(usuarioDevuelto.getNuevoPuntaje());
         GradoDeConfianza gradoDeConfianza;
-        // TODO ARREGLAR ESTO PARA Q COMPILE
-        //usuario.setGradoDeConfianza(gradoDeConfianza);
+
+        GradoDeConfianzaConstructor constructor = new GradoDeConfianzaConstructor();
+        gradoDeConfianza = constructor.crearGradoAPartirDeEnum(usuarioDevuelto.getGradoDeConfianzaActual());
+        usuario.setGradoDeConfianza(gradoDeConfianza);
     }
 }

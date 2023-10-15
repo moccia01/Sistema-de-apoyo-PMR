@@ -26,7 +26,7 @@ public class Initializer implements WithSimplePersistenceUnit {
     public void init(){
         EntityTransaction tx = entityManager().getTransaction();
         RepositorioGradosDeConfianza repositorioGradosDeConfianza = new RepositorioGradosDeConfianza();
-/*
+
         GradoDeConfianzaConstructor gradoDeConfianzaConstructor = new GradoDeConfianzaConstructor();
 
         //Esto es para los niveeles de confianza
@@ -34,8 +34,8 @@ public class Initializer implements WithSimplePersistenceUnit {
         GradoDeConfianza confianzaConReservas = gradoDeConfianzaConstructor.crearGradoDeConfianzaConReservas();
         GradoDeConfianza confianzaConfiableNivel1 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable1();
         GradoDeConfianza confianzaConfiableNivel2 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable2();
-*/
 
+/*
         GradoDeConfianza confianzaConfiableNivel2 = new GradoDeConfianza();
         GradoDeConfianza confianzaConfiableNivel1 = new GradoDeConfianza();
         GradoDeConfianza confianzaConReservas = new GradoDeConfianza();
@@ -66,7 +66,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorioGradosDeConfianza.agregar(confianzaConReservas);
         repositorioGradosDeConfianza.agregar(confianzaNoConfiable);
 
-
+*/
 
         //TODO: PASAR ESTO A UN TEST
         //Esto es para los usuarios
