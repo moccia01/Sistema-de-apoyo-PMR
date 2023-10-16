@@ -1,6 +1,7 @@
 package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities;
 
 import domain.models.entities.comunidad.Comunidad;
+import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.entities.converters.GradoDeConfianzaConstructor;
@@ -43,8 +44,9 @@ public class PayloadDTOApi14 {
         ComunidadApi14 comunidadApi14 = new ComunidadApi14();
         comunidadApi14.setId(comunidad.getId());
         comunidadApi14.setPuntosDeConfianza(comunidad.getPuntosDeConfianza());
-//        comunidadApi14.setGradoDeConfianza(GradoDeConfianzaConstructor.cargarGradoAPartirDePuntos(comunidad.getPuntosDeConfianza()));
-        //TODO n
+        GradoDeConfianzaConstructor gradoDeConfianzaConstructor = new GradoDeConfianzaConstructor();
+        comunidadApi14.setGradoDeConfianza(gradoDeConfianzaConstructor.cargarGradoAPartirDePuntos(comunidad.getPuntosDeConfianza()));
+
         comunidadApi14.setUsuarios(this.obtenerListaUsuarioApi14(comunidad));
     }
 
