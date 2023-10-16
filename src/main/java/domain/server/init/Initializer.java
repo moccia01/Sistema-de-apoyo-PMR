@@ -28,48 +28,27 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
     public void init(){
-        EntityTransaction tx = entityManager().getTransaction();
         RepositorioGradosDeConfianza repositorioGradosDeConfianza = new RepositorioGradosDeConfianza();
 
         GradoDeConfianzaConstructor gradoDeConfianzaConstructor = new GradoDeConfianzaConstructor();
+        GradoDeConfianza gradoconfiableNivel2 = repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
 
-        //Esto es para los niveeles de confianza
-        GradoDeConfianza confianzaNoConfiable = gradoDeConfianzaConstructor.crearGradoDeConfianzaNoConfiable();
-        GradoDeConfianza confianzaConReservas = gradoDeConfianzaConstructor.crearGradoDeConfianzaConReservas();
-        GradoDeConfianza confianzaConfiableNivel1 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable1();
-        GradoDeConfianza confianzaConfiableNivel2 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable2();
+        if(gradoconfiableNivel2 == null) {
+            this.confianzaNoConfiable = gradoDeConfianzaConstructor.crearGradoDeConfianzaNoConfiable();
+            this.confianzaConReservas = gradoDeConfianzaConstructor.crearGradoDeConfianzaConReservas();
+            this.confianzaConfiableNivel1 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable1();
+            this.confianzaConfiableNivel2 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable2();
 
-
-        this.confianzaConfiableNivel2 = new GradoDeConfianza();
-        this.confianzaConfiableNivel1 = new GradoDeConfianza();
-        this.confianzaConReservas = new GradoDeConfianza();
-        this.confianzaNoConfiable = new GradoDeConfianza();
-
-        this.confianzaConfiableNivel2.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
-        this.confianzaConfiableNivel2.setPuntosMinimos(5.0);
-        this.confianzaConfiableNivel2.setGradoAnterior(this.confianzaConfiableNivel1);
-
-        this.confianzaConfiableNivel1.setNombreGradoConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_1);
-        this.confianzaConfiableNivel1.setPuntosMinimos(3.5);
-        this.confianzaConfiableNivel1.setPuntosMaximos(5.0);
-        this.confianzaConfiableNivel1.setGradoSiguiente(this.confianzaConfiableNivel2);
-        this.confianzaConfiableNivel1.setGradoAnterior(this.confianzaConReservas);
-
-        this.confianzaConReservas.setNombreGradoConfianza(NombreGradoConfianza.CON_RESERVAS);
-        this.confianzaConReservas.setPuntosMinimos(2.0);
-        this.confianzaConReservas.setPuntosMaximos(3.0);
-        this.confianzaConReservas.setGradoAnterior(this.confianzaNoConfiable);
-        this.confianzaConReservas.setGradoSiguiente(this.confianzaConfiableNivel1);
-
-        this.confianzaNoConfiable.setNombreGradoConfianza(NombreGradoConfianza.NO_CONFIABLE);
-        this.confianzaNoConfiable.setPuntosMaximos(2.0);
-        this.confianzaNoConfiable.setGradoSiguiente(this.confianzaConReservas);
-
-        repositorioGradosDeConfianza.agregar(this.confianzaConfiableNivel2);
-        repositorioGradosDeConfianza.agregar(this.confianzaConfiableNivel1);
-        repositorioGradosDeConfianza.agregar(this.confianzaConReservas);
-        repositorioGradosDeConfianza.agregar(this.confianzaNoConfiable);
-
+            repositorioGradosDeConfianza.agregar(this.confianzaConfiableNivel2);
+            repositorioGradosDeConfianza.agregar(this.confianzaConfiableNivel1);
+            repositorioGradosDeConfianza.agregar(this.confianzaConReservas);
+            repositorioGradosDeConfianza.agregar(this.confianzaNoConfiable);
+        } else {
+            this.confianzaNoConfiable = repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.NO_CONFIABLE);
+            this.confianzaConReservas = repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.CON_RESERVAS);
+            this.confianzaConfiableNivel1 = repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_1);
+            this.confianzaConfiableNivel2 = repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
+        }
 
         //TODO faltan las cosas de georef
     }
