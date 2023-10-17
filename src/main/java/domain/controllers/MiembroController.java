@@ -7,8 +7,14 @@ import domain.models.entities.converters.RolTemporalAttributeConverter;
 import domain.models.entities.converters.TiempoConfiguradoAttributeConverter;
 import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.entities.validaciones.CredencialDeAcceso;
+import domain.models.entities.validaciones.EsDebil;
+import domain.models.entities.validaciones.UsaCredencialesPorDefecto;
+import domain.models.entities.validaciones.Validador;
+import domain.models.entities.validaciones.politicasNIST.*;
 import domain.models.repositorios.*;
 import domain.server.Server;
+import domain.server.exceptions.DuplicateUserException;
+import domain.server.exceptions.InvalidPasswordException;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
@@ -19,15 +25,17 @@ public class MiembroController extends Controller{
     private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioUsuarios repositorioUsuarios;
+    private RepositorioCredenciales repositorioCredenciales;
 
     public MiembroController(RepositorioMiembros repositorioMiembros,
                              RepositorioTiemposConfiguracion repositorioTiemposConfiguracion,
                              RepositorioComunidades repositorioComunidades,
-                             RepositorioUsuarios repositorioUsuarios) {
+                             RepositorioUsuarios repositorioUsuarios, RepositorioCredenciales repositorioCredenciales) {
         this.repositorioMiembros = repositorioMiembros;
         this.repositorioTiemposConfiguracion = repositorioTiemposConfiguracion;
         this.repositorioComunidades = repositorioComunidades;
         this.repositorioUsuarios = repositorioUsuarios;
+        this.repositorioCredenciales = repositorioCredenciales;
     }
 
     public void baja(Context context) {
@@ -72,12 +80,6 @@ public class MiembroController extends Controller{
     public void save(Context context) {
         Miembro miembro = new Miembro();
         Usuario usuario = new Usuario();
-
-        //Valores default
-        usuario.setGradoDeConfianza(new RepositorioGradosDeConfianza().obtenerGradoDeConfianza(
-                NombreGradoConfianza.CONFIABLE_NIVEL_1));
-        usuario.setInteres(new Interes());
-        usuario.setPuntosDeConfianza(5);
         miembro.setUsuario(usuario);
 
         this.asignarParametros(miembro, context);
@@ -86,6 +88,7 @@ public class MiembroController extends Controller{
         miembro.setComunidad(comunidad);
 
         comunidad.agregarMiembros(miembro);
+
         this.repositorioUsuarios.agregar(usuario);
         this.repositorioMiembros.agregar(miembro);
         this.repositorioComunidades.modificar(comunidad);
@@ -109,6 +112,17 @@ public class MiembroController extends Controller{
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         usuario.setCredencialDeAcceso(credencialDeAcceso);
 
+        if(repositorioCredenciales.obtenerCredencialDe(credencialDeAcceso.getNombreUsuario()) != null) {
+            throw new DuplicateUserException();
+        }
+
+        credencialDeAcceso.setContrasenia(contexto.formParam("contrasenia"));
+        Validador validador = new Validador();
+        validador.setValidaciones(new EsDebil(),new UsaCredencialesPorDefecto(),new Longitud(),new Rotacion(),new TieneCaracterEspecial(),new TieneMayuscula(),new TieneNumero());
+        if(!validador.validar(credencialDeAcceso)) {
+            throw new InvalidPasswordException();
+        }
+        
         usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
                 Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
         String tiempoElegido = contexto.formParam("tiempo_configuracion");
@@ -127,6 +141,11 @@ public class MiembroController extends Controller{
             tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
         }
         usuario.setTiempoConfigurado(tiempoConfigurado);
+        //Valores default
+        usuario.setGradoDeConfianza(new RepositorioGradosDeConfianza().obtenerGradoDeConfianza(
+                NombreGradoConfianza.CONFIABLE_NIVEL_1));
+        usuario.setInteres(new Interes());
+        usuario.setPuntosDeConfianza(5);
 
     }
 }
