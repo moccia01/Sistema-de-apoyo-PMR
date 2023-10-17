@@ -5,16 +5,17 @@
         <div class="d-flex align-items-center mt-auto">
             <h4 class="me-3">Seleccionar criterio de ranking: </h4>
             <div class="dropdown">
-                <button class="btn btn-warning dropdown-toggle" type="button" id="criterioDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Criterio de Ranking
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="criterioDropdown">
-                    <li><a class="dropdown-item" href="#" id="mayorPromedioBtn">Mayor promedio de tiempo</a></li>
-                    <li><a class="dropdown-item" href="#" id="mayorCantidadBtn">Mayor cantidad incidentes</a></li>
-                    <li><a class="dropdown-item" href="#" id="mayorGradoBtn">Mayor grado de impacto</a></li>
-                </ul>
+                <select class="form-select" name="criterio_ranking">
+                    <option value="-1">Elegir criterio de ranking</option>
+                    <option value="MayorPromedioDeTiempo">Mayor promedio de tiempo</option>
+                    <option value="MayorCantidadDeIncidentes">Mayor cantidad de incidentes</option>
+                    <option value="MayorGradoDeImpacto">Mayor grado de impacto</option>
+                </select>
             </div>
+            //TODO el boton de aplicar deberia devolver el criterio seleccionado y para despues mostrar el ranking que corresponde
+            <a class="btn btn-warning mb-auto" style="margin-left: 10px;">Aplicar</a>
         </div>
+
     </div>
 {{/partial}}
 {{> templates/plantilla_base }}

@@ -1,4 +1,7 @@
 {{#partial "contenido" }}
+
+    //TODO ver como hacer para que el boton de filtrar funcione
+
     <div class="container mt-4">
         <h1>Incidentes</h1>
 
@@ -15,47 +18,43 @@
         </div>
 
         <ul class="list-group mt-3" id="incidentList">
-            {{#each comunidades}}
-                <h2>Incidentes en {{this.nombre}}</h2>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-1"><strong>Título</strong></div>
-                        <div class="col-md-3"><strong>Descripción</strong></div>
-                        <div class="col-md-1"><strong>Estado</strong></div>
-                        <div class="col-md-2"><strong>Apertura</strong></div>
-                        <div class="col-md-2"><strong>Cierre</strong></div>
-                        <div class="col-md-1"><strong>Prestación</strong></div>
-                        <div class="col-md-2"><strong>Opciones</strong></div>
-                    </div>
-                </li>
+        {{#each comunidades}}
+            <h2>Incidentes en {{this.nombre}}</h2>
+            <table class="table table-dark table-striped">
+                <thead>
+                <tr>
+                    <th class="col-md-1"><strong>Título</strong></th>
+                    <th class="col-md-2"><strong>Descripción</strong></th>
+                    <th class="col-md-2"><strong>Entidad</strong></th>
+                    <th class="col-md-1"><strong>Establecimiento</strong></th>
+                    <th class="col-md-1"><strong>Servicio</strong></th>
+                    <th class="col-md-1"><strong>Apertura</strong></th>
+                    <th class="col-md-1"><strong>Cierre</strong></th>
+                    <th class="col-md-2"><strong>Opciones</strong></th>
+                </tr>
+                </thead>
+                <tbody>
                 {{#each this.incidentes}}
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-1">{{this.titulo}}</div>
-                            <div class="col-md-3">{{this.descripcion}}</div>
-                            <div class="col-md-1">{{this.estadoToString}}</div>
-                            <div class="col-md-2">
-                                {{this.aperturaToString}}
-                            </div>
-
-                            <div class="col-md-2">
-                                {{this.cierreToString}}
-                            </div>
-                            <div class="col-md-1">
-                                {{this.prestacionDeServicio.getEntidad.getNombre}}
-                                {{this.prestacionDeServicio.getEstablecimiento.getNombre}}
-                                {{this.prestacionDeServicio.getServicio.getNombre}}
-
-                            </div>
-                            <div class="col-md-2">
-                                <a class="btn btn-danger mb-auto" href="/incidentes/{{this.id}}/cerrar?comunidad_id={{this.comunidadId}}">Cerrar</a>
-                                <a class="btn btn-dark mb-auto" href="/incidentes/{{this.id}}/editar">Editar</a>
-                            </div>
-                        </div>
-                    </li>
+                <tr>
+                    <td>{{this.titulo}}</td>
+                    <td>{{this.descripcion}}</td>
+                    <td>{{this.estadoToString}}</td>
+                    <td>{{this.aperturaToString}}</td>
+                    <td>{{this.cierreToString}}</td>
+                    <td>{{this.prestacionDeServicio.getEntidad.getNombre}}</td>
+                    <td>{{this.prestacionDeServicio.getEstablecimiento.getNombre}}</td>
+                    <td>{{this.prestacionDeServicio.getServicio.getNombre}}</td>
+                    <td>
+                        <a class="btn btn-danger mb-auto" href="/incidentes/{{this.id}}/cerrar?comunidad_id={{this.comunidadId}}">Cerrar</a>
+                        <a class="btn btn-dark mb-auto" href="/incidentes/{{this.id}}/editar">Editar</a>
+                    </td>
+                </tr>
                 {{/each}}
-            {{/each}}
+                </tbody>
+            </table>
+        {{/each}}
         </ul>
+
     </div>
 {{/partial}}
 {{> templates/plantilla_base }}

@@ -13,7 +13,7 @@ public class FactoryController {
             case "miembros" -> new MiembroController(new RepositorioMiembros(), new RepositorioTiemposConfiguracion(), new RepositorioComunidades(), new RepositorioUsuarios());
             case "entidad_prestadora" -> new EntidadPrestadoraController();
             case "organismo_de_control" -> new OrganismoDeControlController();
-            case "ranking" -> new RankingController();
+            case "ranking" -> new RankingController(new RepositorioIncidentes(), new RepositorioServicios(), new RepositorioEstablecimientos(), new RepositorioEntidades(), new RepositorioComunidades());
             default -> null;
         };
     }
