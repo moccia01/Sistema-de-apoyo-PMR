@@ -10,10 +10,16 @@ import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
 import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.entities.validaciones.CredencialDeAcceso;
+import domain.models.entities.validaciones.EsDebil;
+import domain.models.entities.validaciones.UsaCredencialesPorDefecto;
+import domain.models.entities.validaciones.Validador;
+import domain.models.entities.validaciones.politicasNIST.*;
 import domain.models.repositorios.RepositorioCredenciales;
 import domain.models.repositorios.RepositorioGradosDeConfianza;
 import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.exceptions.DuplicateUserException;
+import domain.server.exceptions.InvalidPasswordException;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
@@ -77,10 +83,13 @@ public class LoginController {
 
     public void save(Context context){
         Usuario usuario = new Usuario();
-        //TODO podriamos usar el validador para ver si la contraseña es valida
-        //TODO se podria meter validacion si ya existe el usuario
+        CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
+        Validador validacion = new Validador();
+        validacion.setValidaciones(new EsDebil(),new UsaCredencialesPorDefecto());
         this.asignarParametros(usuario, context);
         this.repositorioUsuarios.agregar(usuario);
+
+        //TODO manejar el hbs
         context.redirect("/login");
     }
 
@@ -93,11 +102,19 @@ public class LoginController {
         usuario.setTelefono(contexto.formParam("telefono"));
 
         CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
+        credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         credencialDeAcceso.setNombreUsuario(contexto.formParam("usuario_nombre"));
-        //TODO llamar al repo de credenciales a ver si ya hay una credencial con ese usuario y tirar exception
+        if(repositorioCredenciales.obtenerCredencialDe(credencialDeAcceso.getNombreUsuario()) != null) {
+            throw new DuplicateUserException();
+        }
 
         credencialDeAcceso.setContrasenia(contexto.formParam("contrasenia"));
-        //TODO llamar al validador y si devuelve false tirar exception
+        Validador validador = new Validador();
+        validador.setValidaciones(new EsDebil(),new UsaCredencialesPorDefecto(),new Longitud(),new Rotacion(),new TieneCaracterEspecial(),new TieneMayuscula(),new TieneNumero());
+        if(!validador.validar(credencialDeAcceso)) {
+             throw new InvalidPasswordException();
+        }
+
 
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         usuario.setCredencialDeAcceso(credencialDeAcceso);

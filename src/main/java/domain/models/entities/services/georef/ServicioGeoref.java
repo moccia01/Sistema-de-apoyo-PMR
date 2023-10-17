@@ -28,11 +28,40 @@ public class ServicioGeoref implements Localizador{
         return instancia;
     }
 
-    public ListadoDeProvincias listadoDeProvincias() throws IOException {
+    public ListadoDeProvincias listadoDeProvincias(){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
-        Call<ListadoDeProvincias> requestProvinciasArgentinas = georefService.provincias();
-        Response<ListadoDeProvincias> responseProvinciasArgentinas = requestProvinciasArgentinas.execute();
+        Call<ListadoDeProvincias> requestProvinciasArgentinas = georefService.provincias(30);
+        Response<ListadoDeProvincias> responseProvinciasArgentinas = null;
+        try {
+            responseProvinciasArgentinas = requestProvinciasArgentinas.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return responseProvinciasArgentinas.body();
+    }
+
+    public ListadoDeMunicipios listadoDeMunicipios(){
+        GeorefService georefService = this.retrofit.create(GeorefService.class);
+        Call<ListadoDeMunicipios> requestMunicipios = georefService.municipios(2000);
+        Response<ListadoDeMunicipios> responseMunicipios = null;
+        try {
+            responseMunicipios = requestMunicipios.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return responseMunicipios.body();
+    }
+
+    public  ListadoDeDepartamentos listadoDeDepartamentos(){
+        GeorefService georefService = this.retrofit.create(GeorefService.class);
+        Call<ListadoDeDepartamentos> requestDepartamentos = georefService.departamentos(1000);
+        Response<ListadoDeDepartamentos> responseDepartamentos = null;
+        try {
+            responseDepartamentos = requestDepartamentos.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return responseDepartamentos.body();
     }
 
     public Provincia provincia(String nombreProvincia){

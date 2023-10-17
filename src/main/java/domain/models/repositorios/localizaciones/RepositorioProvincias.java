@@ -16,22 +16,27 @@ public class RepositorioProvincias implements WithSimplePersistenceUnit {
 
     }
     */
+    public void agregar(Provincia provincia) {
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        entityManager().merge(provincia);
+        tx.commit();
+    }
 
+    public void guardarProvinciaEnNuestraBase(List<Provincia> provincias) {
+        EntityTransaction tx = entityManager().getTransaction();
 
-        public void guardarProvinciaEnNuestraBase(List<Provincia> provincias) {
-            EntityTransaction tx = entityManager().getTransaction();
-
-            try {
-                tx.begin();
-                provincias.forEach(provincia -> {
-                    entityManager().persist(provincia);
-                });
-                tx.commit();
-            } catch (Exception e) {
-                if (tx != null && tx.isActive()) {
-                    tx.rollback();
-                }
-                e.printStackTrace();
+        try {
+            tx.begin();
+            provincias.forEach(provincia -> {
+                entityManager().persist(provincia);
+            });
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
             }
+            e.printStackTrace();
         }
+    }
 }

@@ -5,13 +5,21 @@
         <div class="card main-container">
             <div class="card-body">
                 <h5 class="card-title">Subir Archivo CSV</h5>
-                <form method="POST" action="organismos_de_control" enctype="multipart/form-data">
-                    <div class="mb-auto">
-                        <label for="token" class="form-label">Token CSV</label>
-                        <input type="text" class="form-control" name="token" placeholder="Inserte el token del archivo CSV" required>
+                <form method="POST" action="entidades_prestadoras" enctype="multipart/form-data">
+                    <div class="mb-auto d-inline-flex">
+                        <div class="d-inline-flex">
+                            <label for="token" class="form-label mt-2 me-1">Token CSV:</label>
+                        </div>
+                        <div class="d-inline-flex">
+                            <input type="text" class="form-control" name="token" placeholder="Inserte token del CSV" required>
+                        </div>
                     </div>
-                    <input type="file" class="form-control-file" name="csvFileInput" id="csvFileInput">
-                    <button class="btn btn-warning mt-3" id="uploadCsvBtn">Subir CSV</button>
+                    <div class="d-inline-flex">
+                        <input type="file" class="form-control-file mt-1" name="csvFileInput" id="csvFileInput">
+                    </div>
+                    <div class="d-inline-block">
+                        <button class="btn btn-warning " id="uploadCsvBtn">Subir CSV</button>
+                    </div>
                 </form>
             </div>
         </div>

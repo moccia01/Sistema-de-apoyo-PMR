@@ -31,4 +31,24 @@ public class RepositorioCredenciales implements WithSimplePersistenceUnit {
         }
         return credencialDeAcceso;
     }
+
+    public CredencialDeAcceso obtenerCredencialDe(String nombreUsuario) {
+        EntityTransaction tx = entityManager().getTransaction();
+        CredencialDeAcceso credencialDeAcceso;
+        try {
+            tx.begin();
+            TypedQuery<CredencialDeAcceso> query = entityManager().createQuery(
+                    "SELECT c FROM CredencialDeAcceso c WHERE c.nombreUsuario = :nombreUsuario", CredencialDeAcceso.class);
+            query.setParameter("nombreUsuario", nombreUsuario);
+            credencialDeAcceso = query.getSingleResult();
+            tx.commit();
+        } catch (NoResultException ignored) {
+            credencialDeAcceso = null;
+        } finally {
+            if(tx.isActive()) {
+                tx.rollback();
+            }
+        }
+        return credencialDeAcceso;
+    }
 }

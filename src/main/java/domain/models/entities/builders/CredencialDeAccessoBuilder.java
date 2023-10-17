@@ -27,6 +27,7 @@ public class CredencialDeAccessoBuilder {
    }
 
    public CredencialDeAcceso construir(){
+        this.credencial.setFechaUltimoCambio(LocalDate.now());
         CredencialDeAcceso ret = this.credencial;
         this.credencial = new CredencialDeAcceso();
         return ret;

@@ -9,6 +9,8 @@ public class AppHandlers {
             new AccessDeniedHandler(),
             new CriterioNotSelectedHandler(),
             new FileNotLoadedHandler(),
+            new DuplicateUserHandler(),
+            new InvalidPasswordHandler(),
     };
 
     public static void applyHandlers(Javalin app) {

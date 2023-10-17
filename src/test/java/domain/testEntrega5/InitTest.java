@@ -111,7 +111,8 @@ public class InitTest {
                 .construir();
 
         Entidad utn = new Entidad();
-        utn.setNombre("Universidad Tecnologica Nacional");
+        utn.setNombre("UTN");
+        utn.setLocalizacion("Argentina");
         utn.agregarEstablecimientos(campus, medrano);
 
         RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();

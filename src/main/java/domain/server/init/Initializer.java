@@ -10,7 +10,14 @@ import domain.models.entities.entidadesDeServicio.Servicio;
 import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.SinApuros;
 import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
+import domain.models.entities.services.georef.ServicioGeoref;
+import domain.models.entities.services.georef.entities.ListadoDeDepartamentos;
+import domain.models.entities.services.georef.entities.ListadoDeMunicipios;
+import domain.models.entities.services.georef.entities.ListadoDeProvincias;
 import domain.models.repositorios.*;
+import domain.models.repositorios.localizaciones.RepositorioDepartamentos;
+import domain.models.repositorios.localizaciones.RepositorioMunicipios;
+import domain.models.repositorios.localizaciones.RepositorioProvincias;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,5 +56,20 @@ public class Initializer implements WithSimplePersistenceUnit {
         }
 
         //TODO faltan las cosas de georef
+        ServicioGeoref serviciosGeoref = ServicioGeoref.instancia();
+
+        ListadoDeProvincias provincias = serviciosGeoref.listadoDeProvincias();
+        RepositorioProvincias repositorioProvincias = new RepositorioProvincias();
+        provincias.getProvincias().forEach(repositorioProvincias::agregar);
+
+        ListadoDeMunicipios municipios = serviciosGeoref.listadoDeMunicipios();
+        RepositorioMunicipios repositorioMunicipios = new RepositorioMunicipios();
+        municipios.getMunicipios().forEach(repositorioMunicipios::agregar);
+
+        ListadoDeDepartamentos departamentos = serviciosGeoref.listadoDeDepartamentos();
+        RepositorioDepartamentos repositorioDepartamentos = new RepositorioDepartamentos();
+        departamentos.getDepartamentos().forEach(d -> repositorioDepartamentos.agregar(d));
+        //PERSISTIR CON REPO DE DEPTOS
+
     }
 }
