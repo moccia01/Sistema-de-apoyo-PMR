@@ -9,7 +9,7 @@ import java.util.*;
 
 @Getter
 @Setter
-public class CierreIncidentes extends CriterioRanking{
+public class MayorPromedioCierre extends CriterioRanking{
 
     public long tiempoDeCierre(Incidente incidente){
         LocalDateTime fechaApertura = incidente.getFechaHoraApertura();

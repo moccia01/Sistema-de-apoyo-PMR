@@ -7,6 +7,8 @@ import java.util.Arrays;
 public class AppHandlers {
     private IHandler[] handlers = new IHandler[]{
             new AccessDeniedHandler(),
+            new CriterioNotSelectedHandler(),
+            new FileNotLoadedHandler(),
     };
 
     public static void applyHandlers(Javalin app) {

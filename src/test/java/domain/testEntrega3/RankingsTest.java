@@ -7,7 +7,7 @@ import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.Establecimiento;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
 import domain.models.entities.entidadesDeServicio.Servicio;
-import domain.models.entities.rankings.CierreIncidentes;
+import domain.models.entities.rankings.MayorPromedioCierre;
 import domain.models.entities.rankings.GeneradorDeRankings;
 import domain.models.entities.rankings.MayorCantidadIncidentes;
 import domain.models.repositorios.RepositorioIncidentes;
@@ -142,7 +142,7 @@ public class RankingsTest {
 
     @Test
     public void generarRankingCierreIncidentesTest(){
-        CierreIncidentes ranking1 = new CierreIncidentes();
+        MayorPromedioCierre ranking1 = new MayorPromedioCierre();
 
         try{
             TimeUnit.SECONDS.sleep(25); //C

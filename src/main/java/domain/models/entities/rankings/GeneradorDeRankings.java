@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class GeneradorDeRankings {
-    List<Incidente> incidentes;
+    private List<Incidente> incidentes;
 
     public GeneradorDeRankings(RepositorioIncidentes repositorioIncidentes) {
         this.incidentes =repositorioIncidentes.obtenerIncidentes();

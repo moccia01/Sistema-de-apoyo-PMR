@@ -11,7 +11,7 @@ public class CargaOrganismosControl extends CargaDatosTemplate <OrganismoDeContr
     }
 
     @Override
-    protected OrganismoDeControl transformarLinea(String[] campos) {
+    public OrganismoDeControl transformarLinea(String[] campos) {
         String nombre = campos[0];
         return new OrganismoDeControl(nombre);
     }

@@ -25,8 +25,6 @@ public class Initializer implements WithSimplePersistenceUnit {
     private GradoDeConfianza confianzaConReservas;
     private GradoDeConfianza confianzaNoConfiable;
 
-
-
     public void init(){
         RepositorioGradosDeConfianza repositorioGradosDeConfianza = new RepositorioGradosDeConfianza();
 

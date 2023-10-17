@@ -1,6 +1,6 @@
 {{#partial "contenido" }}
 
-    //TODO faltaria terminar esto y que quede bien bonito, ademas ver como hacer para que el boton de filtrar funcione
+    <!--TODO ver como hacer para que el boton de filtrar funcione-->
 
     <div class="container mt-4">
         <h1>Comunidades</h1>
@@ -17,18 +17,16 @@
 
         <!--aca arrancaria la lista de comunidades-->
         {{#each miembros}}
-            <div class="card">
+            <div class="card mt-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="card-title">{{this.comunidad.nombre}}</h5>
+                    <h5 class="card-title" style="margin-left: 10px;">{{this.comunidad.nombre}}</h5>
                     {{#if this.esAdministrador}}
-                        <a href="miembros/{{this.comunidad.getId}}/admin" class="btn btn-dark">Ver usuarios</a>
+                        <a href="miembros/{{this.comunidad.getId}}/admin" class="btn btn-dark mt-1 me-1 mb-1">Ver usuarios</a>
                     {{else}}
-                        <a href="miembros/{{this.comunidad.getId}}/ver" class="btn btn-dark">Ver usuarios</a>
+                        <a href="miembros/{{this.comunidad.getId}}/ver" class="btn btn-dark mt-1 me-1 mb-1">Ver usuarios</a>
                     {{/if}}
                 </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <p class="card-text">Descripción Comunidad</p>
-                </div>
+
             </div>
         {{/each}}
     </div>

@@ -1,0 +1,23 @@
+{{#partial "contenido" }}
+    <div class="container mt-4">
+        <h2>Ranking segun {{criterio}}</h2>
+
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th><strong>Orden</strong></th>
+                <th><strong>Entidad</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each entidades}}
+                <tr>
+                    <td>{{this.index}}</td>
+                    <td>{{this.nombre}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+{{/partial}}
+{{> templates/plantilla_base }}

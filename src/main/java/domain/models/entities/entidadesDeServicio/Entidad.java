@@ -25,6 +25,9 @@ public class Entidad extends EntidadPersistente {
     @JoinColumn(name = "entidad_id")
     private List<Establecimiento> listaEstablecimientos;
 
+    @Transient
+    private int index;
+
     public Entidad() {
         this.listaEstablecimientos = new ArrayList<>();
     }

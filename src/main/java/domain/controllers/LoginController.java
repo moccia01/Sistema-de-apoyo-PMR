@@ -78,6 +78,7 @@ public class LoginController {
     public void save(Context context){
         Usuario usuario = new Usuario();
         //TODO podriamos usar el validador para ver si la contraseña es valida
+        //TODO se podria meter validacion si ya existe el usuario
         this.asignarParametros(usuario, context);
         this.repositorioUsuarios.agregar(usuario);
         context.redirect("/login");
@@ -93,7 +94,11 @@ public class LoginController {
 
         CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
         credencialDeAcceso.setNombreUsuario(contexto.formParam("usuario_nombre"));
+        //TODO llamar al repo de credenciales a ver si ya hay una credencial con ese usuario y tirar exception
+
         credencialDeAcceso.setContrasenia(contexto.formParam("contrasenia"));
+        //TODO llamar al validador y si devuelve false tirar exception
+
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         usuario.setCredencialDeAcceso(credencialDeAcceso);
 

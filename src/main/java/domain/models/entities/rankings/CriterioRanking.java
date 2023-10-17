@@ -36,8 +36,7 @@ public abstract class CriterioRanking {
     }
 
     public boolean estaDentroDeLaSemana(LocalDateTime fecha){
-        LocalDateTime fechaHora = fecha;
-        return fechaHora.isAfter(fechaActual.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))) && fechaHora.isBefore(fechaActual.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)));
+        return fecha.isAfter(fechaActual.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))) && fecha.isBefore(fechaActual.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)));
     }
 
 

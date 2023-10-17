@@ -1,19 +1,19 @@
 package domain.controllers;
 
-import domain.models.entities.comunidad.Comunidad;
 import domain.models.entities.comunidad.Incidente;
-import domain.models.entities.rankings.CierreIncidentes;
-import domain.models.entities.rankings.CriterioRanking;
-import domain.models.entities.rankings.MayorCantidadIncidentes;
+import domain.models.entities.entidadesDeServicio.Entidad;
+import domain.models.entities.rankings.*;
 import domain.models.repositorios.*;
+import domain.server.exceptions.CriterioNotSelectedException;
 import domain.server.utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public class RankingController extends Controller implements ICrudViewsHandler {
+public class RankingController extends Controller {
     private RepositorioIncidentes repositorioIncidentes;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioServicios repositorioServicios;
@@ -33,56 +33,49 @@ public class RankingController extends Controller implements ICrudViewsHandler {
     }
 
     public void index(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        List<Incidente> incidentes = repositorioIncidentes.obtenerIncidentes();
-        model.put("incidentes", incidentes);
-        context.render("rankings/rankings.hbs", model);
+        context.render("rankings/rankings.hbs");
     }
 
     public void show(Context context) {
-        context.render("rankings/rankings.hbs");
-    }
-   /* public void calcularRanking(Context context){
-        String criterio = context.queryParam("criterio");
+        String criterio_string = context.pathParam("criterio");
+        CriterioRanking criterioRanking = this.convertToEntity(Objects.requireNonNull(criterio_string));
+        GeneradorDeRankings generadorDeRankings = new GeneradorDeRankings(this.repositorioIncidentes);
 
-        if (criterio != null) {
-            // Instanciar el criterio correspondiente.
-            CriterioRanking criterioRanking;
+        List<Entidad> entidades = generadorDeRankings.generarSegunCriterio(criterioRanking);
+        for (int i = 0; i < entidades.size(); i++) {
+            entidades.get(i).setIndex(i + 1);
+        }
 
-            if (criterio.equals("MayorCantidadIncidentes")) {
-                criterioRanking = new MayorCantidadIncidentes();
-            } else if (criterio.equals("CierreIncidentes")) {
-                criterioRanking = new CierreIncidentes();
-            } else {
-                // Manejar el caso cuando no se selecciona un criterio válido.
-                context.result("Criterio no válido.");
-                return;
-            }
-            //TODO arreglar calcularValor para el criterioRanking
-            //double valorRanking = criterioRanking.calcularValor(repositorioIncidentes.obtenerIncidentes());
-
-            //context.result("El valor del ranking es: " + valorRanking);
-        } else {
-            context.result("No se seleccionó un criterio.");
-        }}*/
-
-    public void create(Context context) {
-
+        Map<String, Object> model = new HashMap<>();
+        model.put("entidades", entidades);
+        model.put("criterio", this.convertToText(criterio_string));
+        context.render("rankings/ranking.hbs", model);
     }
 
-    public void save(Context context) {
-
+    public void generate(Context context) {
+        String criterio_string = context.formParam("criterio_ranking");
+        CriterioRanking criterioRanking = this.convertToEntity(Objects.requireNonNull(criterio_string));
+        if(criterioRanking == null) {
+            throw new CriterioNotSelectedException();
+        }
+        context.redirect("ranking/" + criterio_string);
     }
 
-    public void edit(Context context) {
-
+    public CriterioRanking convertToEntity(String criterio_string) {
+        return switch (criterio_string) {
+            case "MayorPromedioCierre" -> new MayorPromedioCierre();
+            case "MayorCantidadIncidentes" -> new MayorCantidadIncidentes();
+            case "MayorGradoDeImpacto" -> new MayorGradoIncidentes();
+            default -> null;
+        };
     }
 
-    public void update(Context context) {
-
-    }
-
-    public void delete(Context context) {
-
+    public String convertToText(String criterio_string) {
+        return switch (criterio_string) {
+            case "MayorPromedioCierre" -> "el mayor promedio de tiempo de cierre de incidentes";
+            case "MayorCantidadIncidentes" -> "la mayor cantidad de incidentes reportados en la semana";
+            case "MayorGradoDeImpacto" -> "el mayor grado de impacto en las problemáticas";
+            default -> null;
+        };
     }
 }
