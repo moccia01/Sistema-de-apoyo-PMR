@@ -24,6 +24,13 @@ public class RepositorioUsuarios implements WithSimplePersistenceUnit {
         tx.commit();
     }
 
+    public void modificar(Usuario usuario) {
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        entityManager().merge(usuario);
+        tx.commit();
+    }
+
     public Usuario obtenerUsuario(CredencialDeAcceso credencialDeAcceso) {
         //TODO VER SI FUNCA
         EntityTransaction tx = entityManager().getTransaction();
@@ -35,12 +42,14 @@ public class RepositorioUsuarios implements WithSimplePersistenceUnit {
         return usuario;
     }
 
-    //TODO VER SI ESTO FUNCIONA, es para chequear el rol del miembro de cada usuario
-    public Usuario obtenerUsuarioSegunId(int id){
-        Usuario usuario = new Usuario();
-        usuario= entityManager().createQuery(" from Usuario  where id = :n", Usuario.class)
-                .setParameter("n",id)
-                .getSingleResult();
+    public Usuario obtenerUsuarioSegun(Long id) {
+        //TODO VER SI FUNCA
+        EntityTransaction tx = entityManager().getTransaction();
+        tx.begin();
+        TypedQuery<Usuario> query = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.id = :id", Usuario.class);
+        query.setParameter("id", id);
+        Usuario usuario = query.getSingleResult();
+        tx.commit();
         return usuario;
     }
 
