@@ -115,6 +115,16 @@ public class InitTest {
         utn.setLocalizacion("Argentina");
         utn.agregarEstablecimientos(campus, medrano);
 
+        Establecimiento estacionMedrano = establecimientoBuilder.conNombre("Estacion Medrano").conServicios(banio)
+                .construir();
+        Establecimiento estacionFedericoLacroze = establecimientoBuilder.conNombre("Estacion Federico Lacroze").conServicios(escaleraMecanica, banio, ascensor)
+                .construir();
+
+        Entidad subteLineaB = new Entidad();
+        subteLineaB.setNombre("Subte Linea-B");
+        subteLineaB.setLocalizacion("Argentina");
+        subteLineaB.agregarEstablecimientos(estacionMedrano, estacionFedericoLacroze);
+
         RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();
         repositorioUsuarios.agregar(tomasDAntonio);
         repositorioUsuarios.agregar(federicoMoccia);
@@ -146,8 +156,11 @@ public class InitTest {
         RepositorioEstablecimientos repositorioEstablecimientos = new RepositorioEstablecimientos();
         repositorioEstablecimientos.agregar(medrano);
         repositorioEstablecimientos.agregar(campus);
+        repositorioEstablecimientos.agregar(estacionMedrano);
+        repositorioEstablecimientos.agregar(estacionFedericoLacroze);
 
         RepositorioEntidades repositorioEntidades = new RepositorioEntidades();
         repositorioEntidades.agregar(utn);
+        repositorioEntidades.agregar(subteLineaB);
     }
 }
