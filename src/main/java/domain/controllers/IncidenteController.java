@@ -7,6 +7,7 @@ import domain.models.entities.validaciones.CredencialDeAcceso;
 import domain.models.repositorios.*;
 import domain.server.utils.ICrudViewsHandler;
 
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class IncidenteController extends Controller implements ICrudViewsHandler {
+public class IncidenteController extends Controller implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioIncidentes repositorioIncidentes;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioServicios repositorioServicios;
@@ -102,11 +103,15 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     public void close(Context context) {
         String id = context.pathParam("id");
+        //TODO sacar query param y poner con path pq es obligatoria
         String comunidad_id = context.queryParam("comunidad_id");
-        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)));
-        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
-        Usuario usuario = super.usuarioLogueado(context);
-        usuario.cerrarIncidente(comunidad, incidente);
+        withTransaction(() -> {
+            Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)));
+            Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
+            Usuario usuario = super.usuarioLogueado(context);
+            usuario.cerrarIncidente(comunidad, incidente);
+        });
+
         context.redirect("/incidentes");
     }
 

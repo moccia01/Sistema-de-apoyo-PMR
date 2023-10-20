@@ -40,11 +40,16 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         return instancia;
     }
 
-    public PayloadDTOApi14 jsonDevuelto(PayloadDTOApi14 jsonComunidadUsuario) throws IOException{
-        GradoDeConfianza14Service gradoDeConfianza14Service = this.retrofit.create((GradoDeConfianza14Service.class));
-        Call<PayloadDTOApi14> requestGradoConfianzaUsuario = gradoDeConfianza14Service.usuarioComunidad(jsonComunidadUsuario);
-        Response<PayloadDTOApi14> responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
-        return responseGradoConfianzaUsuario.body();
+    public PayloadDTOApi14 jsonDevuelto(PayloadDTOApi14 jsonComunidadUsuario){
+        try {
+            GradoDeConfianza14Service gradoDeConfianza14Service = this.retrofit.create((GradoDeConfianza14Service.class));
+            Call<PayloadDTOApi14> requestGradoConfianzaUsuario = gradoDeConfianza14Service.usuarioComunidad(jsonComunidadUsuario);
+            Response<PayloadDTOApi14> responseGradoConfianzaUsuario = null;
+            responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
+            return responseGradoConfianzaUsuario.body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

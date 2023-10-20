@@ -33,6 +33,7 @@ public class Initializer implements WithSimplePersistenceUnit {
     private GradoDeConfianza confianzaNoConfiable;
 
     public void init(){
+        // archivo migracion/semilla/bootstrap
         RepositorioGradosDeConfianza repositorioGradosDeConfianza = new RepositorioGradosDeConfianza();
 
         GradoDeConfianzaConstructor gradoDeConfianzaConstructor = new GradoDeConfianzaConstructor();
@@ -68,7 +69,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
         ListadoDeDepartamentos departamentos = serviciosGeoref.listadoDeDepartamentos();
         RepositorioDepartamentos repositorioDepartamentos = new RepositorioDepartamentos();
-        departamentos.getDepartamentos().forEach(d -> repositorioDepartamentos.agregar(d));
+        departamentos.getDepartamentos().forEach(repositorioDepartamentos::agregar);
         //PERSISTIR CON REPO DE DEPTOS
 
     }

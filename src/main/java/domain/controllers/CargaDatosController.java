@@ -36,6 +36,7 @@ public class CargaDatosController extends Controller{
     public void upload(Context context, String recurso){
         UploadedFile uploadedFile = context.uploadedFile("csvFileInput");
         String token = context.formParam("token");
+        //TODO cambiar la condicion a uploadedFile.filename() != "" o algo asi
         if (uploadedFile != null) {
             try {
                 String destino = "src/main/resources/uploaded/";

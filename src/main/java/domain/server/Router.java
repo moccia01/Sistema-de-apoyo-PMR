@@ -1,12 +1,18 @@
 package domain.server;
 
 import domain.controllers.*;
+import io.github.flbulgarelli.jpa.extras.perthread.PerThreadEntityManagerAccess;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
-public class Router {
+public class Router implements WithSimplePersistenceUnit {
 
-    public static void init() {
+    public void init() {
+        Server.app().after((handler) -> {
+            entityManager().clear();
+        });
+
         Server.app().routes( () -> {
             get("/", ((LoginController) FactoryController.controller("login"))::index);
             get("login", ((LoginController) FactoryController.controller("login"))::show);

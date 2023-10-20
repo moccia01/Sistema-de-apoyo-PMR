@@ -28,7 +28,8 @@ public class Server {
             app = Javalin.create(config()).start(port);
             initTemplateEngine();
             AppHandlers.applyHandlers(app);
-            Router.init();
+            new Router().init();
+
         }
     }
 
