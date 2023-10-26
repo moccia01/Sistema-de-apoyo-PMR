@@ -3,12 +3,12 @@
         <h1>{{comunidad.getNombre}}</h1>
 
         <ul class="list-group list-group">
-            <li class="list-group-item bg-warning d-flex justify-content-between align-items-start">
+            <li class="list-group-item d-flex encab justify-content-between align-items-start">
                 <div class="ms-1 me-auto mt-1" style="font-size: 20px;">
                     <div class="fw-bold">Usuarios</div>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
-                    <a class="btn btn-success mb-auto" href="{{Server.baseUrl}}/miembros/{{comunidad.getId}}/alta">Alta nuevo usuario</a>
+                    <a class="btn botonCS mb-auto" href="{{Server.baseUrl}}/miembros/{{comunidad.getId}}/alta">Alta nuevo usuario</a>
                 </div>
             </li>
             {{#each miembros}}
@@ -18,11 +18,11 @@
                     </div>
                     <div class="me-2">
                         <form method="POST" action="{{Server.baseUrl}}/miembros/{{this.id}}/baja">
-                            <button type="submit" class="btn btn-danger mb-auto">Baja</button>
+                            <button type="submit" class="btn botonppal mb-auto">Baja</button>
                         </form>
                     </div>
                     <div>
-                        <a class="btn btn-dark mb-auto" href="{{Server.baseUrl}}/miembros/{{this.id}}/editar">Editar</a>
+                        <a class="btn btn-link mb-auto" href="{{Server.baseUrl}}/miembros/{{this.id}}/editar">Editar</a>
                     </div>
                 </li>
             {{/each}}

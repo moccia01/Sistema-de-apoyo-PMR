@@ -3,7 +3,7 @@
         <h1>{{comunidad.getNombre}}</h1>
 
         <ul class="list-group">
-            <li class="list-group-item bg-warning fw-bold" aria-current="true">Usuarios</li>
+            <li class="list-group-item encab fw-bold" aria-current="true">Usuarios</li>
             {{#each miembros}}
                 <li class="list-group-item">{{this.usuario.getNombre}} {{this.usuario.getApellido}}</li>
             {{/each}}

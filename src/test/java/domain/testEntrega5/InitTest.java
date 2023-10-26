@@ -72,7 +72,7 @@ public class InitTest {
                 .conComunidad(bosterosDesdeLaCuna).conRolTemporal(RolTemporal.OBSERVADOR).construir();
         Miembro nahuBostero = miembroBuilder.conRol(Rol.MIEMBRO).conUsuario(nahuGimenez)
                 .conComunidad(bosterosDesdeLaCuna).conRolTemporal(RolTemporal.OBSERVADOR).construir();
-        Miembro lucasBostero = miembroBuilder.conRol(Rol.MIEMBRO).conUsuario(lucasBoldrini)
+        Miembro lucasBostero = miembroBuilder.conRol(Rol.ADMINISTRADOR).conUsuario(lucasBoldrini)
                 .conComunidad(bosterosDesdeLaCuna).conRolTemporal(RolTemporal.OBSERVADOR).construir();
         bosterosDesdeLaCuna.agregarMiembros(tomyBostero, nahuBostero, lucasBostero);
 

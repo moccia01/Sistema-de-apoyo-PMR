@@ -1,7 +1,139 @@
+.body{
+    background-color: #1B4146;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar{
+   background: #062129;
+}
+
+.navbar-expand-lg{
+    background: #062129;
+}
+
+.navbar-collapse{
+    justify-content: right;
+}
+
 .nav-link{
-    color: black
+    position: relative;
+    color: #9DDBA9;
+    font-family: "JetBrains Mono";
+}
+
+.nav-link::after{
+    opacity: 0;
+    transition: all 0.2s;
+    height: 2px;
+    width: 100%;
+    background-color: #9DDBA9;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.nav-link:hover::after{
+    content: '';
+    opacity: 1;
+}
+
+.nav-link:hover{
+    color: #9DDBA9;
+}
+
+#navbarDropdown{
+    color: #9DDBA9;
 }
 
 .collapse{
     justify-content: right;
+}
+
+.navbar-toggler{
+    background-color: #9DDBA9;
+    color: #1B4146;
+}
+
+.navbar-toggler-icon{
+    background-color: #9DDBA9;
+}
+
+.m-0{
+    font-size: 20px;
+    color: #9DDBA9;
+}
+
+.card{
+    border:none;
+}
+
+.card-header{
+    background-color: #062129;
+}
+
+.footer{
+    background: #062129;
+}
+
+.text{
+    color: #9DDBA9;
+}
+
+.botonppal{
+    background-color: #062129;
+    color: #9DDBA9;
+}
+
+.botonppal:hover{
+    background-color: #062129;
+    color: #9DDBA9;
+}
+
+.btn-link{
+    color: #062129;
+}
+
+.botonCS{
+    background-color: #9DDBA9;
+    color: #062129;
+    border-color: #9DDBA9;
+}
+
+.botonCS:hover{
+    border-color: #9DDBA9;
+    color: #9DDBA9;
+}
+
+.btn-link:hover{
+    color: #9DDBA9;
+}
+
+.dropdown-menu{
+    background-color: #9DDBA9;
+}
+
+.dropdown-item{
+    color: #062129;
+    font-family: "JetBrains Mono";
+}
+
+.dropdown-item:hover{
+    background-color:transparent;
+    color: #1B4146;
+}
+
+.link{
+    color: #9DDBA9;
+}
+
+.link:hover{
+    color: #062129;
+}
+
+.encab{
+    background-color: #062129;
+    color: #9DDBA9;
+    border: none;
 }

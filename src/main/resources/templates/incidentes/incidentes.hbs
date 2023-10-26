@@ -1,12 +1,11 @@
 {{#partial "contenido" }}
 
-    <!--TODO ver como hacer para que el boton de filtrar funcione-->
-
     <div class="container mt-4">
         <h1>Incidentes</h1>
 
-        <a class="btn btn-warning mb-auto" href="/incidentes/crear">Abrir Incidente</a>
+        <a class="btn botonppal mb-auto" href="/incidentes/crear">Abrir Incidente</a>
 
+        <!-- VER QUE HAGO CON ESTO DE ACA -->
         <div class="btn-group">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Filtrar
@@ -47,8 +46,8 @@
                     <td>{{this.estadoToString}}</td>
                     <td>
                         <!-- TODO poner con form y method post-->
-                        <a class="btn btn-danger mb-1" href="/incidentes/{{this.id}}/cerrar?comunidad_id={{this.comunidadId}}">Cerrar</a>
-                        <a class="btn btn-dark mb-1" href="/incidentes/{{this.id}}/editar">Editar</a>
+                        <a class="btn botonppal mb-1" href="/incidentes/{{this.id}}/cerrar?comunidad_id={{this.comunidadId}}">Cerrar</a>
+                        <a class="btn btn-link mb-1" href="/incidentes/{{this.id}}/editar">Editar</a>
                     </td>
                 </tr>
                 {{/each}}
