@@ -5,7 +5,8 @@ import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.entities.converters.GradoDeConfianzaConstructor;
-import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
+import domain.models.entities.services.ServicioAPI;
+import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianza;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.ComunidadApi14;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.PayloadDTOApi14;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo14.entities.UsuarioApi14;
@@ -18,19 +19,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfianzaAdapter {
+public class ServicioCalculadoraGradoDeConfianza14 extends ServicioAPI implements CalculadorDeConfianza {
 
     private static ServicioCalculadoraGradoDeConfianza14 instancia = null;
 
-    private final String urlApi = "aca iría la url si el servidor estuviera corriendo";
+    private Retrofit retrofit = this.cargarRetrofit();
 
-    private Retrofit retrofit;
-
-    private ServicioCalculadoraGradoDeConfianza14() {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(urlApi)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    @Override
+    protected String obtenerUrlApi(){
+        urlApi = "aca iría la url si el servidor estuviera corriendo";
+        return urlApi;
     }
 
     public static ServicioCalculadoraGradoDeConfianza14 instancia(){
@@ -44,7 +42,7 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
         try {
             GradoDeConfianza14Service gradoDeConfianza14Service = this.retrofit.create((GradoDeConfianza14Service.class));
             Call<PayloadDTOApi14> requestGradoConfianzaUsuario = gradoDeConfianza14Service.usuarioComunidad(jsonComunidadUsuario);
-            Response<PayloadDTOApi14> responseGradoConfianzaUsuario = null;
+            Response<PayloadDTOApi14> responseGradoConfianzaUsuario;
             responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
             return responseGradoConfianzaUsuario.body();
         } catch (IOException e) {
@@ -53,7 +51,7 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
     }
 
     @Override
-    public void calcularGradoConfianzaPara(List<Usuario> usuarios, List<Comunidad> comunidades, List<Incidente> incidentes) throws IOException {
+    public void calcularGradoConfianzaPara(List<Usuario> usuarios, List<Comunidad> comunidades, List<Incidente> incidentes){
         PayloadDTOApi14 json = new PayloadDTOApi14();
 
         json.cargar(usuarios, comunidades, incidentes);
@@ -77,21 +75,19 @@ public class ServicioCalculadoraGradoDeConfianza14 implements CalculadorDeConfia
 
     private void actualizarComunidad(Comunidad comunidad, ComunidadApi14 comunidadDevuelta) {
         comunidad.setPuntosDeConfianza(comunidadDevuelta.getPuntosDeConfianza());
-        GradoDeConfianza gradoDeConfianza;
         double puntosMinimos = comunidadDevuelta.getGradoDeConfianza().getPuntosMinimos();
         double puntosMaximos = comunidadDevuelta.getGradoDeConfianza().getPuntosMaximos();
         GradoDeConfianzaConstructor constructor = new GradoDeConfianzaConstructor();
-        GradoDeConfianza grado = constructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
-        comunidad.setGradoDeConfianza(grado);
+        GradoDeConfianza gradoDeConfianza = constructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+        comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
 
     private void actualizarUsuario(Usuario usuario, UsuarioApi14 usuarioDevuelto) {
         usuario.setPuntosDeConfianza(usuarioDevuelto.getPuntosDeConfianza());
-        GradoDeConfianza gradoDeConfianza;
         double puntosMinimos = usuarioDevuelto.getGradoDeConfianza().getPuntosMinimos();
         double puntosMaximos = usuarioDevuelto.getGradoDeConfianza().getPuntosMaximos();
         GradoDeConfianzaConstructor constructor = new GradoDeConfianzaConstructor();
-        GradoDeConfianza grado = constructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
-        usuario.setGradoDeConfianza(grado);
+        GradoDeConfianza gradoDeConfianza = constructor.crearGradoAPartirDePuntosMinYMax(puntosMinimos, puntosMaximos);
+        usuario.setGradoDeConfianza(gradoDeConfianza);
     }
 }

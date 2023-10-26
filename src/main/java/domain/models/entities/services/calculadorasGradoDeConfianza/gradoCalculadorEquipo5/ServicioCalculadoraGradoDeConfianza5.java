@@ -2,7 +2,8 @@ package domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalcul
 
 import domain.models.entities.comunidad.*;
 import domain.models.entities.converters.GradoDeConfianzaConstructor;
-import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianzaAdapter;
+import domain.models.entities.services.ServicioAPI;
+import domain.models.entities.services.calculadorasGradoDeConfianza.CalculadorDeConfianza;
 import domain.models.entities.services.calculadorasGradoDeConfianza.gradoCalculadorEquipo5.entities.*;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -13,17 +14,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfianzaAdapter {
+public class ServicioCalculadoraGradoDeConfianza5 extends ServicioAPI implements CalculadorDeConfianza{
     //"https://github.com/a-sandoval/servicio-entrega4-tpa-grupo5/tree/master/ServicioCalculadorGradoDeConfianza"
     private static ServicioCalculadoraGradoDeConfianza5 instancia = null;
-    private final String urlApi = "https://raw.githubusercontent.com/gradoDeConfianza/"; //RARO, puede que no vaya
-    private Retrofit retrofit;
+    private Retrofit retrofit = this.cargarRetrofit();
 
-    private ServicioCalculadoraGradoDeConfianza5() {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(urlApi)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    @Override
+    protected String obtenerUrlApi(){
+        urlApi = "https://raw.githubusercontent.com/gradoDeConfianza/";
+        return urlApi;
     }
 
     public static ServicioCalculadoraGradoDeConfianza5 instancia(){
@@ -33,22 +32,30 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         return instancia;
     }
 
-    public ComunidadDevuelta comunidadDevuelta(RequestComunidadJSON jsonComunidadIncidentes) throws IOException{
-        GradoDeConfianza5Service gradoDeConfianza5Service = this.retrofit.create(GradoDeConfianza5Service.class);
-        Call<ComunidadDevuelta> requestGradoConfianzaComunidad = gradoDeConfianza5Service.comunidadApi(jsonComunidadIncidentes);
-        Response<ComunidadDevuelta> responseGradoConfianzaComunidad = requestGradoConfianzaComunidad.execute();
-        return responseGradoConfianzaComunidad.body();
+    public ComunidadDevuelta comunidadDevuelta(RequestComunidadJSON jsonComunidadIncidentes){
+        try{
+            GradoDeConfianza5Service gradoDeConfianza5Service = this.retrofit.create(GradoDeConfianza5Service.class);
+            Call<ComunidadDevuelta> requestGradoConfianzaComunidad = gradoDeConfianza5Service.comunidadApi(jsonComunidadIncidentes);
+            Response<ComunidadDevuelta> responseGradoConfianzaComunidad = requestGradoConfianzaComunidad.execute();
+            return responseGradoConfianzaComunidad.body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public UsuarioDevuelto usuarioDevuelto(RequestUsuarioJSON jsonUsuarioIncidentes) throws IOException{
-        GradoDeConfianza5Service gradoDeConfianza5Service = this.retrofit.create((GradoDeConfianza5Service.class));
-        Call<UsuarioDevuelto> requestGradoConfianzaUsuario = gradoDeConfianza5Service.usuarioApi(jsonUsuarioIncidentes);
-        Response<UsuarioDevuelto> responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
-        return responseGradoConfianzaUsuario.body();
+    public UsuarioDevuelto usuarioDevuelto(RequestUsuarioJSON jsonUsuarioIncidentes){
+        try{
+            GradoDeConfianza5Service gradoDeConfianza5Service = this.retrofit.create((GradoDeConfianza5Service.class));
+            Call<UsuarioDevuelto> requestGradoConfianzaUsuario = gradoDeConfianza5Service.usuarioApi(jsonUsuarioIncidentes);
+            Response<UsuarioDevuelto> responseGradoConfianzaUsuario = requestGradoConfianzaUsuario.execute();
+            return responseGradoConfianzaUsuario.body();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void calcularGradoConfianzaPara(List<Usuario> usuarios, List<Comunidad> comunidades, List<Incidente> incidentes) throws IOException {
+    public void calcularGradoConfianzaPara(List<Usuario> usuarios, List<Comunidad> comunidades, List<Incidente> incidentes){
        List<ComunidadDevuelta> comunidadDevueltas = new ArrayList<>();
        List<UsuarioDevuelto> usuariosDevueltos = new ArrayList<>();
 
@@ -71,19 +78,11 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
 
         //ejecuto la operacion para que me retorne con los dato actualizado en la lista de devueltos
         requestComunidadJSONS.forEach(requestComunidad ->{
-            try {
-                comunidadDevueltas.add(this.comunidadDevuelta(requestComunidad));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            comunidadDevueltas.add(this.comunidadDevuelta(requestComunidad));
         });
 
         requestUsuarioJSONS.forEach(requestUsuarioJSON -> {
-            try {
-                usuariosDevueltos.add(this.usuarioDevuelto(requestUsuarioJSON));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            usuariosDevueltos.add(this.usuarioDevuelto(requestUsuarioJSON));
         });
 
         //seteo a mi lista original
@@ -96,7 +95,7 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         });
     }
 
-    private void actualizarComunidad(Comunidad comunidad, ComunidadDevuelta comunidadDevuelta) {
+    private void actualizarComunidad(Comunidad comunidad, ComunidadDevuelta comunidadDevuelta){
         comunidad.setPuntosDeConfianza(comunidadDevuelta.getNuevoPuntaje());
         GradoDeConfianza gradoDeConfianza;
         GradoDeConfianzaConstructor constructor = new GradoDeConfianzaConstructor();
@@ -104,7 +103,7 @@ public class ServicioCalculadoraGradoDeConfianza5 implements CalculadorDeConfian
         comunidad.setGradoDeConfianza(gradoDeConfianza);
     }
 
-    private void actualizarUsuario(Usuario usuario, UsuarioDevuelto usuarioDevuelto) {
+    private void actualizarUsuario(Usuario usuario, UsuarioDevuelto usuarioDevuelto){
         usuario.setPuntosDeConfianza(usuarioDevuelto.getNuevoPuntaje());
         GradoDeConfianza gradoDeConfianza;
 
