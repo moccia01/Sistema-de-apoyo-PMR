@@ -26,7 +26,7 @@ public class ServicioCalculadoraGradoDeConfianza5 extends ServicioAPI implements
     }
 
     public static ServicioCalculadoraGradoDeConfianza5 instancia(){
-        if(instancia== null){
+        if(instancia == null){
             instancia = new ServicioCalculadoraGradoDeConfianza5();
         }
         return instancia;

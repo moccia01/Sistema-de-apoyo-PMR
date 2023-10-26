@@ -1,5 +1,6 @@
 package domain.models.entities.services.georef;
 
+import domain.models.entities.services.ServicioAPI;
 import domain.models.entities.services.georef.entities.*;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -8,21 +9,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
-public class ServicioGeoref implements Localizador{
+public class ServicioGeoref extends ServicioAPI implements Localizador{
     private static ServicioGeoref instancia = null;
     private static int maximaCantidadRegistrosDefault = 200;
-    private static final String urlApi = "https://apis.datos.gob.ar/georef/api/";
-    private Retrofit retrofit;
+    private Retrofit retrofit = this.cargarRetrofit();
 
-    private ServicioGeoref() {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(urlApi)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    @Override
+    protected String obtenerUrlApi(){
+        urlApi = "https://apis.datos.gob.ar/georef/api/";
+        return urlApi;
     }
 
     public static ServicioGeoref instancia(){
-        if(instancia== null){
+        if(instancia == null){
             instancia = new ServicioGeoref();
         }
         return instancia;
@@ -31,7 +30,7 @@ public class ServicioGeoref implements Localizador{
     public ListadoDeProvincias listadoDeProvincias(){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeProvincias> requestProvinciasArgentinas = georefService.provincias(30);
-        Response<ListadoDeProvincias> responseProvinciasArgentinas = null;
+        Response<ListadoDeProvincias> responseProvinciasArgentinas;
         try {
             responseProvinciasArgentinas = requestProvinciasArgentinas.execute();
         } catch (IOException e) {
@@ -43,7 +42,7 @@ public class ServicioGeoref implements Localizador{
     public ListadoDeMunicipios listadoDeMunicipios(){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeMunicipios> requestMunicipios = georefService.municipios(2000);
-        Response<ListadoDeMunicipios> responseMunicipios = null;
+        Response<ListadoDeMunicipios> responseMunicipios;
         try {
             responseMunicipios = requestMunicipios.execute();
         } catch (IOException e) {
@@ -55,7 +54,7 @@ public class ServicioGeoref implements Localizador{
     public  ListadoDeDepartamentos listadoDeDepartamentos(){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeDepartamentos> requestDepartamentos = georefService.departamentos(1000);
-        Response<ListadoDeDepartamentos> responseDepartamentos = null;
+        Response<ListadoDeDepartamentos> responseDepartamentos;
         try {
             responseDepartamentos = requestDepartamentos.execute();
         } catch (IOException e) {
@@ -88,7 +87,7 @@ public class ServicioGeoref implements Localizador{
     public Municipio municipio(String municipio){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeMunicipios> requestMunicipios = georefService.municipios(municipio);
-        Response<ListadoDeMunicipios> responseMunicipio = null;
+        Response<ListadoDeMunicipios> responseMunicipio;
         try {
             responseMunicipio = requestMunicipios.execute();
         } catch (IOException e) {
@@ -102,7 +101,7 @@ public class ServicioGeoref implements Localizador{
     public Departamento departamento(String departamento){
         GeorefService georefService = this.retrofit.create(GeorefService.class);
         Call<ListadoDeDepartamentos> requestDepartamentos = georefService.departamentos(departamento);
-        Response<ListadoDeDepartamentos> responseDepartamento = null;
+        Response<ListadoDeDepartamentos> responseDepartamento;
         try {
             responseDepartamento = requestDepartamentos.execute();
         } catch (IOException e) {
