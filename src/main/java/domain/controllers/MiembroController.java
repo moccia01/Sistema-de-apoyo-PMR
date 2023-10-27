@@ -74,9 +74,9 @@ public class MiembroController extends Controller implements WithSimplePersisten
         String id = context.pathParam("comunidad_id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(id));
         Map<String, Object> model = new HashMap<>();
-        List<TiempoConfigurado> tiemposConfigurados = new ArrayList<>();
-        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
-        model.put("tiempos_config", tiemposConfigurados);
+        model.put("nombre", context.queryParam("nombre"));
+        model.put("apellido", context.queryParam("apellido"));
+        model.put("usuario", context.queryParam("usuario"));
         model.put("comunidad", comunidad);
         context.render("comunidades/miembro.hbs", model);
     }
@@ -88,9 +88,11 @@ public class MiembroController extends Controller implements WithSimplePersisten
         usuario.setCredencialDeAcceso(credencialDeAcceso);
         miembro.setUsuario(usuario);
 
-        this.asignarParametros(miembro, usuario, context);
         String id = context.pathParam("comunidad_id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(id)));
+        context.sessionAttribute("error_return", "/miembros/" + comunidad.getId() + "/alta");
+
+        this.asignarParametros(miembro, usuario, context);
 
         usuario.agregarMiembros(miembro);
         miembro.setComunidad(comunidad);
@@ -110,8 +112,8 @@ public class MiembroController extends Controller implements WithSimplePersisten
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));
         usuario.setApellido(contexto.formParam("apellido"));
-        usuario.setMail(contexto.formParam("email"));
-        usuario.setTelefono(contexto.formParam("telefono"));
+/*        usuario.setMail(contexto.formParam("email"));
+        usuario.setTelefono(contexto.formParam("telefono"));*/
 
         CredencialDeAcceso credencialDeAcceso = usuario.getCredencialDeAcceso();
         if(repositorioCredenciales.obtenerCredencialDe(contexto.formParam("usuario_nombre")) != null) {
@@ -127,14 +129,14 @@ public class MiembroController extends Controller implements WithSimplePersisten
             throw new InvalidPasswordException();
         }
 
-        usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
+       /* usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
                 Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
-        String tiempoElegido = contexto.formParam("tiempo_configuracion");
+        String tiempoElegido = contexto.formParam("tiempo_configuracion");*/
 
         miembro.setRol(new RolAttributeConverter().convertToEntityAttribute(
                 Objects.requireNonNull(contexto.formParam("rol"))));
 
-        miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(
+        /*miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(
                 Objects.requireNonNull(contexto.formParam("rol_temporal"))));
 
         TiempoConfigurado tiempoConfigurado = null;
@@ -144,7 +146,7 @@ public class MiembroController extends Controller implements WithSimplePersisten
             assert tiempoElegido != null;
             tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
         }
-        usuario.setTiempoConfigurado(tiempoConfigurado);
+        usuario.setTiempoConfigurado(tiempoConfigurado);*/
 
         //Valores default
         usuario.setGradoDeConfianza(new RepositorioGradosDeConfianza().obtenerGradoDeConfianza(

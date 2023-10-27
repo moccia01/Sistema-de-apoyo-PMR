@@ -10,13 +10,14 @@ import domain.server.exceptions.FileNotLoadedException;
 import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-
+import java.util.Objects;
 
 
 public class CargaDatosController extends Controller{
@@ -37,15 +38,15 @@ public class CargaDatosController extends Controller{
         UploadedFile uploadedFile = context.uploadedFile("csvFileInput");
         String token = context.formParam("token");
         //TODO cambiar la condicion a uploadedFile.filename() != "" o algo asi
-        if (uploadedFile != null) {
+        if (!Objects.requireNonNull(uploadedFile).filename().equals("")) {
             try {
-                String destino = "src/main/resources/uploaded/";
-                Files.createDirectories(Paths.get(destino));
+                String directory = "src/main/resources/uploaded/";
+                Files.createDirectories(Paths.get(directory));
                 String nombreArchivo = uploadedFile.filename();
-                Path rutaDestino = Paths.get(destino, nombreArchivo);
+                File tempFile = new File(directory, nombreArchivo);
+                Path rutaDestino = tempFile.toPath();
                 Files.copy(uploadedFile.content(), rutaDestino, StandardCopyOption.REPLACE_EXISTING);
                 this.cargarDatosSegunRecurso(rutaDestino.toString(), context, recurso, token);
-
             } catch (IOException e) {
                 e.printStackTrace();
                 context.status(500);
@@ -53,6 +54,7 @@ public class CargaDatosController extends Controller{
                 throw new RuntimeException(e);
             }
         } else {
+            context.sessionAttribute("error_return", recurso);
             throw new FileNotLoadedException();
         }
     }

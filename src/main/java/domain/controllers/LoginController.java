@@ -77,14 +77,15 @@ public class LoginController implements WithSimplePersistenceUnit {
 
     public void create(Context context){
         Map<String, Object> model = new HashMap<>();
-        List<TiempoConfigurado> tiemposConfigurados = new ArrayList<>();
-        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
-        model.put("tiempos_config", tiemposConfigurados);
+        model.put("nombre", context.queryParam("nombre"));
+        model.put("apellido", context.queryParam("apellido"));
+        model.put("usuario", context.queryParam("usuario"));
         context.render("login/registro.hbs", model);
     }
 
     public void save(Context context){
         Usuario usuario = new Usuario();
+        context.sessionAttribute("error_return", "/registro");
         this.asignarParametros(usuario, context);
         withTransaction(() -> {
             this.repositorioUsuarios.agregar(usuario);
@@ -97,8 +98,8 @@ public class LoginController implements WithSimplePersistenceUnit {
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));
         usuario.setApellido(contexto.formParam("apellido"));
-        usuario.setMail(contexto.formParam("email"));
-        usuario.setTelefono(contexto.formParam("telefono"));
+/*        usuario.setMail(contexto.formParam("email"));
+        usuario.setTelefono(contexto.formParam("telefono"));*/
 
         CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
@@ -118,7 +119,7 @@ public class LoginController implements WithSimplePersistenceUnit {
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         usuario.setCredencialDeAcceso(credencialDeAcceso);
 
-        usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
+        /*usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
                 Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
         String tiempoElegido = contexto.formParam("tiempo_configuracion");
 
@@ -129,7 +130,7 @@ public class LoginController implements WithSimplePersistenceUnit {
             assert tiempoElegido != null;
             tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
         }
-        usuario.setTiempoConfigurado(tiempoConfigurado);
+        usuario.setTiempoConfigurado(tiempoConfigurado);*/
 
 
         //Valores default

@@ -11,11 +11,17 @@ import javax.persistence.Converter;
 public class TiempoConfiguradoAttributeConverter implements AttributeConverter<TiempoConfigurado, String> {
     @Override
     public String convertToDatabaseColumn(TiempoConfigurado tiempoConfigurado) {
+        if(tiempoConfigurado == null) {
+            return null;
+        }
         return tiempoConfigurado.toString();
     }
 
     @Override
     public TiempoConfigurado convertToEntityAttribute(String s) {
+        if(s == null) {
+            return null;
+        }
         return switch (s) {
             case "SinApuros" -> new SinApuros();
             case "CuandoSucede" -> new CuandoSucede();

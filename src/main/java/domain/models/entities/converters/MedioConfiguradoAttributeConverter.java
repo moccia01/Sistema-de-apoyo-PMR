@@ -20,6 +20,9 @@ public class MedioConfiguradoAttributeConverter implements AttributeConverter<Me
 
     @Override
     public MedioConfigurado convertToEntityAttribute(String s) {
+        if(s == null) {
+            return null;
+        }
         return switch (s) {
             case "MensajeWhatsapp" -> new MensajeWhatsApp();
             case "MensajeEmail" -> new MensajeEmail();

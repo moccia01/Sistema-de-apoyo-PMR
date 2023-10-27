@@ -9,6 +9,9 @@ import javax.persistence.Converter;
 public class RolAttributeConverter implements AttributeConverter<Rol, String> {
     @Override
     public String convertToDatabaseColumn(Rol rol) {
+        if(rol == null) {
+            return null;
+        }
         return switch (rol) {
             case ADMINISTRADOR -> "ADMINISTRADOR";
             case MIEMBRO -> "MIEMBRO";
@@ -17,7 +20,9 @@ public class RolAttributeConverter implements AttributeConverter<Rol, String> {
 
     @Override
     public Rol convertToEntityAttribute(String s) {
-
+        if(s == null) {
+            return null;
+        }
         return switch (s) {
             case "ADMINISTRADOR" -> Rol.ADMINISTRADOR;
             case "MIEMBRO" -> Rol.MIEMBRO;

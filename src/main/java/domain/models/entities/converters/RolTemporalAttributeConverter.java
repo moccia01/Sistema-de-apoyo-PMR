@@ -9,6 +9,9 @@ import javax.persistence.Converter;
 public class RolTemporalAttributeConverter implements AttributeConverter<RolTemporal, String> {
     @Override
     public String convertToDatabaseColumn(RolTemporal rolTemporal) {
+        if(rolTemporal == null) {
+            return null;
+        }
         return switch (rolTemporal) {
             case AFECTADO -> "AFECTADO";
             case OBSERVADOR -> "OBSERVADOR";
@@ -17,14 +20,13 @@ public class RolTemporalAttributeConverter implements AttributeConverter<RolTemp
 
     @Override
     public RolTemporal convertToEntityAttribute(String s) {
-        RolTemporal rolTemporal = null;
-
-        switch(s){
-            case "AFECTADO":
-                 rolTemporal = RolTemporal.AFECTADO;
-            case "OBSERVADOR":
-                 rolTemporal = RolTemporal.OBSERVADOR;
+        if(s == null) {
+            return null;
+        }
+        return switch(s){
+            case "AFECTADO" -> RolTemporal.AFECTADO;
+            case "OBSERVADOR" ->RolTemporal.OBSERVADOR;
+            default -> null;
         };
-        return rolTemporal;
     }
 }

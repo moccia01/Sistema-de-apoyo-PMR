@@ -31,10 +31,10 @@ public class Usuario extends EntidadPersistente {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private CredencialDeAcceso credencialDeAcceso;
 
-    @Column(name = "mail")
+    @Column(name = "mail", nullable = true)
     private String mail;
 
-    @Column(name = "telefono")
+    @Column(name = "telefono", nullable = true)
     private String telefono;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -47,10 +47,10 @@ public class Usuario extends EntidadPersistente {
     private List<Miembro> miembros;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tiempo_configurado_id")
+    @JoinColumn(name = "tiempo_configurado_id", nullable = true)
     private TiempoConfigurado tiempoConfigurado;
 
-    @Column
+    @Column(nullable = true)
     @Convert(converter = MedioConfiguradoAttributeConverter.class)
     private MedioConfigurado medioConfigurado;
 

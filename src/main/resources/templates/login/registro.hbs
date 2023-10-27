@@ -27,29 +27,29 @@
                     <form method="POST" action="/registro">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre" required>
+                            <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre" value="{{nombre}}" required>
                         </div>
                         <div class="mb-3">
                             <label for="apellido" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" name="apellido" placeholder="Inserte su apellido" required>
+                            <input type="text" class="form-control" name="apellido" placeholder="Inserte su apellido" value="{{apellido}}" required>
                         </div>
                         <div class="mb-3">
                             <label for="usuario_nombre" class="form-label">Nombre De Usuario</label>
-                            <input type="text" class="form-control" name="usuario_nombre" placeholder="Inserte su nombre de usuario" required>
+                            <input type="text" class="form-control" name="usuario_nombre" placeholder="Inserte su nombre de usuario" value="{{usuario}}" required>
                         </div>
-                        <div class="mb-3">
+                        <!--<div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" name="email" placeholder="Inserte su email" required>
                         </div>
                         <div class="mb-3">
                             <label for="telefono" class="form-label">Número de Teléfono</label>
                             <input type="text" class="form-control" name="telefono" placeholder="Inserte su número de teléfono" required>
-                        </div>
+                        </div>-->
                         <div class="mb-3">
                             <label for="contrasenia" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" name="contrasenia" placeholder="Inserte su contraseña" required>
                         </div>
-                        <div class="mb-3">
+                        <!--<div class="mb-3">
                             <label for="medio_notificacion" class="form-label">Medio de Notificación</label>
                             <select class="form-select" name="medio_notificacion">
                                 <option value="-1">Elegir medio de notificacion</option>
@@ -61,12 +61,10 @@
                             <label for="tiempo_configuracion" class="form-label">Tiempo de Configuración</label>
                             <select class="form-select" name="tiempo_configuracion">
                                 <option value="-1">Elegir medio de notificacion</option>
-                                {{#each tiempos_config}}
-                                    <option value="{{this.discriminador}}">Cuando sucede</option>
-                                {{/each}}
+
                                 <option value="SinApuros">Sin apuros</option>
                             </select>
-                        </div>
+                        </div>-->
                         <button type="submit" class="btn botonppal">Confirmar</button>
                     </form>
                 </div>
