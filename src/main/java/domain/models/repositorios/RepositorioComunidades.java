@@ -58,11 +58,7 @@ public class RepositorioComunidades implements WithSimplePersistenceUnit {
     }
 
     public void modificar(Comunidad comunidad){
-        // VER SI ESTA BIEN
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().merge(comunidad);
-        tx.commit();
     }
 
     public void eliminar(Comunidad comunidad) {

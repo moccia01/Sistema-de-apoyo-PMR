@@ -30,7 +30,7 @@
                     <th class="col-md-2"><strong>Apertura</strong></th>
                     <th class="col-md-2"><strong>Cierre</strong></th>
                     <th class="col-md-1"><strong>Estado</strong></th>
-                    <th class="col-md-2"><strong>Opciones</strong></th>
+                    <th class="col-md-2"><strong></strong></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,9 +45,9 @@
                     <td>{{this.cierreToString}}</td>
                     <td>{{this.estadoToString}}</td>
                     <td>
-                        <!-- TODO poner con form y method post-->
-                        <a class="btn botonppal mb-1" href="/incidentes/{{this.id}}/cerrar?comunidad_id={{this.comunidadId}}">Cerrar</a>
-                        <a class="btn btn-link mb-1" href="/incidentes/{{this.id}}/editar">Editar</a>
+                        <form method="POST" action="/incidentes/{{this.id}}/cerrar/{{this.comunidadId}}">
+                            <button type="submit" class="btn botonppal mb-1">Cerrar</button>
+                        </form>
                     </td>
                 </tr>
                 {{/each}}

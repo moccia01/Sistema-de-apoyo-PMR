@@ -18,17 +18,11 @@ public class RepositorioUsuarios implements WithSimplePersistenceUnit {
     }
 
     public void agregar(Usuario usuario) {
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().persist(usuario);
-        tx.commit();
     }
 
     public void modificar(Usuario usuario) {
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().merge(usuario);
-        tx.commit();
     }
 
     public Usuario obtenerUsuario(CredencialDeAcceso credencialDeAcceso) {

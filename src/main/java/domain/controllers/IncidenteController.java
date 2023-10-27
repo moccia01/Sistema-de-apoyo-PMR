@@ -65,10 +65,12 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     @Override
     public void save(Context context) {
-        super.usuarioLogueado(context).generarIncidente(
-                context.formParam("titulo"),
-                this.obtenerPrestacion(context),
-                context.formParam("descripcion"));
+        withTransaction(() -> {
+            super.usuarioLogueado(context).generarIncidente(
+                    context.formParam("titulo"),
+                    this.obtenerPrestacion(context),
+                    context.formParam("descripcion"));
+        });
         context.redirect("/incidentes");
     }
 
@@ -87,9 +89,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     @Override
     public void update(Context context) {
         String id = context.pathParam("id");
-        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
-        this.asignarParametros(incidente, context);
-        this.repositorioIncidentes.modificar(incidente);
+        withTransaction(() -> {
+            Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
+            this.asignarParametros(incidente, context);
+            this.repositorioIncidentes.modificar(incidente);
+        });
         context.redirect("/incidentes");
     }
 
@@ -102,9 +106,8 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     }
 
     public void close(Context context) {
-        String id = context.pathParam("id");
-        //TODO sacar query param y poner con path pq es obligatoria
-        String comunidad_id = context.queryParam("comunidad_id");
+        String id = context.pathParam("incidente_id");
+        String comunidad_id = context.pathParam("comunidad_id");
         withTransaction(() -> {
             Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)));
             Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));

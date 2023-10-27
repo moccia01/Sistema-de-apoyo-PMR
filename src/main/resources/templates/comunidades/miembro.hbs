@@ -13,8 +13,8 @@
                 </div>
                 <div class="card-body p-4">
                     <form method="POST"
-                        {{#if miembro}} action="{{Server.baseUrl}}/miembros/{{miembro.id}}"
-                        {{else}} action="{{Server.baseUrl}}/miembros?comunidad_id={{comunidad.getId}}"
+                        {{#if miembro}} action="/miembros/{{miembro.id}}"
+                        {{else}} action="/miembros/{{comunidad.getId}}/alta"
                         {{/if}}>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>

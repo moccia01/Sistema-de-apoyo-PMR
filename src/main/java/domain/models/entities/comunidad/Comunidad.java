@@ -58,7 +58,6 @@ public class Comunidad extends EntidadPersistente {
         nuevoIncidente.setFechaHoraApertura(LocalDateTime.now());
         nuevoIncidente.setTitulo(titulo);
         incidentes.add(nuevoIncidente);
-        new RepositorioIncidentes().agregar(nuevoIncidente);
         this.notificarMiembros(nuevoIncidente, new AperturaIncidente());
     }
 

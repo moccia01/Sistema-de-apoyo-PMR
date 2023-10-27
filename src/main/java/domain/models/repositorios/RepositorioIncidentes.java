@@ -39,18 +39,12 @@ public class RepositorioIncidentes implements WithSimplePersistenceUnit {
 
     public void agregar(Incidente incidente){
         // VER SI ESTA BIEN
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().persist(incidente);
-        tx.commit();
     }
 
     public void modificar(Incidente incidente){
         // VER SI ESTA BIEN
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().merge(incidente);
-        tx.commit();
     }
 
     public void eliminar(Incidente incidente) {

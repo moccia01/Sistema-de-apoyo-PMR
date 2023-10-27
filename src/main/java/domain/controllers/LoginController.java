@@ -20,12 +20,14 @@ import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
 import domain.server.exceptions.DuplicateUserException;
 import domain.server.exceptions.InvalidPasswordException;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import javax.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.util.*;
 
-public class LoginController {
+public class LoginController implements WithSimplePersistenceUnit {
     RepositorioUsuarios repositorioUsuarios;
     RepositorioCredenciales repositorioCredenciales;
     RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
@@ -83,13 +85,10 @@ public class LoginController {
 
     public void save(Context context){
         Usuario usuario = new Usuario();
-        CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
-        Validador validacion = new Validador();
-        validacion.setValidaciones(new EsDebil(),new UsaCredencialesPorDefecto());
         this.asignarParametros(usuario, context);
-        this.repositorioUsuarios.agregar(usuario);
-
-        //TODO manejar el hbs
+        withTransaction(() -> {
+            this.repositorioUsuarios.agregar(usuario);
+        });
         context.redirect("/login");
     }
 

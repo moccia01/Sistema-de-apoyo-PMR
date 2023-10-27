@@ -8,7 +8,7 @@
                     <div class="fw-bold">Usuarios</div>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
-                    <a class="btn botonCS mb-auto" href="{{Server.baseUrl}}/miembros/{{comunidad.getId}}/alta">Alta nuevo usuario</a>
+                    <a class="btn botonCS mb-auto" href="/miembros/{{comunidad.getId}}/alta">Alta nuevo usuario</a>
                 </div>
             </li>
             {{#each miembros}}
@@ -17,12 +17,12 @@
                         <div>{{this.usuario.getNombre}} {{this.usuario.getApellido}}</div>
                     </div>
                     <div class="me-2">
-                        <form method="POST" action="{{Server.baseUrl}}/miembros/{{this.id}}/baja">
+                        <form method="POST" action="/miembros/{{this.id}}/baja">
                             <button type="submit" class="btn botonppal mb-auto">Baja</button>
                         </form>
                     </div>
                     <div>
-                        <a class="btn btn-link mb-auto" href="{{Server.baseUrl}}/miembros/{{this.id}}/editar">Editar</a>
+                        <a class="btn btn-link mb-auto" href="/miembros/{{this.id}}/editar">Editar</a>
                     </div>
                 </li>
             {{/each}}

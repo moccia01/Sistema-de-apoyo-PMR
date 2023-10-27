@@ -24,7 +24,7 @@ public class Router implements WithSimplePersistenceUnit {
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
             get("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::show);
-            get("incidentes/{id}/cerrar", ((IncidenteController) FactoryController.controller("incidentes"))::close);
+            post("incidentes/{incidente_id}/cerrar/{comunidad_id}", ((IncidenteController) FactoryController.controller("incidentes"))::close);
             get("incidentes/{id}/editar", ((IncidenteController) FactoryController.controller("incidentes"))::edit);
             post("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::save);
             post("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::update); // no es put pq form de html no acepta put
@@ -37,7 +37,7 @@ public class Router implements WithSimplePersistenceUnit {
             post("miembros/{miembro_id}/baja", ((MiembroController) FactoryController.controller("miembros"))::baja);
             get("miembros/{miembro_id}/editar", ((MiembroController) FactoryController.controller("miembros"))::editar);
             get("miembros/{comunidad_id}/alta", ((MiembroController) FactoryController.controller("miembros"))::create);
-            post("miembros", ((MiembroController) FactoryController.controller("miembros"))::save);
+            post("miembros/{comunidad_id}/alta", ((MiembroController) FactoryController.controller("miembros"))::save);
             post("miembros/{miembro_id}", ((MiembroController) FactoryController.controller("miembros"))::update);
 
             get("/entidades_prestadoras", ctx -> {

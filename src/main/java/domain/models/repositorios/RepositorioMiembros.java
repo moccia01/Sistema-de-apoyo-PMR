@@ -30,25 +30,15 @@ public class RepositorioMiembros implements WithSimplePersistenceUnit {
     }
 
     public void agregar(Miembro miembro) {
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().persist(miembro);
-        tx.commit();
     }
 
     public void modificar(Miembro miembro){
-        // VER SI ESTA BIEN
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().merge(miembro);
-        tx.commit();
     }
 
     public void eliminar(Miembro miembro) {
-        EntityTransaction tx = entityManager().getTransaction();
-        tx.begin();
         entityManager().remove(miembro);
-        tx.commit();
     }
 
     public List<Miembro> obtenerMiembrosDe(Long usuario_id) {

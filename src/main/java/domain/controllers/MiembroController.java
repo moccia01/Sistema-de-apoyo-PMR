@@ -15,12 +15,13 @@ import domain.models.repositorios.*;
 import domain.server.Server;
 import domain.server.exceptions.DuplicateUserException;
 import domain.server.exceptions.InvalidPasswordException;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
 import java.util.*;
 
-public class MiembroController extends Controller{
+public class MiembroController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioMiembros repositorioMiembros;
     private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
     private RepositorioComunidades repositorioComunidades;
@@ -40,10 +41,11 @@ public class MiembroController extends Controller{
 
     public void baja(Context context) {
         String id = context.pathParam("miembro_id");
-        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));
-        this.repositorioMiembros.eliminar(miembro);
-        context.redirect(Server.baseUrl + "/miembros/"
-                + miembro.getComunidad().getId().toString() + "/admin");
+        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));;
+        withTransaction(() -> {
+            this.repositorioMiembros.eliminar(miembro);
+        });
+        context.redirect("/miembros/" + miembro.getComunidad().getId().toString() + "/admin");
     }
 
     public void editar(Context context) {
@@ -62,7 +64,9 @@ public class MiembroController extends Controller{
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));
         Usuario usuario = this.repositorioUsuarios.obtenerUsuarioSegun(miembro.getUsuario().getId());
         this.asignarParametros(miembro, usuario, context);
-        this.repositorioMiembros.modificar(miembro);
+        withTransaction(() -> {
+            this.repositorioUsuarios.modificar(usuario);
+        });
         context.redirect(miembro.getComunidad().getId() + "/admin");
     }
 
@@ -85,7 +89,7 @@ public class MiembroController extends Controller{
         miembro.setUsuario(usuario);
 
         this.asignarParametros(miembro, usuario, context);
-        String id = context.queryParam("comunidad_id");
+        String id = context.pathParam("comunidad_id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(id)));
 
         usuario.agregarMiembros(miembro);
@@ -93,11 +97,11 @@ public class MiembroController extends Controller{
 
         comunidad.agregarMiembros(miembro);
 
-        this.repositorioUsuarios.agregar(usuario);
-        this.repositorioMiembros.agregar(miembro);
-        this.repositorioComunidades.modificar(comunidad);
+        withTransaction(() -> {
+            this.repositorioUsuarios.agregar(usuario);
+        });
 
-        context.redirect("miembros/" + comunidad.getId() + "/admin");
+        context.redirect("/miembros/" + comunidad.getId() + "/admin");
     }
 
     public void asignarParametros(Miembro miembro, Usuario usuario, Context contexto) {
@@ -150,6 +154,5 @@ public class MiembroController extends Controller{
 
         usuario.setCredencialDeAcceso(credencialDeAcceso);
         miembro.setUsuario(usuario);
-        this.repositorioUsuarios.modificar(usuario);
     }
 }
