@@ -37,17 +37,17 @@ public class Localizacion {
     Direccion direccion;
 
     public void setProvincia(String provincia){
-        Localizador localizador = ServicioGeoref.instancia();
+        Localizador localizador = ServicioGeoref.instancia("https://apis.datos.gob.ar/georef/api/");
         this.provincia = localizador.provincia(provincia);
     }
 
     public void setDireccion(String departamento, String direccion){
-        Localizador localizador = ServicioGeoref.instancia();
+        Localizador localizador = ServicioGeoref.instancia("https://apis.datos.gob.ar/georef/api/");
         this.direccion = localizador.direccion(departamento, direccion);
     }
 
     public void setMunicipio(String municipio){
-        Localizador localizador = ServicioGeoref.instancia();
+        Localizador localizador = ServicioGeoref.instancia("https://apis.datos.gob.ar/georef/api/");
         this.municipio = localizador.municipio(municipio);
     }
 

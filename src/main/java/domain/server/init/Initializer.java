@@ -57,7 +57,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         }
 
         //TODO faltan las cosas de georef
-        ServicioGeoref serviciosGeoref = ServicioGeoref.instancia();
+        ServicioGeoref serviciosGeoref = ServicioGeoref.instancia("https://apis.datos.gob.ar/georef/api/");
 
         ListadoDeProvincias provincias = serviciosGeoref.listadoDeProvincias();
         RepositorioProvincias repositorioProvincias = new RepositorioProvincias();

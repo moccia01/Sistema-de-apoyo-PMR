@@ -23,17 +23,14 @@ public class ServicioCalculadoraGradoDeConfianza14 extends ServicioAPI implement
 
     private static ServicioCalculadoraGradoDeConfianza14 instancia = null;
 
-    private Retrofit retrofit = this.cargarRetrofit();
 
-    @Override
-    protected String obtenerUrlApi(){
-        urlApi = "aca iría la url si el servidor estuviera corriendo";
-        return urlApi;
+    public ServicioCalculadoraGradoDeConfianza14(String urlApi) {
+        super(urlApi);
     }
 
-    public static ServicioCalculadoraGradoDeConfianza14 instancia(){
+    public static ServicioCalculadoraGradoDeConfianza14 instancia(String url){
         if(instancia== null){
-            instancia = new ServicioCalculadoraGradoDeConfianza14();
+            instancia = new ServicioCalculadoraGradoDeConfianza14(url);
         }
         return instancia;
     }

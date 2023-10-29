@@ -12,17 +12,15 @@ import java.io.IOException;
 public class ServicioGeoref extends ServicioAPI implements Localizador{
     private static ServicioGeoref instancia = null;
     private static int maximaCantidadRegistrosDefault = 200;
-    private Retrofit retrofit = this.cargarRetrofit();
 
-    @Override
-    protected String obtenerUrlApi(){
-        urlApi = "https://apis.datos.gob.ar/georef/api/";
-        return urlApi;
+    public ServicioGeoref(String urlApi) {
+        super(urlApi);
     }
 
-    public static ServicioGeoref instancia(){
+
+    public static ServicioGeoref instancia(String url){
         if(instancia == null){
-            instancia = new ServicioGeoref();
+            instancia = new ServicioGeoref(url);
         }
         return instancia;
     }

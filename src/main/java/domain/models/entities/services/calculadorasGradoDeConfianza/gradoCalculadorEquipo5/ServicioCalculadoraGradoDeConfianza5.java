@@ -17,17 +17,14 @@ import java.util.List;
 public class ServicioCalculadoraGradoDeConfianza5 extends ServicioAPI implements CalculadorDeConfianza{
     //"https://github.com/a-sandoval/servicio-entrega4-tpa-grupo5/tree/master/ServicioCalculadorGradoDeConfianza"
     private static ServicioCalculadoraGradoDeConfianza5 instancia = null;
-    private Retrofit retrofit = this.cargarRetrofit();
 
-    @Override
-    protected String obtenerUrlApi(){
-        urlApi = "https://raw.githubusercontent.com/gradoDeConfianza/";
-        return urlApi;
+    public ServicioCalculadoraGradoDeConfianza5(String urlApi) {
+        super(urlApi);
     }
 
-    public static ServicioCalculadoraGradoDeConfianza5 instancia(){
+    public static ServicioCalculadoraGradoDeConfianza5 instancia(String url){
         if(instancia == null){
-            instancia = new ServicioCalculadoraGradoDeConfianza5();
+            instancia = new ServicioCalculadoraGradoDeConfianza5(url);
         }
         return instancia;
     }
