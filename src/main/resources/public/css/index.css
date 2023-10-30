@@ -137,3 +137,15 @@
     color: #9DDBA9;
     border: none;
 }
+
+.qs{
+    color: #9DDBA9;
+}
+
+.qs:hover{
+    color: #9DDBA9;
+}
+
+#inl{
+    display: flex;
+}

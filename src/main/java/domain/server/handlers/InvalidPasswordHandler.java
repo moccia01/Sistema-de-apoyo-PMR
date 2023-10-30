@@ -45,27 +45,27 @@ public class InvalidPasswordHandler implements IHandler{
 
     private void agregarValidacionesFallidas(List<String> validacionesFallidas, CredencialDeAcceso credencialDeAccesoFallida) {
         if(!new EsDebil().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("Se encuentra en el Top 10.000 peores contraseñas.");
+            validacionesFallidas.add("No se debe encontrar en el Top 10.000 peores contraseñas.");
         }
 
         if(!new UsaCredencialesPorDefecto().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("Es una credencial por defecto.");
+            validacionesFallidas.add("No debe ser una credencial por defecto (mismo nombre de usuario que contraseña).");
         }
 
         if(!new Longitud().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("No cumple con la longitud adecuada de entre 8 y 64 caracteres.");
+            validacionesFallidas.add("Debe tener una longitud de entre 8 y 64 caracteres.");
         }
 
         if(!new TieneCaracterEspecial().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("No contiene caracteres especiales.");
+            validacionesFallidas.add("Debe contiene caracteres especiales ('@', '#', '!', '&', '%', '$', etc.).");
         }
 
         if(!new TieneMayuscula().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("No contiene mayúsculas.");
+            validacionesFallidas.add("Debe contiener mayúsculas.");
         }
 
         if(!new TieneNumero().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("No contiene números.");
+            validacionesFallidas.add("Debe contiener números.");
         }
     }
 }
