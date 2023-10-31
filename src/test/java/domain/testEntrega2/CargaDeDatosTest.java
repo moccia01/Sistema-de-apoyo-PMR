@@ -2,8 +2,8 @@ package domain.testEntrega2;
 
 import domain.models.entities.entidadesDeServicio.EntidadPrestadora;
 import domain.models.entities.entidadesDeServicio.OrganismoDeControl;
-import domain.models.entities.cargaDeDatos.CargaEntidadesPrestadoras;
-import domain.models.entities.cargaDeDatos.CargaOrganismosControl;
+import domain.models.entities.admins.cargaDeDatos.CargaEntidadesPrestadoras;
+import domain.models.entities.admins.cargaDeDatos.CargaOrganismosControl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

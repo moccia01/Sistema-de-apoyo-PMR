@@ -1,7 +1,8 @@
 package domain.controllers;
 
-import domain.models.entities.cargaDeDatos.CargaEntidadesPrestadoras;
-import domain.models.entities.cargaDeDatos.CargaOrganismosControl;
+import domain.models.entities.admins.cargaDeDatos.CargaEntidadesPrestadoras;
+import domain.models.entities.admins.cargaDeDatos.CargaOrganismosControl;
+import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.EntidadPrestadora;
 import domain.models.entities.entidadesDeServicio.OrganismoDeControl;
 import domain.models.repositorios.RepositorioEntidadesPrestadoras;
@@ -16,7 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -30,14 +33,30 @@ public class CargaDatosController extends Controller{
         this.repositorioOrganismoDeControl = repositorioOrganismoDeControl;
     }
 
-    public void show(Context context, String vista) {
-        context.render("cargaDeDatos/" + vista);
+    public void show(Context context, String recurso) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("lista", this.obtenerListaSegun(recurso));
+        context.render("admins/cargaDeDatos/" + recurso + ".hbs", model);
+    }
+
+    private Object obtenerListaSegun(String recurso) {
+        switch (recurso) {
+            case "entidades_prestadoras" -> {
+                return this.repositorioEntidadesPrestadoras.obtenerEntidadesPrestadoras();
+            }
+            case "organismos_de_control" -> {
+                return this.repositorioOrganismoDeControl.obtenerOrganismosDeControl();
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
     public void upload(Context context, String recurso){
         UploadedFile uploadedFile = context.uploadedFile("csvFileInput");
         String token = context.formParam("token");
-        //TODO cambiar la condicion a uploadedFile.filename() != "" o algo asi
+
         if (!Objects.requireNonNull(uploadedFile).filename().equals("")) {
             try {
                 String directory = "src/main/resources/uploaded/";
@@ -65,14 +84,15 @@ public class CargaDatosController extends Controller{
                 CargaEntidadesPrestadoras loader = new CargaEntidadesPrestadoras(token);
                 List<EntidadPrestadora> entidadesPrestadoras = loader.cargarDatos(path);
                 entidadesPrestadoras.forEach(entidadPrestadora -> this.repositorioEntidadesPrestadoras.agregar(entidadPrestadora));
-                context.redirect("entidades_prestadoras");
+                context.redirect("admin/entidades_prestadoras");
             }
             case "organismos_de_control" -> {
                 CargaOrganismosControl loader = new CargaOrganismosControl(token);
                 List<OrganismoDeControl> organismosDeControl = loader.cargarDatos(path);
                 organismosDeControl.forEach(organismoDeControl -> this.repositorioOrganismoDeControl.agregar(organismoDeControl));
-                context.redirect("organismos_de_control");
+                context.redirect("admin/organismos_de_control");
             }
         }
     }
+
 }

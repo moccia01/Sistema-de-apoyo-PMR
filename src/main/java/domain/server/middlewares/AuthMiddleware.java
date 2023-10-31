@@ -16,9 +16,12 @@ public class AuthMiddleware {
             publicPaths.add("/");
             publicPaths.add("/login");
             publicPaths.add("/registro");
+            publicPaths.add("/admin/login");
 
             String path = context.req().getRequestURI();
-            if(context.sessionAttribute("usuario_id") != null || publicPaths.contains(path)) {
+            if(context.sessionAttribute("usuario_id") != null
+                    || context.sessionAttribute("admin_id") != null
+                    || publicPaths.contains(path)) {
                 handler.handle(context);
             }
             else {

@@ -18,6 +18,9 @@
 }
 
 .nav-link{
+    margin: 0;
+    top: 50%;
+    transform: translateY(-50%);
     position: relative;
     color: #9DDBA9;
     font-family: "JetBrains Mono";
@@ -99,6 +102,7 @@
     background-color: #9DDBA9;
     color: #062129;
     border-color: #9DDBA9;
+    font-family: "JetBrains Mono";
 }
 
 .botonCS:hover{
@@ -177,3 +181,14 @@
 .div3{
     display: flex;
 }
+
+.botonReg{
+    border-color: #9DDBA9;
+    color: #9DDBA9;
+    font-family: "JetBrains Mono";
+}
+
+.botonReg:hover{
+    color:#9DDBA9;
+}
+

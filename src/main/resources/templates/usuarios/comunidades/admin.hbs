@@ -1,0 +1,33 @@
+{{#partial "contenido" }}
+   <div class="container mt-4">
+        <h1>{{comunidad.getNombre}}</h1>
+
+        <ul class="list-group list-group">
+            <li class="list-group-item d-flex encab justify-content-between align-items-start">
+                <div class="ms-1 me-auto mt-1" style="font-size: 20px;">
+                    <div class="fw-bold">Usuarios</div>
+                </div>
+                <div class="d-grid gap-2 d-md-block">
+                    <a class="btn botonCS mb-auto" href="/miembros/{{comunidad.getId}}/alta">Alta nuevo usuario</a>
+                </div>
+            </li>
+            {{#each miembros}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-1 me-auto mt-2">
+                        <div>{{this.usuario.getNombre}} {{this.usuario.getApellido}}</div>
+                    </div>
+                    <div class="me-2">
+                        <form method="POST" action="/miembros/{{this.id}}/baja">
+                            <button type="submit" class="btn botonppal mb-auto">Baja</button>
+                        </form>
+                    </div>
+                    <div>
+                        <a class="btn btn-link mb-auto" href="/miembros/{{this.id}}/editar">Editar</a>
+                    </div>
+                </li>
+            {{/each}}
+
+          </ul>
+    </div>
+{{/partial}}
+{{> templates/usuarios/plantilla_base }}

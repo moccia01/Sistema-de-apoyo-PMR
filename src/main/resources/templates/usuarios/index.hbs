@@ -1,7 +1,32 @@
 {{#partial "funcionesDeUsuarioNav" }}
+
     <li class="nav-item">
-        <a class="btn botonCS mb-auto me-2" href="/login">Iniciar sesión</a>
-        <a class="btn botonReg mb-auto" href="/registro">Registrarse</a>
+        <a class="nav-link" href="/incidentes">Incidentes</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/comunidades">Comunidades</a>
+    </li>
+
+    <li class="nav-item">
+        <a>{{this.nombre}}</a>
+        <a>{{this.apellido}}</a>
+    </li>
+
+    <li class="nav-item">
+        <div class="dropdown">
+            <a class="btn dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="" src="/iconodeusuario.png" alt="Es el icono del usuario" width="40" height="40">
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="/perfil" role="button">Editar Perfil</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/login" role="button">Cerrar Sesion</a>
+                </li>
+            </ul>
+        </div>
     </li>
 {{/partial}}
 

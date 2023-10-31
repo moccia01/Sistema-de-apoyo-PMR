@@ -1,0 +1,52 @@
+{{#partial "contenido" }}
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <h5 class="card-header text text-center py-3">{{#if incidente}}Edicion de Incidente{{else}}Apertura de Incidente{{/if}}</h5>
+                    <div class="card-body">
+                        <form method ="POST" {{#if incidente}} action="/incidentes/{{incidente.id}}" {{else}} action="/incidentes" {{/if}}>
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título</label>
+                                <input type="text" class="form-control" name="titulo" placeholder="Título del incidente" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="entidad" class="form-label">Entidad</label>
+                                <select class="form-select" id="entidad" name="entidad" required>
+                                    <option value="-1">Elegir Entidad</option>
+                                    {{#each entidades}}
+                                        <option value={{this.getId}}>{{this.getNombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="establecimiento" class="form-label">Establecimiento</label>
+                                <select class="form-select" id="establecimiento" name="establecimiento" required>
+                                    <option value="-1">Elegir Establecimiento</option>
+                                    {{#each establecimientos}}
+                                        <option value={{this.getId}}>{{this.getNombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="servicio" class="form-label">Servicio</label>
+                                <select class="form-select" id="servicio" name="servicio" required>
+                                    <option value="-1">Elegir Servicio</option>
+                                    {{#each servicios}}
+                                        <option value={{this.getId}}>{{this.getNombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" name="descripcion" rows="4" placeholder="Descripción del incidente"></textarea>
+                            </div>
+                            <button type="submit" class="btn botonppal">{{#if incidente}}Guardar{{else}}Abrir{{/if}}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/usuarios/plantilla_base }}

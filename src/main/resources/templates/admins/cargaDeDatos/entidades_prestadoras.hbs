@@ -1,0 +1,29 @@
+{{#partial "contenido" }}
+    <div class="container mt-4">
+        <h1>Carga de Entidades Prestadoras</h1>
+
+        <div class="card main-container">
+            <div class="card-body">
+                <h5 class="card-title">Subir Archivo CSV</h5>
+                <form method="POST" action="entidades_prestadoras" enctype="multipart/form-data">
+                    <div class="mb-auto d-inline-flex">
+                        <div class="d-inline-flex">
+                            <label for="token" class="form-label mt-2 me-1">Token CSV:</label>
+                        </div>
+                        <div class="d-inline-flex">
+                            <input type="text" class="form-control" name="token" placeholder="Inserte token del CSV" required>
+                        </div>
+                    </div>
+                    <div class="d-inline-flex">
+                        <input type="file" class="form-control-file mt-1" name="csvFileInput" id="csvFileInput">
+                    </div>
+                    <div class="d-inline-block">
+                        <button class="btn botonppal" id="uploadCsvBtn">Subir CSV</button>
+                    </div>
+                </form>
+            </div>
+            <!-- TODO aca hacer el each lista (literalmente se llama lista) para mostrar la lista de entidades prestadoras-->
+        </div>
+    </div>
+{{/partial}}
+{{> templates/admins/plantilla_base_admins }}

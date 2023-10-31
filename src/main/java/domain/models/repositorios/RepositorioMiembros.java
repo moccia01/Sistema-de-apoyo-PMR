@@ -1,9 +1,6 @@
 package domain.models.repositorios;
 
-import domain.models.entities.comunidad.Comunidad;
-import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Miembro;
-import domain.models.entities.comunidad.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import javax.persistence.EntityTransaction;

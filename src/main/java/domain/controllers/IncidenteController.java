@@ -42,7 +42,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
             comunidad.getIncidentes().forEach(i -> i.setComunidadId(comunidad.getId()));
         }
         model.put("comunidades", comunidades);
-        context.render("incidentes/incidentes.hbs", model);
+        context.render("usuarios/incidentes/incidentes.hbs", model);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
         Map<String, Object> model = new HashMap<>();
         model.put("incidente", incidente);
-        context.render("incidentes/incidente.hbs", model);
+        context.render("usuarios/incidentes/incidente.hbs", model);
     }
 
     @Override

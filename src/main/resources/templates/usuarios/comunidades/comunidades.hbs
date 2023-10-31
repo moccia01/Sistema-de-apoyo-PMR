@@ -1,0 +1,34 @@
+{{#partial "contenido" }}
+
+    <!--TODO ver como hacer para que el boton de filtrar funcione-->
+
+    <div class="container mt-4">
+        <h1>Comunidades</h1>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filtrar Por Rol
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" id="filterOpen">Administrador</a>
+                <a class="dropdown-item" href="#" id="filterClosed">Miembro</a>
+            </div>
+        </div>
+
+        <!--aca arrancaria la lista de comunidades-->
+        {{#each miembros}}
+            <div class="card mt-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title" style="margin-left: 10px;">{{this.comunidad.nombre}}</h5>
+                    {{#if this.esAdministrador}}
+                        <a href="miembros/{{this.comunidad.getId}}/admin" class="btn botonppal mt-1 me-1 mb-1">Miembros</a>
+                    {{else}}
+                        <a href="miembros/{{this.comunidad.getId}}/ver" class="btn botonppal mt-1 me-1 mb-1">Miembros</a>
+                    {{/if}}
+                </div>
+
+            </div>
+        {{/each}}
+    </div>
+{{/partial}}
+{{> templates/usuarios/plantilla_base }}

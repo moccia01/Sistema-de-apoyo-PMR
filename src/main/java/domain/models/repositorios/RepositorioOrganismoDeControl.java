@@ -6,6 +6,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit {
 
@@ -16,6 +17,12 @@ public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit 
             entityManager().persist(organismoDeControl);
             tx.commit();
         }
+    }
+
+    public List<OrganismoDeControl> obtenerOrganismosDeControl(){
+        return entityManager()
+                .createQuery("from OrganismosDeControl")
+                .getResultList();
     }
 
     public OrganismoDeControl obtenerOrganismoDeControl(Long id){

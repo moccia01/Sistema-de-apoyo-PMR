@@ -1,5 +1,6 @@
 package domain.server.init;
 
+import domain.models.entities.admins.AdminDePlataforma;
 import domain.models.entities.builders.*;
 import domain.models.entities.comunidad.*;
 
@@ -56,8 +57,7 @@ public class Initializer implements WithSimplePersistenceUnit {
             this.confianzaConfiableNivel2 = repositorioGradosDeConfianza.obtenerGradoDeConfianza(NombreGradoConfianza.CONFIABLE_NIVEL_2);
         }
 
-        //TODO faltan las cosas de georef
-        ServicioGeoref serviciosGeoref = ServicioGeoref.instancia("https://apis.datos.gob.ar/georef/api/");
+/*        ServicioGeoref serviciosGeoref = ServicioGeoref.instancia("https://apis.datos.gob.ar/georef/api/");
 
         ListadoDeProvincias provincias = serviciosGeoref.listadoDeProvincias();
         RepositorioProvincias repositorioProvincias = new RepositorioProvincias();
@@ -69,8 +69,22 @@ public class Initializer implements WithSimplePersistenceUnit {
 
         ListadoDeDepartamentos departamentos = serviciosGeoref.listadoDeDepartamentos();
         RepositorioDepartamentos repositorioDepartamentos = new RepositorioDepartamentos();
-        departamentos.getDepartamentos().forEach(repositorioDepartamentos::agregar);
-        //PERSISTIR CON REPO DE DEPTOS
+        departamentos.getDepartamentos().forEach(repositorioDepartamentos::agregar);*/
+
+        AdminDePlataforma adminDePlataforma = new AdminDePlataforma();
+        adminDePlataforma.setNombre("nisman");
+        adminDePlataforma.setUsuario("nismanElFiscal");
+        adminDePlataforma.setContrasenia("nisman");
+
+        AdminDePlataforma tomas = new AdminDePlataforma();
+        tomas.setNombre("admin");
+        tomas.setUsuario("admin");
+        tomas.setContrasenia("admin");
+
+        withTransaction(() -> {
+            entityManager().persist(tomas);
+            entityManager().persist(adminDePlataforma);
+        });
 
     }
 }

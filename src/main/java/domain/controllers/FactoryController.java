@@ -13,6 +13,8 @@ public class FactoryController {
             case "miembros" -> new MiembroController(new RepositorioMiembros(), new RepositorioTiemposConfiguracion(), new RepositorioComunidades(), new RepositorioUsuarios(),new RepositorioCredenciales());
             case "carga_datos" -> new CargaDatosController(new RepositorioEntidadesPrestadoras(), new RepositorioOrganismoDeControl());
             case "ranking" -> new RankingController(new RepositorioIncidentes(), new RepositorioServicios(), new RepositorioEstablecimientos(), new RepositorioEntidades(), new RepositorioComunidades());
+            case  "admin" -> new AdminController(new RepositorioAdmins());
+            case "usuario" -> new UsuarioController(new RepositorioUsuarios(), new RepositorioTiemposConfiguracion());
             default -> null;
         };
     }

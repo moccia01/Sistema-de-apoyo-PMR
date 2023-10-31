@@ -4,10 +4,15 @@
             <div class="card shadow-lg">
                 <div class="card-body p-4">
                     <p>Usuario y/o contraseña incorrectos.</p>
-                    <a class="btn botonppal mb-auto" href="/login">Volver a intentar</a>
+                    <a class="btn botonppal mb-auto"
+                        {{#if usuario}}
+                            href="/login"
+                        {{else}}
+                            href="/admin/login"
+                        {{/if}}>Volver a intentar</a>
                 </div>
             </div>
         </div>
     </div>
 {{/partial}}
-{{> templates/plantilla_errores_base }}
+{{> templates/errors/plantilla_errores_base }}

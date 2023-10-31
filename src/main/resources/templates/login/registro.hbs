@@ -13,18 +13,24 @@
 <body class = "body">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <img class="navbar-brand" src="/logo.png" alt="Es el logo de la pagina" width="238" height="75">
+            <a class="btn" role="button" href="/">
+                <img class="navbar-brand" src="/logo.png" alt="Es el logo de la pagina" width="238" height="75">
+            </a>
         </div>
     </nav>
 
-    <div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+    <div class="container-fluid d-flex align-items-center justify-content-center mt-5">
         <div class="col-md-4 mt-5 mb-5">
             <div class="card shadow-lg">
                 <div class="card-header text-dark text-center py-3">
-                    <h3 class="m-0">Registro de usuario</h3>
+                    {{#if user}}
+                        <h3 class="m-0">Perfil</h3>
+                    {{else}}
+                        <h3 class="m-0">Registro de usuario</h3>
+                    {{/if}}
                 </div>
                 <div class="card-body p-4">
-                    <form method="POST" action="/registro">
+                    <form method="POST" {{#if user}} action="/perfil" {{else}} action="/registro" {{/if}}>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre" value="{{nombre}}" required>
@@ -37,40 +43,77 @@
                             <label for="usuario_nombre" class="form-label">Nombre De Usuario</label>
                             <input type="text" class="form-control" name="usuario_nombre" placeholder="Inserte su nombre de usuario" value="{{usuario}}" required>
                         </div>
-                        <!--<div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="Inserte su email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="telefono" class="form-label">Número de Teléfono</label>
-                            <input type="text" class="form-control" name="telefono" placeholder="Inserte su número de teléfono" required>
-                        </div>-->
+                        {{#if user}}
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="Inserte su email" value="{{user.mail}}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Número de Teléfono</label>
+                                <input type="text" class="form-control" name="telefono" placeholder="Inserte su número de teléfono" value="{{user.telefono}}" required>
+                            </div>
+                        {{/if}}
+
                         <div class="mb-3">
                             <label for="contrasenia" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" name="contrasenia" placeholder="Inserte su contraseña" required>
                         </div>
-                        <!--<div class="mb-3">
-                            <label for="medio_notificacion" class="form-label">Medio de Notificación</label>
-                            <select class="form-select" name="medio_notificacion">
-                                <option value="-1">Elegir medio de notificacion</option>
-                                <option value="MensajeEmail">Email</option>
-                                <option value="MensajeWhatsapp">WhatsApp</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tiempo_configuracion" class="form-label">Tiempo de Configuración</label>
-                            <select class="form-select" name="tiempo_configuracion">
-                                <option value="-1">Elegir medio de notificacion</option>
 
-                                <option value="SinApuros">Sin apuros</option>
-                            </select>
-                        </div>-->
+                        {{#if user}}
+                            <div class="mb-3">
+                                <label for="medio_notificacion" class="form-label">Medio de Notificación</label>
+                                <select class="form-select" name="medio_notificacion">
+                                    <option value="-1">Elegir medio de notificacion</option>
+                                    <option value="MensajeEmail">Email</option>
+                                    <option value="MensajeWhatsapp">WhatsApp</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tiempo_configuracion" class="form-label">Tiempo de Configuración</label>
+                                <select class="form-select" name="tiempo_configuracion">
+                                    <option value="-1">Elegir tiempo de notificacion</option>
+                                    <option value="CuandoSucede">Cuando sucede</option>
+                                    <option value="SinApuros">Sin apuros</option>
+                                </select>
+                            </div>
+                        {{/if}}
                         <button type="submit" class="btn botonppal">Confirmar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer class="footer mt-auto py-3">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <div class="cont">
+                    <div class="div1">
+                        <img class="footer-img" src="/logoutn.png" alt="Es el logo de la facu" width="251" height="91">
+                    </div>
+                    <div class="div2 ms-5 mt-2">
+                        <ul class="lista-pequenia mt-1">
+                            <li class="item">
+                                <p id="parrafo-footer">ACERCA DE NOSOTROS</p>
+                            </li>
+                            <li class="item">
+                                <a id="boton-link-nosotros" href="/quienesSomos">Quienes Somos</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="div3 ms-5 mt-4">
+                        <div class="logo-puntero-ubicacion">
+                            <img class="puntero-ubicacion" src="./punteroubicacion.png" alt="Es el logo de la ubicacion" width="25" height="25">
+                        </div>
+                        <div class="texto-ubicacion">
+                            <p class="text-ubi">BUENOS AIRES, ARGENTINA.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

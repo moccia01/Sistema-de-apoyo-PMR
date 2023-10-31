@@ -57,6 +57,7 @@ public class LoginController implements WithSimplePersistenceUnit {
     public void show(Context context){
         context.sessionAttribute("usuario_id", null);
         Map<String, Object> model = new HashMap<>();
+        model.put("usuario", true);
         model.put("login", null);
         context.render("login/login.hbs", model);
     }
@@ -70,7 +71,9 @@ public class LoginController implements WithSimplePersistenceUnit {
             context.sessionAttribute("usuario_id", usuario.getId());
             context.redirect("/index");
         } else {
-            context.render("errors/loginError.hbs");
+            Map<String, Object> model = new HashMap<>();
+            model.put("usuario", true);
+            context.render("errors/loginError.hbs", model);
         }
 
     }
