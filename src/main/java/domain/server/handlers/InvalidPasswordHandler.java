@@ -61,11 +61,11 @@ public class InvalidPasswordHandler implements IHandler{
         }
 
         if(!new TieneMayuscula().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("Debe contiener mayúsculas.");
+            validacionesFallidas.add("Debe contener mayúsculas.");
         }
 
         if(!new TieneNumero().validar(credencialDeAccesoFallida)) {
-            validacionesFallidas.add("Debe contiener números.");
+            validacionesFallidas.add("Debe contener números.");
         }
     }
 }
