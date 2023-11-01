@@ -32,8 +32,33 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/rankings">Rankings</a>
                 </li>
-                <li class="nav-item">
-                    <a class="btn ms-2 botonCS" href="/admin/login">Cerrar sesión</a>
+                <li>
+                    <div class="ms-1 border rounded">
+                        <div class="navbar-nav ml-auto ms-1">
+                            <div class="nav-item">
+                                <div class="nombreUsuario ms-1 me-1">
+                                    <a>{{user.nombre}}</a>
+                                    <a>{{user.apellido}}</a>
+                                </div>
+                            </div>
+
+                            <div class="nav-item">
+                                <div class="dropdown">
+                                    <a class="btn dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img class="" src="/iconodeusuario.png" alt="Es el icono del usuario" width="40" height="40">
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="/perfil" role="button">Editar Perfil</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/login" role="button">Cerrar Sesion</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
