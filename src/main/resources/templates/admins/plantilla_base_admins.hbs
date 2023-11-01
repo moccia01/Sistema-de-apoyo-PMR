@@ -14,7 +14,9 @@
 
 <nav class="navbar navbar-expand-lg"> <!-- LE SACAMO EL COLOR AMARILLO-->
     <div class="container">
-        <img class="navbar-brand" src="/logo.png" alt="Es el logo de la pagina" width="238" height="75">
+        <a class="btn" role="button" href="/admin/index">
+            <img class="navbar-brand" src="/logo.png" alt="Es el logo de la pagina" width="238" height="75">
+        </a>
         <!-- <p class="titulo ppal" style="font-family: 'JetBrains Mono', monospace; color: black; margin-bottom: 0px; font-size: 25px;">Sistema Apoyo PMR - G14</p> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,19 +24,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/index">Home</a>
+                    <a class="nav-link" href="/admin/entidades_prestadoras">Entidades prestadoras</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/entidades_prestadoras">Entidades prestadoras</a>
+                    <a class="nav-link" href="/admin/organismos_de_control">Organismos de control</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/organismos_de_control">Organismos de control</a>
+                    <a class="nav-link" href="/admin/rankings">Rankings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/rankings">Rankings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn ms-2 botonCS" href="/login">Cerrar sesión</a>
+                    <a class="btn ms-2 botonCS" href="/admin/login">Cerrar sesión</a>
                 </li>
             </ul>
         </div>
@@ -43,7 +42,7 @@
 
 <div id="content">
     <div class="container">
-        {{#block "admin"}}
+        {{#block "contenido"}}
 
 
         {{/block}}

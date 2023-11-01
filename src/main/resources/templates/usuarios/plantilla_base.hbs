@@ -23,7 +23,34 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     {{#block "funcionesDeUsuarioNav"}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/incidentes">Incidentes</a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="/comunidades">Comunidades</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a>{{this.nombre}}</a>
+                            <a>{{this.apellido}}</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img class="" src="/iconodeusuario.png" alt="Es el icono del usuario" width="40" height="40">
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="/perfil" role="button">Editar Perfil</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/login" role="button">Cerrar Sesion</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                     {{/block}}
                 </ul>
             </div>
@@ -57,10 +84,10 @@
                     </div>
                     <div class="div3 ms-5 mt-4">
                         <div class="logo-puntero-ubicacion">
-                            <img class="puntero-ubicacion" src="./punteroubicacion.png" alt="Es el logo de la ubicacion" width="25" height="25">
+                            <img class="puntero-ubicacion" src="/punteroubicacion.png" alt="Es el logo de la ubicacion" width="25" height="25">
                         </div>
                         <div class="texto-ubicacion">
-                            <p class="text-ubi">BUENOS AIRES, ARGENTINA.</p>
+                            <p class="text-ubi">Buenos Aires, Argentina.</p>
                         </div>
                     </div>
                 </div>

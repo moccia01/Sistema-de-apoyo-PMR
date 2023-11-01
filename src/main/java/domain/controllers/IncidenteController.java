@@ -60,7 +60,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         model.put("entidades", new RepositorioEntidades().obtenerEntidades());
         model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos());
         model.put("servicios", new RepositorioServicios().obtenerServicios());
-        context.render("incidentes/incidente.hbs", model);
+        context.render("usuarios/incidentes/incidente.hbs", model);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos());
         model.put("servicios", new RepositorioServicios().obtenerServicios());
         model.put("incidente", incidente);
-        context.render("incidentes/incidente.hbs", model);
+        context.render("usuarios/incidentes/incidente.hbs", model);
     }
 
     @Override

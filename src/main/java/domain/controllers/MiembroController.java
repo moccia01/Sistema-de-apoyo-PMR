@@ -56,7 +56,7 @@ public class MiembroController extends Controller implements WithSimplePersisten
         tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
         model.put("tiempos_config", tiemposConfigurados);
         model.put("miembro", miembro);
-        context.render("comunidades/miembro.hbs", model);
+        context.render("usuarios/comunidades/miembro.hbs", model);
     }
 
     public void update(Context context) {
@@ -78,7 +78,7 @@ public class MiembroController extends Controller implements WithSimplePersisten
         model.put("apellido", context.queryParam("apellido"));
         model.put("usuario", context.queryParam("usuario"));
         model.put("comunidad", comunidad);
-        context.render("comunidades/miembro.hbs", model);
+        context.render("usuarios/comunidades/miembro.hbs", model);
     }
 
     public void save(Context context) {

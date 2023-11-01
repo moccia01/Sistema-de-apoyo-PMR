@@ -84,13 +84,13 @@ public class CargaDatosController extends Controller{
                 CargaEntidadesPrestadoras loader = new CargaEntidadesPrestadoras(token);
                 List<EntidadPrestadora> entidadesPrestadoras = loader.cargarDatos(path);
                 entidadesPrestadoras.forEach(entidadPrestadora -> this.repositorioEntidadesPrestadoras.agregar(entidadPrestadora));
-                context.redirect("admin/entidades_prestadoras");
+                context.redirect("/admin/entidades_prestadoras");
             }
             case "organismos_de_control" -> {
                 CargaOrganismosControl loader = new CargaOrganismosControl(token);
                 List<OrganismoDeControl> organismosDeControl = loader.cargarDatos(path);
                 organismosDeControl.forEach(organismoDeControl -> this.repositorioOrganismoDeControl.agregar(organismoDeControl));
-                context.redirect("admin/organismos_de_control");
+                context.redirect("/admin/organismos_de_control");
             }
         }
     }
