@@ -23,6 +23,11 @@ public class ComunidadController extends Controller{
         Map<String, Object> model = new HashMap<>();
         List<Miembro> miembros = this.repositorioMiembros.obtenerMiembrosDe(super.usuarioLogueado(context).getId());
         model.put("miembros", miembros);
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/comunidades/comunidades.hbs", model);
     }
 
@@ -50,6 +55,11 @@ public class ComunidadController extends Controller{
         Map<String, Object> model = new HashMap<>();
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/comunidades/ver.hbs", model);
     }
 

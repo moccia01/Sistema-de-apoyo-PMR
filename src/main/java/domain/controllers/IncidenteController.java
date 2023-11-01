@@ -42,6 +42,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
             comunidad.getIncidentes().forEach(i -> i.setComunidadId(comunidad.getId()));
         }
         model.put("comunidades", comunidades);
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/incidentes/incidentes.hbs", model);
     }
 
@@ -51,6 +56,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
         Map<String, Object> model = new HashMap<>();
         model.put("incidente", incidente);
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/incidentes/incidente.hbs", model);
     }
 
@@ -60,6 +70,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         model.put("entidades", new RepositorioEntidades().obtenerEntidades());
         model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos());
         model.put("servicios", new RepositorioServicios().obtenerServicios());
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/incidentes/incidente.hbs", model);
     }
 
@@ -83,6 +98,11 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos());
         model.put("servicios", new RepositorioServicios().obtenerServicios());
         model.put("incidente", incidente);
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/incidentes/incidente.hbs", model);
     }
 

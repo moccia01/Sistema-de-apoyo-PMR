@@ -128,11 +128,11 @@
     color: #1B4146;
 }
 
-.link{
+.link:hover{
     color: #9DDBA9;
 }
 
-.link:hover{
+.link{
     color: #062129;
 }
 
@@ -192,3 +192,9 @@
     color:#9DDBA9;
 }
 
+.nombreUsuario{
+    font-family: "JetBrains Mono";
+    margin: 0;
+    top: 50%;
+    transform: translateY(63%);
+}

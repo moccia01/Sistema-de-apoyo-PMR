@@ -25,8 +25,10 @@ public class UsuarioController extends Controller{
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
         Usuario usuario = super.usuarioLogueado(context);
-        model.put("usuario", usuario);
-
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/index.hbs", model);
     }
 
