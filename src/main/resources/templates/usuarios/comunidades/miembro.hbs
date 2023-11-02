@@ -19,17 +19,17 @@
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre"
-                                {{#if miembro}} value="{{miembro.getUsuario.getNombre}}" {{else}} value="{{nombre}}" {{/if}} required>
+                                {{#if miembro}} value="{{miembro.getUsuario.getNombre}}" {{else}} value="{{nombre_form}}" {{/if}} required>
                         </div>
                         <div class="mb-3">
                             <label for="apellido" class="form-label">Apellido</label>
                             <input type="text" class="form-control" name="apellido" placeholder="Inserte su apellido"
-                                {{#if miembro}} value="{{miembro.getUsuario.getApellido}}" {{else}} value="{{apellido}}" {{/if}} required>
+                                {{#if miembro}} value="{{miembro.getUsuario.getApellido}}" {{else}} value="{{apellido_form}}" {{/if}} required>
                         </div>
                         <div class="mb-3">
                             <label for="usuario_nombre" class="form-label">Nombre De Usuario</label>
                             <input type="text" class="form-control" name="usuario_nombre" placeholder="Inserte su nombre de usuario"
-                                {{#if miembro}} value="{{miembro.getUsuario.getCredencialDeAcceso.getNombreUsuario}}" {{else}} value="{{usuario}}" {{/if}}required>
+                                {{#if miembro}} value="{{miembro.getUsuario.getCredencialDeAcceso.getNombreUsuario}}" {{else}} value="{{usuario_form}}" {{/if}}required>
                         </div>
                        <!-- <div class="mb-3">
                             <label for="email" class="form-label">Email</label>

@@ -54,6 +54,9 @@ public class MiembroController extends Controller implements WithSimplePersisten
         Map<String, Object> model = new HashMap<>();
         List<TiempoConfigurado> tiemposConfigurados = new ArrayList<>();
         tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
         model.put("tiempos_config", tiemposConfigurados);
         model.put("miembro", miembro);
         context.render("usuarios/comunidades/miembro.hbs", model);
@@ -74,9 +77,12 @@ public class MiembroController extends Controller implements WithSimplePersisten
         String id = context.pathParam("comunidad_id");
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(id));
         Map<String, Object> model = new HashMap<>();
-        model.put("nombre", context.queryParam("nombre"));
-        model.put("apellido", context.queryParam("apellido"));
-        model.put("usuario", context.queryParam("usuario"));
+        Usuario usuario = super.usuarioLogueado(context);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("nombre_form", context.queryParam("nombre"));
+        model.put("apellido_form", context.queryParam("apellido"));
+        model.put("usuario_form", context.queryParam("usuario"));
         model.put("comunidad", comunidad);
         context.render("usuarios/comunidades/miembro.hbs", model);
     }
