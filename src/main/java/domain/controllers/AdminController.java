@@ -1,6 +1,7 @@
 package domain.controllers;
 
 import domain.models.entities.admins.AdminDePlataforma;
+import domain.models.entities.comunidad.Usuario;
 import domain.models.repositorios.RepositorioAdmins;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
