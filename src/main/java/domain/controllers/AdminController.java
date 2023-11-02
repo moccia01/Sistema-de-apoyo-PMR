@@ -35,4 +35,10 @@ public class AdminController extends Controller{
         }
     }
 
+    public void index(Context context) {
+        Map<String, Object> model = new HashMap<>();
+        AdminDePlataforma admin = super.adminLogueado(context);
+        model.put("nombre", admin.getNombre());
+        context.render("/admins/index.hbs", model);
+    }
 }

@@ -1,5 +1,6 @@
 package domain.controllers;
 
+import domain.models.entities.admins.AdminDePlataforma;
 import domain.models.entities.admins.cargaDeDatos.CargaEntidadesPrestadoras;
 import domain.models.entities.admins.cargaDeDatos.CargaOrganismosControl;
 import domain.models.entities.entidadesDeServicio.Entidad;
@@ -35,6 +36,8 @@ public class CargaDatosController extends Controller{
 
     public void show(Context context, String recurso) {
         Map<String, Object> model = new HashMap<>();
+        AdminDePlataforma admin = super.adminLogueado(context);
+        model.put("nombre", admin.getNombre());
         model.put("lista", this.obtenerListaSegun(recurso));
         context.render("admins/cargaDeDatos/" + recurso + ".hbs", model);
     }

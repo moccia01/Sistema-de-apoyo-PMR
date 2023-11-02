@@ -48,7 +48,7 @@ public class Router implements WithSimplePersistenceUnit {
             // Pantallas de admins
             get("admin/login", ((AdminController) FactoryController.controller("admin"))::show);
             post("admin/login", ((AdminController) FactoryController.controller("admin"))::login);
-            get("admin/index", (context -> context.render("admins/index.hbs")));
+            get("admin/index", ((AdminController) FactoryController.controller("admin"))::index);
             
             get("admin/entidades_prestadoras", ctx -> {
                 CargaDatosController controller = ((CargaDatosController) FactoryController.controller("carga_datos"));

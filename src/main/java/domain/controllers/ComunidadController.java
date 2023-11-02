@@ -42,6 +42,8 @@ public class ComunidadController extends Controller{
         }
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
         Map<String, Object> model = new HashMap<>();
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
         model.put("miembro", miembro);
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);

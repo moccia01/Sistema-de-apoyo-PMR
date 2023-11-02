@@ -1,5 +1,6 @@
 package domain.controllers;
 
+import domain.models.entities.admins.AdminDePlataforma;
 import domain.models.entities.admins.rankings.*;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.repositorios.*;
@@ -31,7 +32,10 @@ public class RankingController extends Controller {
     }
 
     public void index(Context context) {
-        context.render("admins/rankings/rankings.hbs");
+        Map<String, Object> model = new HashMap<>();
+        AdminDePlataforma admin = super.adminLogueado(context);
+        model.put("nombre", admin.getNombre());
+        context.render("admins/rankings/rankings.hbs", model);
     }
 
     public void show(Context context) {
@@ -45,6 +49,8 @@ public class RankingController extends Controller {
         }
 
         Map<String, Object> model = new HashMap<>();
+        AdminDePlataforma admin = super.adminLogueado(context);
+        model.put("nombre", admin.getNombre());
         model.put("entidades", entidades);
         model.put("criterio", this.convertToText(criterio_string));
         context.render("admins/rankings/ranking.hbs", model);
