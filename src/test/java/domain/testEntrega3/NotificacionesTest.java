@@ -1,20 +1,21 @@
 package domain.testEntrega3;
 
-import domain.mensajes.Configuraciones.*;
-import domain.mensajes.MailSender;
-import domain.mensajes.NotificacionesPendientesSender;
-import domain.mensajes.WhatsAppSender;
-import domain.builders.EstablecimientoBuilder;
-import domain.builders.InteresBuilder;
-import domain.builders.PrestacionDeServicioBuilder;
-import domain.comunidad.*;
-import domain.entidadesDeServicio.Entidad;
-import domain.entidadesDeServicio.Establecimiento;
-import domain.entidadesDeServicio.PrestacionDeServicio;
-import domain.entidadesDeServicio.Servicio;
-import domain.repositorios.RepositorioMiembros;
-import domain.repositorios.RepositorioUsuarios;
-import domain.repositorios.RepositorioComunidades;
+import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
+import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
+import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
+import domain.models.entities.mensajes.Configuraciones.SinApuros;
+import domain.models.entities.mensajes.MailSender;
+import domain.models.entities.mensajes.NotificacionesPendientesSender;
+import domain.models.entities.mensajes.WhatsAppSender;
+import domain.models.entities.builders.EstablecimientoBuilder;
+import domain.models.entities.builders.InteresBuilder;
+import domain.models.entities.builders.PrestacionDeServicioBuilder;
+import domain.models.entities.entidadesDeServicio.Entidad;
+import domain.models.entities.entidadesDeServicio.Establecimiento;
+import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
+import domain.models.entities.entidadesDeServicio.Servicio;
+import domain.models.entities.comunidad.*;
+import domain.models.repositorios.RepositorioUsuarios;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -120,7 +121,7 @@ public class NotificacionesTest {
         usuario.setMedioConfigurado(medio);
         usuario.setTiempoConfigurado(new CuandoSucede());
 
-        comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
+        comunidad.generarIncidente(new Usuario(), "titulo", escaleraMedrano, "Se rompió la baranda");
 
         Mockito.verify(mailer, Mockito.only()).enviarMensaje(Mockito.any(), Mockito.any(), Mockito.any());
     }
@@ -132,7 +133,7 @@ public class NotificacionesTest {
         usuario.setMedioConfigurado(medio);
         usuario.setTiempoConfigurado(new CuandoSucede());
 
-        comunidad.generarIncidente(escaleraMedrano, "Se rompió la baranda");
+        comunidad.generarIncidente(new Usuario(), "titulo",escaleraMedrano, "Se rompió la baranda");
 
         Mockito.verify(whatsapper, Mockito.only()).enviarMensaje(Mockito.any(), Mockito.any());
     }
@@ -146,7 +147,7 @@ public class NotificacionesTest {
         usuario.setTiempoConfigurado(cuandoSucede);
         usuario.setMedioConfigurado(enviarMail);
 
-        comunidad.generarIncidente(banioCampus, "Estan arreglando el baño del primer piso");
+        comunidad.generarIncidente(new Usuario(), "titulo",banioCampus, "Estan arreglando el baño del primer piso");
 
         usuario.cerrarIncidente(comunidad, comunidad.getIncidentes().get(0));
         Assertions.assertTrue(comunidad.getIncidentes().get(0).getEstado());
@@ -181,8 +182,8 @@ public class NotificacionesTest {
         fede.setTiempoConfigurado(sinApurosFede);
         fede.setMedioConfigurado(email);
 
-        operativosEnjoyers.generarIncidente(escaleraMedrano, "se rompio un escalon, me cai");
-        operativosEnjoyers.generarIncidente(banioCampus, "no tira la cadena del inodoro 2, está tapado");
+        operativosEnjoyers.generarIncidente(new Usuario(), "titulo",escaleraMedrano, "se rompio un escalon, me cai");
+        operativosEnjoyers.generarIncidente(new Usuario(), "titulo",banioCampus, "no tira la cadena del inodoro 2, está tapado");
 
         Incidente incidenteBanioCampus = operativosEnjoyers.getIncidentes().get(1);
         operativosEnjoyers.cerrarIncidente(incidenteBanioCampus);

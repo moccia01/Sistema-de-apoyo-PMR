@@ -1,0 +1,26 @@
+{{#partial "contenido" }}
+    <div class="container mt-4">
+        <h1 class="titulos">Rankings de Entidades</h1>
+
+        <div class="d-flex align-items-center mt-4">
+            <h4 class="me-2 titulos">Seleccionar criterio de ranking: </h4>
+            <div class="d-inline-flex">
+                <form method="POST" action="/admin/ranking">
+                    <div class="dropdown mb-auto d-inline-flex">
+                        <select class="form-select mb-auto" name="criterio_ranking">
+                            <option value="-1">Elegir criterio de ranking</option>
+                            <option value="MayorPromedioCierre">Mayor promedio de tiempo de cierre de incidentes</option>
+                            <option value="MayorCantidadIncidentes">Mayor cantidad de incidentes reportados en la semana</option>
+                            <option value="MayorGradoDeImpacto">Mayor grado de impacto de las problemáticas</option>
+                        </select>
+                    </div>
+                    <div class="d-inline-flex ms-1">
+                        <button type="submit" class="btn botonppal mb-auto">Generar ranking</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{{/partial}}
+{{> templates/admins/plantilla_base_admins }}

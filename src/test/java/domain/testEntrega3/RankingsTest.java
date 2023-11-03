@@ -1,16 +1,16 @@
 package domain.testEntrega3;
 
-import domain.comunidad.Comunidad;
-import domain.comunidad.Incidente;
-import domain.entidadesDeServicio.Entidad;
-import domain.entidadesDeServicio.Establecimiento;
-import domain.entidadesDeServicio.PrestacionDeServicio;
-import domain.entidadesDeServicio.Servicio;
-import domain.rankings.CierreIncidentes;
-import domain.rankings.GeneradorDeRankings;
-import domain.rankings.MayorCantidadIncidentes;
-import domain.repositorios.RepositorioComunidades;
-import domain.repositorios.RepositorioIncidentes;
+import domain.models.entities.comunidad.Comunidad;
+import domain.models.entities.comunidad.Incidente;
+import domain.models.entities.comunidad.Usuario;
+import domain.models.entities.entidadesDeServicio.Entidad;
+import domain.models.entities.entidadesDeServicio.Establecimiento;
+import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
+import domain.models.entities.entidadesDeServicio.Servicio;
+import domain.models.entities.admins.rankings.MayorPromedioCierre;
+import domain.models.entities.admins.rankings.GeneradorDeRankings;
+import domain.models.entities.admins.rankings.MayorCantidadIncidentes;
+import domain.models.repositorios.RepositorioIncidentes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,10 +90,10 @@ public class RankingsTest {
         trenesArgentinos2.setEstablecimiento(estacionRetiro);
 
         comunidadNoVidentesSM = new Comunidad();
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
-        comunidadNoVidentesSM.generarIncidente(trenesArgentinos2, "El ascensor dejo de funcar :(");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos1, "El servicio dejo de funcionar sin motivo");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos, "El servicio dejo de funcionar por falta de suministro electrico");
+        comunidadNoVidentesSM.generarIncidente(new Usuario(), "titulo",trenesArgentinos2, "El ascensor dejo de funcar :(");
 
         incidente1 = new Incidente("Se rompio la barrera", trenesArgentinos);
         LocalDateTime fechaAperturaIncidente1 = LocalDateTime.of(2023, 3, 7, 9, 24);
@@ -114,9 +114,9 @@ public class RankingsTest {
         incidente3.setFechaHoraCierre(fechaCierreIncidente3);
 
         comunidadHipoacusicosCABA = new Comunidad();
-        comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos, "");
-        comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos1, "");
-        comunidadHipoacusicosCABA.generarIncidente(trenesArgentinos2, "");
+        comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos, "");
+        comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos1, "");
+        comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos2, "");
 
         incidentes.add(incidente1);
         incidentes.add(incidente2);
@@ -142,7 +142,7 @@ public class RankingsTest {
 
     @Test
     public void generarRankingCierreIncidentesTest(){
-        CierreIncidentes ranking1 = new CierreIncidentes();
+        MayorPromedioCierre ranking1 = new MayorPromedioCierre();
 
         try{
             TimeUnit.SECONDS.sleep(25); //C

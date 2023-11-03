@@ -1,0 +1,85 @@
+{{#partial "contenido" }}
+    <div class="container-fluid d-flex align-items-center justify-content-center min-vh-100 mt-5 mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-lg">
+                <div class="card-header text-dark text-center py-3">
+                    <h3 class="m-0">
+                        {{#if miembro}}
+                            Edición de {{miembro.usuario.getNombre}} {{miembro.usuario.getApellido}}
+                        {{else}}
+                            Nuevo miembro en {{comunidad.getNombre}}
+                        {{/if}}
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST"
+                        {{#if miembro}} action="/miembros/{{miembro.id}}"
+                        {{else}} action="/miembros/{{comunidad.getId}}/alta"
+                        {{/if}}>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Inserte su nombre"
+                                {{#if miembro}} value="{{miembro.getUsuario.getNombre}}" {{else}} value="{{nombre_form}}" {{/if}} required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="apellido" placeholder="Inserte su apellido"
+                                {{#if miembro}} value="{{miembro.getUsuario.getApellido}}" {{else}} value="{{apellido_form}}" {{/if}} required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="usuario_nombre" class="form-label">Nombre De Usuario</label>
+                            <input type="text" class="form-control" name="usuario_nombre" placeholder="Inserte su nombre de usuario"
+                                {{#if miembro}} value="{{miembro.getUsuario.getCredencialDeAcceso.getNombreUsuario}}" {{else}} value="{{usuario_form}}" {{/if}}required>
+                        </div>
+                       <!-- <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" placeholder="Inserte su email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Número de Teléfono</label>
+                            <input type="text" class="form-control" name="telefono" placeholder="Inserte su número de teléfono" required>
+                        </div>-->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="contrasenia" placeholder="Inserte su contraseña" required>
+                        </div>
+                        <!--<div class="mb-3">
+                            <label for="medio_notificacion" class="form-label">Medio de Notificación</label>
+                            <select class="form-select" name="medio_notificacion">
+                                <option value="-1">Elegir medio de notificacion</option>
+                                <option value="MensajeEmail">Email</option>
+                                <option value="MensajeWhatsapp">WhatsApp</option>
+                            </select>
+                        </div>-->
+                        <div class="mb-3">
+                            <label for="rol" class="form-label">Rol</label>
+                            <select class="form-select" name="rol">
+                                <option value="-1">Elegir rol</option>
+                                <option value="ADMINISTRADOR">Administrador</option>
+                                <option value="MIEMBRO">Miembro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rol_temporal" class="form-label">Rol temporal</label>
+                            <select class="form-select" name="rol_temporal">
+                                <option value="-1">Elegir rol temporal</option>
+                                <option value="AFECTADO">Afectado</option>
+                                <option value="OBSERVADOR">Observador</option>
+                            </select>
+                        </div>
+                        <!--<div class="mb-3">
+                            <label for="tiempo_configuracion" class="form-label">Tiempo de Configuración</label>
+                            <select class="form-select" name="tiempo_configuracion">
+                                <option value="-1">Elegir medio de notificacion</option>
+
+                                <option value="SinApuros">Sin apuros</option>
+                            </select>
+                        </div>-->
+                        <button type="submit" class="btn botonppal">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/usuarios/plantilla_base }}

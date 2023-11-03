@@ -1,0 +1,18 @@
+{{#partial "contenido2" }}
+    <div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+        <div class="col-md-4">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <p>Usuario y/o contraseña incorrectos.</p>
+                    <a class="btn botonppal mb-auto"
+                        {{#if usuario}}
+                            href="/login"
+                        {{else}}
+                            href="/admin/login"
+                        {{/if}}>Volver a intentar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/errors/plantilla_errores_base }}

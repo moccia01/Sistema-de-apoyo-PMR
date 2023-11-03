@@ -1,0 +1,13 @@
+{{#partial "contenido2" }}
+    <div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+        <div class="col-md-4">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <p>No se cargo ningun archivo, por favor carga uno antes de guardar.</p>
+                    <a class="btn botonppal mb-auto" href="/admin/{{error_return}}">Volver a intentar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/errors/plantilla_errores_base }}

@@ -1,0 +1,45 @@
+{{#partial "contenido" }}
+    <div class="container mt-4">
+        <h1 class="titulos">Carga de Organismos de Control</h1>
+
+        <div class="card main-container">
+            <div class="card-body">
+                <h5 class="card-title">Subir Archivo CSV</h5>
+                <form method="POST" action="/admin/organismos_de_control" enctype="multipart/form-data">
+                    <div class="mb-auto d-inline-flex">
+                        <div class="d-inline-flex">
+                            <label for="token" class="form-label mt-2 me-1">Token CSV:</label>
+                        </div>
+                        <div class="d-inline-flex">
+                            <input type="text" class="form-control" name="token" placeholder="Inserte token del CSV" required>
+                        </div>
+                    </div>
+                    <div class="d-inline-flex">
+                        <input type="file" class="form-control-file mt-1" name="csvFileInput" id="csvFileInput">
+                    </div>
+                    <div class="d-inline-block">
+                        <button class="btn botonppal" id="uploadCsvBtn">Subir CSV</button>
+                    </div>
+                </form>
+            </div>
+            <!-- TODO aca hacer el each lista (literalmente se llama lista) para la lista de organismos de control-->
+            <h2>Organismos de control</h2>
+
+            <table class="table table-striped mb-5">
+                <thead>
+                <tr>
+                    <th class="col-md-1"><strong>Id</strong></th>
+                    <th class="col-md-auto"><strong>Nombre</strong></th>
+                </tr>
+                {{#each lista}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.nombre}}</td>
+                    </tr>
+                {{/each}}
+                </thead>
+            </table>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/admins/plantilla_base_admins }}
