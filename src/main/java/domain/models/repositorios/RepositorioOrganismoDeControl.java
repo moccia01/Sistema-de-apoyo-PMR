@@ -11,7 +11,7 @@ import java.util.List;
 public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit {
 
     public void agregar(OrganismoDeControl organismoDeControl){
-        if(this.obtenerOrganismoDeControl(organismoDeControl.getId()) == null){
+        if(this.obtenerOrganismoDeControl(organismoDeControl.getNombre()) == null){
             EntityTransaction tx = entityManager().getTransaction();
             tx.begin();
             entityManager().persist(organismoDeControl);
@@ -29,10 +29,10 @@ public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit 
         return organismos;
     }
 
-    public OrganismoDeControl obtenerOrganismoDeControl(Long id){
+    public OrganismoDeControl obtenerOrganismoDeControl(String id){
         OrganismoDeControl organismoDeControl = null;
         String jpql = "SELECT o FROM OrganismoDeControl o " +
-                "WHERE o.id = :id";
+                "WHERE o.nombre = :id";
         EntityTransaction tx = entityManager().getTransaction();
         TypedQuery<OrganismoDeControl> query = entityManager().createQuery(jpql, OrganismoDeControl.class);
         try {

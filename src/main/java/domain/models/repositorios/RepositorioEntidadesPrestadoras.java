@@ -13,7 +13,7 @@ import java.util.List;
 public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUnit {
 
     public void agregar(EntidadPrestadora entidadPrestadora){
-        if(this.obtenerEntidadPrestadora(entidadPrestadora.getId()) == null){
+        if(this.obtenerEntidadPrestadora(entidadPrestadora.getNombre()) == null){
             EntityTransaction tx = entityManager().getTransaction();
             tx.begin();
             entityManager().persist(entidadPrestadora);
@@ -31,10 +31,10 @@ public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUni
         return entidades;
     }
 
-    public EntidadPrestadora obtenerEntidadPrestadora(Long id){
+    public EntidadPrestadora obtenerEntidadPrestadora(String id){
         EntidadPrestadora entidadPrestadora = null;
         String jpql = "SELECT e FROM EntidadPrestadora e " +
-                "WHERE e.id = :id";
+                "WHERE e.nombre = :id";
         EntityTransaction tx = entityManager().getTransaction();
         TypedQuery<EntidadPrestadora> query = entityManager().createQuery(jpql, EntidadPrestadora.class);
         try{
