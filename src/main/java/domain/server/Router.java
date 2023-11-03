@@ -24,7 +24,7 @@ public class Router implements WithSimplePersistenceUnit {
             get("perfil", ((UsuarioController) FactoryController.controller("usuario"))::perfil);
             post("perfil", ((UsuarioController) FactoryController.controller("usuario"))::update);
 
-            get("quienes_somos", (context -> context.render("/quienesSomos.hbs")));
+            get("about_us", (context -> context.render("/usuarios/quienesSomos.hbs")));
 
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);

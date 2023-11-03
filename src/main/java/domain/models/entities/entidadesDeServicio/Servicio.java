@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-
 @Entity
 @Table(name="servicio")
 public class Servicio extends EntidadPersistente {

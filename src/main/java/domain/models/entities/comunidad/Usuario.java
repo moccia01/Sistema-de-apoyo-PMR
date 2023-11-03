@@ -17,7 +17,6 @@ import java.util.List;
 
 @Setter
 @Getter
-
 @Entity
 @Table(name = "usuario")
 public class Usuario extends EntidadPersistente {
