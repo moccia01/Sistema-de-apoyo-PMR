@@ -5,18 +5,21 @@ import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
 import domain.models.entities.validaciones.CredencialDeAcceso;
 import domain.models.repositorios.*;
+import domain.server.Server;
 import domain.server.utils.ICrudViewsHandler;
 
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import javax.persistence.EntityTransaction;
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class IncidenteController extends Controller implements ICrudViewsHandler, WithSimplePersistenceUnit {
+public class IncidenteController extends Controller implements ICrudViewsHandler {
     private RepositorioIncidentes repositorioIncidentes;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioServicios repositorioServicios;
@@ -80,12 +83,14 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     @Override
     public void save(Context context) {
-        withTransaction(() -> {
-            super.usuarioLogueado(context).generarIncidente(
-                    context.formParam("titulo"),
-                    this.obtenerPrestacion(context),
-                    context.formParam("descripcion"));
-        });
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+        super.usuarioLogueado(context).generarIncidente(
+                context.formParam("titulo"),
+                this.obtenerPrestacion(context),
+                context.formParam("descripcion"));
+        tx.commit();
         context.redirect("/incidentes");
     }
 
@@ -128,13 +133,14 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     public void close(Context context) {
         String id = context.pathParam("incidente_id");
         String comunidad_id = context.pathParam("comunidad_id");
-        withTransaction(() -> {
-            Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)));
-            Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
-            Usuario usuario = super.usuarioLogueado(context);
-            usuario.cerrarIncidente(comunidad, incidente);
-        });
-
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();;
+        tx.begin();
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)));
+        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id));
+        Usuario usuario = super.usuarioLogueado(context);
+        usuario.cerrarIncidente(comunidad, incidente);
+        tx.commit();
         context.redirect("/incidentes");
     }
 

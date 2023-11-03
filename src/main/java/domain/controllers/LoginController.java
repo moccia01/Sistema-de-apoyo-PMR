@@ -18,16 +18,18 @@ import domain.models.repositorios.RepositorioCredenciales;
 import domain.models.repositorios.RepositorioGradosDeConfianza;
 import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 import domain.server.exceptions.DuplicateUserException;
 import domain.server.exceptions.InvalidPasswordException;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.util.*;
 
-public class LoginController implements WithSimplePersistenceUnit {
+public class LoginController {
     RepositorioUsuarios repositorioUsuarios;
     RepositorioCredenciales repositorioCredenciales;
     RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
@@ -91,9 +93,11 @@ public class LoginController implements WithSimplePersistenceUnit {
         Usuario usuario = new Usuario();
         context.sessionAttribute("error_return", "/registro");
         this.asignarParametros(usuario, context);
-        withTransaction(() -> {
-            this.repositorioUsuarios.agregar(usuario);
-        });
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+        this.repositorioUsuarios.agregar(usuario);
+        tx.commit();
         context.redirect("/login");
     }
 

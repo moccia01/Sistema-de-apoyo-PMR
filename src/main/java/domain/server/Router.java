@@ -4,13 +4,17 @@ import domain.controllers.*;
 import io.github.flbulgarelli.jpa.extras.perthread.PerThreadEntityManagerAccess;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Router implements WithSimplePersistenceUnit {
 
     public void init() {
         Server.app().after((handler) -> {
-            entityManager().clear();
+            EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+            entityManager.clear();
         });
 
         Server.app().routes( () -> {

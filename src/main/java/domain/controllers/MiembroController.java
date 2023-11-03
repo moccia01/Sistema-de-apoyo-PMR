@@ -21,7 +21,7 @@ import io.javalin.http.Context;
 import java.time.LocalDate;
 import java.util.*;
 
-public class MiembroController extends Controller implements WithSimplePersistenceUnit {
+public class MiembroController extends Controller {
     private RepositorioMiembros repositorioMiembros;
     private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
     private RepositorioComunidades repositorioComunidades;

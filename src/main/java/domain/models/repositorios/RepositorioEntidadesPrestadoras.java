@@ -2,29 +2,29 @@ package domain.models.repositorios;
 
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.EntidadPrestadora;
+import domain.server.Server;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUnit {
 
     public void agregar(EntidadPrestadora entidadPrestadora){
         if(this.obtenerEntidadPrestadora(entidadPrestadora.getNombre()) == null){
-            EntityTransaction tx = entityManager().getTransaction();
+            EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+            EntityTransaction tx = entityManager.getTransaction();
             tx.begin();
-            entityManager().persist(entidadPrestadora);
+            entityManager.persist(entidadPrestadora);
             tx.commit();
         }
     }
 
     public List<EntidadPrestadora> obtenerEntidadesPrestadoras() {
         String jpql = "SELECT e FROM EntidadPrestadora e";
-        EntityTransaction tx = entityManager().getTransaction();
-        TypedQuery<EntidadPrestadora> query = entityManager().createQuery(jpql, EntidadPrestadora.class);
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+        TypedQuery<EntidadPrestadora> query = entityManager.createQuery(jpql, EntidadPrestadora.class);
         tx.begin();
         List<EntidadPrestadora> entidades = query.getResultList();
         tx.commit();
@@ -35,8 +35,9 @@ public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUni
         EntidadPrestadora entidadPrestadora = null;
         String jpql = "SELECT e FROM EntidadPrestadora e " +
                 "WHERE e.nombre = :id";
-        EntityTransaction tx = entityManager().getTransaction();
-        TypedQuery<EntidadPrestadora> query = entityManager().createQuery(jpql, EntidadPrestadora.class);
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+        TypedQuery<EntidadPrestadora> query = entityManager.createQuery(jpql, EntidadPrestadora.class);
         try{
             tx.begin();
             query.setParameter("id", id);

@@ -2,8 +2,10 @@ package domain.models.repositorios;
 
 
 import domain.models.entities.validaciones.CredencialDeAcceso;
+import domain.server.Server;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -12,11 +14,12 @@ import javax.persistence.TypedQuery;
 public class RepositorioCredenciales implements WithSimplePersistenceUnit {
 
     public CredencialDeAcceso obtenerCredencial(String nombreUsuario, String contrasenia) {
-        EntityTransaction tx = entityManager().getTransaction();
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
         CredencialDeAcceso credencialDeAcceso;
         try {
             tx.begin();
-            TypedQuery<CredencialDeAcceso> query = entityManager().createQuery(
+            TypedQuery<CredencialDeAcceso> query = entityManager.createQuery(
                 "SELECT c FROM CredencialDeAcceso c WHERE c.nombreUsuario = :nombreUsuario AND c.contrasenia = :contrasenia", CredencialDeAcceso.class);
             query.setParameter("nombreUsuario", nombreUsuario);
             query.setParameter("contrasenia", contrasenia);
@@ -33,7 +36,8 @@ public class RepositorioCredenciales implements WithSimplePersistenceUnit {
     }
 
     public CredencialDeAcceso obtenerCredencialDe(String nombreUsuario) {
-        EntityTransaction tx = entityManager().getTransaction();
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
         CredencialDeAcceso credencialDeAcceso;
         try {
             tx.begin();

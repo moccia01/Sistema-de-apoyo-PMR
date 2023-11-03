@@ -2,15 +2,18 @@ package domain.models.repositorios;
 
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.comunidad.Usuario;
+import domain.server.Server;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class RepositorioIncidentes implements WithSimplePersistenceUnit {
     public List<Incidente> obtenerIncidentes(){
-        return entityManager()
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        return entityManager
                 .createQuery("from Incidente")
                 .getResultList();
     }
@@ -21,9 +24,10 @@ public class RepositorioIncidentes implements WithSimplePersistenceUnit {
                 "JOIN c.miembros m " +
                 "WHERE m.usuario.id = :usuario";
 
-        EntityTransaction tx = entityManager().getTransaction();
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-        TypedQuery<Incidente> query = entityManager().createQuery(jpql, Incidente.class);
+        TypedQuery<Incidente> query = entityManager.createQuery(jpql, Incidente.class);
         query.setParameter("usuario", usuario_id);
         List<Incidente> incidentes = query.getResultList();
         tx.commit();
@@ -32,25 +36,25 @@ public class RepositorioIncidentes implements WithSimplePersistenceUnit {
 
     public Incidente obtenerIncidente(Long id){
         // VER SI ESTA BIEN
-        return entityManager().find(Incidente.class, id);
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        return entityManager.find(Incidente.class, id);
     }
 
-
-
     public void agregar(Incidente incidente){
-        // VER SI ESTA BIEN
-        entityManager().persist(incidente);
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        entityManager.persist(incidente);
     }
 
     public void modificar(Incidente incidente){
-        // VER SI ESTA BIEN
-        entityManager().merge(incidente);
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        entityManager.merge(incidente);
     }
 
     public void eliminar(Incidente incidente) {
-        EntityTransaction tx = entityManager().getTransaction();
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-        entityManager().remove(incidente);
+        entityManager.remove(incidente);
         tx.commit();
     }
 }
