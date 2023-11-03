@@ -1,8 +1,10 @@
 package domain.models.repositorios;
 
+import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.EntidadPrestadora;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -20,9 +22,13 @@ public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUni
     }
 
     public List<EntidadPrestadora> obtenerEntidadesPrestadoras() {
-        return entityManager()
-                .createQuery("from EntidadPrestadora ")
-                .getResultList();
+        String jpql = "SELECT e FROM EntidadPrestadora e";
+        EntityTransaction tx = entityManager().getTransaction();
+        TypedQuery<EntidadPrestadora> query = entityManager().createQuery(jpql, EntidadPrestadora.class);
+        tx.begin();
+        List<EntidadPrestadora> entidades = query.getResultList();
+        tx.commit();
+        return entidades;
     }
 
     public EntidadPrestadora obtenerEntidadPrestadora(Long id){

@@ -23,6 +23,22 @@
                 </form>
             </div>
             <!-- TODO aca hacer el each lista (literalmente se llama lista) para la lista de organismos de control-->
+            <h2>Organismos de control</h2>
+
+            <table class="table table-striped mb-5">
+                <thead>
+                <tr>
+                    <th class="col-md-1"><strong>Id</strong></th>
+                    <th class="col-md-auto"><strong>Nombre</strong></th>
+                </tr>
+                {{#each lista}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.nombre}}</td>
+                    </tr>
+                {{/each}}
+                </thead>
+            </table>
         </div>
     </div>
 {{/partial}}

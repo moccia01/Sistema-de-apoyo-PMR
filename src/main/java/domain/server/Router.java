@@ -24,7 +24,7 @@ public class Router implements WithSimplePersistenceUnit {
             get("perfil", ((UsuarioController) FactoryController.controller("usuario"))::perfil);
             post("perfil", ((UsuarioController) FactoryController.controller("usuario"))::update);
 
-            get("about_us", (context -> context.render("/usuarios/quienesSomos.hbs")));
+            get("quienes_somos", (context -> context.render("/usuarios/quienesSomos.hbs")));
 
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
@@ -52,7 +52,7 @@ public class Router implements WithSimplePersistenceUnit {
             
             get("admin/entidades_prestadoras", ctx -> {
                 CargaDatosController controller = ((CargaDatosController) FactoryController.controller("carga_datos"));
-                controller.show(ctx, "entidades_prestadoras.hbs");
+                controller.show(ctx, "entidades_prestadoras");
             });
             post("admin/entidades_prestadoras", ctx -> {
                 CargaDatosController controller = ((CargaDatosController) FactoryController.controller("carga_datos"));
@@ -61,7 +61,7 @@ public class Router implements WithSimplePersistenceUnit {
 
             get("admin/organismos_de_control", ctx -> {
                 CargaDatosController controller = ((CargaDatosController) FactoryController.controller("carga_datos"));
-                controller.show(ctx, "organismos_de_control.hbs");
+                controller.show(ctx, "organismos_de_control");
             });
             post("admin/organismos_de_control", ctx -> {
                 CargaDatosController controller = ((CargaDatosController) FactoryController.controller("carga_datos"));

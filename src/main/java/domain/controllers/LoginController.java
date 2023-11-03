@@ -56,6 +56,7 @@ public class LoginController implements WithSimplePersistenceUnit {
 
     public void show(Context context){
         context.sessionAttribute("usuario_id", null);
+        context.sessionAttribute("admin_id", null);
         Map<String, Object> model = new HashMap<>();
         model.put("usuario", true);
         model.put("login", null);

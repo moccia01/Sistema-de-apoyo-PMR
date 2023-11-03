@@ -18,6 +18,7 @@ public class AdminController extends Controller{
 
     public void show(Context context) {
         context.sessionAttribute("admin_id", null);
+        context.sessionAttribute("usuario_id", null);
         Map<String, Object> model = new HashMap<>();
         context.render("login/login.hbs", model);
     }

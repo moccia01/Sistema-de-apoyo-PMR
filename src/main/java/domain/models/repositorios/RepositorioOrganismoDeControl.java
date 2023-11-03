@@ -20,9 +20,13 @@ public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit 
     }
 
     public List<OrganismoDeControl> obtenerOrganismosDeControl(){
-        return entityManager()
-                .createQuery("from OrganismosDeControl")
-                .getResultList();
+        String jpql = "SELECT e FROM OrganismoDeControl e";
+        EntityTransaction tx = entityManager().getTransaction();
+        TypedQuery<OrganismoDeControl> query = entityManager().createQuery(jpql, OrganismoDeControl.class);
+        tx.begin();
+        List<OrganismoDeControl> organismos = query.getResultList();
+        tx.commit();
+        return organismos;
     }
 
     public OrganismoDeControl obtenerOrganismoDeControl(Long id){

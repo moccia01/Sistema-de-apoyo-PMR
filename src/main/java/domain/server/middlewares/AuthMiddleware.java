@@ -17,7 +17,7 @@ public class AuthMiddleware {
             publicPaths.add("/login");
             publicPaths.add("/registro");
             publicPaths.add("/admin/login");
-            publicPaths.add("/about_us");
+            publicPaths.add("/quienes_somos");
 
             String path = context.req().getRequestURI();
             if(context.sessionAttribute("usuario_id") != null
