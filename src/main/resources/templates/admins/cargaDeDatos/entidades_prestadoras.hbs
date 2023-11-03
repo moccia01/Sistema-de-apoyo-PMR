@@ -22,25 +22,28 @@
                     </div>
                 </form>
             </div>
-            <!-- TODO aca hacer el each lista (literalmente se llama lista) para mostrar la lista de entidades prestadoras-->
-            <h2>Entidades prestadoras</h2>
+        </div>
 
-            <table class="table table-striped mb-5">
-                <thead>
-                <tr>
-                    <th class="col-md-1"><strong>Id</strong></th>
-                    <th class="col-md-auto"><strong>Nombre</strong></th>
-                </tr>
-
-                {{#each lista}}
+        <div class="card main-container mt-3">
+            <div class="card-body">
+                <h5 class="card-title">Entidades Prestadoras</h5>
+                <table class="table table-striped mb-2">
+                    <thead>
                     <tr>
-                        <td>{{this.id}}</td>
-                        <td>{{this.nombre}}</td>
+                        <th class="col-md-auto"><strong>Id</strong></th>
+                        <th class="col-md-auto"><strong>Nombre</strong></th>
                     </tr>
-                {{/each}}
 
-                </thead>
-            </table>
+                    {{#each lista}}
+                        <tr>
+                            <td>{{this.id}}</td>
+                            <td>{{this.nombre}}</td>
+                        </tr>
+                    {{/each}}
+
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 {{/partial}}
