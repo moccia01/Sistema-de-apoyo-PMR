@@ -142,12 +142,16 @@
     border: none;
 }
 
-#boton-link-nosotros{
-    color: #9DDBA9;
+#boton-link-nosotros:hover{
+    color: white;
+    font-style: normal;
+    text-decoration: none;
 }
 
-#boton-link-nosotros:hover{
-    color: #9DDBA9;
+#boton-link-nosotros{
+    color: white;
+    font-family: "JetBrains Mono";
+    text-decoration: none;
 }
 
 .cont{
@@ -156,7 +160,6 @@
 
 #parrafo-footer{
     font-family: "JetBrains Mono";
-    color: #9DDBA9;
 }
 
 .lista-pequenia{
@@ -175,7 +178,6 @@
 .text-ubi{
     font-family: "JetBrains Mono";
     color: white;
-    font-style: italic;
 }
 
 .div3{
@@ -203,3 +205,4 @@
 .titulos{
     color:white;
 }
+
