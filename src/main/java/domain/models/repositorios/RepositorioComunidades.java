@@ -14,24 +14,21 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Getter
-public class RepositorioComunidades implements WithSimplePersistenceUnit {
+public class RepositorioComunidades {
 
-    public List<Comunidad> obtenerComunidades(){
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public List<Comunidad> obtenerComunidades(EntityManager entityManager){
         return entityManager
                 .createQuery("from Comunidad")
                 .getResultList();
     }
-    public Comunidad obtenerComunidad(Long id){
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public Comunidad obtenerComunidad(Long id, EntityManager entityManager){
         return entityManager.find(Comunidad.class, id);
     }
 
-    public List<Comunidad> obtenerComunidadesDe(Long usuario_id) {
+    public List<Comunidad> obtenerComunidadesDe(Long usuario_id, EntityManager entityManager) {
         String jpql = "SELECT c FROM Comunidad c " +
                 "JOIN c.miembros m " +
                 "WHERE m.usuario.id = :usuario";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<Comunidad> query = entityManager.createQuery(jpql, Comunidad.class);
@@ -41,10 +38,9 @@ public class RepositorioComunidades implements WithSimplePersistenceUnit {
         return comunidades;
     }
 
-    public List<Miembro> obtenerMiembrosDe(Long comunidad_id) {
+    public List<Miembro> obtenerMiembrosDe(Long comunidad_id, EntityManager entityManager) {
         String jpql = "SELECT m FROM Miembro m " +
                 "WHERE m.comunidad.id = :comunidad_id";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<Miembro> query = entityManager.createQuery(jpql, Miembro.class);
@@ -54,21 +50,19 @@ public class RepositorioComunidades implements WithSimplePersistenceUnit {
         return miembros;
     }
 
-    public void agregar(Comunidad comunidad){
+    public void agregar(Comunidad comunidad, EntityManager entityManager){
         // VER SI ESTA BIEN
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         entityManager.persist(comunidad);
         tx.commit();
     }
 
-    public void modificar(Comunidad comunidad){
-        entityManager().merge(comunidad);
+    public void modificar(Comunidad comunidad, EntityManager entityManager){
+        entityManager.merge(comunidad);
     }
 
-    public void eliminar(Comunidad comunidad) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void eliminar(Comunidad comunidad, EntityManager entityManager) {
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         entityManager.remove(comunidad);

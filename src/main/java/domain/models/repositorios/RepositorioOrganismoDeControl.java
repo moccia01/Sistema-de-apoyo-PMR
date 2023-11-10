@@ -10,11 +10,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit {
+public class RepositorioOrganismoDeControl {
 
-    public void agregar(OrganismoDeControl organismoDeControl){
-        if(this.obtenerOrganismoDeControl(organismoDeControl.getNombre()) == null){
-            EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void agregar(OrganismoDeControl organismoDeControl, EntityManager entityManager){
+        if(this.obtenerOrganismoDeControl(organismoDeControl.getNombre(), entityManager) == null){
             EntityTransaction tx = entityManager.getTransaction();
             tx.begin();
             entityManager.persist(organismoDeControl);
@@ -22,9 +21,8 @@ public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit 
         }
     }
 
-    public List<OrganismoDeControl> obtenerOrganismosDeControl(){
+    public List<OrganismoDeControl> obtenerOrganismosDeControl(EntityManager entityManager){
         String jpql = "SELECT e FROM OrganismoDeControl e";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<OrganismoDeControl> query = entityManager.createQuery(jpql, OrganismoDeControl.class);
         tx.begin();
@@ -33,11 +31,11 @@ public class RepositorioOrganismoDeControl implements WithSimplePersistenceUnit 
         return organismos;
     }
 
-    public OrganismoDeControl obtenerOrganismoDeControl(String id){
+    public OrganismoDeControl obtenerOrganismoDeControl(String id, EntityManager entityManager){
         OrganismoDeControl organismoDeControl = null;
         String jpql = "SELECT o FROM OrganismoDeControl o " +
                 "WHERE o.nombre = :id";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+
         EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<OrganismoDeControl> query = entityManager.createQuery(jpql, OrganismoDeControl.class);
         try {

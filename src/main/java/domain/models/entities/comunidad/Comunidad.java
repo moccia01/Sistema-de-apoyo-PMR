@@ -24,7 +24,7 @@ public class Comunidad extends EntidadPersistente {
     @Column
     private String nombre;
 
-    @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Miembro> miembros;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -50,6 +50,10 @@ public class Comunidad extends EntidadPersistente {
 
     public void agregarMiembros(Miembro ... miembros){
         Collections.addAll(this.miembros, miembros);
+    }
+
+    public void eliminarMiembro(Miembro miembro) {
+        this.miembros.remove(miembro);
     }
 
     public void generarIncidente(Usuario usuarioApertura, String titulo, PrestacionDeServicio prestacionDeServicio, String descripcion){

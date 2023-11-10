@@ -11,10 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-public class RepositorioTiemposConfiguracion implements WithSimplePersistenceUnit {
+public class RepositorioTiemposConfiguracion {
 
-    public TiempoConfigurado obtenerTiempoConfigurado(String discriminador) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public TiempoConfigurado obtenerTiempoConfigurado(String discriminador, EntityManager entityManager) {
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<TiempoConfigurado> query = entityManager.createQuery(
@@ -27,8 +26,7 @@ public class RepositorioTiemposConfiguracion implements WithSimplePersistenceUni
         return tiempo;
     }
 
-    public TiempoConfigurado obtenerTiempoConfigurado(Long id) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public TiempoConfigurado obtenerTiempoConfigurado(Long id, EntityManager entityManager) {
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<TiempoConfigurado> query = entityManager.createQuery(
@@ -41,8 +39,7 @@ public class RepositorioTiemposConfiguracion implements WithSimplePersistenceUni
         return tiempo;
     }
 
-    public TiempoConfigurado obtenerConfigCuandoSucede() {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public TiempoConfigurado obtenerConfigCuandoSucede(EntityManager entityManager) {
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<TiempoConfigurado> query = entityManager.createQuery(

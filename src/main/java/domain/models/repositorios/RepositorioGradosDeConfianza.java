@@ -11,12 +11,11 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-public class RepositorioGradosDeConfianza implements WithSimplePersistenceUnit {
+public class RepositorioGradosDeConfianza{
 
-    public GradoDeConfianza obtenerGradoDeConfianza(NombreGradoConfianza nombreGradoConfianza) {
+    public GradoDeConfianza obtenerGradoDeConfianza(EntityManager entityManager, NombreGradoConfianza nombreGradoConfianza) {
         GradoDeConfianza gradoDeConfianza = null;
 
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<GradoDeConfianza> query = entityManager.createQuery(
                 "SELECT g FROM GradoDeConfianza g WHERE g.nombreGradoConfianza = :nombre",
@@ -37,11 +36,14 @@ public class RepositorioGradosDeConfianza implements WithSimplePersistenceUnit {
         return gradoDeConfianza;
     }
 
-    public void agregar(GradoDeConfianza gradoDeConfianza){
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void agregar(GradoDeConfianza gradoDeConfianza, EntityManager entityManager){
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         entityManager.persist(gradoDeConfianza);
         tx.commit();
+    }
+
+    public void modificar(GradoDeConfianza gradoDeConfianza, EntityManager entityManager) {
+        entityManager.merge(gradoDeConfianza);
     }
 }

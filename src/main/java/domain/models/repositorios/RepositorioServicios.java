@@ -9,25 +9,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class RepositorioServicios implements WithSimplePersistenceUnit {
+public class RepositorioServicios {
 
-    public List<Servicio> obtenerServicios(){
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public List<Servicio> obtenerServicios(EntityManager entityManager){
         return entityManager
                 .createQuery("from Servicio ")
                 .getResultList();
     }
 
-    public void agregar(Servicio servicio) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void agregar(Servicio servicio, EntityManager entityManager) {
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         entityManager.persist(servicio);
         tx.commit();
     }
 
-    public Servicio obtenerServicio(Long id) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public Servicio obtenerServicio(Long id, EntityManager entityManager) {
         return entityManager.find(Servicio.class, id);
     }
 }

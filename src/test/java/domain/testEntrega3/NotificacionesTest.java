@@ -16,11 +16,13 @@ import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
 import domain.models.entities.entidadesDeServicio.Servicio;
 import domain.models.entities.comunidad.*;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class NotificacionesTest {
     private PrestacionDeServicio banioCampus;
     private RepositorioUsuarios repositorioUsuarios;
     private List<Usuario> usuarios = new ArrayList<>();
+    private EntityManager entityManager;
 
     @BeforeEach
     public void init() {
@@ -109,8 +112,10 @@ public class NotificacionesTest {
 
         usuarios.add(fede);
         usuarios.add(tomas);
+
+        this.entityManager = Server.entityManagerFactory.createEntityManager();
         repositorioUsuarios = Mockito.mock(RepositorioUsuarios.class);
-        when(repositorioUsuarios.obtenerUsuarios()).thenReturn(usuarios);
+        when(repositorioUsuarios.obtenerUsuarios(entityManager)).thenReturn(usuarios);
 
     }
 
@@ -191,7 +196,7 @@ public class NotificacionesTest {
         Mockito.verify(sinApurosTomas, Mockito.never()).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.never()).mandarPendientes(Mockito.any());
 
-        NotificacionesPendientesSender.mandarPendientes(repositorioUsuarios.obtenerUsuarios());
+        NotificacionesPendientesSender.mandarPendientes(repositorioUsuarios.obtenerUsuarios(this.entityManager));
 
         Mockito.verify(sinApurosTomas, Mockito.times(1)).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.times(1)).mandarPendientes(Mockito.any());

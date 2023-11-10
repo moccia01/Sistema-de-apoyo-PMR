@@ -9,19 +9,17 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class RepositorioMiembros implements WithSimplePersistenceUnit {
-    public List<Miembro> obtenerMiembros(){
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+public class RepositorioMiembros {
+    public List<Miembro> obtenerMiembros(EntityManager entityManager){
         return entityManager
                 .createQuery("from Comunidad")
                 .getResultList();
     }
 
-    public Miembro obtenerMiembro(Long miembro_id) {
+    public Miembro obtenerMiembro(Long miembro_id, EntityManager entityManager) {
         String jpql = "SELECT m FROM Miembro m " +
                 "WHERE m.id = :miembro_id";
 
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<Miembro> query = entityManager.createQuery(jpql, Miembro.class);
@@ -31,25 +29,22 @@ public class RepositorioMiembros implements WithSimplePersistenceUnit {
         return miembro;
     }
 
-    public void agregar(Miembro miembro) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void agregar(Miembro miembro, EntityManager entityManager) {
         entityManager.persist(miembro);
     }
 
-    public void modificar(Miembro miembro){
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void modificar(Miembro miembro, EntityManager entityManager){
         entityManager.merge(miembro);
     }
 
-    public void eliminar(Miembro miembro) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void eliminar(Miembro miembro, EntityManager entityManager) {
         entityManager.remove(miembro);
     }
 
-    public List<Miembro> obtenerMiembrosDe(Long usuario_id) {
+    public List<Miembro> obtenerMiembrosDe(Long usuario_id, EntityManager entityManager) {
         String jpql = "SELECT m FROM Miembro m " +
                 "WHERE m.usuario.id = :usuario";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<Miembro> query = entityManager.createQuery(jpql, Miembro.class);
@@ -59,10 +54,10 @@ public class RepositorioMiembros implements WithSimplePersistenceUnit {
         return miembros;
     }
 
-    public Miembro obtenerMiembroDe(Long usuario_id, Long comunidad_id){
+    public Miembro obtenerMiembroDe(Long usuario_id, Long comunidad_id, EntityManager entityManager){
         String jpql = "SELECT m FROM Miembro m " +
                 "WHERE m.usuario.id = :usuario_id AND m.comunidad.id = :comunidad_id";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         TypedQuery<Miembro> query = entityManager.createQuery(jpql, Miembro.class);

@@ -11,11 +11,14 @@ import domain.models.entities.admins.rankings.MayorPromedioCierre;
 import domain.models.entities.admins.rankings.GeneradorDeRankings;
 import domain.models.entities.admins.rankings.MayorCantidadIncidentes;
 import domain.models.repositorios.RepositorioIncidentes;
+import domain.server.Server;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityManager;
+import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,7 @@ public class RankingsTest {
     private Incidente incidente2;
     private Incidente incidente3;
     private List<Incidente> incidentes;
+    private EntityManager entityManager;
 
    @BeforeEach
     public void init(){
@@ -123,7 +127,8 @@ public class RankingsTest {
         incidentes.add(incidente3);
 
         repoIncidentes = Mockito.mock(RepositorioIncidentes.class);
-        when(repoIncidentes.obtenerIncidentes()).thenReturn(incidentes);
+        this.entityManager = Server.entityManagerFactory.createEntityManager();
+        when(repoIncidentes.obtenerIncidentes(this.entityManager)).thenReturn(incidentes);
 
         generador = new GeneradorDeRankings(repoIncidentes);
     }

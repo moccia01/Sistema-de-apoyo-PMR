@@ -8,11 +8,10 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import javax.persistence.*;
 import java.util.List;
 
-public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUnit {
+public class RepositorioEntidadesPrestadoras{
 
-    public void agregar(EntidadPrestadora entidadPrestadora){
-        if(this.obtenerEntidadPrestadora(entidadPrestadora.getNombre()) == null){
-            EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void agregar(EntidadPrestadora entidadPrestadora, EntityManager entityManager){
+        if(this.obtenerEntidadPrestadora(entidadPrestadora.getNombre(), entityManager) == null){
             EntityTransaction tx = entityManager.getTransaction();
             tx.begin();
             entityManager.persist(entidadPrestadora);
@@ -20,9 +19,8 @@ public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUni
         }
     }
 
-    public List<EntidadPrestadora> obtenerEntidadesPrestadoras() {
+    public List<EntidadPrestadora> obtenerEntidadesPrestadoras(EntityManager entityManager) {
         String jpql = "SELECT e FROM EntidadPrestadora e";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<EntidadPrestadora> query = entityManager.createQuery(jpql, EntidadPrestadora.class);
         tx.begin();
@@ -31,11 +29,10 @@ public class RepositorioEntidadesPrestadoras implements WithSimplePersistenceUni
         return entidades;
     }
 
-    public EntidadPrestadora obtenerEntidadPrestadora(String id){
+    public EntidadPrestadora obtenerEntidadPrestadora(String id, EntityManager entityManager){
         EntidadPrestadora entidadPrestadora = null;
         String jpql = "SELECT e FROM EntidadPrestadora e " +
                 "WHERE e.nombre = :id";
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<EntidadPrestadora> query = entityManager.createQuery(jpql, EntidadPrestadora.class);
         try{

@@ -3,9 +3,11 @@ package domain.models.entities.admins.rankings;
 import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.repositorios.RepositorioIncidentes;
+import domain.server.Server;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +17,8 @@ public class GeneradorDeRankings {
     private List<Incidente> incidentes;
 
     public GeneradorDeRankings(RepositorioIncidentes repositorioIncidentes) {
-        this.incidentes =repositorioIncidentes.obtenerIncidentes();
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        this.incidentes = repositorioIncidentes.obtenerIncidentes(entityManager);
     }
 
     public List<Entidad> generarSegunCriterio(CriterioRanking criterio){

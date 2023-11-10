@@ -12,15 +12,19 @@ import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.SinApuros;
 import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.repositorios.*;
+import domain.server.Server;
 import domain.server.init.Initializer;
 import org.junit.jupiter.api.Test;
+
+import javax.persistence.EntityManager;
 
 public class InitTest {
 
     @Test
     public void initTest(){
+        EntityManager entityManager = Server.createEntityManagerFactory().createEntityManager();
         Initializer initializer = new Initializer();
-        initializer.init();
+        initializer.init(entityManager);
 
         //Esto es para los usuarios
         //Esta linea de abajo es para que no rompa por contexto estatico
@@ -126,41 +130,42 @@ public class InitTest {
         subteLineaB.agregarEstablecimientos(estacionMedrano, estacionFedericoLacroze);
 
         RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();
-        repositorioUsuarios.agregar(tomasDAntonio);
-        repositorioUsuarios.agregar(federicoMoccia);
-        repositorioUsuarios.agregar(lucasBoldrini);
-        repositorioUsuarios.agregar(nahuGimenez);
-        repositorioUsuarios.agregar(facundoSu);
+
+        repositorioUsuarios.agregar(tomasDAntonio, entityManager);
+        repositorioUsuarios.agregar(federicoMoccia, entityManager);
+        repositorioUsuarios.agregar(lucasBoldrini, entityManager);
+        repositorioUsuarios.agregar(nahuGimenez, entityManager);
+        repositorioUsuarios.agregar(facundoSu, entityManager);
 
         RepositorioComunidades repositorioComunidades = new RepositorioComunidades();
-        repositorioComunidades.agregar(bosterosDesdeLaCuna);
-        repositorioComunidades.agregar(citizenDesdeLaCuna);
-        repositorioComunidades.agregar(operativosEnjoyers);
+        repositorioComunidades.agregar(bosterosDesdeLaCuna,entityManager);
+        repositorioComunidades.agregar(citizenDesdeLaCuna, entityManager);
+        repositorioComunidades.agregar(operativosEnjoyers, entityManager);
 
         RepositorioMiembros repositorioMiembros = new RepositorioMiembros();
-        repositorioMiembros.agregar(tomyBostero);
-        repositorioMiembros.agregar(nahuBostero);
-        repositorioMiembros.agregar(lucasBostero);
-        repositorioMiembros.agregar(fedeCitizen);
-        repositorioMiembros.agregar(facuCitizen);
-        repositorioMiembros.agregar(tomyUTNSO);
-        repositorioMiembros.agregar(fedeUTNSO);
-        repositorioMiembros.agregar(lucasUTNSO);
-        repositorioMiembros.agregar(nahuUTNSO);
+        repositorioMiembros.agregar(tomyBostero, entityManager);
+        repositorioMiembros.agregar(nahuBostero, entityManager);
+        repositorioMiembros.agregar(lucasBostero, entityManager);
+        repositorioMiembros.agregar(fedeCitizen, entityManager);
+        repositorioMiembros.agregar(facuCitizen, entityManager);
+        repositorioMiembros.agregar(tomyUTNSO, entityManager);
+        repositorioMiembros.agregar(fedeUTNSO, entityManager);
+        repositorioMiembros.agregar(lucasUTNSO, entityManager);
+        repositorioMiembros.agregar(nahuUTNSO, entityManager);
 
         RepositorioServicios repositorioServicios = new RepositorioServicios();
-        repositorioServicios.agregar(banio);
-        repositorioServicios.agregar(escaleraMecanica);
-        repositorioServicios.agregar(ascensor);
+        repositorioServicios.agregar(banio, entityManager);
+        repositorioServicios.agregar(escaleraMecanica, entityManager);
+        repositorioServicios.agregar(ascensor, entityManager);
 
         RepositorioEstablecimientos repositorioEstablecimientos = new RepositorioEstablecimientos();
-        repositorioEstablecimientos.agregar(medrano);
-        repositorioEstablecimientos.agregar(campus);
-        repositorioEstablecimientos.agregar(estacionMedrano);
-        repositorioEstablecimientos.agregar(estacionFedericoLacroze);
+        repositorioEstablecimientos.agregar(medrano, entityManager);
+        repositorioEstablecimientos.agregar(campus, entityManager);
+        repositorioEstablecimientos.agregar(estacionMedrano, entityManager);
+        repositorioEstablecimientos.agregar(estacionFedericoLacroze, entityManager);
 
         RepositorioEntidades repositorioEntidades = new RepositorioEntidades();
-        repositorioEntidades.agregar(utn);
-        repositorioEntidades.agregar(subteLineaB);
+        repositorioEntidades.agregar(utn, entityManager);
+        repositorioEntidades.agregar(subteLineaB, entityManager);
     }
 }

@@ -5,9 +5,11 @@ import domain.models.entities.converters.MedioConfiguradoAttributeConverter;
 import domain.models.entities.converters.TiempoConfiguradoAttributeConverter;
 import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -24,7 +26,8 @@ public class UsuarioController extends Controller{
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        Usuario usuario = super.usuarioLogueado(context);
+        EntityManager entityManager = Server.entityManager();
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
@@ -34,7 +37,8 @@ public class UsuarioController extends Controller{
 
     public void perfil(Context context) {
         Map<String, Object> model = new HashMap<>();
-        Usuario usuario = super.usuarioLogueado(context);
+        EntityManager entityManager = Server.entityManager();
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
@@ -43,15 +47,18 @@ public class UsuarioController extends Controller{
     }
 
     public void update(Context context) {
-        Usuario usuario = super.usuarioLogueado(context);
-        this.asignarParametros(usuario, context);
-        withTransaction(() -> {
-            this.repositorioUsuarios.modificar(usuario);
-        });
+        EntityManager entityManager = Server.entityManager();
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
+        this.asignarParametros(usuario, context, entityManager);
+
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+            this.repositorioUsuarios.modificar(usuario, entityManager);
+        tx.commit();
         context.redirect("index");
     }
     
-    public void asignarParametros(Usuario usuario, Context context){
+    public void asignarParametros(Usuario usuario, Context context, EntityManager entityManager){
         String nombreSeteado = context.formParam("nombre");
         String apellidoSeteado = context.formParam("apellido");
         String usuario_nombreSeteado = context.formParam("usuario_nombre");
@@ -78,7 +85,6 @@ public class UsuarioController extends Controller{
             usuario.getCredencialDeAcceso().setContrasenia(contraseniaSeteada);
         }
 
-
         String medioSeteado = context.formParam("medio_notificacion");
         if(!Objects.equals(medioSeteado, "-1")){
             usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter()
@@ -89,7 +95,7 @@ public class UsuarioController extends Controller{
         if(!Objects.equals(tiempoConfigurado, "-1")){
             switch (Objects.requireNonNull(tiempoConfigurado)) {
                 case "CuandoSucede" -> usuario.setTiempoConfigurado(
-                        this.repositorioTiemposConfiguracion.obtenerConfigCuandoSucede());
+                        this.repositorioTiemposConfiguracion.obtenerConfigCuandoSucede(entityManager));
                 case "SinApuros" -> usuario.setTiempoConfigurado(new TiempoConfiguradoAttributeConverter()
                         .convertToEntityAttribute(tiempoConfigurado));
             }

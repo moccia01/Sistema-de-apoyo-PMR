@@ -18,6 +18,8 @@ import domain.server.exceptions.InvalidPasswordException;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -41,20 +43,26 @@ public class MiembroController extends Controller {
 
     public void baja(Context context) {
         String id = context.pathParam("miembro_id");
-        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));;
-        withTransaction(() -> {
-            this.repositorioMiembros.eliminar(miembro);
-        });
+        EntityManager entityManager = Server.entityManager();
+        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id), entityManager);
+        Comunidad comunidad = miembro.getComunidad();
+        comunidad.eliminarMiembro(miembro);
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+            this.repositorioComunidades.modificar(comunidad, entityManager);
+            this.repositorioMiembros.eliminar(miembro, entityManager);
+        tx.commit();
         context.redirect("/miembros/" + miembro.getComunidad().getId().toString() + "/admin");
     }
 
     public void editar(Context context) {
         String id = context.pathParam("miembro_id");
-        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));
+        EntityManager entityManager = Server.entityManager();
+        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id), entityManager);
         Map<String, Object> model = new HashMap<>();
         List<TiempoConfigurado> tiemposConfigurados = new ArrayList<>();
-        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede());
-        Usuario usuario = super.usuarioLogueado(context);
+        tiemposConfigurados.add(new RepositorioTiemposConfiguracion().obtenerConfigCuandoSucede(entityManager));
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
         model.put("tiempos_config", tiemposConfigurados);
@@ -63,21 +71,25 @@ public class MiembroController extends Controller {
     }
 
     public void update(Context context) {
+        EntityManager entityManager = Server.entityManager();
         String id = context.pathParam("miembro_id");
-        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id));
-        Usuario usuario = this.repositorioUsuarios.obtenerUsuarioSegun(miembro.getUsuario().getId());
-        this.asignarParametros(miembro, usuario, context);
-        withTransaction(() -> {
-            this.repositorioUsuarios.modificar(usuario);
-        });
+        Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id), entityManager);
+        Usuario usuario = this.repositorioUsuarios.obtenerUsuarioSegun(miembro.getUsuario().getId(), entityManager);
+
+        this.asignarParametros(miembro, usuario, context, entityManager, false);
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+            this.repositorioUsuarios.modificar(usuario, entityManager);
+        tx.commit();
         context.redirect(miembro.getComunidad().getId() + "/admin");
     }
 
     public void create(Context context) {
         String id = context.pathParam("comunidad_id");
-        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(id));
+        EntityManager entityManager = Server.entityManager();
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(id), entityManager);
         Map<String, Object> model = new HashMap<>();
-        Usuario usuario = super.usuarioLogueado(context);
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
         model.put("nombre_form", context.queryParam("nombre"));
@@ -95,25 +107,26 @@ public class MiembroController extends Controller {
         miembro.setUsuario(usuario);
 
         String id = context.pathParam("comunidad_id");
-        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(id)));
+        EntityManager entityManager = Server.entityManager();
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(id)), entityManager);
         context.sessionAttribute("error_return", "/miembros/" + comunidad.getId() + "/alta");
-
-        this.asignarParametros(miembro, usuario, context);
+        this.asignarParametros(miembro, usuario, context, entityManager, true);
 
         usuario.agregarMiembros(miembro);
         miembro.setComunidad(comunidad);
 
         comunidad.agregarMiembros(miembro);
 
-        withTransaction(() -> {
-            this.repositorioUsuarios.agregar(usuario);
-        });
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+            this.repositorioUsuarios.agregar(usuario, entityManager);
+            this.repositorioComunidades.modificar(comunidad, entityManager);
+        tx.commit();
 
         context.redirect("/miembros/" + comunidad.getId() + "/admin");
     }
 
-    public void asignarParametros(Miembro miembro, Usuario usuario, Context contexto) {
-
+    public void asignarParametros(Miembro miembro, Usuario usuario, Context contexto, EntityManager entityManager, Boolean alta) {
 
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));
@@ -122,9 +135,11 @@ public class MiembroController extends Controller {
         usuario.setTelefono(contexto.formParam("telefono"));*/
 
         CredencialDeAcceso credencialDeAcceso = usuario.getCredencialDeAcceso();
-        if(repositorioCredenciales.obtenerCredencialDe(contexto.formParam("usuario_nombre")) != null) {
+
+        if(alta && repositorioCredenciales.obtenerCredencialDe(contexto.formParam("usuario_nombre"), entityManager) != null) {
             throw new DuplicateUserException();
         }
+
         credencialDeAcceso.setNombreUsuario(contexto.formParam("usuario_nombre"));
         credencialDeAcceso.setContrasenia(contexto.formParam("contrasenia"));
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
@@ -142,9 +157,9 @@ public class MiembroController extends Controller {
         miembro.setRol(new RolAttributeConverter().convertToEntityAttribute(
                 Objects.requireNonNull(contexto.formParam("rol"))));
 
-        /*miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(
+        miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(
                 Objects.requireNonNull(contexto.formParam("rol_temporal"))));
-
+        /*
         TiempoConfigurado tiempoConfigurado = null;
         if(Objects.equals(tiempoElegido, "CuandoSucede")){
             tiempoConfigurado = repositorioTiemposConfiguracion.obtenerConfigCuandoSucede();
@@ -155,7 +170,7 @@ public class MiembroController extends Controller {
         usuario.setTiempoConfigurado(tiempoConfigurado);*/
 
         //Valores default
-        usuario.setGradoDeConfianza(new RepositorioGradosDeConfianza().obtenerGradoDeConfianza(
+        usuario.setGradoDeConfianza(new RepositorioGradosDeConfianza().obtenerGradoDeConfianza(entityManager,
                 NombreGradoConfianza.CONFIABLE_NIVEL_1));
         usuario.setInteres(new Interes());
         usuario.setPuntosDeConfianza(5);

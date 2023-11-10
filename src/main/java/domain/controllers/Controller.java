@@ -10,21 +10,19 @@ import io.javalin.http.Context;
 import javax.persistence.EntityManager;
 import java.util.Objects;
 
-public abstract class Controller implements WithSimplePersistenceUnit {
+public abstract class Controller {
 
-    protected Usuario usuarioLogueado(Context ctx) {
+    protected Usuario usuarioLogueado(Context ctx, EntityManager entityManager) {
         if(ctx.sessionAttribute("usuario_id") == null) {
             throw new AccessDeniedException();
         }
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         return entityManager.find(Usuario.class, Objects.requireNonNull(ctx.sessionAttribute("usuario_id")));
     }
 
-    protected AdminDePlataforma adminLogueado(Context ctx) {
+    protected AdminDePlataforma adminLogueado(Context ctx, EntityManager entityManager) {
         if(ctx.sessionAttribute("admin_id") == null) {
             throw new AccessDeniedException();
         }
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
         return entityManager.find(AdminDePlataforma.class, ctx.sessionAttribute("admin_id"));
     }
 

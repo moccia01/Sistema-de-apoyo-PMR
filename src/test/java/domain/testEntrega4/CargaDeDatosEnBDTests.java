@@ -10,6 +10,7 @@ import domain.models.entities.mensajes.Configuraciones.MensajeEmail;
 import domain.models.entities.mensajes.MailSender;
 import domain.models.entities.comunidad.*;
 import domain.models.entities.validaciones.CredencialDeAcceso;
+import domain.server.Server;
 import domain.server.init.Initializer;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 
 public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
@@ -42,8 +44,9 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
     @BeforeEach
 
     public void init(){
+        EntityManager entityManager = Server.createEntityManagerFactory().createEntityManager();
         init = new Initializer();
-        init.init();
+        init.init(entityManager);
 
         credencialFede = new CredencialDeAcceso("elFede");
         fede = new Usuario();
@@ -105,12 +108,6 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
 
         InteresBuilder interesBuilder = new InteresBuilder();
         interes = interesBuilder.agregarEntidades(utn).agregarServicios(escalera, banio).construir();
-
-
-
-
-
-
 
 
     }

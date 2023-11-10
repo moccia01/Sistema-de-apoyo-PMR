@@ -9,6 +9,7 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
@@ -20,11 +21,19 @@ public class Server {
     public static final String baseUrl = "localhost:8080";
     private static Javalin app = null;
     public static EntityManagerFactory entityManagerFactory;
+    private static EntityManager entityManager;
 
     public static Javalin app() {
         if(app == null)
             throw new RuntimeException("App no inicializada");
         return app;
+    }
+
+    public static EntityManager entityManager() {
+        if(entityManager == null) {
+            entityManager = entityManagerFactory.createEntityManager();
+        }
+        return entityManager;
     }
 
     public static void init() {
@@ -86,7 +95,7 @@ public class Server {
             }
         }
 
-        return Persistence.createEntityManagerFactory("db", configOverrides);
+        return Persistence.createEntityManagerFactory("simple-persistence-unit", configOverrides);
     }
 
 }

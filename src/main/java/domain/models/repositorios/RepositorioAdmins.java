@@ -1,24 +1,19 @@
 package domain.models.repositorios;
 
 import domain.models.entities.admins.AdminDePlataforma;
-import domain.models.entities.validaciones.CredencialDeAcceso;
-import domain.server.Server;
-import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-public class RepositorioAdmins implements WithSimplePersistenceUnit {
+public class RepositorioAdmins {
 
-    public void agregar(AdminDePlataforma admin) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public void agregar(AdminDePlataforma admin, EntityManager entityManager) {
         entityManager.persist(admin);
     }
 
-    public AdminDePlataforma obtenerAdmin(String nombreUsuario, String contrasenia) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+    public AdminDePlataforma obtenerAdmin(String nombreUsuario, String contrasenia, EntityManager entityManager) {
         EntityTransaction tx = entityManager.getTransaction();
         AdminDePlataforma adminDePlataforma;
         try {
