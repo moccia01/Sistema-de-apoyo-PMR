@@ -33,7 +33,9 @@ public class Incidente extends EntidadPersistente {
     @Column(columnDefinition = "BOOL")
     private Boolean estado; // true es si esta cerrado
 
-    @Embedded
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "prestacion_id", referencedColumnName = "id")
     private PrestacionDeServicio prestacionDeServicio;
 
     @OneToOne(cascade = CascadeType.ALL)

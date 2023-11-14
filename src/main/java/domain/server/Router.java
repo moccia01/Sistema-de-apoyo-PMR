@@ -32,7 +32,6 @@ public class Router implements WithSimplePersistenceUnit {
 
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
-            get("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::show);
             post("incidentes/{incidente_id}/cerrar/{comunidad_id}", ((IncidenteController) FactoryController.controller("incidentes"))::close);
             get("incidentes/{id}/editar", ((IncidenteController) FactoryController.controller("incidentes"))::edit);
             post("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::save);

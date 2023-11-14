@@ -32,6 +32,7 @@ public class Establecimiento extends EntidadPersistente {
     public void agregarServicios(Servicio ... servicios1) {
         Collections.addAll(this.servicios, servicios1);
     }
+
     public void setLocalizacion(String provincia, String departamento, String direccion){
         Localizacion localizacionSet = new Localizacion();
         localizacionSet.setProvincia(provincia);

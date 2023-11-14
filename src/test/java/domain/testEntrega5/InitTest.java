@@ -1,12 +1,10 @@
 package domain.testEntrega5;
 
-import domain.models.entities.builders.ComunidadBuilder;
-import domain.models.entities.builders.EstablecimientoBuilder;
-import domain.models.entities.builders.MiembroBuilder;
-import domain.models.entities.builders.UsuarioBuilder;
+import domain.models.entities.builders.*;
 import domain.models.entities.comunidad.*;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.Establecimiento;
+import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
 import domain.models.entities.entidadesDeServicio.Servicio;
 import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
 import domain.models.entities.mensajes.Configuraciones.SinApuros;
@@ -28,6 +26,8 @@ public class InitTest {
 
         //Esto es para los usuarios
         //Esta linea de abajo es para que no rompa por contexto estatico
+        // ----------------------- Creación de las entidades a persistir
+
         TiempoConfigurado cuandoSucede = new CuandoSucede();
 
         UsuarioBuilder usuarioBuilder = new UsuarioBuilder();
@@ -129,8 +129,27 @@ public class InitTest {
         subteLineaB.setLocalizacion("Argentina");
         subteLineaB.agregarEstablecimientos(estacionMedrano, estacionFedericoLacroze);
 
-        RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();
+        //TODO dar de alta las prestaciones asociadas a las entidades, establecimientos y servicios de arriba
+        PrestacionDeServicioBuilder prestacionDeServicioBuilder = new PrestacionDeServicioBuilder();
+        PrestacionDeServicio comboMecanicaCampusUtn = prestacionDeServicioBuilder.conServicio(escaleraMecanica).conEstablecimiento(campus).conEntidad(utn).construir();
+        PrestacionDeServicio comboMecanicaMedranoUtn = prestacionDeServicioBuilder.conServicio(escaleraMecanica).conEstablecimiento(medrano).conEntidad(utn).construir();
+        PrestacionDeServicio comboBanioCampusUtn = prestacionDeServicioBuilder.conServicio(banio).conEstablecimiento(campus).conEntidad(utn).construir();
 
+        PrestacionDeServicio comboBanioMedranoUtn = prestacionDeServicioBuilder.conServicio(banio).conEstablecimiento(medrano).conEntidad(utn).construir();
+        PrestacionDeServicio comboAscensorCampus = prestacionDeServicioBuilder.conServicio(ascensor).conEstablecimiento(campus).conEntidad(utn).construir();
+        PrestacionDeServicio comboAscensorMedrano = prestacionDeServicioBuilder.conServicio(ascensor).conEstablecimiento(medrano).conEntidad(utn).construir();
+
+        PrestacionDeServicio comboBanioEstacionFedericoLacroze = prestacionDeServicioBuilder.conServicio(banio).conEstablecimiento(estacionFedericoLacroze).conEntidad(subteLineaB).construir();
+        PrestacionDeServicio comboAscensorSubteEstacionFedericoLacroze = prestacionDeServicioBuilder.conServicio(ascensor).conEstablecimiento(estacionFedericoLacroze).conEntidad(subteLineaB).construir();
+        PrestacionDeServicio comboEscaleraMecanicaFedericoLacroze =prestacionDeServicioBuilder.conServicio(escaleraMecanica).conEstablecimiento(estacionFedericoLacroze).conEntidad(subteLineaB).construir();
+
+        PrestacionDeServicio comboBanioEstacionMedrano = prestacionDeServicioBuilder.conServicio(banio).conEstablecimiento(estacionMedrano).conEntidad(subteLineaB).construir();
+        PrestacionDeServicio comboAscensorSubteEstacionMedrano  = prestacionDeServicioBuilder.conServicio(ascensor).conEstablecimiento(estacionMedrano).conEntidad(subteLineaB).construir();
+        PrestacionDeServicio comboEscaleraMecanicaMedrano  =prestacionDeServicioBuilder.conServicio(escaleraMecanica).conEstablecimiento(estacionMedrano).conEntidad(subteLineaB).construir();
+
+        // ----------------------- Carga a la base de datos
+
+        RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();
         repositorioUsuarios.agregar(tomasDAntonio, entityManager);
         repositorioUsuarios.agregar(federicoMoccia, entityManager);
         repositorioUsuarios.agregar(lucasBoldrini, entityManager);
@@ -167,5 +186,19 @@ public class InitTest {
         RepositorioEntidades repositorioEntidades = new RepositorioEntidades();
         repositorioEntidades.agregar(utn, entityManager);
         repositorioEntidades.agregar(subteLineaB, entityManager);
+        
+        RepositorioPrestaciones repositorioPrestaciones = new RepositorioPrestaciones();
+        repositorioPrestaciones.agregar(comboMecanicaCampusUtn, entityManager);
+        repositorioPrestaciones.agregar(comboMecanicaMedranoUtn, entityManager);
+        repositorioPrestaciones.agregar(comboBanioCampusUtn, entityManager);
+        repositorioPrestaciones.agregar(comboBanioMedranoUtn, entityManager);
+        repositorioPrestaciones.agregar(comboAscensorCampus, entityManager);
+        repositorioPrestaciones.agregar(comboAscensorMedrano, entityManager);
+        repositorioPrestaciones.agregar(comboBanioEstacionFedericoLacroze, entityManager);
+        repositorioPrestaciones.agregar(comboAscensorSubteEstacionFedericoLacroze, entityManager);
+        repositorioPrestaciones.agregar(comboEscaleraMecanicaMedrano, entityManager);
+        repositorioPrestaciones.agregar(comboEscaleraMecanicaFedericoLacroze, entityManager);
+        repositorioPrestaciones.agregar(comboBanioEstacionMedrano, entityManager);
+        repositorioPrestaciones.agregar(comboAscensorSubteEstacionMedrano, entityManager);
     }
 }

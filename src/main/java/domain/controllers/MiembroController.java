@@ -154,11 +154,16 @@ public class MiembroController extends Controller {
                 Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
         String tiempoElegido = contexto.formParam("tiempo_configuracion");*/
 
-        miembro.setRol(new RolAttributeConverter().convertToEntityAttribute(
-                Objects.requireNonNull(contexto.formParam("rol"))));
+        String rol = Objects.requireNonNull(contexto.formParam("rol"));
+        if(!rol.equals("-1")) {
+            miembro.setRol(new RolAttributeConverter().convertToEntityAttribute(rol));
+        }
 
-        miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(
-                Objects.requireNonNull(contexto.formParam("rol_temporal"))));
+        String rol_temporal = Objects.requireNonNull(contexto.formParam("rol_temporal"));
+        if(!rol_temporal.equals("-1")) {
+            miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(rol_temporal));
+        }
+
         /*
         TiempoConfigurado tiempoConfigurado = null;
         if(Objects.equals(tiempoElegido, "CuandoSucede")){

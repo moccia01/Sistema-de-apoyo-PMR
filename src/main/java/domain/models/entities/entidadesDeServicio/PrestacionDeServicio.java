@@ -1,18 +1,18 @@
 package domain.models.entities.entidadesDeServicio;
 
+import domain.models.entities.db.EntidadPersistente;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Getter
 @Setter
-@Embeddable
-public class PrestacionDeServicio{
+@Entity
+@Table(name = "prestacion")
+public class PrestacionDeServicio extends EntidadPersistente {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "entidad_id", referencedColumnName = "id")
     private Entidad entidad;
 

@@ -11,6 +11,7 @@ public class AppHandlers {
             new FileNotLoadedHandler(),
             new DuplicateUserHandler(),
             new InvalidPasswordHandler(),
+            new InvalidPrestacionHandler(),
     };
 
     public static void applyHandlers(Javalin app) {
