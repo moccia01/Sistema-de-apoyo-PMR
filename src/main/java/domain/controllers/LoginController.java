@@ -4,11 +4,6 @@ import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Interes;
 import domain.models.entities.comunidad.NombreGradoConfianza;
 import domain.models.entities.comunidad.Usuario;
-import domain.models.entities.converters.MedioConfiguradoAttributeConverter;
-import domain.models.entities.converters.TiempoConfiguradoAttributeConverter;
-import domain.models.entities.mensajes.Configuraciones.CuandoSucede;
-import domain.models.entities.mensajes.Configuraciones.MensajeWhatsApp;
-import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.entities.validaciones.CredencialDeAcceso;
 import domain.models.entities.validaciones.EsDebil;
 import domain.models.entities.validaciones.UsaCredencialesPorDefecto;
@@ -18,16 +13,18 @@ import domain.models.repositorios.RepositorioCredenciales;
 import domain.models.repositorios.RepositorioGradosDeConfianza;
 import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 import domain.server.exceptions.DuplicateUserException;
 import domain.server.exceptions.InvalidPasswordException;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.util.*;
 
-public class LoginController implements WithSimplePersistenceUnit {
+public class LoginController {
     RepositorioUsuarios repositorioUsuarios;
     RepositorioCredenciales repositorioCredenciales;
     RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
@@ -66,9 +63,10 @@ public class LoginController implements WithSimplePersistenceUnit {
     public void login(Context context){
         String username = context.formParam("username");
         String password = context.formParam("password");
-        CredencialDeAcceso credencialDeAcceso = repositorioCredenciales.obtenerCredencial(username, password);
+        EntityManager entityManager = Server.entityManager();
+        CredencialDeAcceso credencialDeAcceso = repositorioCredenciales.obtenerCredencial(username, password, entityManager);
         if(credencialDeAcceso != null){
-            Usuario usuario = repositorioUsuarios.obtenerUsuario(credencialDeAcceso);
+            Usuario usuario = repositorioUsuarios.obtenerUsuario(credencialDeAcceso, entityManager);
             context.sessionAttribute("usuario_id", usuario.getId());
             context.redirect("/index");
         } else {
@@ -90,14 +88,16 @@ public class LoginController implements WithSimplePersistenceUnit {
     public void save(Context context){
         Usuario usuario = new Usuario();
         context.sessionAttribute("error_return", "/registro");
-        this.asignarParametros(usuario, context);
-        withTransaction(() -> {
-            this.repositorioUsuarios.agregar(usuario);
-        });
+        EntityManager entityManager = Server.entityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+        this.asignarParametros(usuario, context, entityManager);
+        tx.begin();
+        this.repositorioUsuarios.agregar(usuario, entityManager);
+        tx.commit();
         context.redirect("/login");
     }
 
-    public void asignarParametros(Usuario usuario, Context contexto) {
+    public void asignarParametros(Usuario usuario, Context contexto, EntityManager entityManager) {
 
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));
@@ -108,7 +108,7 @@ public class LoginController implements WithSimplePersistenceUnit {
         CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         credencialDeAcceso.setNombreUsuario(contexto.formParam("usuario_nombre"));
-        if(repositorioCredenciales.obtenerCredencialDe(credencialDeAcceso.getNombreUsuario()) != null) {
+        if(repositorioCredenciales.obtenerCredencialDe(credencialDeAcceso.getNombreUsuario(), entityManager) != null) {
             throw new DuplicateUserException();
         }
 
@@ -138,7 +138,7 @@ public class LoginController implements WithSimplePersistenceUnit {
 
 
         //Valores default
-        usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(
+        usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(entityManager,
                 NombreGradoConfianza.CONFIABLE_NIVEL_1));
         usuario.setInteres(new Interes());
         usuario.setPuntosDeConfianza(5);

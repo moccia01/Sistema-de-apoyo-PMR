@@ -3,7 +3,9 @@ package domain.models.entities.mensajes;
 import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class NotificacionesPendientesSender {
@@ -18,7 +20,8 @@ public class NotificacionesPendientesSender {
     }
 
     public static void main(String[] args) {
-        NotificacionesPendientesSender.mandarPendientes(new RepositorioUsuarios().obtenerUsuarios());
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        NotificacionesPendientesSender.mandarPendientes(new RepositorioUsuarios().obtenerUsuarios(entityManager));
     }
 
     public static void mandarPendientes(List<Usuario> usuarios){

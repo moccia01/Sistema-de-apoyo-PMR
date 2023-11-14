@@ -6,7 +6,9 @@ import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.repositorios.RepositorioMiembros;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +25,13 @@ public class LocalizacionUpdater {
         usuarios.addAll(usuariosList);
     }
 
-    public static void actualizarLocalizaciones(){
+    public static void actualizarLocalizaciones(EntityManager entityManager){
         usuarios.forEach(u -> u.setLocalizacion(sistemaPosicionamiento.getPosicion(u.getTelefono())));
-        LocalizacionUpdater.verificarIncidentesCercanos();
+        LocalizacionUpdater.verificarIncidentesCercanos(entityManager);
     }
 
-    public static void verificarIncidentesCercanos(){
-        new RepositorioUsuarios().obtenerUsuarios().forEach(LocalizacionUpdater::notificarIncidentesCercanos);
+    public static void verificarIncidentesCercanos(EntityManager entityManager){
+        new RepositorioUsuarios().obtenerUsuarios(entityManager).forEach(LocalizacionUpdater::notificarIncidentesCercanos);
     }
 
     public static void notificarIncidentesCercanos(Usuario usuario){
@@ -42,8 +44,9 @@ public class LocalizacionUpdater {
 
 
     public static void main(String[] args) {
-        List<Usuario> usuarios = new RepositorioMiembros().obtenerMiembros().stream().map(Miembro::getUsuario).toList();
+        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        List<Usuario> usuarios = new RepositorioMiembros().obtenerMiembros(entityManager).stream().map(Miembro::getUsuario).toList();
         LocalizacionUpdater.agregarUsuarios(usuarios);
-        LocalizacionUpdater.actualizarLocalizaciones();
+        LocalizacionUpdater.actualizarLocalizaciones(entityManager);
     }
 }

@@ -8,10 +8,12 @@ import domain.models.entities.entidadesDeServicio.EntidadPrestadora;
 import domain.models.entities.entidadesDeServicio.OrganismoDeControl;
 import domain.models.repositorios.RepositorioEntidadesPrestadoras;
 import domain.models.repositorios.RepositorioOrganismoDeControl;
+import domain.server.Server;
 import domain.server.exceptions.FileNotLoadedException;
 import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,19 +38,21 @@ public class CargaDatosController extends Controller{
 
     public void show(Context context, String recurso) {
         Map<String, Object> model = new HashMap<>();
-        AdminDePlataforma admin = super.adminLogueado(context);
+        EntityManager entityManager = Server.entityManager();
+        AdminDePlataforma admin = super.adminLogueado(context, entityManager);
         model.put("nombre", admin.getNombre());
         model.put("lista", this.obtenerListaSegun(recurso));
         context.render("admins/cargaDeDatos/" + recurso + ".hbs", model);
     }
 
     private Object obtenerListaSegun(String recurso) {
+        EntityManager entityManager = Server.entityManager();
         switch (recurso) {
             case "entidades_prestadoras" -> {
-                return this.repositorioEntidadesPrestadoras.obtenerEntidadesPrestadoras();
+                return this.repositorioEntidadesPrestadoras.obtenerEntidadesPrestadoras(entityManager);
             }
             case "organismos_de_control" -> {
-                return this.repositorioOrganismoDeControl.obtenerOrganismosDeControl();
+                return this.repositorioOrganismoDeControl.obtenerOrganismosDeControl(entityManager);
             }
             default -> {
                 return null;
@@ -82,17 +86,18 @@ public class CargaDatosController extends Controller{
     }
 
     public void cargarDatosSegunRecurso(String path, Context context, String recurso, String token) {
+        EntityManager entityManager = Server.entityManager();
         switch (recurso) {
             case "entidades_prestadoras" -> {
                 CargaEntidadesPrestadoras loader = new CargaEntidadesPrestadoras(token);
                 List<EntidadPrestadora> entidadesPrestadoras = loader.cargarDatos(path);
-                entidadesPrestadoras.forEach(entidadPrestadora -> this.repositorioEntidadesPrestadoras.agregar(entidadPrestadora));
+                entidadesPrestadoras.forEach(entidadPrestadora -> this.repositorioEntidadesPrestadoras.agregar(entidadPrestadora, entityManager));
                 context.redirect("/admin/entidades_prestadoras");
             }
             case "organismos_de_control" -> {
                 CargaOrganismosControl loader = new CargaOrganismosControl(token);
                 List<OrganismoDeControl> organismosDeControl = loader.cargarDatos(path);
-                organismosDeControl.forEach(organismoDeControl -> this.repositorioOrganismoDeControl.agregar(organismoDeControl));
+                organismosDeControl.forEach(organismoDeControl -> this.repositorioOrganismoDeControl.agregar(organismoDeControl, entityManager));
                 context.redirect("/admin/organismos_de_control");
             }
         }

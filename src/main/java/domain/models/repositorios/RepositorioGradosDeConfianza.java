@@ -3,18 +3,21 @@ package domain.models.repositorios;
 import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.NombreGradoConfianza;
 import domain.models.entities.converters.GradoDeConfianzaConstructor;
+import domain.server.Server;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-public class RepositorioGradosDeConfianza implements WithSimplePersistenceUnit {
+public class RepositorioGradosDeConfianza{
 
-    public GradoDeConfianza obtenerGradoDeConfianza(NombreGradoConfianza nombreGradoConfianza) {
+    public GradoDeConfianza obtenerGradoDeConfianza(EntityManager entityManager, NombreGradoConfianza nombreGradoConfianza) {
         GradoDeConfianza gradoDeConfianza = null;
-        EntityTransaction tx = entityManager().getTransaction();
-        TypedQuery<GradoDeConfianza> query = entityManager().createQuery(
+
+        EntityTransaction tx = entityManager.getTransaction();
+        TypedQuery<GradoDeConfianza> query = entityManager.createQuery(
                 "SELECT g FROM GradoDeConfianza g WHERE g.nombreGradoConfianza = :nombre",
                 GradoDeConfianza.class
         );
@@ -33,10 +36,14 @@ public class RepositorioGradosDeConfianza implements WithSimplePersistenceUnit {
         return gradoDeConfianza;
     }
 
-    public void agregar(GradoDeConfianza gradoDeConfianza){
-        EntityTransaction tx = entityManager().getTransaction();
+    public void agregar(GradoDeConfianza gradoDeConfianza, EntityManager entityManager){
+        EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-        entityManager().persist(gradoDeConfianza);
+        entityManager.persist(gradoDeConfianza);
         tx.commit();
+    }
+
+    public void modificar(GradoDeConfianza gradoDeConfianza, EntityManager entityManager) {
+        entityManager.merge(gradoDeConfianza);
     }
 }

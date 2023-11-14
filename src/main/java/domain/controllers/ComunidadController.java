@@ -4,9 +4,11 @@ import domain.models.entities.comunidad.*;
 import domain.models.repositorios.RepositorioComunidades;
 import domain.models.repositorios.RepositorioMiembros;
 import domain.models.repositorios.RepositorioUsuarios;
+import domain.server.Server;
 import domain.server.exceptions.AccessDeniedException;
 import io.javalin.http.Context;
 
+import javax.persistence.EntityManager;
 import java.util.*;
 
 public class ComunidadController extends Controller{
@@ -21,9 +23,10 @@ public class ComunidadController extends Controller{
     }
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        List<Miembro> miembros = this.repositorioMiembros.obtenerMiembrosDe(super.usuarioLogueado(context).getId());
+        EntityManager entityManager = Server.entityManager();
+        List<Miembro> miembros = this.repositorioMiembros.obtenerMiembrosDe(super.usuarioLogueado(context, entityManager).getId(), entityManager);
         model.put("miembros", miembros);
-        Usuario usuario = super.usuarioLogueado(context);
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
@@ -33,14 +36,15 @@ public class ComunidadController extends Controller{
 
     public void admin(Context context) {
         String comunidad_id = context.pathParam("id");
-        Usuario usuario = super.usuarioLogueado(context);
-        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id));
-        Miembro miembro = this.repositorioMiembros.obtenerMiembroDe(usuario.getId(), comunidad.getId());
+        EntityManager entityManager = Server.entityManager();
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id), entityManager);
+        Miembro miembro = this.repositorioMiembros.obtenerMiembroDe(usuario.getId(), comunidad.getId(), entityManager);
 
         if(!miembro.esAdministrador()) {
             throw new AccessDeniedException();
         }
-        List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
+        List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId(), entityManager);
         Map<String, Object> model = new HashMap<>();
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
@@ -52,12 +56,13 @@ public class ComunidadController extends Controller{
 
     public void ver(Context context) {
         String comunidad_id = context.pathParam("id");
-        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id));
-        List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId());
+        EntityManager entityManager = Server.entityManager();
+        Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(comunidad_id), entityManager);
+        List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId(), entityManager);
         Map<String, Object> model = new HashMap<>();
         model.put("miembros", miembros);
         model.put("comunidad", comunidad);
-        Usuario usuario = super.usuarioLogueado(context);
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());

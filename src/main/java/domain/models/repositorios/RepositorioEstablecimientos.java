@@ -3,27 +3,29 @@ package domain.models.repositorios;
 import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.entidadesDeServicio.Establecimiento;
 import domain.models.entities.entidadesDeServicio.Servicio;
+import domain.server.Server;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class RepositorioEstablecimientos implements WithSimplePersistenceUnit {
+public class RepositorioEstablecimientos {
 
-    public List<Establecimiento> obtenerEstablecimientos(){
-        return entityManager()
+    public List<Establecimiento> obtenerEstablecimientos(EntityManager entityManager){
+        return entityManager
                 .createQuery("from Establecimiento ")
                 .getResultList();
     }
 
-    public void agregar(Establecimiento establecimiento) {
-        EntityTransaction tx = entityManager().getTransaction();
+    public void agregar(Establecimiento establecimiento, EntityManager entityManager) {
+        EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-        entityManager().persist(establecimiento);
+        entityManager.persist(establecimiento);
         tx.commit();
     }
 
-    public Establecimiento obtenerEstablecimiento(Long id) {
-        return entityManager().find(Establecimiento.class, id);
+    public Establecimiento obtenerEstablecimiento(Long id, EntityManager entityManager) {
+        return entityManager.find(Establecimiento.class, id);
     }
 }

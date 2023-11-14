@@ -1,0 +1,27 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  dbservice:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 5MQSwqdda3hjuouOBSvbAZVG1JiAYZEQ
+      POSTGRES_DB: tpa_pmr_g14_zdga
+    volumes:
+    - ./posgresdb:/var/lib/postgresql/data
+
+  app:
+    image: tpa_pmr_g14_zdga
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+       hibernate.hbm2ddl.auto: update
+       javax.persistence.jdbc.driver: org.postgresql.Driver
+       javax.persistence.jdbc.password: 5MQSwqdda3hjuouOBSvbAZVG1JiAYZEQ
+       javax.persistence.jdbc.url: javax.persistence.jdbc.url=jdbc:postgresql://dpg-cl78ksn6e7vc739qd670-a.oregon-postgres.render.com:5432/tpa_pmr_g14_zdga
+       javax.persistence.jdbc.user: root
+    depends_on:
+     - dbservice

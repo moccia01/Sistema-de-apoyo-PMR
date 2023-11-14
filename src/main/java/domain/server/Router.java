@@ -4,13 +4,17 @@ import domain.controllers.*;
 import io.github.flbulgarelli.jpa.extras.perthread.PerThreadEntityManagerAccess;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Router implements WithSimplePersistenceUnit {
 
     public void init() {
         Server.app().after((handler) -> {
-            entityManager().clear();
+            EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+            entityManager.clear();
         });
 
         Server.app().routes( () -> {
@@ -28,7 +32,6 @@ public class Router implements WithSimplePersistenceUnit {
 
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
-            get("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::show);
             post("incidentes/{incidente_id}/cerrar/{comunidad_id}", ((IncidenteController) FactoryController.controller("incidentes"))::close);
             get("incidentes/{id}/editar", ((IncidenteController) FactoryController.controller("incidentes"))::edit);
             post("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::save);
