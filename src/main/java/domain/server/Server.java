@@ -38,8 +38,13 @@ public class Server {
 
     public static void init() {
         if(app == null) {
+            Map<String, String> env = System.getenv();
             entityManagerFactory =  createEntityManagerFactory();
-            Integer port = Integer.parseInt(System.getProperty("PORT", "8080"));
+            String strport = System.getenv("PORT");
+            if (strport == null){
+                strport = "8080";
+            }
+            Integer port = Integer.parseInt(strport);
             app = Javalin.create(config()).start(port);
             initTemplateEngine();
             AppHandlers.applyHandlers(app);

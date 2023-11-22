@@ -44,6 +44,6 @@ public class AdminController extends Controller{
         EntityManager entityManager = Server.entityManager();
         AdminDePlataforma admin = super.adminLogueado(context, entityManager);
         model.put("nombre", admin.getNombre());
-        context.render("/admins/index.hbs", model);
+        context.render("admins/index.hbs", model);
     }
 }
