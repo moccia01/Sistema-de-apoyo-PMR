@@ -39,7 +39,7 @@ public class Server {
     public static void init() {
         if(app == null) {
             entityManagerFactory =  createEntityManagerFactory();
-            Integer port = Integer.parseInt(System.getProperty("port", "8080"));
+            Integer port = Integer.parseInt(System.getProperty("PORT", "8080"));
             app = Javalin.create(config()).start(port);
             initTemplateEngine();
             AppHandlers.applyHandlers(app);
