@@ -1,21 +1,15 @@
 {{#partial "contenido" }}
 
     <div class="container mt-4">
-        <h1>Incidentes</h1>
 
-        <a class="btn botonppal mb-auto" href="/incidentes/crear">Abrir Incidente</a>
-
-        <!-- NO FUNCIONA XQ NO DETECTA EL JS
-        <div class="btn-group">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Filtrar
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#" id="filterOpen">Abiertos</a>
-                <a class="dropdown-item" href="#" id="filterClosed">Cerrados</a>
+        <div class="d-flex">
+            <div>
+                <h1>Incidentes</h1>
+            </div>
+            <div class="mt-2 ms-auto">
+                <a class="btn botonppal mb-auto" href="/incidentes/crear">Abrir Incidente</a>
             </div>
         </div>
-        -->
 
         <ul class="list-group mt-3" id="incidentList">
             {{#each comunidades}}

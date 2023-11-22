@@ -57,7 +57,7 @@ public class UsuarioController extends Controller{
         tx.commit();
         context.redirect("index");
     }
-    
+
     public void asignarParametros(Usuario usuario, Context context, EntityManager entityManager){
         String nombreSeteado = context.formParam("nombre");
         String apellidoSeteado = context.formParam("apellido");
@@ -101,5 +101,16 @@ public class UsuarioController extends Controller{
             }
         }
 
+    }
+
+    public void quienesSomos(Context context){
+        Map<String, Object> model = new HashMap<>();
+        EntityManager entityManager = Server.entityManager();
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
+        context.render("/usuarios/quienesSomos.hbs", model);
     }
 }

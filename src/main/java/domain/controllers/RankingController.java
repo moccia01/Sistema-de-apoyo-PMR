@@ -41,32 +41,25 @@ public class RankingController extends Controller {
         context.render("admins/rankings/rankings.hbs", model);
     }
 
-    public void show(Context context) {
-        String criterio_string = context.pathParam("criterio");
-        CriterioRanking criterioRanking = this.convertToEntity(Objects.requireNonNull(criterio_string));
-        GeneradorDeRankings generadorDeRankings = new GeneradorDeRankings(this.repositorioIncidentes);
-
-        List<Entidad> entidades = generadorDeRankings.generarSegunCriterio(criterioRanking);
-        for (int i = 0; i < entidades.size(); i++) {
-            entidades.get(i).setIndex(i + 1);
-        }
-
-        Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
-        AdminDePlataforma admin = super.adminLogueado(context, entityManager);
-        model.put("nombre", admin.getNombre());
-        model.put("entidades", entidades);
-        model.put("criterio", this.convertToText(criterio_string));
-        context.render("admins/rankings/ranking.hbs", model);
-    }
-
     public void generate(Context context) {
         String criterio_string = context.formParam("criterio_ranking");
         CriterioRanking criterioRanking = this.convertToEntity(Objects.requireNonNull(criterio_string));
         if(criterioRanking == null) {
             throw new CriterioNotSelectedException();
         }
-        context.redirect("/admin/ranking/" + criterio_string);
+
+        GeneradorDeRankings generadorDeRankings = new GeneradorDeRankings(this.repositorioIncidentes);
+        List<Entidad> entidades = generadorDeRankings.generarSegunCriterio(criterioRanking);
+        for (int i = 0; i < entidades.size(); i++) {
+            entidades.get(i).setIndex(i + 1);
+        }
+        Map<String, Object> model = new HashMap<>();
+        EntityManager entityManager = Server.entityManager();
+        AdminDePlataforma admin = super.adminLogueado(context, entityManager);
+        model.put("nombre", admin.getNombre());
+        model.put("entidades", entidades);
+        model.put("criterio", this.convertToText(criterio_string));
+        context.render("admins/rankings/rankings.hbs", model);
     }
 
     public CriterioRanking convertToEntity(String criterio_string) {
@@ -85,5 +78,21 @@ public class RankingController extends Controller {
             case "MayorGradoDeImpacto" -> "el mayor grado de impacto en las problemáticas";
             default -> null;
         };
+    }
+    private Object obtenerListaSegun(String criterio, GeneradorDeRankings generadorDeRankings) {
+        switch (criterio) {
+            case "MayorPromedioCierre" -> {
+                return generadorDeRankings.generarSegunCriterio(new MayorPromedioCierre());
+            }
+            case "MayorCantidadIncidentes" -> {
+                return generadorDeRankings.generarSegunCriterio(new MayorCantidadIncidentes());
+            }
+            case "MayorGradoDeImpacto" -> {
+                return generadorDeRankings.generarSegunCriterio(new MayorGradoIncidentes());
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }

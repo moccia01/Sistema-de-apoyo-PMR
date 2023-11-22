@@ -28,7 +28,7 @@ public class Router implements WithSimplePersistenceUnit {
             get("perfil", ((UsuarioController) FactoryController.controller("usuario"))::perfil);
             post("perfil", ((UsuarioController) FactoryController.controller("usuario"))::update);
 
-            get("quienes_somos", (context -> context.render("usuarios/quienesSomos.hbs")));
+            get("quienes_somos", ((UsuarioController) FactoryController.controller("usuario"))::quienesSomos);
 
             get("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::index);
             get("incidentes/crear", ((IncidenteController) FactoryController.controller("incidentes"))::create);
@@ -52,7 +52,7 @@ public class Router implements WithSimplePersistenceUnit {
             get("admin/login", ((AdminController) FactoryController.controller("admin"))::show);
             post("admin/login", ((AdminController) FactoryController.controller("admin"))::login);
             get("admin/index", ((AdminController) FactoryController.controller("admin"))::index);
-            
+
             get("admin/entidades_prestadoras", ctx -> {
                 CargaDatosController controller = ((CargaDatosController) FactoryController.controller("carga_datos"));
                 controller.show(ctx, "entidades_prestadoras");
@@ -73,7 +73,7 @@ public class Router implements WithSimplePersistenceUnit {
 
             get("admin/rankings", ((RankingController) FactoryController.controller("ranking"))::index);
             post("admin/ranking", ((RankingController) FactoryController.controller("ranking"))::generate);
-            get("admin/ranking/{criterio}", ((RankingController) FactoryController.controller("ranking"))::show);
+            post("admin/rankings", ((RankingController) FactoryController.controller("ranking"))::generate);
         });
     }
 }

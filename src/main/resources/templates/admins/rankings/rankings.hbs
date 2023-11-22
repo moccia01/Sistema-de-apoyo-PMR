@@ -5,7 +5,7 @@
         <div class="d-flex align-items-center mt-4">
             <h4 class="me-2 titulos">Seleccionar criterio de ranking: </h4>
             <div class="d-inline-flex">
-                <form method="POST" action="/admin/ranking">
+                <form method="POST" action="/admin/rankings">
                     <div class="dropdown mb-auto d-inline-flex">
                         <select class="form-select mb-auto" name="criterio_ranking">
                             <option value="-1">Elegir criterio de ranking</option>
@@ -20,6 +20,30 @@
                 </form>
             </div>
         </div>
+
+        {{# if entidades}}
+            <div class="container mt-4">
+                <h2 class="titulos">Ranking segun {{criterio}}</h2>
+                <table class="table table-light table-striped">
+                    <thead>
+                    <tr>
+                        <th><strong>Orden</strong></th>
+                        <th><strong>Entidad</strong></th>
+                        <th><strong>Localizacion</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each entidades}}
+                        <tr>
+                            <td>{{this.index}}</td>
+                            <td>{{this.nombre}}</td>
+                            <td>{{this.localizacion}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        {{/if}}
 
     </div>
 {{/partial}}
