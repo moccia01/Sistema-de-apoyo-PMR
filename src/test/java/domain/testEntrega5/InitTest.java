@@ -67,9 +67,9 @@ public class InitTest {
 
         ComunidadBuilder comunidadBuilder = new ComunidadBuilder();
 
-        Comunidad bosterosDesdeLaCuna = comunidadBuilder.conNombre("Bosteros desde la cuna").conGradoDeConfianza(initializer.getConfianzaConfiableNivel1()).construir();
-        Comunidad citizenDesdeLaCuna = comunidadBuilder.conNombre("Citizen desde la cuna").conGradoDeConfianza(initializer.getConfianzaConfiableNivel1()).construir();
-        Comunidad operativosEnjoyers = comunidadBuilder.conNombre("Operativos enjoyers").conGradoDeConfianza(initializer.getConfianzaConfiableNivel1()).construir();
+        Comunidad bosterosDesdeLaCuna = comunidadBuilder.conNombre("Comunidad No Videntes - Palermo").conGradoDeConfianza(initializer.getConfianzaConfiableNivel1()).construir();
+        Comunidad citizenDesdeLaCuna = comunidadBuilder.conNombre("Comunidad Paraplegicos - San Martin").conGradoDeConfianza(initializer.getConfianzaConfiableNivel1()).construir();
+        Comunidad operativosEnjoyers = comunidadBuilder.conNombre("Comunidad ELA - CABA").conGradoDeConfianza(initializer.getConfianzaConfiableNivel1()).construir();
 
         MiembroBuilder miembroBuilder = new MiembroBuilder();
         Miembro tomyBostero = miembroBuilder.conRol(Rol.ADMINISTRADOR).conUsuario(tomasDAntonio)
