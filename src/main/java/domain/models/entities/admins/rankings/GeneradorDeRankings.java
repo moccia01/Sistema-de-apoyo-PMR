@@ -4,6 +4,7 @@ import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.repositorios.RepositorioIncidentes;
 import domain.server.Server;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,11 +14,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GeneradorDeRankings {
+public class GeneradorDeRankings implements WithSimplePersistenceUnit {
     private List<Incidente> incidentes;
 
     public GeneradorDeRankings(RepositorioIncidentes repositorioIncidentes) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManager();
         this.incidentes = repositorioIncidentes.obtenerIncidentes(entityManager);
     }
 

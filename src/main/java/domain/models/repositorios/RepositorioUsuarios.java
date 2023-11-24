@@ -10,10 +10,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class RepositorioUsuarios {
+public class RepositorioUsuarios implements WithSimplePersistenceUnit{
 
-    public List<Usuario> obtenerUsuarios(EntityManager entityManager){
-        return entityManager
+    public List<Usuario> obtenerUsuarios(){
+        return entityManager()
                 .createQuery("from Comunidad")
                 .getResultList();
     }

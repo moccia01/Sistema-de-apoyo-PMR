@@ -1,14 +1,12 @@
 package domain.controllers;
 import domain.models.entities.comunidad.*;
-import domain.models.entities.entidadesDeServicio.Entidad;
-import domain.models.entities.entidadesDeServicio.Establecimiento;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
-import domain.models.entities.entidadesDeServicio.Servicio;
 import domain.models.repositorios.*;
 import domain.server.Server;
 import domain.server.exceptions.InvalidPrestacionException;
 import domain.server.utils.ICrudViewsHandler;
 
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import javax.persistence.EntityTransaction;
@@ -17,7 +15,7 @@ import javax.persistence.NoResultException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class IncidenteController extends Controller implements ICrudViewsHandler {
+public class IncidenteController extends Controller implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioIncidentes repositorioIncidentes;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioServicios repositorioServicios;
@@ -44,7 +42,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         List<Comunidad> comunidades = this.repositorioComunidades.obtenerComunidadesDe(super.usuarioLogueado(context, entityManager).getId(), entityManager);
         for (Comunidad comunidad : comunidades) {
             comunidad.getIncidentes().forEach(i -> i.setComunidadId(comunidad.getId()));
@@ -61,7 +59,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     @Override
     public void show(Context context) {
         String id = context.pathParam("id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
         Map<String, Object> model = new HashMap<>();
         model.put("incidente", incidente);
@@ -76,7 +74,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     @Override
     public void create(Context context) {
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         model.put("entidades", new RepositorioEntidades().obtenerEntidades(entityManager));
         model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos(entityManager));
         model.put("servicios", new RepositorioServicios().obtenerServicios(entityManager));
@@ -90,7 +88,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
 
     @Override
     public void save(Context context) {
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         EntityTransaction tx = entityManager.getTransaction();
         Usuario usuario = super.usuarioLogueado(context, entityManager);
         PrestacionDeServicio prestacionDeServicio = this.obtenerPrestacion(context, entityManager);
@@ -107,7 +105,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     @Override
     public void edit(Context context) {
         String id = context.pathParam("id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
         Map<String, Object> model = new HashMap<>();
         model.put("entidades", new RepositorioEntidades().obtenerEntidades(entityManager));
@@ -125,7 +123,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     @Override
     public void update(Context context) {
         String id = context.pathParam("id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
             Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
@@ -138,7 +136,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     @Override
     public void delete(Context context) {
         String id = context.pathParam("id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
         this.repositorioIncidentes.eliminar(incidente, entityManager);
         context.redirect("/incidentes");
@@ -147,7 +145,7 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
     public void close(Context context) {
         String id = context.pathParam("incidente_id");
         String comunidad_id = context.pathParam("comunidad_id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         EntityTransaction tx = entityManager.getTransaction();;
         tx.begin();
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)), entityManager);

@@ -3,13 +3,13 @@ package domain.controllers;
 import domain.models.entities.admins.AdminDePlataforma;
 import domain.models.entities.admins.cargaDeDatos.CargaEntidadesPrestadoras;
 import domain.models.entities.admins.cargaDeDatos.CargaOrganismosControl;
-import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.entities.entidadesDeServicio.EntidadPrestadora;
 import domain.models.entities.entidadesDeServicio.OrganismoDeControl;
 import domain.models.repositorios.RepositorioEntidadesPrestadoras;
 import domain.models.repositorios.RepositorioOrganismoDeControl;
 import domain.server.Server;
 import domain.server.exceptions.FileNotLoadedException;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class CargaDatosController extends Controller{
+public class CargaDatosController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioEntidadesPrestadoras repositorioEntidadesPrestadoras;
     private RepositorioOrganismoDeControl repositorioOrganismoDeControl;
 
@@ -38,7 +38,7 @@ public class CargaDatosController extends Controller{
 
     public void show(Context context, String recurso) {
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         AdminDePlataforma admin = super.adminLogueado(context, entityManager);
         model.put("nombre", admin.getNombre());
         model.put("lista", this.obtenerListaSegun(recurso));
@@ -46,7 +46,7 @@ public class CargaDatosController extends Controller{
     }
 
     private Object obtenerListaSegun(String recurso) {
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         switch (recurso) {
             case "entidades_prestadoras" -> {
                 return this.repositorioEntidadesPrestadoras.obtenerEntidadesPrestadoras(entityManager);
@@ -86,7 +86,7 @@ public class CargaDatosController extends Controller{
     }
 
     public void cargarDatosSegunRecurso(String path, Context context, String recurso, String token) {
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         switch (recurso) {
             case "entidades_prestadoras" -> {
                 CargaEntidadesPrestadoras loader = new CargaEntidadesPrestadoras(token);

@@ -1,6 +1,5 @@
 package domain.controllers;
 
-import domain.models.entities.comunidad.GradoDeConfianza;
 import domain.models.entities.comunidad.Interes;
 import domain.models.entities.comunidad.NombreGradoConfianza;
 import domain.models.entities.comunidad.Usuario;
@@ -24,7 +23,7 @@ import javax.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.util.*;
 
-public class LoginController {
+public class LoginController implements WithSimplePersistenceUnit {
     RepositorioUsuarios repositorioUsuarios;
     RepositorioCredenciales repositorioCredenciales;
     RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
@@ -63,7 +62,7 @@ public class LoginController {
     public void login(Context context){
         String username = context.formParam("username");
         String password = context.formParam("password");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         CredencialDeAcceso credencialDeAcceso = repositorioCredenciales.obtenerCredencial(username, password, entityManager);
         if(credencialDeAcceso != null){
             Usuario usuario = repositorioUsuarios.obtenerUsuario(credencialDeAcceso, entityManager);
@@ -88,7 +87,7 @@ public class LoginController {
     public void save(Context context){
         Usuario usuario = new Usuario();
         context.sessionAttribute("error_return", "/registro");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         EntityTransaction tx = entityManager.getTransaction();
         this.asignarParametros(usuario, context, entityManager);
         tx.begin();

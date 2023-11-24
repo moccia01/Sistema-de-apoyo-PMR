@@ -9,9 +9,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class RepositorioMiembros {
-    public List<Miembro> obtenerMiembros(EntityManager entityManager){
-        return entityManager
+public class RepositorioMiembros implements WithSimplePersistenceUnit{
+    public List<Miembro> obtenerMiembros(){
+        return entityManager()
                 .createQuery("from Comunidad")
                 .getResultList();
     }

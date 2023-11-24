@@ -4,14 +4,15 @@ import domain.models.entities.comunidad.Miembro;
 import domain.models.entities.comunidad.Usuario;
 import domain.models.repositorios.RepositorioUsuarios;
 import domain.server.Server;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class NotificacionesPendientesSender {
+public class NotificacionesPendientesSender implements WithSimplePersistenceUnit {
 
 
-    public NotificacionesPendientesSender() {
+    public NotificacionesPendientesSender(){
 
     }
 
@@ -20,8 +21,7 @@ public class NotificacionesPendientesSender {
     }
 
     public static void main(String[] args) {
-        EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
-        NotificacionesPendientesSender.mandarPendientes(new RepositorioUsuarios().obtenerUsuarios(entityManager));
+        NotificacionesPendientesSender.mandarPendientes(new RepositorioUsuarios().obtenerUsuarios());
     }
 
     public static void mandarPendientes(List<Usuario> usuarios){

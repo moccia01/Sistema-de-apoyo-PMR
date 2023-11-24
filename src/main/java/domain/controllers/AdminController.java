@@ -1,17 +1,16 @@
 package domain.controllers;
 
 import domain.models.entities.admins.AdminDePlataforma;
-import domain.models.entities.comunidad.Usuario;
 import domain.models.repositorios.RepositorioAdmins;
 import domain.server.Server;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminController extends Controller{
+public class AdminController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioAdmins repositorioAdmins;
 
     public AdminController(RepositorioAdmins repositorioAdmins) {
@@ -28,7 +27,7 @@ public class AdminController extends Controller{
     public void login(Context context) {
         String username = context.formParam("username");
         String password = context.formParam("password");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         AdminDePlataforma adminDePlataforma = this.repositorioAdmins.obtenerAdmin(username, password, entityManager);
         if(adminDePlataforma != null) {
             context.sessionAttribute("admin_id", adminDePlataforma.getId());
@@ -41,7 +40,7 @@ public class AdminController extends Controller{
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         AdminDePlataforma admin = super.adminLogueado(context, entityManager);
         model.put("nombre", admin.getNombre());
         context.render("admins/index.hbs", model);

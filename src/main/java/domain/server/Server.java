@@ -2,6 +2,9 @@ package domain.server;
 
 import domain.server.handlers.AppHandlers;
 import domain.server.middlewares.AuthMiddleware;
+import io.github.flbulgarelli.jpa.extras.perthread.PerThreadEntityManagerProperties;
+import io.github.flbulgarelli.jpa.extras.perthread.WithPerThreadEntityManager;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.Javalin;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
@@ -17,11 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Server {
-    public static final String baseUrl = "localhost:8080";
+public class Server implements WithSimplePersistenceUnit {
     private static Javalin app = null;
-    public static EntityManagerFactory entityManagerFactory;
-    private static EntityManager entityManager;
 
     public static Javalin app() {
         if(app == null)
@@ -29,17 +29,9 @@ public class Server {
         return app;
     }
 
-    public static EntityManager entityManager() {
-        if(entityManager == null) {
-            entityManager = entityManagerFactory.createEntityManager();
-        }
-        return entityManager;
-    }
-
     public static void init() {
         if(app == null) {
-            Map<String, String> env = System.getenv();
-            entityManagerFactory =  createEntityManagerFactory();
+            configureEntityManagerProperties();
             String strport = System.getenv("PORT");
             if (strport == null){
                 strport = "8080";
@@ -82,10 +74,10 @@ public class Server {
         );
     }
 
-    public static EntityManagerFactory createEntityManagerFactory() {
+    public static void configureEntityManagerProperties() {
         // https://stackoverflow.com/questions/8836834/read-environment-variables-in-persistence-xml-file
         Map<String, String> env = System.getenv();
-        Map<String, Object> configOverrides = new HashMap<String, Object>();
+        Map<String, Object> configOverrides = new HashMap<>();
 
         String[] keys = new String[] { "javax.persistence.jdbc.url", "javax.persistence.jdbc.user",
                 "javax.persistence.jdbc.password", "javax.persistence.jdbc.driver", "hibernate.hbm2ddl.auto",
@@ -96,11 +88,13 @@ public class Server {
                 String value = env.get(key);
                 System.out.println(key + ": " + value);
                 configOverrides.put(key, value);
-
             }
         }
+        Consumer<PerThreadEntityManagerProperties> propertiesConsumer = perThreadEntityManagerProperties -> {
+            perThreadEntityManagerProperties.putAll(configOverrides);
+        };
 
-        return Persistence.createEntityManagerFactory("simple-persistence-unit", configOverrides);
+        WithSimplePersistenceUnit.configure(propertiesConsumer);
     }
 
 }

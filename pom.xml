@@ -157,6 +157,12 @@
       <type>pom</type>
     </dependency>
 
+<!--    <dependency>-->
+<!--      <groupId>com.mchange</groupId>-->
+<!--      <artifactId>c3p0</artifactId>-->
+<!--      <version>0.9.5.5</version> &lt;!&ndash; Utiliza la versión más reciente disponible &ndash;&gt;-->
+<!--    </dependency>-->
+
   </dependencies>
 
   <build>

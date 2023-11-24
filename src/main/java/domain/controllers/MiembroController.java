@@ -1,10 +1,8 @@
 package domain.controllers;
 
 import domain.models.entities.comunidad.*;
-import domain.models.entities.converters.MedioConfiguradoAttributeConverter;
 import domain.models.entities.converters.RolAttributeConverter;
 import domain.models.entities.converters.RolTemporalAttributeConverter;
-import domain.models.entities.converters.TiempoConfiguradoAttributeConverter;
 import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.entities.validaciones.CredencialDeAcceso;
 import domain.models.entities.validaciones.EsDebil;
@@ -23,7 +21,7 @@ import javax.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.util.*;
 
-public class MiembroController extends Controller {
+public class MiembroController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioMiembros repositorioMiembros;
     private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
     private RepositorioComunidades repositorioComunidades;
@@ -43,7 +41,7 @@ public class MiembroController extends Controller {
 
     public void baja(Context context) {
         String id = context.pathParam("miembro_id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id), entityManager);
         Comunidad comunidad = miembro.getComunidad();
         comunidad.eliminarMiembro(miembro);
@@ -57,7 +55,7 @@ public class MiembroController extends Controller {
 
     public void editar(Context context) {
         String id = context.pathParam("miembro_id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id), entityManager);
         Map<String, Object> model = new HashMap<>();
         List<TiempoConfigurado> tiemposConfigurados = new ArrayList<>();
@@ -71,7 +69,7 @@ public class MiembroController extends Controller {
     }
 
     public void update(Context context) {
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         String id = context.pathParam("miembro_id");
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id), entityManager);
         Usuario usuario = this.repositorioUsuarios.obtenerUsuarioSegun(miembro.getUsuario().getId(), entityManager);
@@ -86,7 +84,7 @@ public class MiembroController extends Controller {
 
     public void create(Context context) {
         String id = context.pathParam("comunidad_id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(id), entityManager);
         Map<String, Object> model = new HashMap<>();
         Usuario usuario = super.usuarioLogueado(context, entityManager);
@@ -107,7 +105,7 @@ public class MiembroController extends Controller {
         miembro.setUsuario(usuario);
 
         String id = context.pathParam("comunidad_id");
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(id)), entityManager);
         context.sessionAttribute("error_return", "/miembros/" + comunidad.getId() + "/alta");
         this.asignarParametros(miembro, usuario, context, entityManager, true);

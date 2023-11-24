@@ -13,7 +13,7 @@ public class Router implements WithSimplePersistenceUnit {
 
     public void init() {
         Server.app().after((handler) -> {
-            EntityManager entityManager = Server.entityManagerFactory.createEntityManager();
+            EntityManager entityManager = entityManager();
             entityManager.clear();
         });
 

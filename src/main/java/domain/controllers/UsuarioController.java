@@ -6,6 +6,7 @@ import domain.models.entities.converters.TiempoConfiguradoAttributeConverter;
 import domain.models.repositorios.RepositorioTiemposConfiguracion;
 import domain.models.repositorios.RepositorioUsuarios;
 import domain.server.Server;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class UsuarioController extends Controller{
+public class UsuarioController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
 
@@ -26,7 +27,7 @@ public class UsuarioController extends Controller{
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
@@ -37,7 +38,7 @@ public class UsuarioController extends Controller{
 
     public void perfil(Context context) {
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
@@ -47,7 +48,7 @@ public class UsuarioController extends Controller{
     }
 
     public void update(Context context) {
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         Usuario usuario = super.usuarioLogueado(context, entityManager);
         this.asignarParametros(usuario, context, entityManager);
 
@@ -105,12 +106,15 @@ public class UsuarioController extends Controller{
 
     public void quienesSomos(Context context){
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
-        Usuario usuario = super.usuarioLogueado(context, entityManager);
+        EntityManager entityManager = entityManager();
+        Usuario usuario = null;
+        if(context.sessionAttribute("usuario_id") != null) {
+            usuario = entityManager.find(Usuario.class, Objects.requireNonNull(context.sessionAttribute("usuario_id")));
+            model.put("nombre", usuario.getNombre());
+            model.put("apellido", usuario.getApellido());
+            model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
+        }
         model.put("user", usuario);
-        model.put("nombre", usuario.getNombre());
-        model.put("apellido", usuario.getApellido());
-        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("/usuarios/quienesSomos.hbs", model);
     }
 }

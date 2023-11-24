@@ -113,9 +113,8 @@ public class NotificacionesTest {
         usuarios.add(fede);
         usuarios.add(tomas);
 
-        this.entityManager = Server.entityManagerFactory.createEntityManager();
         repositorioUsuarios = Mockito.mock(RepositorioUsuarios.class);
-        when(repositorioUsuarios.obtenerUsuarios(entityManager)).thenReturn(usuarios);
+        when(repositorioUsuarios.obtenerUsuarios()).thenReturn(usuarios);
 
     }
 
@@ -196,7 +195,7 @@ public class NotificacionesTest {
         Mockito.verify(sinApurosTomas, Mockito.never()).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.never()).mandarPendientes(Mockito.any());
 
-        NotificacionesPendientesSender.mandarPendientes(repositorioUsuarios.obtenerUsuarios(this.entityManager));
+        NotificacionesPendientesSender.mandarPendientes(repositorioUsuarios.obtenerUsuarios());
 
         Mockito.verify(sinApurosTomas, Mockito.times(1)).mandarPendientes(Mockito.any());
         Mockito.verify(sinApurosFede, Mockito.times(1)).mandarPendientes(Mockito.any());

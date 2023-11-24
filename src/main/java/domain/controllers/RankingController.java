@@ -6,6 +6,7 @@ import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.repositorios.*;
 import domain.server.Server;
 import domain.server.exceptions.CriterioNotSelectedException;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class RankingController extends Controller {
+public class RankingController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioIncidentes repositorioIncidentes;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioServicios repositorioServicios;
@@ -35,7 +36,7 @@ public class RankingController extends Controller {
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         AdminDePlataforma admin = super.adminLogueado(context, entityManager);
         model.put("nombre", admin.getNombre());
         context.render("admins/rankings/rankings.hbs", model);
@@ -54,7 +55,7 @@ public class RankingController extends Controller {
             entidades.get(i).setIndex(i + 1);
         }
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = Server.entityManager();
+        EntityManager entityManager = entityManager();
         AdminDePlataforma admin = super.adminLogueado(context, entityManager);
         model.put("nombre", admin.getNombre());
         model.put("entidades", entidades);
