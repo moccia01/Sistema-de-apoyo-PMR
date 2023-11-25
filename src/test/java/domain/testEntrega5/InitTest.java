@@ -12,15 +12,16 @@ import domain.models.entities.mensajes.Configuraciones.TiempoConfigurado;
 import domain.models.repositorios.*;
 import domain.server.Server;
 import domain.server.init.Initializer;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 
-public class InitTest {
+public class InitTest implements WithSimplePersistenceUnit {
 
     @Test
     public void initTest(){
-        EntityManager entityManager = Server.createEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = entityManager();
         Initializer initializer = new Initializer();
         initializer.init(entityManager);
 
