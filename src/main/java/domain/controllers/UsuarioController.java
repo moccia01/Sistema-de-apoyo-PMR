@@ -115,6 +115,6 @@ public class UsuarioController extends Controller implements WithSimplePersisten
             model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         }
         model.put("user", usuario);
-        context.render("/usuarios/quienesSomos.hbs", model);
+        context.render("usuarios/quienesSomos.hbs", model);
     }
 }
