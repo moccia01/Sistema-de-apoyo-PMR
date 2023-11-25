@@ -12,6 +12,7 @@ import domain.models.entities.admins.rankings.GeneradorDeRankings;
 import domain.models.entities.admins.rankings.MayorCantidadIncidentes;
 import domain.models.repositorios.RepositorioIncidentes;
 import domain.server.Server;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.when;
 
-public class RankingsTest {
+public class RankingsTest implements WithSimplePersistenceUnit {
 
     private GeneradorDeRankings generador;
     private Entidad lineaMitre;
@@ -127,7 +128,7 @@ public class RankingsTest {
         incidentes.add(incidente3);
 
         repoIncidentes = Mockito.mock(RepositorioIncidentes.class);
-        this.entityManager = Server.entityManagerFactory.createEntityManager();
+        this.entityManager = entityManager();
         when(repoIncidentes.obtenerIncidentes(this.entityManager)).thenReturn(incidentes);
 
         generador = new GeneradorDeRankings(repoIncidentes);

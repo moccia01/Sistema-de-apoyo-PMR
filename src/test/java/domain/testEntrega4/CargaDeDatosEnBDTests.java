@@ -44,7 +44,7 @@ public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
     @BeforeEach
 
     public void init(){
-        EntityManager entityManager = Server.createEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = entityManager();
         init = new Initializer();
         init.init(entityManager);
 
