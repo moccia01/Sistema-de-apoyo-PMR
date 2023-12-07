@@ -8,12 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MayorGradoIncidentes extends CriterioRanking{
-    @Override
-    public List<Entidad> generarRanking(HashMap<Entidad, List<Incidente>> incidentesPorEntidad) {
-        //TODO falla porque retorna null pero no hay especificacion sobre este criterio todavia
-        return new ArrayList<>();
-    }
-
-    public double transformarListaAValor(List<Incidente> incidentes){return 0.0;}
+    public double transformarListaAValor(List<Incidente> incidentes){return Math.random();}
 }
 

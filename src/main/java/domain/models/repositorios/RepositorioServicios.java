@@ -17,14 +17,4 @@ public class RepositorioServicios {
                 .getResultList();
     }
 
-    public void agregar(Servicio servicio, EntityManager entityManager) {
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-        entityManager.persist(servicio);
-        tx.commit();
-    }
-
-    public Servicio obtenerServicio(Long id, EntityManager entityManager) {
-        return entityManager.find(Servicio.class, id);
-    }
 }

@@ -36,7 +36,6 @@ public class Router implements WithSimplePersistenceUnit {
             get("incidentes/{id}/editar", ((IncidenteController) FactoryController.controller("incidentes"))::edit);
             post("incidentes", ((IncidenteController) FactoryController.controller("incidentes"))::save);
             post("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::update); // no es put pq form de html no acepta put
-            delete("incidentes/{id}", ((IncidenteController) FactoryController.controller("incidentes"))::delete);
 
             get("comunidades",((ComunidadController) FactoryController.controller("comunidades"))::index);
 

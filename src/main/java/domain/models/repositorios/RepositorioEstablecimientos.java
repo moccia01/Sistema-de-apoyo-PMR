@@ -18,14 +18,4 @@ public class RepositorioEstablecimientos {
                 .getResultList();
     }
 
-    public void agregar(Establecimiento establecimiento, EntityManager entityManager) {
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-        entityManager.persist(establecimiento);
-        tx.commit();
-    }
-
-    public Establecimiento obtenerEstablecimiento(Long id, EntityManager entityManager) {
-        return entityManager.find(Establecimiento.class, id);
-    }
 }

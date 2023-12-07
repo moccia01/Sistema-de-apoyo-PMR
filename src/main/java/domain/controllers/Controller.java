@@ -16,7 +16,7 @@ public abstract class Controller {
         if(ctx.sessionAttribute("usuario_id") == null) {
             throw new AccessDeniedException();
         }
-        return entityManager.find(Usuario.class, Objects.requireNonNull(ctx.sessionAttribute("usuario_id")));
+        return entityManager.find(Usuario.class, ctx.sessionAttribute("usuario_id"));
     }
 
     protected AdminDePlataforma adminLogueado(Context ctx, EntityManager entityManager) {

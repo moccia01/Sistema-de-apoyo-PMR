@@ -40,7 +40,7 @@ public class LoginController implements WithSimplePersistenceUnit {
     }
 
     public void index(Context context){
-        // MUESTRA LA VISTA QUE TIENE OPCIONES DE INICIO SESION O REGISTRO
+
         Map<String, Object> model = new HashMap<>();
         model.put("login", null);
         if(context.sessionAttribute("usuario_id") != null) {
@@ -91,7 +91,7 @@ public class LoginController implements WithSimplePersistenceUnit {
         EntityTransaction tx = entityManager.getTransaction();
         this.asignarParametros(usuario, context, entityManager);
         tx.begin();
-        this.repositorioUsuarios.agregar(usuario, entityManager);
+        entityManager().persist(usuario);
         tx.commit();
         context.redirect("/login");
     }
@@ -101,8 +101,6 @@ public class LoginController implements WithSimplePersistenceUnit {
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));
         usuario.setApellido(contexto.formParam("apellido"));
-/*        usuario.setMail(contexto.formParam("email"));
-        usuario.setTelefono(contexto.formParam("telefono"));*/
 
         CredencialDeAcceso credencialDeAcceso = new CredencialDeAcceso();
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
@@ -118,23 +116,8 @@ public class LoginController implements WithSimplePersistenceUnit {
              throw new InvalidPasswordException();
         }
 
-
         credencialDeAcceso.setFechaUltimoCambio(LocalDate.now());
         usuario.setCredencialDeAcceso(credencialDeAcceso);
-
-        /*usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
-                Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
-        String tiempoElegido = contexto.formParam("tiempo_configuracion");
-
-        TiempoConfigurado tiempoConfigurado = null;
-        if(Objects.equals(tiempoElegido, "CuandoSucede")){
-            tiempoConfigurado = repositorioTiemposConfiguracion.obtenerConfigCuandoSucede();
-        } else {
-            assert tiempoElegido != null;
-            tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
-        }
-        usuario.setTiempoConfigurado(tiempoConfigurado);*/
-
 
         //Valores default
         usuario.setGradoDeConfianza(repositorioGradosDeConfianza.obtenerGradoDeConfianza(entityManager,

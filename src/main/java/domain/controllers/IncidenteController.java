@@ -2,53 +2,49 @@ package domain.controllers;
 import domain.models.entities.comunidad.*;
 import domain.models.entities.entidadesDeServicio.PrestacionDeServicio;
 import domain.models.repositorios.*;
-import domain.server.Server;
 import domain.server.exceptions.InvalidPrestacionException;
-import domain.server.utils.ICrudViewsHandler;
-
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-
 import javax.persistence.EntityTransaction;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class IncidenteController extends Controller implements ICrudViewsHandler, WithSimplePersistenceUnit {
+public class IncidenteController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioIncidentes repositorioIncidentes;
     private RepositorioComunidades repositorioComunidades;
+    private RepositorioPrestaciones repositorioPrestaciones;
     private RepositorioServicios repositorioServicios;
     private RepositorioEstablecimientos repositorioEstablecimientos;
     private RepositorioEntidades repositorioEntidades;
-    private RepositorioUsuarios repositorioUsuarios;
-    private RepositorioPrestaciones repositorioPrestaciones;
 
     public IncidenteController(RepositorioIncidentes repositorioIncidentes,
+                               RepositorioComunidades repositorioComunidades,
+                               RepositorioPrestaciones repositorioPrestaciones,
                                RepositorioServicios repositorioServicios,
                                RepositorioEstablecimientos repositorioEstablecimientos,
-                               RepositorioEntidades repositorioEntidades,
-                               RepositorioComunidades repositorioComunidades,
-                               RepositorioUsuarios repositorioUsuarios,
-                               RepositorioPrestaciones repositorioPrestaciones){
+                               RepositorioEntidades repositorioEntidades){
         this.repositorioComunidades = repositorioComunidades;
         this.repositorioIncidentes = repositorioIncidentes;
+        this.repositorioPrestaciones = repositorioPrestaciones;
         this.repositorioServicios = repositorioServicios;
         this.repositorioEstablecimientos = repositorioEstablecimientos;
         this.repositorioEntidades = repositorioEntidades;
-        this.repositorioUsuarios = repositorioUsuarios;
-        this.repositorioPrestaciones = repositorioPrestaciones;
     }
 
     public void index(Context context) {
         Map<String, Object> model = new HashMap<>();
         EntityManager entityManager = entityManager();
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
         List<Comunidad> comunidades = this.repositorioComunidades.obtenerComunidadesDe(super.usuarioLogueado(context, entityManager).getId(), entityManager);
+
+        // le setteo a los incidentes el id de su comunidad para usar en hbs
         for (Comunidad comunidad : comunidades) {
             comunidad.getIncidentes().forEach(i -> i.setComunidadId(comunidad.getId()));
         }
+
         model.put("comunidades", comunidades);
-        Usuario usuario = super.usuarioLogueado(context, entityManager);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
@@ -56,29 +52,14 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         context.render("usuarios/incidentes/incidentes.hbs", model);
     }
 
-    @Override
-    public void show(Context context) {
-        String id = context.pathParam("id");
-        EntityManager entityManager = entityManager();
-        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
-        Map<String, Object> model = new HashMap<>();
-        model.put("incidente", incidente);
-        Usuario usuario = super.usuarioLogueado(context, entityManager);
-        model.put("user", usuario);
-        model.put("nombre", usuario.getNombre());
-        model.put("apellido", usuario.getApellido());
-        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
-        context.render("usuarios/incidentes/incidente.hbs", model);
-    }
-
-    @Override
     public void create(Context context) {
         Map<String, Object> model = new HashMap<>();
         EntityManager entityManager = entityManager();
-        model.put("entidades", new RepositorioEntidades().obtenerEntidades(entityManager));
-        model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos(entityManager));
-        model.put("servicios", new RepositorioServicios().obtenerServicios(entityManager));
         Usuario usuario = super.usuarioLogueado(context, entityManager);
+
+        model.put("entidades", this.repositorioEntidades.obtenerEntidades(entityManager));
+        model.put("establecimientos", this.repositorioEstablecimientos.obtenerEstablecimientos(entityManager));
+        model.put("servicios", this.repositorioServicios.obtenerServicios(entityManager));
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
@@ -86,33 +67,31 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         context.render("usuarios/incidentes/incidente.hbs", model);
     }
 
-    @Override
     public void save(Context context) {
         EntityManager entityManager = entityManager();
         EntityTransaction tx = entityManager.getTransaction();
         Usuario usuario = super.usuarioLogueado(context, entityManager);
         PrestacionDeServicio prestacionDeServicio = this.obtenerPrestacion(context, entityManager);
         tx.begin();
-        usuario.generarIncidente(
-                context.formParam("titulo"),
-                prestacionDeServicio,
-                context.formParam("descripcion"));
-        this.repositorioUsuarios.modificar(usuario, entityManager);
+        usuario.generarIncidente(context.formParam("titulo"), prestacionDeServicio, context.formParam("descripcion"));
+        entityManager().merge(usuario);
         tx.commit();
         context.redirect("/incidentes");
     }
 
-    @Override
     public void edit(Context context) {
         String id = context.pathParam("id");
-        EntityManager entityManager = entityManager();
-        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
         Map<String, Object> model = new HashMap<>();
-        model.put("entidades", new RepositorioEntidades().obtenerEntidades(entityManager));
-        model.put("establecimientos", new RepositorioEstablecimientos().obtenerEstablecimientos(entityManager));
-        model.put("servicios", new RepositorioServicios().obtenerServicios(entityManager));
-        model.put("incidente", incidente);
+        EntityManager entityManager = entityManager();
         Usuario usuario = super.usuarioLogueado(context, entityManager);
+
+        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
+
+
+        model.put("entidades", this.repositorioEntidades.obtenerEntidades(entityManager));
+        model.put("establecimientos", this.repositorioEstablecimientos.obtenerEstablecimientos(entityManager));
+        model.put("servicios", this.repositorioServicios.obtenerServicios(entityManager));
+        model.put("incidente", incidente);
         model.put("user", usuario);
         model.put("nombre", usuario.getNombre());
         model.put("apellido", usuario.getApellido());
@@ -120,25 +99,15 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         context.render("usuarios/incidentes/incidente.hbs", model);
     }
 
-    @Override
     public void update(Context context) {
         String id = context.pathParam("id");
         EntityManager entityManager = entityManager();
+        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
+        this.asignarParametros(incidente, context, entityManager);
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-            Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
-            this.asignarParametros(incidente, context, entityManager);
-            this.repositorioIncidentes.modificar(incidente, entityManager);
+            entityManager.merge(incidente);
         tx.commit();
-        context.redirect("/incidentes");
-    }
-
-    @Override
-    public void delete(Context context) {
-        String id = context.pathParam("id");
-        EntityManager entityManager = entityManager();
-        Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
-        this.repositorioIncidentes.eliminar(incidente, entityManager);
         context.redirect("/incidentes");
     }
 
@@ -146,18 +115,18 @@ public class IncidenteController extends Controller implements ICrudViewsHandler
         String id = context.pathParam("incidente_id");
         String comunidad_id = context.pathParam("comunidad_id");
         EntityManager entityManager = entityManager();
-        EntityTransaction tx = entityManager.getTransaction();;
-        tx.begin();
         Comunidad comunidad = this.repositorioComunidades.obtenerComunidad(Long.parseLong(Objects.requireNonNull(comunidad_id)), entityManager);
         Incidente incidente = this.repositorioIncidentes.obtenerIncidente(Long.parseLong(id), entityManager);
         Usuario usuario = super.usuarioLogueado(context, entityManager);
+        EntityTransaction tx = entityManager.getTransaction();;
+        tx.begin();
         usuario.cerrarIncidente(comunidad, incidente);
         tx.commit();
         context.redirect("/incidentes");
     }
 
     private void asignarParametros(Incidente incidente, Context context, EntityManager entityManager){
-        // podria ser un factory/builder (?)
+
         if(!Objects.equals(context.formParam("titulo"), "")) {
             incidente.setTitulo(context.formParam("titulo"));
         }

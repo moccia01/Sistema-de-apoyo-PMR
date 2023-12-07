@@ -14,6 +14,7 @@ import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -91,13 +92,19 @@ public class CargaDatosController extends Controller implements WithSimplePersis
             case "entidades_prestadoras" -> {
                 CargaEntidadesPrestadoras loader = new CargaEntidadesPrestadoras(token);
                 List<EntidadPrestadora> entidadesPrestadoras = loader.cargarDatos(path);
+                EntityTransaction tx = entityManager.getTransaction();
+                tx.begin();
                 entidadesPrestadoras.forEach(entidadPrestadora -> this.repositorioEntidadesPrestadoras.agregar(entidadPrestadora, entityManager));
+                tx.commit();
                 context.redirect("/admin/entidades_prestadoras");
             }
             case "organismos_de_control" -> {
                 CargaOrganismosControl loader = new CargaOrganismosControl(token);
                 List<OrganismoDeControl> organismosDeControl = loader.cargarDatos(path);
+                EntityTransaction tx = entityManager.getTransaction();
+                tx.begin();
                 organismosDeControl.forEach(organismoDeControl -> this.repositorioOrganismoDeControl.agregar(organismoDeControl, entityManager));
+                tx.commit();
                 context.redirect("/admin/organismos_de_control");
             }
         }

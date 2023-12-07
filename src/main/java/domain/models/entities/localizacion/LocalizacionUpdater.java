@@ -14,24 +14,14 @@ import java.util.List;
 
 public class LocalizacionUpdater {
     private static SistemaPosicionamiento sistemaPosicionamiento;
-    private static List<Usuario> usuarios;
 
     public LocalizacionUpdater(SistemaPosicionamiento sistema) {
         sistemaPosicionamiento = sistema;
-        usuarios = new ArrayList<>();
     }
 
-    public static void agregarUsuarios(List<Usuario> usuariosList){
-        usuarios.addAll(usuariosList);
-    }
-
-    public static void actualizarLocalizaciones(){
-        usuarios.forEach(u -> u.setLocalizacion(sistemaPosicionamiento.getPosicion(u.getTelefono())));
-        LocalizacionUpdater.verificarIncidentesCercanos();
-    }
-
-    public static void verificarIncidentesCercanos(){
-        new RepositorioUsuarios().obtenerUsuarios().forEach(LocalizacionUpdater::notificarIncidentesCercanos);
+    public static void actualizarLocalizaciones(Usuario usuario){
+        usuario.setLocalizacion(sistemaPosicionamiento.getPosicion(usuario.getTelefono()));
+        notificarIncidentesCercanos(usuario);
     }
 
     public static void notificarIncidentesCercanos(Usuario usuario){
@@ -42,10 +32,9 @@ public class LocalizacionUpdater {
         incidentesCercanosEInteresantes.forEach(i -> new SugerenciaRevision().notificar(usuario, i));
     }
 
-
+    // Este main se deberia correr con un cron del sistema operativo
     public static void main(String[] args) {
-        List<Usuario> usuarios = new RepositorioMiembros().obtenerMiembros().stream().map(Miembro::getUsuario).toList();
-        LocalizacionUpdater.agregarUsuarios(usuarios);
-        LocalizacionUpdater.actualizarLocalizaciones();
+        List<Usuario> usuarios = new RepositorioUsuarios().obtenerUsuarios();
+        usuarios.forEach(LocalizacionUpdater::actualizarLocalizaciones);
     }
 }

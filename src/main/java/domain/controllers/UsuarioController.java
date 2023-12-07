@@ -16,34 +16,19 @@ import java.util.Map;
 import java.util.Objects;
 
 public class UsuarioController extends Controller implements WithSimplePersistenceUnit {
-    private RepositorioUsuarios repositorioUsuarios;
     private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
 
-    public UsuarioController(RepositorioUsuarios repositorioUsuarios,
-                             RepositorioTiemposConfiguracion repositorioTiemposConfiguracion) {
-        this.repositorioUsuarios = repositorioUsuarios;
+    public UsuarioController(RepositorioTiemposConfiguracion repositorioTiemposConfiguracion) {
         this.repositorioTiemposConfiguracion = repositorioTiemposConfiguracion;
     }
 
     public void index(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = entityManager();
-        Usuario usuario = super.usuarioLogueado(context, entityManager);
-        model.put("user", usuario);
-        model.put("nombre", usuario.getNombre());
-        model.put("apellido", usuario.getApellido());
-        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
+        Map<String, Object> model = this.cargarUsuarioEnModel(context);
         context.render("usuarios/index.hbs", model);
     }
 
     public void perfil(Context context) {
-        Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = entityManager();
-        Usuario usuario = super.usuarioLogueado(context, entityManager);
-        model.put("user", usuario);
-        model.put("nombre", usuario.getNombre());
-        model.put("apellido", usuario.getApellido());
-        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
+        Map<String, Object> model = this.cargarUsuarioEnModel(context);
         context.render("login/registro.hbs", model);
     }
 
@@ -54,9 +39,20 @@ public class UsuarioController extends Controller implements WithSimplePersisten
 
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-            this.repositorioUsuarios.modificar(usuario, entityManager);
+        entityManager.merge(usuario);
         tx.commit();
         context.redirect("index");
+    }
+
+    private Map<String, Object> cargarUsuarioEnModel(Context context) {
+        Map<String, Object> model = new HashMap<>();
+        EntityManager entityManager = entityManager();
+        Usuario usuario = super.usuarioLogueado(context, entityManager);
+        model.put("user", usuario);
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
+        return model;
     }
 
     public void asignarParametros(Usuario usuario, Context context, EntityManager entityManager){

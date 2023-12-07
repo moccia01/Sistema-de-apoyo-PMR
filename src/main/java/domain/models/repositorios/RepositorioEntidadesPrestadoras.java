@@ -12,40 +12,26 @@ public class RepositorioEntidadesPrestadoras{
 
     public void agregar(EntidadPrestadora entidadPrestadora, EntityManager entityManager){
         if(this.obtenerEntidadPrestadora(entidadPrestadora.getNombre(), entityManager) == null){
-            EntityTransaction tx = entityManager.getTransaction();
-            tx.begin();
             entityManager.persist(entidadPrestadora);
-            tx.commit();
         }
     }
 
     public List<EntidadPrestadora> obtenerEntidadesPrestadoras(EntityManager entityManager) {
         String jpql = "SELECT e FROM EntidadPrestadora e";
-        EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<EntidadPrestadora> query = entityManager.createQuery(jpql, EntidadPrestadora.class);
-        tx.begin();
-        List<EntidadPrestadora> entidades = query.getResultList();
-        tx.commit();
-        return entidades;
+        return query.getResultList();
     }
 
-    public EntidadPrestadora obtenerEntidadPrestadora(String id, EntityManager entityManager){
-        EntidadPrestadora entidadPrestadora = null;
+    public EntidadPrestadora obtenerEntidadPrestadora(String nombre, EntityManager entityManager){
+        EntidadPrestadora entidadPrestadora;
         String jpql = "SELECT e FROM EntidadPrestadora e " +
-                "WHERE e.nombre = :id";
-        EntityTransaction tx = entityManager.getTransaction();
+                "WHERE e.nombre = :nombre";
         TypedQuery<EntidadPrestadora> query = entityManager.createQuery(jpql, EntidadPrestadora.class);
         try{
-            tx.begin();
-            query.setParameter("id", id);
+            query.setParameter("nombre", nombre);
             entidadPrestadora = query.getSingleResult();
-            tx.commit();
         } catch (NoResultException e){
             entidadPrestadora = null;
-        } finally {
-            if(tx != null && tx.isActive()){
-                tx.rollback();
-            }
         }
         return entidadPrestadora;
     }

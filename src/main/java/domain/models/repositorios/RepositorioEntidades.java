@@ -17,14 +17,4 @@ public class RepositorioEntidades{
                 .getResultList();
     }
 
-    public void agregar(Entidad entidad, EntityManager entityManager) {
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-        entityManager.persist(entidad);
-        tx.commit();
-    }
-
-    public Entidad obtenerEntidad(Long id, EntityManager entityManager) {
-        return entityManager.find(Entidad.class, id);
-    }
 }

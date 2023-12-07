@@ -16,11 +16,13 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 public class InitTest implements WithSimplePersistenceUnit {
 
     @Test
     public void initTest(){
+        Server.configureEntityManagerProperties();
         EntityManager entityManager = entityManager();
         Initializer initializer = new Initializer();
         initializer.init(entityManager);
@@ -106,7 +108,7 @@ public class InitTest implements WithSimplePersistenceUnit {
         banio.setEstado(true);
 
         Servicio ascensor = new Servicio();
-        ascensor.setNombre("ascensor");
+        ascensor.setNombre("Ascensor");
         ascensor.setEstado(true);
 
         EstablecimientoBuilder establecimientoBuilder = new EstablecimientoBuilder();
@@ -148,58 +150,56 @@ public class InitTest implements WithSimplePersistenceUnit {
         PrestacionDeServicio comboAscensorSubteEstacionMedrano  = prestacionDeServicioBuilder.conServicio(ascensor).conEstablecimiento(estacionMedrano).conEntidad(subteLineaB).construir();
         PrestacionDeServicio comboEscaleraMecanicaMedrano  =prestacionDeServicioBuilder.conServicio(escaleraMecanica).conEstablecimiento(estacionMedrano).conEntidad(subteLineaB).construir();
 
+
         // ----------------------- Carga a la base de datos
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
 
-        RepositorioUsuarios repositorioUsuarios = new RepositorioUsuarios();
-        repositorioUsuarios.agregar(tomasDAntonio, entityManager);
-        repositorioUsuarios.agregar(federicoMoccia, entityManager);
-        repositorioUsuarios.agregar(lucasBoldrini, entityManager);
-        repositorioUsuarios.agregar(nahuGimenez, entityManager);
-        repositorioUsuarios.agregar(facundoSu, entityManager);
+        entityManager().persist(tomasDAntonio);
+        entityManager().persist(federicoMoccia);
+        entityManager().persist(lucasBoldrini);
+        entityManager().persist(nahuGimenez);
+        entityManager().persist(facundoSu);
 
-        RepositorioComunidades repositorioComunidades = new RepositorioComunidades();
-        repositorioComunidades.agregar(bosterosDesdeLaCuna,entityManager);
-        repositorioComunidades.agregar(citizenDesdeLaCuna, entityManager);
-        repositorioComunidades.agregar(operativosEnjoyers, entityManager);
+        entityManager().persist(bosterosDesdeLaCuna);
+        entityManager().persist(citizenDesdeLaCuna);
+        entityManager().persist(operativosEnjoyers);
 
-        RepositorioMiembros repositorioMiembros = new RepositorioMiembros();
-        repositorioMiembros.agregar(tomyBostero, entityManager);
-        repositorioMiembros.agregar(nahuBostero, entityManager);
-        repositorioMiembros.agregar(lucasBostero, entityManager);
-        repositorioMiembros.agregar(fedeCitizen, entityManager);
-        repositorioMiembros.agregar(facuCitizen, entityManager);
-        repositorioMiembros.agregar(tomyUTNSO, entityManager);
-        repositorioMiembros.agregar(fedeUTNSO, entityManager);
-        repositorioMiembros.agregar(lucasUTNSO, entityManager);
-        repositorioMiembros.agregar(nahuUTNSO, entityManager);
+        entityManager().persist(tomyBostero);
+        entityManager().persist(nahuBostero);
+        entityManager().persist(lucasBostero);
+        entityManager().persist(fedeCitizen);
+        entityManager().persist(facuCitizen);
+        entityManager().persist(tomyUTNSO);
+        entityManager().persist(fedeUTNSO);
+        entityManager().persist(lucasUTNSO);
+        entityManager().persist(nahuUTNSO);
 
-        RepositorioServicios repositorioServicios = new RepositorioServicios();
-        repositorioServicios.agregar(banio, entityManager);
-        repositorioServicios.agregar(escaleraMecanica, entityManager);
-        repositorioServicios.agregar(ascensor, entityManager);
+        entityManager().persist(banio);
+        entityManager().persist(escaleraMecanica);
+        entityManager().persist(ascensor);
 
-        RepositorioEstablecimientos repositorioEstablecimientos = new RepositorioEstablecimientos();
-        repositorioEstablecimientos.agregar(medrano, entityManager);
-        repositorioEstablecimientos.agregar(campus, entityManager);
-        repositorioEstablecimientos.agregar(estacionMedrano, entityManager);
-        repositorioEstablecimientos.agregar(estacionFedericoLacroze, entityManager);
+        entityManager.persist(medrano);
+        entityManager.persist(campus);
+        entityManager.persist(estacionMedrano);
+        entityManager.persist(estacionFedericoLacroze);
 
-        RepositorioEntidades repositorioEntidades = new RepositorioEntidades();
-        repositorioEntidades.agregar(utn, entityManager);
-        repositorioEntidades.agregar(subteLineaB, entityManager);
-        
-        RepositorioPrestaciones repositorioPrestaciones = new RepositorioPrestaciones();
-        repositorioPrestaciones.agregar(comboMecanicaCampusUtn, entityManager);
-        repositorioPrestaciones.agregar(comboMecanicaMedranoUtn, entityManager);
-        repositorioPrestaciones.agregar(comboBanioCampusUtn, entityManager);
-        repositorioPrestaciones.agregar(comboBanioMedranoUtn, entityManager);
-        repositorioPrestaciones.agregar(comboAscensorCampus, entityManager);
-        repositorioPrestaciones.agregar(comboAscensorMedrano, entityManager);
-        repositorioPrestaciones.agregar(comboBanioEstacionFedericoLacroze, entityManager);
-        repositorioPrestaciones.agregar(comboAscensorSubteEstacionFedericoLacroze, entityManager);
-        repositorioPrestaciones.agregar(comboEscaleraMecanicaMedrano, entityManager);
-        repositorioPrestaciones.agregar(comboEscaleraMecanicaFedericoLacroze, entityManager);
-        repositorioPrestaciones.agregar(comboBanioEstacionMedrano, entityManager);
-        repositorioPrestaciones.agregar(comboAscensorSubteEstacionMedrano, entityManager);
+        entityManager.persist(utn);
+        entityManager.persist(subteLineaB);
+
+        entityManager().persist(comboMecanicaCampusUtn);
+        entityManager().persist(comboMecanicaMedranoUtn);
+        entityManager().persist(comboBanioCampusUtn);
+        entityManager().persist(comboBanioMedranoUtn);
+        entityManager().persist(comboAscensorCampus);
+        entityManager().persist(comboAscensorMedrano);
+        entityManager().persist(comboBanioEstacionFedericoLacroze);
+        entityManager().persist(comboAscensorSubteEstacionFedericoLacroze);
+        entityManager().persist(comboEscaleraMecanicaMedrano);
+        entityManager().persist(comboEscaleraMecanicaFedericoLacroze);
+        entityManager().persist(comboBanioEstacionMedrano);
+        entityManager().persist(comboAscensorSubteEstacionMedrano);
+
+        tx.commit();
     }
 }

@@ -14,41 +14,26 @@ public class RepositorioOrganismoDeControl {
 
     public void agregar(OrganismoDeControl organismoDeControl, EntityManager entityManager){
         if(this.obtenerOrganismoDeControl(organismoDeControl.getNombre(), entityManager) == null){
-            EntityTransaction tx = entityManager.getTransaction();
-            tx.begin();
             entityManager.persist(organismoDeControl);
-            tx.commit();
         }
     }
 
     public List<OrganismoDeControl> obtenerOrganismosDeControl(EntityManager entityManager){
         String jpql = "SELECT e FROM OrganismoDeControl e";
-        EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<OrganismoDeControl> query = entityManager.createQuery(jpql, OrganismoDeControl.class);
-        tx.begin();
-        List<OrganismoDeControl> organismos = query.getResultList();
-        tx.commit();
-        return organismos;
+        return query.getResultList();
     }
 
     public OrganismoDeControl obtenerOrganismoDeControl(String id, EntityManager entityManager){
-        OrganismoDeControl organismoDeControl = null;
+        OrganismoDeControl organismoDeControl;
         String jpql = "SELECT o FROM OrganismoDeControl o " +
                 "WHERE o.nombre = :id";
-
-        EntityTransaction tx = entityManager.getTransaction();
         TypedQuery<OrganismoDeControl> query = entityManager.createQuery(jpql, OrganismoDeControl.class);
         try {
-            tx.begin();
             query.setParameter("id", id);
             organismoDeControl = query.getSingleResult();
-            tx.commit();
         } catch (NoResultException e){
             organismoDeControl = null;
-        } finally {
-            if (tx != null && tx.isActive()){
-                tx.rollback();
-            }
         }
         return organismoDeControl;
     }

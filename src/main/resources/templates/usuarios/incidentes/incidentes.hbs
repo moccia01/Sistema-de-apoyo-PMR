@@ -40,9 +40,13 @@
                             <td>{{this.cierreToString}}</td>
                             <td>{{this.estadoToString}}</td>
                             <td>
-                                <form method="POST" action="/incidentes/{{this.id}}/cerrar/{{this.comunidadId}}">
-                                    <button type="submit" class="btn botonppal mb-1">Cerrar</button>
-                                </form>
+                                {{#if this.estado}}
+
+                                {{else}}
+                                    <form method="POST" action="/incidentes/{{this.id}}/cerrar/{{this.comunidadId}}">
+                                        <button type="submit" class="btn botonppal mb-1">Cerrar</button>
+                                    </form>
+                                {{/if}}
                             </td>
                         </tr>
                     {{/each}}

@@ -23,17 +23,14 @@ import java.util.*;
 
 public class MiembroController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioMiembros repositorioMiembros;
-    private RepositorioTiemposConfiguracion repositorioTiemposConfiguracion;
     private RepositorioComunidades repositorioComunidades;
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioCredenciales repositorioCredenciales;
 
     public MiembroController(RepositorioMiembros repositorioMiembros,
-                             RepositorioTiemposConfiguracion repositorioTiemposConfiguracion,
                              RepositorioComunidades repositorioComunidades,
                              RepositorioUsuarios repositorioUsuarios, RepositorioCredenciales repositorioCredenciales) {
         this.repositorioMiembros = repositorioMiembros;
-        this.repositorioTiemposConfiguracion = repositorioTiemposConfiguracion;
         this.repositorioComunidades = repositorioComunidades;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioCredenciales = repositorioCredenciales;
@@ -47,8 +44,8 @@ public class MiembroController extends Controller implements WithSimplePersisten
         comunidad.eliminarMiembro(miembro);
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-            this.repositorioComunidades.modificar(comunidad, entityManager);
-            this.repositorioMiembros.eliminar(miembro, entityManager);
+            entityManager.merge(comunidad);
+            entityManager.remove(miembro);
         tx.commit();
         context.redirect("/miembros/" + miembro.getComunidad().getId().toString() + "/admin");
     }
@@ -77,7 +74,7 @@ public class MiembroController extends Controller implements WithSimplePersisten
         this.asignarParametros(miembro, usuario, context, entityManager, false);
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-            this.repositorioUsuarios.modificar(usuario, entityManager);
+        entityManager.merge(usuario);
         tx.commit();
         context.redirect(miembro.getComunidad().getId() + "/admin");
     }
@@ -117,8 +114,8 @@ public class MiembroController extends Controller implements WithSimplePersisten
 
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-            this.repositorioUsuarios.agregar(usuario, entityManager);
-            this.repositorioComunidades.modificar(comunidad, entityManager);
+            entityManager().persist(usuario);
+            entityManager.merge(comunidad);
         tx.commit();
 
         context.redirect("/miembros/" + comunidad.getId() + "/admin");
@@ -129,8 +126,6 @@ public class MiembroController extends Controller implements WithSimplePersisten
         //Valores del form
         usuario.setNombre(contexto.formParam("nombre"));
         usuario.setApellido(contexto.formParam("apellido"));
-/*        usuario.setMail(contexto.formParam("email"));
-        usuario.setTelefono(contexto.formParam("telefono"));*/
 
         CredencialDeAcceso credencialDeAcceso = usuario.getCredencialDeAcceso();
 
@@ -148,10 +143,6 @@ public class MiembroController extends Controller implements WithSimplePersisten
             throw new InvalidPasswordException();
         }
 
-       /* usuario.setMedioConfigurado(new MedioConfiguradoAttributeConverter().convertToEntityAttribute(
-                Objects.requireNonNull(contexto.formParam("medio_notificacion"))));
-        String tiempoElegido = contexto.formParam("tiempo_configuracion");*/
-
         String rol = Objects.requireNonNull(contexto.formParam("rol"));
         if(!rol.equals("-1")) {
             miembro.setRol(new RolAttributeConverter().convertToEntityAttribute(rol));
@@ -161,16 +152,6 @@ public class MiembroController extends Controller implements WithSimplePersisten
         if(!rol_temporal.equals("-1")) {
             miembro.setRolTemporal(new RolTemporalAttributeConverter().convertToEntityAttribute(rol_temporal));
         }
-
-        /*
-        TiempoConfigurado tiempoConfigurado = null;
-        if(Objects.equals(tiempoElegido, "CuandoSucede")){
-            tiempoConfigurado = repositorioTiemposConfiguracion.obtenerConfigCuandoSucede();
-        } else {
-            assert tiempoElegido != null;
-            tiempoConfigurado = new TiempoConfiguradoAttributeConverter().convertToEntityAttribute(tiempoElegido);
-        }
-        usuario.setTiempoConfigurado(tiempoConfigurado);*/
 
         //Valores default
         usuario.setGradoDeConfianza(new RepositorioGradosDeConfianza().obtenerGradoDeConfianza(entityManager,

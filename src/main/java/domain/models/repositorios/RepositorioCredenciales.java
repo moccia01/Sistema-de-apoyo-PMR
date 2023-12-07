@@ -14,42 +14,28 @@ import javax.persistence.TypedQuery;
 public class RepositorioCredenciales {
 
     public CredencialDeAcceso obtenerCredencial(String nombreUsuario, String contrasenia, EntityManager entityManager) {
-        EntityTransaction tx = entityManager.getTransaction();
         CredencialDeAcceso credencialDeAcceso;
         try {
-            tx.begin();
             TypedQuery<CredencialDeAcceso> query = entityManager.createQuery(
                 "SELECT c FROM CredencialDeAcceso c WHERE c.nombreUsuario = :nombreUsuario AND c.contrasenia = :contrasenia", CredencialDeAcceso.class);
             query.setParameter("nombreUsuario", nombreUsuario);
             query.setParameter("contrasenia", contrasenia);
             credencialDeAcceso = query.getSingleResult();
-            tx.commit();
         } catch (NoResultException ignored) {
             credencialDeAcceso = null;
-        } finally {
-            if(tx.isActive()) {
-                tx.rollback();
-            }
         }
         return credencialDeAcceso;
     }
 
     public CredencialDeAcceso obtenerCredencialDe(String nombreUsuario, EntityManager entityManager) {
-        EntityTransaction tx = entityManager.getTransaction();
         CredencialDeAcceso credencialDeAcceso;
         try {
-            tx.begin();
             TypedQuery<CredencialDeAcceso> query = entityManager.createQuery(
                     "SELECT c FROM CredencialDeAcceso c WHERE c.nombreUsuario = :nombreUsuario", CredencialDeAcceso.class);
             query.setParameter("nombreUsuario", nombreUsuario);
             credencialDeAcceso = query.getSingleResult();
-            tx.commit();
         } catch (NoResultException ignored) {
             credencialDeAcceso = null;
-        } finally {
-            if(tx.isActive()) {
-                tx.rollback();
-            }
         }
         return credencialDeAcceso;
     }

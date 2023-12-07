@@ -15,11 +15,9 @@ import java.util.*;
 public class ComunidadController extends Controller implements WithSimplePersistenceUnit {
     private RepositorioComunidades repositorioComunidades;
     private RepositorioMiembros repositorioMiembros;
-    private RepositorioUsuarios repositorioUsuarios;
 
-    public ComunidadController(RepositorioComunidades repositorioComunidades, RepositorioUsuarios repositorioUsuarios, RepositorioMiembros repositorioMiembros){
+    public ComunidadController(RepositorioComunidades repositorioComunidades, RepositorioMiembros repositorioMiembros){
         this.repositorioComunidades = repositorioComunidades;
-        this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioMiembros = repositorioMiembros;
     }
     public void index(Context context) {
@@ -45,6 +43,7 @@ public class ComunidadController extends Controller implements WithSimplePersist
         if(!miembro.esAdministrador()) {
             throw new AccessDeniedException();
         }
+
         List<Miembro> miembros = this.repositorioComunidades.obtenerMiembrosDe(comunidad.getId(), entityManager);
         Map<String, Object> model = new HashMap<>();
         model.put("nombre", usuario.getNombre());
@@ -69,10 +68,6 @@ public class ComunidadController extends Controller implements WithSimplePersist
         model.put("apellido", usuario.getApellido());
         model.put("usuario", usuario.getCredencialDeAcceso().getNombreUsuario());
         context.render("usuarios/comunidades/ver.hbs", model);
-    }
-
-    private void asignarParametros(Comunidad comunidad, Context contexto){
-
     }
 
 }

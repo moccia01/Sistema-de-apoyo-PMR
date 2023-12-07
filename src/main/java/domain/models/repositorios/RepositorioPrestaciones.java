@@ -11,13 +11,6 @@ import javax.persistence.TypedQuery;
 
 public class RepositorioPrestaciones {
 
-    public void agregar(PrestacionDeServicio prestacionDeServicio, EntityManager entityManager){
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-        entityManager.persist(prestacionDeServicio);
-        tx.commit();
-    }
-
     public PrestacionDeServicio obtenerPrestacion(Long entidad_id, Long establecimiento_id, Long servicio_id, EntityManager entityManager) {
         String hql = "SELECT p FROM PrestacionDeServicio p " +
                      "WHERE p.entidad.id = :entidad_id " +
