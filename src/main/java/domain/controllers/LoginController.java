@@ -88,11 +88,10 @@ public class LoginController implements WithSimplePersistenceUnit {
         Usuario usuario = new Usuario();
         context.sessionAttribute("error_return", "/registro");
         EntityManager entityManager = entityManager();
-        EntityTransaction tx = entityManager.getTransaction();
         this.asignarParametros(usuario, context, entityManager);
-        tx.begin();
-        entityManager().persist(usuario);
-        tx.commit();
+        beginTransaction();
+        entityManager.persist(usuario);
+        commitTransaction();
         context.redirect("/login");
     }
 

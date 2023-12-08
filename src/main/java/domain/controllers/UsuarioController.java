@@ -37,10 +37,10 @@ public class UsuarioController extends Controller implements WithSimplePersisten
         Usuario usuario = super.usuarioLogueado(context, entityManager);
         this.asignarParametros(usuario, context, entityManager);
 
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
+        beginTransaction();
         entityManager.merge(usuario);
-        tx.commit();
+        commitTransaction();
+
         context.redirect("index");
     }
 

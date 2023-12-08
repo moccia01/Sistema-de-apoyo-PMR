@@ -41,12 +41,10 @@ public class MiembroController extends Controller implements WithSimplePersisten
         EntityManager entityManager = entityManager();
         Miembro miembro = this.repositorioMiembros.obtenerMiembro(Long.parseLong(id), entityManager);
         Comunidad comunidad = miembro.getComunidad();
+        beginTransaction();
         comunidad.eliminarMiembro(miembro);
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-            entityManager.merge(comunidad);
-            entityManager.remove(miembro);
-        tx.commit();
+        entityManager.remove(miembro);
+        commitTransaction();
         context.redirect("/miembros/" + miembro.getComunidad().getId().toString() + "/admin");
     }
 
@@ -72,10 +70,9 @@ public class MiembroController extends Controller implements WithSimplePersisten
         Usuario usuario = this.repositorioUsuarios.obtenerUsuarioSegun(miembro.getUsuario().getId(), entityManager);
 
         this.asignarParametros(miembro, usuario, context, entityManager, false);
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
+        beginTransaction();
         entityManager.merge(usuario);
-        tx.commit();
+        commitTransaction();
         context.redirect(miembro.getComunidad().getId() + "/admin");
     }
 
@@ -109,14 +106,12 @@ public class MiembroController extends Controller implements WithSimplePersisten
 
         usuario.agregarMiembros(miembro);
         miembro.setComunidad(comunidad);
-
         comunidad.agregarMiembros(miembro);
 
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-            entityManager().persist(usuario);
-            entityManager.merge(comunidad);
-        tx.commit();
+        beginTransaction();
+        entityManager.persist(usuario);
+        entityManager.merge(comunidad);
+        commitTransaction();
 
         context.redirect("/miembros/" + comunidad.getId() + "/admin");
     }

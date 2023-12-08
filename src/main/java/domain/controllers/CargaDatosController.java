@@ -92,19 +92,17 @@ public class CargaDatosController extends Controller implements WithSimplePersis
             case "entidades_prestadoras" -> {
                 CargaEntidadesPrestadoras loader = new CargaEntidadesPrestadoras(token);
                 List<EntidadPrestadora> entidadesPrestadoras = loader.cargarDatos(path);
-                EntityTransaction tx = entityManager.getTransaction();
-                tx.begin();
+                beginTransaction();
                 entidadesPrestadoras.forEach(entidadPrestadora -> this.repositorioEntidadesPrestadoras.agregar(entidadPrestadora, entityManager));
-                tx.commit();
+                commitTransaction();
                 context.redirect("/admin/entidades_prestadoras");
             }
             case "organismos_de_control" -> {
                 CargaOrganismosControl loader = new CargaOrganismosControl(token);
                 List<OrganismoDeControl> organismosDeControl = loader.cargarDatos(path);
-                EntityTransaction tx = entityManager.getTransaction();
-                tx.begin();
+                beginTransaction();
                 organismosDeControl.forEach(organismoDeControl -> this.repositorioOrganismoDeControl.agregar(organismoDeControl, entityManager));
-                tx.commit();
+                commitTransaction();
                 context.redirect("/admin/organismos_de_control");
             }
         }
