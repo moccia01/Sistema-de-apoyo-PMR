@@ -20,7 +20,6 @@ import java.io.IOException;
 @Embeddable
 public class Localizacion {
 
-    // WARNING: medio raro tener referencias a entities en un embeddable
     @ManyToOne
     @JoinColumn(name = "provincia_id", referencedColumnName = "id")
     Provincia provincia;

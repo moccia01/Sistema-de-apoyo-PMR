@@ -49,7 +49,6 @@ public class NotificacionesTest {
     private PrestacionDeServicio banioCampus;
     private RepositorioUsuarios repositorioUsuarios;
     private List<Usuario> usuarios = new ArrayList<>();
-    private EntityManager entityManager;
 
     @BeforeEach
     public void init() {
@@ -162,7 +161,6 @@ public class NotificacionesTest {
         MailSender mailer = Mockito.mock(MailSender.class);
         MailSender mailerMiembro = Mockito.mock(MailSender.class);
         MensajeEmail email = new MensajeEmail(mailer);
-        MensajeEmail emailMiembro = new MensajeEmail(mailerMiembro);
         SinApuros sinApurosTomas = Mockito.mock(SinApuros.class);
         SinApuros sinApurosFede = Mockito.mock(SinApuros.class);
         CuandoSucede cuandoSucede = new CuandoSucede();

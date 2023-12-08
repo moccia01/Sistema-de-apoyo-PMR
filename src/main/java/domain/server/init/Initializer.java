@@ -34,14 +34,10 @@ public class Initializer{
             this.confianzaConfiableNivel1 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable1();
             this.confianzaConfiableNivel2 = gradoDeConfianzaConstructor.crearGradoDeConfianzaConfiable2();
 
-            EntityTransaction tx = entityManager.getTransaction();
-
-            tx.begin();
             entityManager.persist(this.confianzaConfiableNivel2);
             entityManager.persist(this.confianzaConfiableNivel1);
             entityManager.persist(this.confianzaConReservas);
             entityManager.persist(this.confianzaNoConfiable);
-            tx.commit();
         } else {
             this.confianzaNoConfiable = repositorioGradosDeConfianza.obtenerGradoDeConfianza(entityManager, NombreGradoConfianza.NO_CONFIABLE);
             this.confianzaConReservas = repositorioGradosDeConfianza.obtenerGradoDeConfianza(entityManager, NombreGradoConfianza.CON_RESERVAS);
@@ -67,14 +63,12 @@ public class Initializer{
         tomas.setContrasenia("admin");
 
 
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-            provincias.getProvincias().forEach(entityManager::persist);
-            municipios.getMunicipios().forEach(entityManager::persist);
-            departamentos.getDepartamentos().forEach(entityManager::persist);
+        provincias.getProvincias().forEach(entityManager::merge);
+        municipios.getMunicipios().forEach(entityManager::merge);
+        departamentos.getDepartamentos().forEach(entityManager::merge);
 
-            entityManager.persist(tomas);
-            entityManager.persist(adminDePlataforma);
-        tx.commit();
+        entityManager.persist(tomas);
+        entityManager.persist(adminDePlataforma);
+
     }
 }

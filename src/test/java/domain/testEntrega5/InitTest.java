@@ -25,11 +25,10 @@ public class InitTest implements WithSimplePersistenceUnit {
         Server.configureEntityManagerProperties();
         EntityManager entityManager = entityManager();
         Initializer initializer = new Initializer();
-        initializer.init(entityManager);
 
-        //Esto es para los usuarios
-        //Esta linea de abajo es para que no rompa por contexto estatico
-        // ----------------------- Creación de las entidades a persistir
+        beginTransaction();
+        initializer.init(entityManager);
+        commitTransaction();
 
         TiempoConfigurado cuandoSucede = new CuandoSucede();
 
@@ -132,7 +131,6 @@ public class InitTest implements WithSimplePersistenceUnit {
         subteLineaB.setLocalizacion("Argentina");
         subteLineaB.agregarEstablecimientos(estacionMedrano, estacionFedericoLacroze);
 
-        //TODO dar de alta las prestaciones asociadas a las entidades, establecimientos y servicios de arriba
         PrestacionDeServicioBuilder prestacionDeServicioBuilder = new PrestacionDeServicioBuilder();
         PrestacionDeServicio comboMecanicaCampusUtn = prestacionDeServicioBuilder.conServicio(escaleraMecanica).conEstablecimiento(campus).conEntidad(utn).construir();
         PrestacionDeServicio comboMecanicaMedranoUtn = prestacionDeServicioBuilder.conServicio(escaleraMecanica).conEstablecimiento(medrano).conEntidad(utn).construir();

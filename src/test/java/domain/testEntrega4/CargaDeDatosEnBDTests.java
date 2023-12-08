@@ -23,8 +23,6 @@ import java.time.LocalDateTime;
 
 public class CargaDeDatosEnBDTests implements SimplePersistenceTest {
 
-    private Miembro miembro;
-    private Miembro elFede;
     private Usuario fede;
 
     private CredencialDeAcceso credencialFede;

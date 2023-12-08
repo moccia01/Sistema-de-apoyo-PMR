@@ -41,12 +41,10 @@ public class RankingsTest implements WithSimplePersistenceUnit {
     private PrestacionDeServicio trenesArgentinos2;
     private Comunidad comunidadNoVidentesSM;
     private Comunidad comunidadHipoacusicosCABA;
-    private RepositorioIncidentes repoIncidentes;
     private Incidente incidente1;
     private Incidente incidente2;
     private Incidente incidente3;
     private List<Incidente> incidentes;
-    private EntityManager entityManager;
 
    @BeforeEach
     public void init(){
@@ -123,15 +121,12 @@ public class RankingsTest implements WithSimplePersistenceUnit {
         comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos1, "");
         comunidadHipoacusicosCABA.generarIncidente(new Usuario(), "titulo",trenesArgentinos2, "");
 
-        incidentes.add(incidente1);
-        incidentes.add(incidente2);
-        incidentes.add(incidente3);
+        this.incidentes = new ArrayList<>();
+        this.incidentes.add(incidente1);
+        this.incidentes.add(incidente2);
+        this.incidentes.add(incidente3);
 
-        repoIncidentes = Mockito.mock(RepositorioIncidentes.class);
-        this.entityManager = entityManager();
-        when(repoIncidentes.obtenerIncidentes(this.entityManager)).thenReturn(incidentes);
-
-        generador = new GeneradorDeRankings(repoIncidentes);
+        generador = new GeneradorDeRankings(this.incidentes);
     }
 
     @Test

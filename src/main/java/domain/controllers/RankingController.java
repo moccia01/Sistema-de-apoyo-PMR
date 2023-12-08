@@ -2,6 +2,7 @@ package domain.controllers;
 
 import domain.models.entities.admins.AdminDePlataforma;
 import domain.models.entities.admins.rankings.*;
+import domain.models.entities.comunidad.Incidente;
 import domain.models.entities.entidadesDeServicio.Entidad;
 import domain.models.repositorios.*;
 import domain.server.exceptions.CriterioNotSelectedException;
@@ -32,23 +33,22 @@ public class RankingController extends Controller implements WithSimplePersisten
 
     public void generate(Context context) {
         String criterio_string = context.formParam("criterio_ranking");
+        EntityManager entityManager = entityManager();
         CriterioRanking criterioRanking = this.criterioToEntity(Objects.requireNonNull(criterio_string));
         if(criterioRanking == null) {
             throw new CriterioNotSelectedException();
         }
 
-        GeneradorDeRankings generadorDeRankings = new GeneradorDeRankings(this.repositorioIncidentes);
+        List<Incidente> incidentes = this.repositorioIncidentes.obtenerIncidentes(entityManager);
+
+        GeneradorDeRankings generadorDeRankings = new GeneradorDeRankings(incidentes);
         List<Entidad> entidades = generadorDeRankings.generarSegunCriterio(criterioRanking);
 
         // les setteo la posicion en el ranking a cada entidad para usar en hbs
         entidades.forEach(e -> e.setIndex(entidades.indexOf(e)));
 
-        /* for (int i = 0; i < entidades.size(); i++) {
-            entidades.get(i).setIndex(i + 1);
-        }*/
-
         Map<String, Object> model = new HashMap<>();
-        EntityManager entityManager = entityManager();
+
         AdminDePlataforma admin = super.adminLogueado(context, entityManager);
         model.put("nombre", admin.getNombre());
         model.put("entidades", entidades);

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.EntityManager;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,9 +18,8 @@ import java.util.List;
 public class GeneradorDeRankings implements WithSimplePersistenceUnit {
     private List<Incidente> incidentes;
 
-    public GeneradorDeRankings(RepositorioIncidentes repositorioIncidentes) {
-        EntityManager entityManager = entityManager();
-        this.incidentes = repositorioIncidentes.obtenerIncidentes(entityManager);
+    public GeneradorDeRankings(List<Incidente> incidentes) {
+        this.incidentes = incidentes;
     }
 
     public List<Entidad> generarSegunCriterio(CriterioRanking criterio){
