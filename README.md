@@ -24,3 +24,6 @@
 * **Facundo Su** - [Facundo-Su](https://github.com/Facundo-Su)
 
 También podés mirar el gráfico de [contribuciones](https://github.com/tdantonio/sistema-apoyo-pmr/graphs/contributors)
+### Notas :clipboard:
+* El proyecto esta actualmente desplegado en [Render](render.com) como un Web Service [Gratuito](https://docs.render.com/free) por lo que es desactivado tras pasar 15 minutos sin recibir tráfico entrante.
+Podes acceder mediante el siguiente link: https://sistema-apoyo-pmr.onrender.com
